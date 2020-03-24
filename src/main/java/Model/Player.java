@@ -9,7 +9,7 @@ public class Player {
      *
      * @return value of Username;
      */
-    public String getUserName() {
+    public String getUsername() {
         return username;
     }
 
@@ -34,7 +34,7 @@ public class Player {
      * sets value of username
      * @param uName value of Username;
      */
-    public String setUserName(String uName) {
+    public String setUsername(String uName) {
         return username = uName;
     }
 
@@ -42,7 +42,7 @@ public class Player {
      * sets value of divinity
      * @param div value of Divinity;
      */
-    public Divinity getDivinity(Divinity div) {
+    public Divinity setDivinity(Divinity div) {
         return divinity = div;
     }
 
@@ -51,7 +51,7 @@ public class Player {
      * sets value of colour
      * @param col value of Colour;
      */
-    public Colour getColour(Colour col) {
+    public Colour setColour(Colour col) {
         return colour = col;
     }
 
