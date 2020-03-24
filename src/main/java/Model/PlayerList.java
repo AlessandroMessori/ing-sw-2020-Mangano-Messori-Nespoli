@@ -35,6 +35,7 @@ public class PlayerList {
      * returns player at position i,throws IndexOutOfBoundsException if is greater than list size
      *
      * @param i index of the player
+     * @return player at position i
      */
     public Player getPlayer(int i) throws IllegalArgumentException {
         if (i > size() - 1) {
