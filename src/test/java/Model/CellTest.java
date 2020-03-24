@@ -15,7 +15,7 @@ public class CellTest {
 
     @Before
     public void setUp() {
-        cell = new Cell(Type.EMPTY, null,null);
+        cell = new Cell(new Tower(0,false), null);
     }
 
     @After
@@ -24,28 +24,16 @@ public class CellTest {
     }
 
     @Test
-    public void getTypeTest() {
-        assertSame(cell.getType(), Type.EMPTY);
-    }
-
-    @Test
-    public void setTypeTest() {
-        cell.setType(Type.TOWER);
-        assertSame(cell.getType(), Type.TOWER);
-    }
-
-    @Test
     public void getTowerTest() {
         tower = new Tower(1,false);
-        cell = new Cell(Type.TOWER, tower,null);
+        cell = new Cell(tower,null);
         assertSame(cell.getTower(),tower);
     }
 
     @Test
     public void setTowerTest() {
         tower = new Tower(1,false);
-        cell = new Cell(Type.EMPTY, null,null);
-        cell.setType(Type.TOWER);
+        cell = new Cell(new Tower(0,false), null);
         cell.setTower(tower);
         assertSame(cell.getTower(), tower);
     }
@@ -54,7 +42,7 @@ public class CellTest {
     public void getPawnTest() {
         player = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
         pawn = new Pawn(player);
-        cell = new Cell(Type.PAWN,null, pawn);
+        cell = new Cell(new Tower(0,false), pawn);
         assertSame(cell.getPawn(), pawn);
     }
 
@@ -62,8 +50,7 @@ public class CellTest {
     public void setPawnTest() {
         player = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
         pawn = new Pawn(player);
-        cell = new Cell(Type.EMPTY,null, null);
-        cell.setType(Type.PAWN);
+        cell = new Cell(new Tower(0,false), null);
         cell.setPawn(pawn);
         assertSame(cell.getPawn(), pawn);
     }

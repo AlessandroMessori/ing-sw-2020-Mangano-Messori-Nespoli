@@ -29,7 +29,7 @@ public class GridTest {
 
     @Test
     public void setCellsTest() {
-        cell = new Cell(Type.TOWER, new Tower(1,false),null);
+        cell = new Cell(new Tower(1,false),null);
         grid = new Grid();
         grid.setCells(cell, 2,3);
         assertSame(grid.getCells(2,3),cell);
