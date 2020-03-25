@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
+
 import static org.junit.Assert.*;
 
 public class PawnTest {
@@ -37,5 +39,20 @@ public class PawnTest {
         pawn.setOwner(player);
         assertSame(pawn.getOwner(), player);
 
+    }
+
+    @Test
+    public void getIdTest(){
+        player = new Player("Player1", Divinity.ATHENA, Colour.RED);
+        pawn = new Pawn(player);
+        assertSame(pawn.getId(),0);
+    }
+
+    @Test
+    public void setIdTest(){
+        player = new Player("Player1", Divinity.ATHENA, Colour.RED);
+        pawn = new Pawn(player);
+        pawn.setId(1);
+        assertSame(pawn.getId(),1);
     }
 }
