@@ -48,7 +48,7 @@ public class PlayerList {
     /**
      * deletes a player,throws exception if the player isn't in the list
      *
-     * @param player the player to add;
+     * @param player the player to delete;
      */
     public void deletePlayer(Player player) throws IllegalArgumentException {
 
