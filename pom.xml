@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.polimi.ingsw.mangano-messori-nespoli</groupId>
+    <groupId>it.polimi.ingsw.PSP19</groupId>
     <artifactId>prog-ingsw-gr19</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
