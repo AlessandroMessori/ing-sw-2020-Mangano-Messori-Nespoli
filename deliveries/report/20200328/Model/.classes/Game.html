@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (43/ 43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class Game {
+<i>4</i>&nbsp;    private int nTurns;
+<i>5</i>&nbsp;    private String CodGame;
+<i>6</i>&nbsp;    private boolean threePlayers;
+<i>7</i>&nbsp;    private Player currentPlayer;
+<i>8</i>&nbsp;    private PlayerList players;
+<i>9</i>&nbsp;    private Grid oldGrid;
+<i>10</i>&nbsp;    private Grid newGrid;
+<i>11</i>&nbsp;    private MoveList nextMoves;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * @return number of turns played
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    public int getNTurns() {
+<b class="fc"><i>19</i>&nbsp;        return nTurns;</b>
+<i>20</i>&nbsp;    }
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * sets the number of turns
+<i>24</i>&nbsp;     *
+<i>25</i>&nbsp;     * @param t updated number of turns played
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    public void setNTurns(int t) throws IllegalArgumentException {
+<b class="fc"><i>28</i>&nbsp;        if( t &gt;= 0) {</b>
+<b class="fc"><i>29</i>&nbsp;            nTurns = t;</b>
+<i>30</i>&nbsp;        }
+<i>31</i>&nbsp;        else
+<i>32</i>&nbsp;        {
+<b class="fc"><i>33</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * @return the game ID
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public String getCodGame() {
+<b class="fc"><i>41</i>&nbsp;        return CodGame;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * sets the ID of the game
+<i>46</i>&nbsp;     *
+<i>47</i>&nbsp;     * @param c the ID of the game
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    public void setCodGame(String c) throws IllegalArgumentException {
+<b class="fc"><i>50</i>&nbsp;        Model model = Model.getModel();</b>
+<b class="fc"><i>51</i>&nbsp;        if(model.searchID(c) == null)</b>
+<i>52</i>&nbsp;        {
+<b class="fc"><i>53</i>&nbsp;            CodGame = c;</b>
+<i>54</i>&nbsp;        }
+<i>55</i>&nbsp;        else
+<i>56</i>&nbsp;        {
+<b class="fc"><i>57</i>&nbsp;            throw  new IllegalArgumentException();</b>
+<i>58</i>&nbsp;        }
+<b class="fc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     *
+<i>63</i>&nbsp;     * @return a value that defines the number of players (FALSE = 2, TRUE = 3)
+<i>64</i>&nbsp;     */
+<b class="fc"><i>65</i>&nbsp;    public boolean getThreePlayers() { return threePlayers; }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * defines if the game is played by 2 (FALSE) or 3 (TRUE) people
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     * @param y boolean that indicates the number of players
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public void setThreePlayers(boolean y) {
+<b class="fc"><i>73</i>&nbsp;        threePlayers = y;</b>
+<b class="fc"><i>74</i>&nbsp;    }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    /**
+<i>77</i>&nbsp;     * @return the player who&#39;s currently playing
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    public Player getCurrentPlayer() {
+<b class="fc"><i>80</i>&nbsp;        return currentPlayer;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * updates the player who is currently playing
+<i>85</i>&nbsp;     *
+<i>86</i>&nbsp;     * @param p the player who is currently playing
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    public void setCurrentPlayer(Player p) throws IllegalArgumentException
+<i>89</i>&nbsp;    {
+<b class="fc"><i>90</i>&nbsp;        for(int i = 0; i &lt; players.size(); i++)     //POSSIBLE ERROR: BEFORE I PUT &quot;PLAYERS.SIZE() - 1&quot;, NOW CHANGED</b>
+<i>91</i>&nbsp;        {
+<b class="fc"><i>92</i>&nbsp;            Player p1 = players.getPlayer(i);</b>
+<b class="fc"><i>93</i>&nbsp;            if(p1.equals(p))</b>
+<i>94</i>&nbsp;            {
+<b class="fc"><i>95</i>&nbsp;                currentPlayer = p;</b>
+<b class="fc"><i>96</i>&nbsp;                return;</b>
+<i>97</i>&nbsp;            }
+<i>98</i>&nbsp;        }
+<b class="fc"><i>99</i>&nbsp;        throw new IllegalArgumentException();</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * @return the list of players of the game
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    public PlayerList getPlayers() {
+<b class="fc"><i>106</i>&nbsp;        return players;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * sets the players of the game
+<i>111</i>&nbsp;     *
+<i>112</i>&nbsp;     * @param p player to add in the game
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public void setPlayers(Player p) {
+<b class="fc"><i>115</i>&nbsp;        players.addPlayer(p);</b>
+<b class="fc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    /**
+<i>119</i>&nbsp;     * @return the old grid, if the move coming from the view is not accepted
+<i>120</i>&nbsp;     */
+<i>121</i>&nbsp;    public Grid getOldGrid() {
+<b class="fc"><i>122</i>&nbsp;        return oldGrid;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     * sets (saves) the old grid
+<i>127</i>&nbsp;     *
+<i>128</i>&nbsp;     * @param g is the old grid
+<i>129</i>&nbsp;     */
+<i>130</i>&nbsp;    public void setOldGrid(Grid g) {
+<b class="fc"><i>131</i>&nbsp;        oldGrid = g;</b>
+<b class="fc"><i>132</i>&nbsp;    }</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * @return the new grid, modified with the current player&#39;s move
+<i>136</i>&nbsp;     */
+<i>137</i>&nbsp;    public Grid getNewGrid() {
+<b class="fc"><i>138</i>&nbsp;        return newGrid;</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * sets the new grid, modified after the current player&#39;s move is accepted
+<i>143</i>&nbsp;     *
+<i>144</i>&nbsp;     * @param g is the new grid
+<i>145</i>&nbsp;     */
+<i>146</i>&nbsp;    public void setNewGrid(Grid g) {
+<b class="fc"><i>147</i>&nbsp;        newGrid = g;</b>
+<b class="fc"><i>148</i>&nbsp;    }</b>
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     *
+<i>152</i>&nbsp;     * gives to the Controller the possible moves
+<i>153</i>&nbsp;     * @return the possible moves
+<i>154</i>&nbsp;     */
+<i>155</i>&nbsp;    public MoveList getNextMoves(){
+<b class="fc"><i>156</i>&nbsp;        return nextMoves;</b>
+<i>157</i>&nbsp;    }
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    /**
+<i>160</i>&nbsp;     *sets the moves the payer will be able to do
+<i>161</i>&nbsp;     * @param m is the moves the player will be able to do
+<i>162</i>&nbsp;     */
+<i>163</i>&nbsp;    public void setNextMoves(MoveList m){
+<b class="fc"><i>164</i>&nbsp;        nextMoves = m;</b>
+<b class="fc"><i>165</i>&nbsp;    }</b>
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    /**
+<i>168</i>&nbsp;     * constructor
+<i>169</i>&nbsp;     */
+<b class="fc"><i>170</i>&nbsp;    public Game(int nTur, String CodG, boolean threePl, Player currPl, Grid oldG, Grid newG, MoveList move) {</b>
+<b class="fc"><i>171</i>&nbsp;        nTurns = nTur;</b>
+<b class="fc"><i>172</i>&nbsp;        CodGame = CodG;</b>
+<b class="fc"><i>173</i>&nbsp;        threePlayers = threePl;</b>
+<b class="fc"><i>174</i>&nbsp;        currentPlayer = currPl;</b>
+<b class="fc"><i>175</i>&nbsp;        players = new PlayerList();       // NOT SURE</b>
+<b class="fc"><i>176</i>&nbsp;        oldGrid = oldG;</b>
+<b class="fc"><i>177</i>&nbsp;        newGrid = newG;</b>
+<b class="fc"><i>178</i>&nbsp;        nextMoves = move;</b>
+<b class="fc"><i>179</i>&nbsp;    }</b>
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-03-28 17:09</div>
+</div>
+</body>
+</html>

@@ -109,4 +109,19 @@ public class PlayerListTest {
         playerList.deletePlayer(toDeletePlayer);
     }
 
+    @Test
+    public void searchPlayerTest() {
+        playerList = new PlayerList();
+
+        playerList.addPlayer(new Player("Player1", Divinity.ATHENA, Colour.RED));
+        playerList.addPlayer(new Player("Player2", Divinity.ATLAS, Colour.BLUE));
+
+        Player toSearchPlayer1 = playerList.getPlayer(1);
+        Player toSearchPlayer2 = new Player("Player3", Divinity.HEPHAESTUS, Colour.BLACK);
+
+
+        assertEquals(1, playerList.searchPlayer(toSearchPlayer1));
+        assertEquals(-1, playerList.searchPlayer(toSearchPlayer2));
+    }
+
 }
