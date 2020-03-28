@@ -8,6 +8,9 @@ public class Game {
     private PlayerList players;
     private Grid oldGrid;
     private Grid newGrid;
+    private MoveList nextMoves;
+
+
 
     /**
      * @return number of turns played
@@ -21,8 +24,14 @@ public class Game {
      *
      * @param t updated number of turns played
      */
-    public void setNTurns(int t) {
-        nTurns = t;
+    public void setNTurns(int t) throws IllegalArgumentException {
+        if( t >= 0) {
+            nTurns = t;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
@@ -37,9 +46,23 @@ public class Game {
      *
      * @param c the ID of the game
      */
-    public void setCodGame(String c) {
-        CodGame = c;
+    public void setCodGame(String c) throws IllegalArgumentException {
+        Model model = Model.getModel();
+        if(model.searchID(c) == null)
+        {
+            CodGame = c;
+        }
+        else
+        {
+            throw  new IllegalArgumentException();
+        }
     }
+
+    /**
+     *
+     * @return a value that defines the number of players (FALSE = 2, TRUE = 3)
+     */
+    public boolean getThreePlayers() { return threePlayers; }
 
     /**
      * defines if the game is played by 2 (FALSE) or 3 (TRUE) people
@@ -62,8 +85,18 @@ public class Game {
      *
      * @param p the player who is currently playing
      */
-    public void setCurrentPlayer(Player p) {
-        currentPlayer = p;
+    public void setCurrentPlayer(Player p) throws IllegalArgumentException
+    {
+        for(int i = 0; i < players.size(); i++)     //POSSIBLE ERROR: BEFORE I PUT "PLAYERS.SIZE() - 1", NOW CHANGED
+        {
+            Player p1 = players.getPlayer(i);
+            if(p1.equals(p))
+            {
+                currentPlayer = p;
+                return;
+            }
+        }
+        throw new IllegalArgumentException();
     }
 
     /**
@@ -80,7 +113,7 @@ public class Game {
      */
     public void setPlayers(Player p) {
         players.addPlayer(p);
-    }      //MISSES EXCEPTION HANDLING
+    }
 
     /**
      * @return the old grid, if the move coming from the view is not accepted
@@ -115,16 +148,34 @@ public class Game {
     }
 
     /**
+     *
+     * gives to the Controller the possible moves
+     * @return the possible moves
+     */
+    public MoveList getNextMoves(){
+        return nextMoves;
+    }
+
+    /**
+     *sets the moves the payer will be able to do
+     * @param m is the moves the player will be able to do
+     */
+    public void setNextMoves(MoveList m){
+        nextMoves = m;
+    }
+
+    /**
      * constructor
      */
-    public void Game(int nTur, String CodG, boolean threePl, Player currPl, Grid oldG, Grid newG) {
+    public Game(int nTur, String CodG, boolean threePl, Player currPl, Grid oldG, Grid newG, MoveList move) {
         nTurns = nTur;
         CodGame = CodG;
         threePlayers = threePl;
         currentPlayer = currPl;
-        players = new PlayerList();       // non sono sicuro
+        players = new PlayerList();       // NOT SURE
         oldGrid = oldG;
         newGrid = newG;
+        nextMoves = move;
     }
 
 }
