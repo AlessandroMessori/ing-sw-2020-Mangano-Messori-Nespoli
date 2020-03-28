@@ -166,6 +166,14 @@ public class Game {
 
     /**
      * constructor
+     *
+     * @param nTur indicates the number of turn passed + 1
+     * @param CodG the game ID which is unique
+     * @param threePl boolean which indicates if the game has three players (true)
+     * @param currPl indicates the current player of the 2/3 that are playing the game
+     * @param oldG the old grid, before the move
+     * @param newG the new grid made after the move was set
+     * @param move the possible moves
      */
     public Game(int nTur, String CodG, boolean threePl, Player currPl, Grid oldG, Grid newG, MoveList move) {
         nTurns = nTur;
