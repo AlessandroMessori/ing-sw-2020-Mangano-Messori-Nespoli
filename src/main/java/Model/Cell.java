@@ -38,6 +38,8 @@ public class Cell {
 
     /**
      * Constructor
+     * @param tower value of Tower
+     * @param pawn value of Pawn
      */
     public Cell(Tower tower, Pawn pawn) {
         this.tower = tower;
