@@ -83,8 +83,9 @@ public class Model {
      * Since Model is SINGLETON, a reset method is required for testing
      */
      public void resetModel(){
-        final String DefPath = "Bruh";2
-        Instance = new Model(DefPath);
+         if(Instance != null) {
+             Instance = null;
+         }
     }
 
     /**
