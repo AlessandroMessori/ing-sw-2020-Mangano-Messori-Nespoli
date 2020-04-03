@@ -62,7 +62,6 @@ public class ResponseContext implements Runnable {
                         break;
                 }
 
-                System.out.println("Before Handle Response");
                 responseHandler.handleResponse(requestContent);
             }
         } catch (ClassNotFoundException | ClassCastException e) {
