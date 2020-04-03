@@ -1,4 +1,4 @@
-package Model;
+package Server.Model;
 
 import org.junit.After;
 import org.junit.Before;

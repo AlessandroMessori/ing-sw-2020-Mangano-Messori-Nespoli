@@ -1,4 +1,4 @@
-package Model;
+package Server.Model;
 
 public class Game {
     private int nTurns;

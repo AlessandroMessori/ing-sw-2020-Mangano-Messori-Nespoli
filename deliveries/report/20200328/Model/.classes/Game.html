@@ -17,10 +17,10 @@
 <div class="content">
 <div class="breadCrumbs">
     [ <a href="../../index.html">all classes</a> ]
-    [ <a href="../index.html">Model</a> ]
+    [ <a href="../index.html">Server.Model</a> ]
 </div>
 
-<h1>Coverage Summary for Class: Game (Model)</h1>
+<h1>Coverage Summary for Class: Game (Server.Model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -72,7 +72,7 @@
 <br/>
 
 
-<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<div class="sourceCode"><i>1</i>&nbsp;package Server.Model;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;public class Game {
 <i>4</i>&nbsp;    private int nTurns;
@@ -121,7 +121,7 @@
 <i>47</i>&nbsp;     * @param c the ID of the game
 <i>48</i>&nbsp;     */
 <i>49</i>&nbsp;    public void setCodGame(String c) throws IllegalArgumentException {
-<b class="fc"><i>50</i>&nbsp;        Model model = Model.getModel();</b>
+<b class="fc"><i>50</i>&nbsp;        Server.Model model = Server.Model.getModel();</b>
 <b class="fc"><i>51</i>&nbsp;        if(model.searchID(c) == null)</b>
 <i>52</i>&nbsp;        {
 <b class="fc"><i>53</i>&nbsp;            CodGame = c;</b>

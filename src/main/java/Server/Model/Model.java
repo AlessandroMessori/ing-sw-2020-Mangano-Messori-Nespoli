@@ -1,4 +1,4 @@
-package Model;
+package Server.Model;
 
 import java.util.ArrayList;
 
@@ -80,7 +80,7 @@ public class Model {
 
     /**
      *
-     * Since Model is SINGLETON, a reset method is required for testing
+     * Since Server.Model is SINGLETON, a reset method is required for testing
      */
      public void resetModel(){
          final String DefPath = "Bruh";
@@ -108,7 +108,7 @@ public class Model {
     /**
      * SINGLETON
      * public constructor
-     * @return the instance of the Model
+     * @return the instance of the Server.Model
      */
     static public Model getModel() {
         if(Instance == null)

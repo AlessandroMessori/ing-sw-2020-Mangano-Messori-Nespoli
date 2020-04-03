@@ -5,7 +5,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html id="htmlId">
 <head>
-  <title>Coverage Report :: Model</title>
+  <title>Coverage Report :: Server.Model</title>
   <style type="text/css">
     @import "../../.css/coverage.css";
   </style>
@@ -17,10 +17,10 @@
 <div class="content">
 <div class="breadCrumbs">
     [ <a href="../../index.html">all classes</a> ]
-    [ <a href="../index.html">Model</a> ]
+    [ <a href="../index.html">Server.Model</a> ]
 </div>
 
-<h1>Coverage Summary for Class: Model (Model)</h1>
+<h1>Coverage Summary for Class: Server.Model (Server.Model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -39,7 +39,7 @@
 </th>
 </tr>
 <tr>
-  <td class="name">Model</td>
+  <td class="name">Server.Model</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -72,12 +72,12 @@
 <br/>
 
 
-<div class="sourceCode"><i>1</i>&nbsp;package Model;
+<div class="sourceCode"><i>1</i>&nbsp;package Server.Model;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import java.util.ArrayList;
 <i>4</i>&nbsp;
-<i>5</i>&nbsp;public class Model {
-<b class="fc"><i>6</i>&nbsp;    static private Model Instance = null;</b>
+<i>5</i>&nbsp;public class Server.Model {
+<b class="fc"><i>6</i>&nbsp;    static private Server.Model Instance = null;</b>
 <i>7</i>&nbsp;    static private ArrayList&lt;Game&gt; games;
 <i>8</i>&nbsp;    static private String path;
 <i>9</i>&nbsp;
@@ -154,11 +154,11 @@
 <i>80</i>&nbsp;
 <i>81</i>&nbsp;    /**
 <i>82</i>&nbsp;     *
-<i>83</i>&nbsp;     * Since Model is SINGLETON, a reset method is required for testing
+<i>83</i>&nbsp;     * Since Server.Model is SINGLETON, a reset method is required for testing
 <i>84</i>&nbsp;     */
 <i>85</i>&nbsp;     public void resetModel(){
 <b class="fc"><i>86</i>&nbsp;         final String DefPath = &quot;Bruh&quot;;</b>
-<b class="fc"><i>87</i>&nbsp;         Instance = new Model(DefPath);</b>
+<b class="fc"><i>87</i>&nbsp;         Instance = new Server.Model(DefPath);</b>
 <b class="fc"><i>88</i>&nbsp;    }</b>
 <i>89</i>&nbsp;
 <i>90</i>&nbsp;    /**
@@ -174,7 +174,7 @@
 <i>100</i>&nbsp;     * private constructor
 <i>101</i>&nbsp;     * @param p the path of the file where to save game IDs
 <i>102</i>&nbsp;     */
-<b class="fc"><i>103</i>&nbsp;    private Model (String p) {</b>
+<b class="fc"><i>103</i>&nbsp;    private Server.Model (String p) {</b>
 <b class="fc"><i>104</i>&nbsp;        games = new ArrayList&lt;Game&gt;();</b>
 <b class="fc"><i>105</i>&nbsp;        path = p;</b>
 <b class="fc"><i>106</i>&nbsp;    }</b>
@@ -182,13 +182,13 @@
 <i>108</i>&nbsp;    /**
 <i>109</i>&nbsp;     * SINGLETON
 <i>110</i>&nbsp;     * public constructor
-<i>111</i>&nbsp;     * @return the instance of the Model
+<i>111</i>&nbsp;     * @return the instance of the Server.Model
 <i>112</i>&nbsp;     */
-<i>113</i>&nbsp;    static public Model getModel() {
+<i>113</i>&nbsp;    static public Server.Model getModel() {
 <b class="fc"><i>114</i>&nbsp;        if(Instance == null)</b>
 <i>115</i>&nbsp;        {
 <b class="fc"><i>116</i>&nbsp;            final String DefPath = &quot;Bruh&quot;;      //INSERT HERE THE FILE PATH WHERE TO SAVE GAME IDs</b>
-<b class="fc"><i>117</i>&nbsp;            Instance = new Model(DefPath);</b>
+<b class="fc"><i>117</i>&nbsp;            Instance = new Server.Model(DefPath);</b>
 <i>118</i>&nbsp;        }
 <i>119</i>&nbsp;
 <b class="fc"><i>120</i>&nbsp;        return Instance;</b>
