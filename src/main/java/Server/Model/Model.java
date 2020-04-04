@@ -15,6 +15,14 @@ public class Model {
 
     /**
      *
+     * @return the ArrayList of games       //TOTEST
+     */
+    public ArrayList<Game> getGames(){
+        return(games);
+    }
+
+    /**
+     *
      * adds a game to the list of games
      *
      * @param g game to add
