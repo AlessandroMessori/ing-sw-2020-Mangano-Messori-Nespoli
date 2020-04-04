@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public interface ServerObserver
 {
     void didReceiveConvertedString(String oldStr, String newStr);
-    /*void receiveNewPlayerConnected(Player player);
+    void receiveNewPlayerConnected(Player player);
     void receiveDivinities(ArrayList<Divinity> divinities);
     void receivePossibleDivinities(ArrayList<Divinity> divinities);
     void receiveMoves(MoveList moves,Grid grid);
-    void receiveEndGame(Grid grid);*/
+    void receiveEndGame(Grid grid);
 }

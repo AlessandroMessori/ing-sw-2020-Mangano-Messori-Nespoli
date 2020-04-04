@@ -17,6 +17,9 @@ public class ListenForPlayer extends ResponseHandler {
     @Override
     public void handleResponse(String requestContent) throws IOException {
         try {
+            //Player player = decodeXML(requestContent);
+            //boolean nPlayers = decodeXML(requestContent);
+            //Controller.addPlayerToModel(player,nPlayers);
             output.writeObject("ListenForPlayer Response Handler");
         }
         catch (ClassCastException e) {
