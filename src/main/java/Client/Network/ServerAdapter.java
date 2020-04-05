@@ -1,5 +1,7 @@
 package Client.Network;
 
+import Client.Commands;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,16 +12,6 @@ import java.util.List;
 
 public class ServerAdapter implements Runnable
 {
-    private enum Commands {
-        CONVERT_STRING,
-        JOIN_GAME,
-        SEND_DIVINITIES,
-        SEND_DIVINITY,
-        SEND_STARTING_POSITION,
-        SEND_CHOSEN_MOVE,
-        STOP
-    }
-
     private Commands nextCommand;
     private String convertStringParam;
 
@@ -101,6 +93,21 @@ public class ServerAdapter implements Runnable
             switch (nextCommand) {
                 case CONVERT_STRING:
                     doStringConversion();
+                    break;
+                case JOIN_GAME:
+                    //sendJoinGameRequest();
+                    break;
+                case SEND_DIVINITIES:
+                    //sendDivinities();
+                    break;
+                case SEND_DIVINITY:
+                    //sendDivinity();
+                    break;
+                case SEND_STARTING_POSITION:
+                    //sendStartingPosition();
+                    break;
+                case SEND_CHOSEN_MOVE:
+                    //sendChosenMove();
                     break;
 
                 case STOP:
