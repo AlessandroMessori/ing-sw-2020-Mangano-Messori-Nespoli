@@ -9,7 +9,7 @@ public class Turn {
 
     /**
      * APOLLO EFFECT
-     * 
+     *
      * @return a boolean which indicates if the Pawn can be swapped
      */
     public boolean getCanSwap() {
