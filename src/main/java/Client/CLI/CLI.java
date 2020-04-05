@@ -89,7 +89,7 @@ public class CLI {
     public ArrayList<String> readDivinitiesChoice(){
         Scanner input = new Scanner(System.in);
         Divinity[] divinities = Divinity.values();
-        chosenDivinities = new ArrayList<String>();
+        chosenDivinities = new ArrayList<>();
         int val;
         int players;
         if(!twoOrThree) {
