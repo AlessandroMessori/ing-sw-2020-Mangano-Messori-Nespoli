@@ -233,16 +233,6 @@ public class ServerController {
 
     /**
      *
-     * @param move move to add to the grid in the Model
-     * @param g grid to be updated
-     * @return
-     */
-    public Grid updateGridByMoveDef(Move move, Grid g){
-        return g;
-    }
-
-    /**
-     *
      * @param divinity the divinity to add to the inGameDivinities list
      */
     public void setInGameDivinities(Divinity divinity){
@@ -285,14 +275,18 @@ public class ServerController {
      */
     public void addDivinityToPlayer(Player p, Divinity div){
         p.setDivinity(div);
+        deleteDivinity(div);
     }
 
     /**
      *
-     * @param grid
-     * @param gameID
+     * @param grid new grid after the move
+     * @param gameID the ID of the current game
      */
     public void updateModelGrid(Grid grid, String gameID){
-
+        Model model = Model.getModel();
+        Game game = model.searchID(gameID);
+        game.setOldGrid(game.getNewGrid());
+        game.setNewGrid(grid);
     }
 }
