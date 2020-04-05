@@ -48,15 +48,21 @@ public class CLI {
         int val;
         System.out.println("Numero di giocatori: 2 o 3?");
         val = input.nextInt();
-        if((val<2)||(val>3)){
-            throw new IllegalArgumentException();
-        } else {
-            if(val == 2){
-                twoOrThree = false;
+        try{
+            if((val<2)||(val>3)){
+                throw new IllegalArgumentException();
+            } else {
+                if(val == 2){
+                    twoOrThree = false;
+                }
+                if(val == 3){
+                    twoOrThree = true;
+                }
             }
-            if(val == 3){
-                twoOrThree = true;
-            }
+        }
+        catch(IllegalArgumentException e){
+            System.out.println("*** ERRORE ***\n Il numero di giocatori deve essere 2 o 3\n");
+            readTwoOrThree();
         }
         return twoOrThree;
     }
