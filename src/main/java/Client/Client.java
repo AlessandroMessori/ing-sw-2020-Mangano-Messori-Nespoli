@@ -102,6 +102,10 @@ public class Client implements Runnable, ServerObserver {
         notifyAll();
     }
 
+    /**
+     * function that gets called when a new player signal is received from the server
+     * @param player the player who joined the game
+     */
     @Override
     public synchronized void receiveNewPlayerConnected(Player player) {
         currentPage = Pages.LOBBY;
@@ -109,6 +113,10 @@ public class Client implements Runnable, ServerObserver {
         notifyAll();
     }
 
+    /**
+     * function that gets called when a divinities signal is received from the server
+     * @param divinities the list of all divinities in the game
+     */
     @Override
     public synchronized void receiveDivinities(ArrayList<Divinity> divinities) {
         currentPage = Pages.DIVINITIESCHOICE;
@@ -116,6 +124,10 @@ public class Client implements Runnable, ServerObserver {
         notifyAll();
     }
 
+    /**
+     * function that gets called when a possible divinities signal is received from the server
+     * @param divinities the list of possible divinities for the player
+     */
     @Override
     public synchronized void receivePossibleDivinities(ArrayList<Divinity> divinities) {
         currentPage = Pages.DIVINITYCHOICE;
@@ -123,7 +135,11 @@ public class Client implements Runnable, ServerObserver {
         notifyAll();
     }
 
-
+    /**
+     * function that gets called when an new move signal is received from the server
+     * @param moves the list of possible moves for the player
+     * @param grid updated game grid
+     */
     public synchronized void receiveMoves(MoveList moves, Grid grid) {
         currentPage = Pages.GAME;
         game.setOldGrid(grid);
@@ -131,6 +147,10 @@ public class Client implements Runnable, ServerObserver {
         notifyAll();
     }
 
+    /**
+     * function that gets called when an end game signal is received from the server
+     * @param grid final value of the game grid
+     */
     @Override
     public synchronized void receiveEndGame(Grid grid) {
         currentPage = Pages.ENDGAME;
