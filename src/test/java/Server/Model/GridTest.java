@@ -12,26 +12,35 @@ public class GridTest {
     static Cell cell;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         grid = new Grid();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         grid = null;
     }
 
     @Test
     public void getCellsTest() {
         grid = new Grid();
-        assertNotNull(grid.getCells(2,3));
+        assertNotNull(grid.getCells(2, 3));
     }
 
     @Test
     public void setCellsTest() {
-        cell = new Cell(new Tower(1,false),null);
+        cell = new Cell(new Tower(1, false), null);
         grid = new Grid();
-        grid.setCells(cell, 2,3);
-        assertSame(grid.getCells(2,3),cell);
+        grid.setCells(cell, 2, 3);
+        assertSame(grid.getCells(2, 3), cell);
+    }
+
+    @Test
+    public void printGridTest() {
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        cell = new Cell(new Tower(1, false), new Pawn(testPlayer));
+        grid = new Grid();
+        grid.setCells(cell, 2, 3);
+        System.out.println(grid.toString());
     }
 }

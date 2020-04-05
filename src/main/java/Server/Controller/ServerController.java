@@ -9,128 +9,6 @@ public class ServerController {
 
 
     private ArrayList<Divinity> inGameDivinities;
-    private Divinity currDivinity;
-
-    public boolean getCanSwap() {
-        return canSwap;
-    }
-
-    public void setCanSwap(boolean canSwap) {
-        this.canSwap = canSwap;
-    }
-
-    private boolean canSwap = false;                 //Apollo
-
-    public int getNPossibleMoves() {
-        return nPossibleMoves;
-    }
-
-    public void setNPossibleMoves(int nPossibleMoves) {
-        this.nPossibleMoves = nPossibleMoves;
-    }
-
-    private int nPossibleMoves = 1;                 //Artemis
-
-    public int getNMovesMade() {
-        return nMovesMade;
-    }
-
-    public void setNMovesMade(int nMovesMade) {
-        this.nMovesMade = nMovesMade;
-    }
-
-    private int nMovesMade = 0;
-
-    public boolean getPawnMoved() {
-        return pawnMoved;
-    }
-
-    public void setPawnMoved(boolean pawnMoved) {
-        this.pawnMoved = pawnMoved;
-    }
-
-    private boolean pawnMoved = false;
-
-    public boolean getCanBuildDomes() {
-        return canBuildDomes;
-    }
-
-    public void setCanBuildDomes(boolean canBuildDomes) {
-        this.canBuildDomes = canBuildDomes;
-    }
-
-    private boolean canBuildDomes = false;           //Atlas
-
-    public int getNPossibleBuildings() {
-        return nPossibleBuildings;
-    }
-
-    public void setNPossibleBuildings(int nPossibleBuildings) {
-        this.nPossibleBuildings = nPossibleBuildings;
-    }
-
-    private int nPossibleBuildings = 1;             //Demeter
-
-    public int getNMadeBuildings() {
-        return nMadeBuildings;
-    }
-
-    public void setNMadeBuildings(int nMadeBuildings) {
-        this.nMadeBuildings = nMadeBuildings;
-    }
-
-    private int nMadeBuildings = 0;
-
-    public boolean getCanBuildOnLastBlock() {
-        return canBuildOnLastBlock;
-    }
-
-    public void setCanBuildOnLastBlock(boolean canBuildOnLastBlock) {
-        this.canBuildOnLastBlock = canBuildOnLastBlock;
-    }
-
-    private boolean canBuildOnLastBlock = false;    //Hephaestus
-
-    public boolean getCanMoveAndSwap() {
-        return canMoveAndSwap;
-    }
-
-    public void setCanMoveAndSwap(boolean canMoveAndSwap) {
-        this.canMoveAndSwap = canMoveAndSwap;
-    }
-
-    private boolean canMoveAndSwap = false;         //Minotaur
-
-    public boolean getVictoryAfterDescent() {
-        return victoryAfterDescent;
-    }
-
-    public void setVictoryAfterDescent(boolean victoryAfterDescent) {
-        this.victoryAfterDescent = victoryAfterDescent;
-    }
-
-    private boolean victoryAfterDescent = false;    //Pan
-
-    public boolean getCanComeUp() {
-        return canComeUp;
-    }
-
-    public void setCanComeUp(boolean canComeUp) {
-        this.canComeUp = canComeUp;
-    }
-
-    private boolean canComeUp;
-
-    public boolean getCanBuildBeforeMove() {
-        return canBuildBeforeMove;
-    }
-
-    public void setCanBuildBeforeMove(boolean canBuildBeforeMove) {
-        this.canBuildBeforeMove = canBuildBeforeMove;
-    }
-
-    private boolean canBuildBeforeMove = false;     //Prometheus, true if canComeUp = false
-
 
 
     /**
@@ -151,47 +29,6 @@ public class ServerController {
     }
 
 
-    /**
-     *
-     * function called when the turn is starting to set variables
-     */
-    public void startingTurn() throws IllegalArgumentException{
-        switch(currDivinity) {
-            case APOLLO:
-                setCanSwap(true);
-                break;
-            case ARTEMIS:
-                setNPossibleMoves(2);
-                break;
-            case ATHENA:
-                setPawnMoved(true);     //TODO: TRUE IF PAWNS WERE MOVED IN THE PREVIOUS TURN
-                break;
-            case ATLAS:
-                setCanBuildDomes(true);
-                break;
-            case DEMETER:
-                setNPossibleBuildings(2);
-                break;
-            case HEPHAESTUS:
-                setCanBuildOnLastBlock(true);
-                break;
-            case MINOTAUR:
-                setCanMoveAndSwap(true);
-                break;
-            case PAN:
-                setVictoryAfterDescent(true);
-                break;
-            case PROMETHEUS:
-                if(!getCanComeUp())
-                {
-                    setCanBuildBeforeMove(true);
-                }
-                break;
-            default:
-                throw new IllegalArgumentException();
-
-        }
-    }
 
     /**
      *
@@ -261,8 +98,12 @@ public class ServerController {
      * @param grid grid on which to calculate the next possible move(s), based on the player's divinity
      * @return the possible MoveList
      */
-    public MoveList calculateNextMove(Grid grid){
+    public MoveList calculateNextMove(Grid grid, Player p){
         MoveList movelist = null;
+
+        Turn turn = new Turn(p.getDivinity());
+        turn.startingTurn();
+
 
 
         return movelist;
@@ -287,6 +128,6 @@ public class ServerController {
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
         game.setOldGrid(game.getNewGrid());
-        game.setNewGrid(grid);
+        game.setNewGrid(grid);          //TODO: SEND THE NEW GRID TO OTHER PLAYERS?
     }
 }

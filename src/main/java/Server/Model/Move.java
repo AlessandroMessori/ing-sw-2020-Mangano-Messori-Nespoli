@@ -1,6 +1,7 @@
 package Server.Model;
 
-public class Move {
+public class
+Move {
     private Pawn toMove;
     private int x;
     private int y;
@@ -76,5 +77,18 @@ public class Move {
      */
     public Move(Pawn pawn) {
         this.toMove = pawn;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder moveString = new StringBuilder();
+
+        moveString.append("pawnID:" + getToMove().getId() + ",");
+        moveString.append("x:" + getX() + ",");
+        moveString.append("y:" + getX() + ",");
+        moveString.append("ifMove:" + getIfMove() + "");
+
+
+        return "{" + moveString + "}";
     }
 }
