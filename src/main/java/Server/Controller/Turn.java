@@ -5,6 +5,14 @@ import Server.Model.Divinity;
 
 public class Turn {
 
+    /**
+     *
+     * @return the divinity of the player who is currently playing
+     */
+    public Divinity getCurrDivinity() {
+        return currDivinity;
+    }
+
     private Divinity currDivinity;
 
     /**
