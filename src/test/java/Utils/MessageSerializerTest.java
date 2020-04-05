@@ -34,8 +34,8 @@ public class MessageSerializerTest {
         ArrayList<Divinity> divinities = new ArrayList<Divinity>();
         divinities.add(Divinity.APOLLO);
         divinities.add(Divinity.ARTEMIS);
-        assertEquals("{\"header\":\"SendDivinities\",\"divinities\":\"[APOLLO, ARTEMIS]\"}",
-                messageSerializer.serializeDivinities(divinities).toString());
+        assertEquals("{\"header\":\"TestHeader\",\"divinities\":\"[APOLLO, ARTEMIS]\"}",
+                messageSerializer.serializeDivinities(divinities, "TestHeader").toString());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class MessageSerializerTest {
         Cell cell = new Cell(new Tower(1, false), new Pawn(testPlayer));
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
-        System.out.println(messageSerializer.serializeStartingPosition(grid));
+        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader"));
     }
 
     @Test
@@ -64,5 +64,25 @@ public class MessageSerializerTest {
         move.setX(2);
         move.setY(2);
         System.out.println(messageSerializer.serializeChosenMove(grid, move));
+    }
+
+    @Test
+    public void serializeNextMovesTest() {
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        Pawn pawn = new Pawn(testPlayer);
+        Cell cell = new Cell(new Tower(1, false), pawn);
+        MoveList moves = new MoveList();
+        Move move1 = new Move(pawn);
+        Move move2 = new Move(pawn);
+        Grid grid = new Grid();
+        grid.setCells(cell, 2, 3);
+        move1.setX(2);
+        move1.setY(2);
+        move2.setX(2);
+        move2.setY(0);
+        moves.addMove(move1);
+        moves.addMove(move2);
+
+        System.out.println(messageSerializer.serializeNextMoves(grid, moves, "Player1"));
     }
 }

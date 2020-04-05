@@ -39,6 +39,7 @@ public class Grid {
     public String toString() {
 
         StringBuilder cellString = new StringBuilder();
+        String doubleQuotes = Character.toString((char) 34);
 
         for (int i = 0; i < 5; i++) {
             cellString.append("[");
@@ -48,11 +49,11 @@ public class Grid {
                 cellString.append("{");
 
                 if (currentCell.getPawn() != null) {
-                    cellString.append("\"pawn id\":" + currentCell.getPawn().getId() + ",");
+                    cellString.append(doubleQuotes + "pawnId" + doubleQuotes + ":" + currentCell.getPawn().getId() + ",");
                 }
 
-                cellString.append("\"tower level\":" + currentCell.getTower().getLevel() + ",");
-                cellString.append("\"isDome\":" + currentCell.getTower().getIsDome() +",");
+                cellString.append(doubleQuotes + "towerLevel" + doubleQuotes + ":" + currentCell.getTower().getLevel() + ",");
+                cellString.append(doubleQuotes + "isDome" + doubleQuotes + ":" + currentCell.getTower().getIsDome() + ",");
 
                 cellString.append("},");
 
@@ -61,6 +62,6 @@ public class Grid {
         }
 
 
-        return "{\"cells\": [" + cellString + "]}";
+        return "{" + doubleQuotes + "cells" + doubleQuotes + ": [" + cellString + "]}";
     }
 }

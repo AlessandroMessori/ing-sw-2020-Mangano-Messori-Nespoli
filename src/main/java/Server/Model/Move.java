@@ -8,7 +8,6 @@ Move {
     private boolean ifMove;
 
     /**
-     *
      * @return pawn to move
      */
     public Pawn getToMove() {
@@ -17,6 +16,7 @@ Move {
 
     /**
      * set value of Pawn
+     *
      * @param toMove value of pawn to move
      */
     public void setToMove(Pawn toMove) {
@@ -24,7 +24,6 @@ Move {
     }
 
     /**
-     *
      * @return value of x coordinate
      */
     public int getX() {
@@ -33,6 +32,7 @@ Move {
 
     /**
      * set value of x coordinate
+     *
      * @param x value of x coordinate
      */
     public void setX(int x) {
@@ -40,7 +40,6 @@ Move {
     }
 
     /**
-     *
      * @return value of y coordinate
      */
     public int getY() {
@@ -49,6 +48,7 @@ Move {
 
     /**
      * set value of y coordinate
+     *
      * @param y value of y coordinate
      */
     public void setY(int y) {
@@ -56,7 +56,6 @@ Move {
     }
 
     /**
-     *
      * @return value of IfMove
      */
     public boolean getIfMove() {
@@ -65,6 +64,7 @@ Move {
 
     /**
      * set value of ifMove
+     *
      * @param ifMove sett value o IfMove
      */
     public void setIfMove(boolean ifMove) {
@@ -73,6 +73,7 @@ Move {
 
     /**
      * constructor
+     *
      * @param pawn pawn to move
      */
     public Move(Pawn pawn) {
@@ -83,10 +84,10 @@ Move {
     public String toString() {
         StringBuilder moveString = new StringBuilder();
 
-        moveString.append("pawnID:" + getToMove().getId() + ",");
-        moveString.append("x:" + getX() + ",");
-        moveString.append("y:" + getX() + ",");
-        moveString.append("ifMove:" + getIfMove() + "");
+        moveString.append("\"pawnID\":" + getToMove().getId() + ",\n");
+        moveString.append("\"x\":" + getX() + ",\n");
+        moveString.append("\"y\":" + getX() + ",\n");
+        moveString.append("\"ifMove\":" + getIfMove() + ",\n");
 
 
         return "{" + moveString + "}";

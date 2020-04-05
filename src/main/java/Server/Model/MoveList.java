@@ -77,4 +77,15 @@ public class MoveList {
     }
 
 
+    @Override
+    public String toString() {
+
+        StringBuilder movesString = new StringBuilder();
+
+        for (int i = 0; i < size(); i++) {
+            movesString.append(getMove(i).toString() + ",");
+        }
+
+        return "[" + movesString + "]";
+    }
 }
