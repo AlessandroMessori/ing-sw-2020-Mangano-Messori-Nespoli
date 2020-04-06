@@ -16,6 +16,13 @@ public class MessageSerializer {
     private Gson gson;
     // CLIENT Serializers
 
+    /**
+     * serializes in JSON a Join Game Message
+     *
+     * @param username     value of the username
+     * @param threePlayers boolean who represents the choice of playing a game with 2 or 3 players
+     * @return the JSON serialized Join Game Message
+     */
     public JsonElement serializeJoinGame(String username, boolean threePlayers) {
         JsonObject result = new JsonObject();
 
@@ -26,6 +33,13 @@ public class MessageSerializer {
         return result;
     }
 
+    /**
+     * serializes in JSON a send Divinities Message
+     *
+     * @param divinities the list of divinities to serialize
+     * @param header     header of the message
+     * @return the JSON serialized send Divinities Message
+     */
     //used by the client and the server
     public JsonElement serializeDivinities(ArrayList<Divinity> divinities, String header) {
         JsonObject result = new JsonObject();
@@ -36,6 +50,12 @@ public class MessageSerializer {
         return result;
     }
 
+    /**
+     * serializes in JSON a send Divinity Message
+     *
+     * @param divinity the divinity to serialize
+     * @return the JSON serialized send Divinity Message
+     */
     public JsonElement serializeDivinity(Divinity divinity) {
         JsonObject result = new JsonObject();
 
@@ -45,6 +65,13 @@ public class MessageSerializer {
         return result;
     }
 
+    /**
+     * serializes in JSON a send Starting Position Message
+     *
+     * @param grid   the grid to serialize
+     * @param header header of the message
+     * @return the JSON serialized send Starting Position Message
+     */
     //used by client and server
     public JsonElement serializeStartingPosition(Grid grid, String header) {
         JsonObject result = new JsonObject();
@@ -55,6 +82,13 @@ public class MessageSerializer {
         return result;
     }
 
+    /**
+     * serializes in JSON a send Chosen Move Message
+     *
+     * @param grid the grid to serialize
+     * @param move the move to serialize
+     * @return the JSON serialized send Chosen Move Message
+     */
     public JsonElement serializeChosenMove(Grid grid, Move move) {
         JsonObject result = new JsonObject();
 
@@ -67,6 +101,14 @@ public class MessageSerializer {
 
     // SERVER only Serializers
 
+    /**
+     * serializes in JSON a send Next Moves Message
+     *
+     * @param grid            the grid to serialize
+     * @param moves           the moves to serialize
+     * @param currentPlayerID the id of the current Player
+     * @return the JSON serialized send Next Moves Message
+     */
     public JsonElement serializeNextMoves(Grid grid, MoveList moves, String currentPlayerID) {
         JsonObject result = new JsonObject();
 
@@ -78,6 +120,11 @@ public class MessageSerializer {
         return result;
     }
 
+
+    /**
+     * serializes in JSON a send Starting Position Message
+     * constructor
+     */
     public MessageSerializer() {
         gson = new Gson();
     }
