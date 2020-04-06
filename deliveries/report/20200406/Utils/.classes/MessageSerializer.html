@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MessageSerializer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Utils</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MessageSerializer (Utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MessageSerializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Utils;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Server.Model.Divinity;
+<i>4</i>&nbsp;import Server.Model.Grid;
+<i>5</i>&nbsp;import Server.Model.Move;
+<i>6</i>&nbsp;import Server.Model.MoveList;
+<i>7</i>&nbsp;import com.google.gson.Gson;
+<i>8</i>&nbsp;import com.google.gson.JsonElement;
+<i>9</i>&nbsp;import com.google.gson.JsonObject;
+<i>10</i>&nbsp;import com.google.gson.JsonPrimitive;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class MessageSerializer {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private Gson gson;
+<i>17</i>&nbsp;    // CLIENT Serializers
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * serializes in JSON a Join Game Message
+<i>21</i>&nbsp;     *
+<i>22</i>&nbsp;     * @param username     value of the username
+<i>23</i>&nbsp;     * @param threePlayers boolean who represents the choice of playing a game with 2 or 3 players
+<i>24</i>&nbsp;     * @return the JSON serialized Join Game Message
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    public JsonElement serializeJoinGame(String username, boolean threePlayers) {
+<b class="fc"><i>27</i>&nbsp;        JsonObject result = new JsonObject();</b>
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;        result.add(&quot;header&quot;, new JsonPrimitive(&quot;JoinGame&quot;));</b>
+<b class="fc"><i>30</i>&nbsp;        result.add(&quot;username&quot;, new JsonPrimitive(username));</b>
+<b class="fc"><i>31</i>&nbsp;        result.add(&quot;3players&quot;, new JsonPrimitive(threePlayers));</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;        return result;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * serializes in JSON a send Divinities Message
+<i>38</i>&nbsp;     *
+<i>39</i>&nbsp;     * @param divinities the list of divinities to serialize
+<i>40</i>&nbsp;     * @param header     header of the message
+<i>41</i>&nbsp;     * @return the JSON serialized send Divinities Message
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    //used by the client and the server
+<i>44</i>&nbsp;    public JsonElement serializeDivinities(ArrayList&lt;Divinity&gt; divinities, String header) {
+<b class="fc"><i>45</i>&nbsp;        JsonObject result = new JsonObject();</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;        result.add(&quot;header&quot;, new JsonPrimitive(header));</b>
+<b class="fc"><i>48</i>&nbsp;        result.add(&quot;divinities&quot;, new JsonPrimitive(gson.toJson(divinities)));</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;        return result;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * serializes in JSON a send Divinity Message
+<i>55</i>&nbsp;     *
+<i>56</i>&nbsp;     * @param divinity the divinity to serialize
+<i>57</i>&nbsp;     * @return the JSON serialized send Divinity Message
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public JsonElement serializeDivinity(Divinity divinity) {
+<b class="fc"><i>60</i>&nbsp;        JsonObject result = new JsonObject();</b>
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;        result.add(&quot;header&quot;, new JsonPrimitive(&quot;SendChosenDivinity&quot;));</b>
+<b class="fc"><i>63</i>&nbsp;        result.add(&quot;divinity&quot;, new JsonPrimitive(gson.toJson(divinity)));</b>
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        return result;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * serializes in JSON a send Starting Position Message
+<i>70</i>&nbsp;     *
+<i>71</i>&nbsp;     * @param grid   the grid to serialize
+<i>72</i>&nbsp;     * @param header header of the message
+<i>73</i>&nbsp;     * @return the JSON serialized send Starting Position Message
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    //used by client and server
+<i>76</i>&nbsp;    public JsonElement serializeStartingPosition(Grid grid, String header) {
+<b class="fc"><i>77</i>&nbsp;        JsonObject result = new JsonObject();</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        result.add(&quot;header&quot;, new JsonPrimitive(header));</b>
+<b class="fc"><i>80</i>&nbsp;        result.add(&quot;grid&quot;, new JsonPrimitive(gson.toJson(grid)));</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        return result;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * serializes in JSON a send Chosen Move Message
+<i>87</i>&nbsp;     *
+<i>88</i>&nbsp;     * @param grid the grid to serialize
+<i>89</i>&nbsp;     * @param move the move to serialize
+<i>90</i>&nbsp;     * @return the JSON serialized send Chosen Move Message
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    public JsonElement serializeChosenMove(Grid grid, Move move) {
+<b class="fc"><i>93</i>&nbsp;        JsonObject result = new JsonObject();</b>
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;        result.add(&quot;header&quot;, new JsonPrimitive(&quot;SendChosenMove&quot;));</b>
+<b class="fc"><i>96</i>&nbsp;        result.add(&quot;grid&quot;, new JsonPrimitive(gson.toJson(grid)));</b>
+<b class="fc"><i>97</i>&nbsp;        result.add(&quot;move&quot;, new JsonPrimitive(gson.toJson(move)));</b>
+<i>98</i>&nbsp;
+<b class="fc"><i>99</i>&nbsp;        return result;</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    // SERVER only Serializers
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * serializes in JSON a send Next Moves Message
+<i>106</i>&nbsp;     *
+<i>107</i>&nbsp;     * @param grid            the grid to serialize
+<i>108</i>&nbsp;     * @param moves           the moves to serialize
+<i>109</i>&nbsp;     * @param currentPlayerID the id of the current Player
+<i>110</i>&nbsp;     * @return the JSON serialized send Next Moves Message
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    public JsonElement serializeNextMoves(Grid grid, MoveList moves, String currentPlayerID) {
+<b class="fc"><i>113</i>&nbsp;        JsonObject result = new JsonObject();</b>
+<i>114</i>&nbsp;
+<b class="fc"><i>115</i>&nbsp;        result.add(&quot;header&quot;, new JsonPrimitive(&quot;SendChosenMove&quot;));</b>
+<b class="fc"><i>116</i>&nbsp;        result.add(&quot;grid&quot;, new JsonPrimitive(gson.toJson(grid)));</b>
+<b class="fc"><i>117</i>&nbsp;        result.add(&quot;moves&quot;, new JsonPrimitive(gson.toJson(moves)));</b>
+<b class="fc"><i>118</i>&nbsp;        result.add(&quot;currentPlayerID&quot;, new JsonPrimitive(currentPlayerID));</b>
+<i>119</i>&nbsp;
+<b class="fc"><i>120</i>&nbsp;        return result;</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    /**
+<i>125</i>&nbsp;     * serializes in JSON a send Starting Position Message
+<i>126</i>&nbsp;     * constructor
+<i>127</i>&nbsp;     */
+<b class="fc"><i>128</i>&nbsp;    public MessageSerializer() {</b>
+<b class="fc"><i>129</i>&nbsp;        gson = new Gson();</b>
+<b class="fc"><i>130</i>&nbsp;    }</b>
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 14:01</div>
+</div>
+</body>
+</html>

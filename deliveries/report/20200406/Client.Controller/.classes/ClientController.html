@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Client.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientController (Client.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Client.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Server.Model.Grid;
+<i>4</i>&nbsp;import Server.Model.Move;
+<i>5</i>&nbsp;import Server.Model.Cell;
+<i>6</i>&nbsp;import Server.Model.Tower;
+<i>7</i>&nbsp;
+<b class="nc"><i>8</i>&nbsp;public class ClientController {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private boolean activeTurn;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * sets the boolean activeTurn
+<i>14</i>&nbsp;     * @param activeTurn checks if the current player is the one playing
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    public void setActiveTurn(boolean activeTurn) {
+<b class="nc"><i>17</i>&nbsp;        this.activeTurn = activeTurn;</b>
+<i>18</i>&nbsp;    }
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     *
+<i>22</i>&nbsp;     * @return a boolean which defines if the player is the one playing
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public boolean getActiveTurn(){
+<b class="nc"><i>25</i>&nbsp;        return activeTurn;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @param move is the move the current player has done
+<i>31</i>&nbsp;     * @param grid is the grid to be modified in the game
+<i>32</i>&nbsp;     * @return the Grid updated after the move is done
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public Grid updateGridByMove(Move move, Grid grid) throws IllegalArgumentException{
+<b class="nc"><i>35</i>&nbsp;        if(move.getIfMove() == true)</b>
+<i>36</i>&nbsp;        {
+<b class="nc"><i>37</i>&nbsp;            grid.getCells(move.getX(),move.getY()).setPawn(move.getToMove());</b>
+<b class="nc"><i>38</i>&nbsp;            if(grid.getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {</b>
+<i>39</i>&nbsp;                //TODO: WIN MESSAGE
+<i>40</i>&nbsp;            }
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;            if(grid.getCells(move.getX() + 1,move.getY()).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>43</i>&nbsp;                grid.getCells(move.getX() + 1,move.getY()).setPawn(null);</b>
+<i>44</i>&nbsp;            }
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;            else if(grid.getCells(move.getX() - 1,move.getY()).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>47</i>&nbsp;                grid.getCells(move.getX() - 1,move.getY()).setPawn(null);</b>
+<i>48</i>&nbsp;            }
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;            else if(grid.getCells(move.getX() + 1,move.getY() - 1).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>51</i>&nbsp;                grid.getCells(move.getX() + 1,move.getY() - 1).setPawn(null);</b>
+<i>52</i>&nbsp;            }
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;            else if(grid.getCells(move.getX() + 1,move.getY() + 1).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>55</i>&nbsp;                grid.getCells(move.getX() + 1,move.getY() + 1).setPawn(null);</b>
+<i>56</i>&nbsp;            }
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;            else if(grid.getCells(move.getX(),move.getY() + 1).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>59</i>&nbsp;                grid.getCells(move.getX(),move.getY() + 1).setPawn(null);</b>
+<i>60</i>&nbsp;            }
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;            else if(grid.getCells(move.getX(),move.getY() - 1).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>63</i>&nbsp;                grid.getCells(move.getX(),move.getY() - 1).setPawn(null);</b>
+<i>64</i>&nbsp;            }
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;            else if(grid.getCells(move.getX() - 1,move.getY() + 1).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>67</i>&nbsp;                grid.getCells(move.getX() - 1,move.getY() + 1).setPawn(null);</b>
+<i>68</i>&nbsp;            }
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;            else if(grid.getCells(move.getX() - 1,move.getY() - 1).getPawn().getId() == move.getToMove().getId()){</b>
+<b class="nc"><i>71</i>&nbsp;                grid.getCells(move.getX() - 1,move.getY() - 1).setPawn(null);</b>
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;            else
+<i>75</i>&nbsp;            {
+<b class="nc"><i>76</i>&nbsp;                throw new IllegalArgumentException();       //DANGER: MAY NOT WORK</b>
+<i>77</i>&nbsp;            }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;        }
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;        if(!move.getIfMove()){</b>
+<b class="nc"><i>82</i>&nbsp;            grid.getCells(move.getX(),move.getY()).getTower().setLevel(grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1);</b>
+<b class="nc"><i>83</i>&nbsp;            if(grid.getCells(move.getX(),move.getY()).getTower().getLevel() == 4){</b>
+<b class="nc"><i>84</i>&nbsp;                grid.getCells(move.getX(),move.getY()).getTower().setIsDome(true);</b>
+<i>85</i>&nbsp;            }
+<i>86</i>&nbsp;        }
+<b class="nc"><i>87</i>&nbsp;        return grid;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 14:01</div>
+</div>
+</body>
+</html>

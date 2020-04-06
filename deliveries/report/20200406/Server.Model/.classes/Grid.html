@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Grid</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Server.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Grid (Server.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Grid</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Server.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class Grid {
+<i>4</i>&nbsp;    private Cell[][] cells;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;    /**
+<i>7</i>&nbsp;     * @param x value of row
+<i>8</i>&nbsp;     * @param y value of column
+<i>9</i>&nbsp;     * @return value of Cells[x][y]
+<i>10</i>&nbsp;     */
+<i>11</i>&nbsp;    public Cell getCells(int x, int y) {
+<b class="fc"><i>12</i>&nbsp;        return cells[x][y];</b>
+<i>13</i>&nbsp;    }
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * set value of Cells[x][y]
+<i>17</i>&nbsp;     *
+<i>18</i>&nbsp;     * @param cell value of Cell
+<i>19</i>&nbsp;     * @param x    value of row
+<i>20</i>&nbsp;     * @param y    value of column
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    public void setCells(Cell cell, int x, int y) {
+<b class="fc"><i>23</i>&nbsp;        cells[x][y] = cell;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * constructor
+<i>28</i>&nbsp;     */
+<b class="fc"><i>29</i>&nbsp;    public Grid() {</b>
+<b class="fc"><i>30</i>&nbsp;        cells = new Cell[5][5];</b>
+<b class="fc"><i>31</i>&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc"><i>32</i>&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc"><i>33</i>&nbsp;                cells[i][j] = new Cell(new Tower(0, false), null);</b>
+<i>34</i>&nbsp;            }
+<i>35</i>&nbsp;        }
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Override
+<i>39</i>&nbsp;    public String toString() {
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;        StringBuilder cellString = new StringBuilder();</b>
+<b class="fc"><i>42</i>&nbsp;        String doubleQuotes = Character.toString((char) 34);</b>
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc"><i>45</i>&nbsp;            cellString.append(&quot;[&quot;);</b>
+<b class="fc"><i>46</i>&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc"><i>47</i>&nbsp;                Cell currentCell = cells[i][j];</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;                cellString.append(&quot;{&quot;);</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;                if (currentCell.getPawn() != null) {</b>
+<b class="fc"><i>52</i>&nbsp;                    cellString.append(doubleQuotes + &quot;pawnId&quot; + doubleQuotes + &quot;:&quot; + currentCell.getPawn().getId() + &quot;,&quot;);</b>
+<i>53</i>&nbsp;                }
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;                cellString.append(doubleQuotes + &quot;towerLevel&quot; + doubleQuotes + &quot;:&quot; + currentCell.getTower().getLevel() + &quot;,&quot;);</b>
+<b class="fc"><i>56</i>&nbsp;                cellString.append(doubleQuotes + &quot;isDome&quot; + doubleQuotes + &quot;:&quot; + currentCell.getTower().getIsDome() + &quot;,&quot;);</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;                cellString.append(&quot;},&quot;);</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;            }
+<b class="fc"><i>61</i>&nbsp;            cellString.append(&quot;]&quot;);</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        return &quot;{&quot; + doubleQuotes + &quot;cells&quot; + doubleQuotes + &quot;: [&quot; + cellString + &quot;]}&quot;;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 14:01</div>
+</div>
+</body>
+</html>

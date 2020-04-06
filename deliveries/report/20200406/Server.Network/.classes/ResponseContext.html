@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ResponseContext</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Server.Network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ResponseContext (Server.Network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResponseContext</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Server.Network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.IOException;
+<i>4</i>&nbsp;import java.io.ObjectInputStream;
+<i>5</i>&nbsp;import java.io.ObjectOutputStream;
+<i>6</i>&nbsp;import java.net.Socket;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class ResponseContext implements Runnable {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private ResponseHandler responseHandler;
+<i>11</i>&nbsp;    private String requestContent;
+<i>12</i>&nbsp;    private Socket client;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    public ResponseContext(Socket cl) {</b>
+<b class="nc"><i>16</i>&nbsp;        client = cl;</b>
+<i>17</i>&nbsp;    }
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @Override
+<i>20</i>&nbsp;    public void run() {
+<i>21</i>&nbsp;        try {
+<b class="nc"><i>22</i>&nbsp;            handleResponse();</b>
+<b class="nc"><i>23</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>24</i>&nbsp;            System.out.println(&quot;Client &quot; + client.getInetAddress() + &quot; connection dropped&quot;);</b>
+<b class="nc"><i>25</i>&nbsp;        }</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private void handleResponse() throws IOException {
+<i>29</i>&nbsp;
+<b class="nc"><i>30</i>&nbsp;        System.out.println(&quot;started connection with &quot; + client.getInetAddress());</b>
+<b class="nc"><i>31</i>&nbsp;        ObjectInputStream input = new ObjectInputStream(client.getInputStream());</b>
+<b class="nc"><i>32</i>&nbsp;        ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;        //loop to handle all the requests of the connected client
+<i>36</i>&nbsp;        try {
+<i>37</i>&nbsp;            while (true) {
+<b class="nc"><i>38</i>&nbsp;                Object next = input.readObject();</b>
+<b class="nc"><i>39</i>&nbsp;                requestContent = (String) next;</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;                //TODO divide requestContent into Header and Body
+<i>43</i>&nbsp;
+<b class="nc"><i>44</i>&nbsp;                switch (requestContent) {</b>
+<i>45</i>&nbsp;                    case &quot;JoinGame&quot;:
+<b class="nc"><i>46</i>&nbsp;                        responseHandler = new ListenForPlayer(client, output);</b>
+<b class="nc"><i>47</i>&nbsp;                        break;</b>
+<i>48</i>&nbsp;                    case &quot;SendDivinities&quot;:
+<b class="nc"><i>49</i>&nbsp;                        responseHandler = new ListenForDivinities(client, output);</b>
+<b class="nc"><i>50</i>&nbsp;                        break;</b>
+<i>51</i>&nbsp;                    case &quot;SendChosenDivinity&quot;:
+<b class="nc"><i>52</i>&nbsp;                        responseHandler = new ListenForChosenDivinity(client, output);</b>
+<b class="nc"><i>53</i>&nbsp;                        break;</b>
+<i>54</i>&nbsp;                    case &quot;SendStartingPosition&quot;:
+<b class="nc"><i>55</i>&nbsp;                        responseHandler = new ListenForStartingPosition(client, output);</b>
+<b class="nc"><i>56</i>&nbsp;                        break;</b>
+<i>57</i>&nbsp;                    case &quot;SendChosenMove&quot;:
+<b class="nc"><i>58</i>&nbsp;                        responseHandler = new ListenForChosenMove(client, output);</b>
+<b class="nc"><i>59</i>&nbsp;                        break;</b>
+<i>60</i>&nbsp;                    default:
+<b class="nc"><i>61</i>&nbsp;                        responseHandler = new ResponseHandler(client, output);</b>
+<i>62</i>&nbsp;                        break;
+<i>63</i>&nbsp;                }
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;                responseHandler.handleResponse(requestContent);</b>
+<b class="nc"><i>66</i>&nbsp;            }</b>
+<b class="nc"><i>67</i>&nbsp;        } catch (ClassNotFoundException | ClassCastException e) {</b>
+<b class="nc"><i>68</i>&nbsp;            System.out.println(&quot;Invalid stream from client&quot;);</b>
+<i>69</i>&nbsp;        }
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;        client.close();</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-06 14:01</div>
+</div>
+</body>
+</html>
