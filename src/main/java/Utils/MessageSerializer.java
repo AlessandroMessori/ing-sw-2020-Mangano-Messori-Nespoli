@@ -4,6 +4,7 @@ import Server.Model.Divinity;
 import Server.Model.Grid;
 import Server.Model.Move;
 import Server.Model.MoveList;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 public class MessageSerializer {
 
+    private Gson gson;
     // CLIENT Serializers
 
     public JsonElement serializeJoinGame(String username, boolean threePlayers) {
@@ -29,7 +31,7 @@ public class MessageSerializer {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive(header));
-        result.add("divinities", new JsonPrimitive(divinities.toString()));
+        result.add("divinities", new JsonPrimitive(gson.toJson(divinities)));
 
         return result;
     }
@@ -38,7 +40,7 @@ public class MessageSerializer {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("SendChosenDivinity"));
-        result.add("divinity", new JsonPrimitive(divinity.toString()));
+        result.add("divinity", new JsonPrimitive(gson.toJson(divinity)));
 
         return result;
     }
@@ -48,7 +50,7 @@ public class MessageSerializer {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive(header));
-        result.add("grid", new JsonPrimitive(grid.toString()));
+        result.add("grid", new JsonPrimitive(gson.toJson(grid)));
 
         return result;
     }
@@ -57,8 +59,8 @@ public class MessageSerializer {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("SendChosenMove"));
-        result.add("grid", new JsonPrimitive(grid.toString()));
-        result.add("move", new JsonPrimitive(move.toString()));
+        result.add("grid", new JsonPrimitive(gson.toJson(grid)));
+        result.add("move", new JsonPrimitive(gson.toJson(move)));
 
         return result;
     }
@@ -69,11 +71,15 @@ public class MessageSerializer {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("SendChosenMove"));
-        result.add("grid", new JsonPrimitive(grid.toString()));
-        result.add("moves", new JsonPrimitive(moves.toString()));
+        result.add("grid", new JsonPrimitive(gson.toJson(grid)));
+        result.add("moves", new JsonPrimitive(gson.toJson(moves)));
         result.add("currentPlayerID", new JsonPrimitive(currentPlayerID));
 
         return result;
+    }
+
+    public MessageSerializer() {
+        gson = new Gson();
     }
 
 }

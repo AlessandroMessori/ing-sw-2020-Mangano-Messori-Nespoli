@@ -10,6 +10,9 @@ import Client.Network.ServerAdapter;
 import Server.Model.*;
 import Server.Server;
 import Server.Model.Game;
+import Client.CLI.CLI;
+import Utils.MessageSerializer;
+import com.google.gson.JsonElement;
 
 public class Client implements Runnable, ServerObserver {
     /* auxiliary variable used for implementing the consumer-producer pattern*/
@@ -17,6 +20,8 @@ public class Client implements Runnable, ServerObserver {
     private Game game;
     private Pages currentPage;
     private ArrayList<Divinity> divinities;
+    private CLI cli;
+    private MessageSerializer messageSerializer;
 
 
     public static void main(String[] args) {
@@ -37,10 +42,13 @@ public class Client implements Runnable, ServerObserver {
         currentPage = Pages.WELCOME;
         game = new Game(0, "", false, null, null, null, null);
         divinities = new ArrayList<Divinity>();
+        cli = new CLI();
+        messageSerializer = new MessageSerializer();
 
         /*
           get initial data from user (IP Address,Username,Type of Game)
          */
+        cli.printWelcome();
         System.out.println("IP address of server?");
         String ip = scanner.nextLine();
 
@@ -53,7 +61,7 @@ public class Client implements Runnable, ServerObserver {
             System.out.println("server unreachable");
             return;
         }
-        System.out.println("Connected");
+        System.out.println("Connected to the server");
 
         /* Create the adapter that will allow communication with the server
          * in background, and start running its thread */
@@ -65,6 +73,12 @@ public class Client implements Runnable, ServerObserver {
         while (loopCheck) {
             switch (currentPage) {
                 case WELCOME:
+                    /*String userName = cli.readUsername();
+                    boolean nPlayers = cli.readTwoOrThree();
+
+                    JsonElement message = messageSerializer.serializeJoinGame(userName, nPlayers);*/
+
+                    //send JSON encoded message to server and wait for answer
                     break;
                 case LOBBY:
                     System.out.println("Lobby Page");
@@ -104,6 +118,7 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when a new player signal is received from the server
+     *
      * @param player the player who joined the game
      */
     @Override
@@ -115,6 +130,7 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when a divinities signal is received from the server
+     *
      * @param divinities the list of all divinities in the game
      */
     @Override
@@ -126,6 +142,7 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when a possible divinities signal is received from the server
+     *
      * @param divinities the list of possible divinities for the player
      */
     @Override
@@ -137,8 +154,9 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when an new move signal is received from the server
+     *
      * @param moves the list of possible moves for the player
-     * @param grid updated game grid
+     * @param grid  updated game grid
      */
     public synchronized void receiveMoves(MoveList moves, Grid grid) {
         currentPage = Pages.GAME;
@@ -149,6 +167,7 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when an end game signal is received from the server
+     *
      * @param grid final value of the game grid
      */
     @Override

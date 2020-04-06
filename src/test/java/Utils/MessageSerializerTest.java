@@ -34,13 +34,13 @@ public class MessageSerializerTest {
         ArrayList<Divinity> divinities = new ArrayList<Divinity>();
         divinities.add(Divinity.APOLLO);
         divinities.add(Divinity.ARTEMIS);
-        assertEquals("{\"header\":\"TestHeader\",\"divinities\":\"[APOLLO, ARTEMIS]\"}",
+        assertEquals("{\"header\":\"TestHeader\",\"divinities\":\"[\\\"APOLLO\\\",\\\"ARTEMIS\\\"]\"}",
                 messageSerializer.serializeDivinities(divinities, "TestHeader").toString());
     }
 
     @Test
     public void serializeSendDivinityTest() {
-        assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"APOLLO\"}",
+        assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"\\\"APOLLO\\\"\"}",
                 messageSerializer.serializeDivinity(Divinity.APOLLO).toString());
     }
 
@@ -50,6 +50,7 @@ public class MessageSerializerTest {
         Cell cell = new Cell(new Tower(1, false), new Pawn(testPlayer));
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
+        Gson gson = new Gson();
         System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader"));
     }
 
