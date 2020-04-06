@@ -298,6 +298,56 @@ public class Turn {
 
     }
 
+    public void canItComeUp(Grid grid, Move move){      //useful for Prometheus
+        if(grid.getCells(move.getX() + 1,move.getY()).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX() + 1,move.getY()).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX() - 1,move.getY()).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX() - 1,move.getY()).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX() + 1,move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX() + 1,move.getY() + 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX() + 1,move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX() + 1,move.getY() - 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX() - 1,move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX() - 1,move.getY() + 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX() - 1,move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX() - 1,move.getY() - 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX(),move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX(),move.getY() + 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+        else if(grid.getCells(move.getX(),move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
+        {
+            if(!grid.getCells(move.getX(),move.getY() - 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        }
+    }
     /**
      * CONSTRUCTOR
      * @param div indicates the Divinity owned by the player in this Turn
