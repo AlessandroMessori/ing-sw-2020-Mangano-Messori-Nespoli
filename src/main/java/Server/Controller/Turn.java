@@ -298,6 +298,11 @@ public class Turn {
 
     }
 
+    /**
+     *
+     * @param grid
+     * @param move
+     */
     public void canItComeUp(Grid grid, Move move){      //useful for Prometheus
         if(grid.getCells(move.getX() + 1,move.getY()).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
         {
