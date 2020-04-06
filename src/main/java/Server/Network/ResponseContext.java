@@ -1,5 +1,7 @@
 package Server.Network;
 
+import Utils.MessageDeserializer;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,12 +10,14 @@ import java.net.Socket;
 public class ResponseContext implements Runnable {
 
     private ResponseHandler responseHandler;
-    private String requestContent;
+    private String requestContent, requestHeader;
     private Socket client;
+    private MessageDeserializer messageDeserializer;
 
 
     public ResponseContext(Socket cl) {
         client = cl;
+        messageDeserializer = new MessageDeserializer();
     }
 
     @Override
@@ -37,11 +41,12 @@ public class ResponseContext implements Runnable {
             while (true) {
                 Object next = input.readObject();
                 requestContent = (String) next;
+                requestHeader = messageDeserializer.deserializeString(requestContent, "header");
 
 
                 //TODO divide requestContent into Header and Body
 
-                switch (requestContent) {
+                switch (requestHeader) {
                     case "JoinGame":
                         responseHandler = new ListenForPlayer(client, output);
                         break;

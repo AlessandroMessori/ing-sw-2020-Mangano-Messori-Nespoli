@@ -41,7 +41,7 @@ public class Client implements Runnable, ServerObserver {
         boolean loopCheck = true;
         currentPage = Pages.WELCOME;
         game = new Game(0, "", false, null, null, null, null);
-        divinities = new ArrayList<Divinity>();
+        divinities = new ArrayList<>();
         cli = new CLI();
         messageSerializer = new MessageSerializer();
 
@@ -73,12 +73,13 @@ public class Client implements Runnable, ServerObserver {
         while (loopCheck) {
             switch (currentPage) {
                 case WELCOME:
-                    /*String userName = cli.readUsername();
+                    String userName = cli.readUsername();
                     boolean nPlayers = cli.readTwoOrThree();
+                    String message = messageSerializer.serializeJoinGame(userName, nPlayers).toString();
+                    currentPage = Pages.LOADING;
 
-                    JsonElement message = messageSerializer.serializeJoinGame(userName, nPlayers);*/
-
-                    //send JSON encoded message to server and wait for answer
+                    serverAdapter.requestJoinGame(message);
+                    System.out.println("Loading data from server...");
                     break;
                 case LOBBY:
                     System.out.println("Lobby Page");
@@ -98,6 +99,9 @@ public class Client implements Runnable, ServerObserver {
                 case ENDGAME:
                     loopCheck = false;
                     break;
+                case LOADING:
+                    loopCheck = true;
+                    break;
                 default:
                     System.out.println(response);
                     break;
@@ -108,14 +112,6 @@ public class Client implements Runnable, ServerObserver {
         serverAdapter.stop();
     }
 
-
-    @Override
-    public synchronized void didReceiveConvertedString(String oldStr, String newStr) {
-        /* Save the string and notify the main thread */
-        response = newStr;
-        notifyAll();
-    }
-
     /**
      * function that gets called when a new player signal is received from the server
      *
@@ -124,6 +120,7 @@ public class Client implements Runnable, ServerObserver {
     @Override
     public synchronized void receiveNewPlayerConnected(Player player) {
         currentPage = Pages.LOBBY;
+        System.out.println("Received Response From Server");
         game.getPlayers().addPlayer(player);
         notifyAll();
     }

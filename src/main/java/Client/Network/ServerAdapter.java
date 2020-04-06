@@ -1,7 +1,5 @@
 package Client.Network;
 
-import Client.Commands;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,11 +7,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import Client.Commands;
+import Server.Model.Player;
+import Utils.MessageDeserializer;
 
-public class ServerAdapter implements Runnable
-{
+
+public class ServerAdapter implements Runnable {
     private Commands nextCommand;
-    private String convertStringParam;
+    private String requestContent;
+    MessageDeserializer messageDeserializer = new MessageDeserializer();
 
     private Socket server;
     private ObjectOutputStream outputStm;
@@ -22,46 +24,40 @@ public class ServerAdapter implements Runnable
     private List<ServerObserver> observers = new ArrayList<>();
 
 
-    public ServerAdapter(Socket server)
-    {
+    public ServerAdapter(Socket server) {
         this.server = server;
     }
 
 
-    public void addObserver(ServerObserver observer)
-    {
+    public void addObserver(ServerObserver observer) {
         synchronized (observers) {
             observers.add(observer);
         }
     }
 
 
-    public void removeObserver(ServerObserver observer)
-    {
+    public void removeObserver(ServerObserver observer) {
         synchronized (observers) {
             observers.remove(observer);
         }
     }
 
 
-    public synchronized void stop()
-    {
+    public synchronized void stop() {
         nextCommand = Commands.STOP;
         notifyAll();
     }
 
 
-    public synchronized void requestConversion(String input)
-    {
-        nextCommand = Commands.CONVERT_STRING;
-        convertStringParam = input;
+    public synchronized void requestJoinGame(String input) {
+        nextCommand = Commands.JOIN_GAME;
+        requestContent = input;
         notifyAll();
     }
 
 
     @Override
-    public void run()
-    {
+    public void run() {
         try {
             outputStm = new ObjectOutputStream(server.getOutputStream());
             inputStm = new ObjectInputStream(server.getInputStream());
@@ -74,28 +70,26 @@ public class ServerAdapter implements Runnable
 
         try {
             server.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
     }
 
 
-    private synchronized void handleServerConnection() throws IOException, ClassNotFoundException
-    {
+    private synchronized void handleServerConnection() throws IOException, ClassNotFoundException {
         /* wait for commands */
         while (true) {
             nextCommand = null;
             try {
                 wait();
-            } catch (InterruptedException e) { }
+            } catch (InterruptedException e) {
+            }
 
             if (nextCommand == null)
                 continue;
 
             switch (nextCommand) {
-                case CONVERT_STRING:
-                    doStringConversion();
-                    break;
                 case JOIN_GAME:
-                    //sendJoinGameRequest();
+                    doJoinGame();
                     break;
                 case SEND_DIVINITIES:
                     //sendDivinities();
@@ -117,11 +111,12 @@ public class ServerAdapter implements Runnable
     }
 
 
-    private synchronized void doStringConversion() throws IOException, ClassNotFoundException
-    {
+    private synchronized void doJoinGame() throws IOException, ClassNotFoundException {
         /* send the string to the server and get the new string back */
-        outputStm.writeObject(convertStringParam);
-        String newStr = (String)inputStm.readObject();
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+        String username = messageDeserializer.deserializeString(responseContent, "username");
+        boolean threePlayers = messageDeserializer.deserializeBoolean(responseContent, "3players");
 
         /* copy the list of observers in case some observers changes it from inside
          * the notification method */
@@ -131,8 +126,8 @@ public class ServerAdapter implements Runnable
         }
 
         /* notify the observers that we got the string */
-        for (ServerObserver observer: observersCpy) {
-            observer.didReceiveConvertedString(convertStringParam, newStr);
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveNewPlayerConnected(new Player(username, null, null));
         }
     }
 

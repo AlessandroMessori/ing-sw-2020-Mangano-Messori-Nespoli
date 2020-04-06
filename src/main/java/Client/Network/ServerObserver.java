@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public interface ServerObserver
 {
-    void didReceiveConvertedString(String oldStr, String newStr);
     void receiveNewPlayerConnected(Player player);
     void receiveDivinities(ArrayList<Divinity> divinities);
     void receivePossibleDivinities(ArrayList<Divinity> divinities);
