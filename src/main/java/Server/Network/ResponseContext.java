@@ -62,6 +62,9 @@ public class ResponseContext implements Runnable {
                     case "SendChosenMove":
                         responseHandler = new ListenForChosenMove(client, output);
                         break;
+                    case "CheckModel":
+                        responseHandler = new ListenForModelCheck(client, output);
+                        break;
                     default:
                         responseHandler = new ResponseHandler(client, output);
                         break;

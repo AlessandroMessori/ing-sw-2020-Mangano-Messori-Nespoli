@@ -1,9 +1,6 @@
 package Utils;
 
-import Server.Model.Divinity;
-import Server.Model.Grid;
-import Server.Model.Move;
-import Server.Model.MoveList;
+import Server.Model.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,6 +29,22 @@ public class MessageSerializer {
 
         return result;
     }
+
+    /**
+     * serializes in JSON a Check Model Message
+     *
+     * @param gameID identifier of the Game
+     * @return the JSON serialized Check Model Message
+     */
+    public JsonElement serializeCheckModel(String gameID) {
+        JsonObject result = new JsonObject();
+
+        result.add("header", new JsonPrimitive("CheckModel"));
+        result.add("gameID", new JsonPrimitive(gameID));
+
+        return result;
+    }
+
 
     /**
      * serializes in JSON a send Divinities Message
@@ -116,6 +129,21 @@ public class MessageSerializer {
         result.add("grid", new JsonPrimitive(gson.toJson(grid)));
         result.add("moves", new JsonPrimitive(gson.toJson(moves)));
         result.add("currentPlayerID", new JsonPrimitive(currentPlayerID));
+
+        return result;
+    }
+
+    /**
+     * serializes in JSON a send Game Message
+     *
+     * @param game the game to serialize
+     * @return the JSON serialized send Game Message
+     */
+    public JsonElement serializeGame(Game game) {
+        JsonObject result = new JsonObject();
+
+        result.add("header", new JsonPrimitive("SendGameUpdate"));
+        result.add("game", new JsonPrimitive(gson.toJson(game)));
 
         return result;
     }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Timer;
 
 import Client.Network.ServerObserver;
 import Client.Network.ServerAdapter;
@@ -44,6 +45,7 @@ public class Client implements Runnable, ServerObserver {
         divinities = new ArrayList<>();
         cli = new CLI();
         messageSerializer = new MessageSerializer();
+        Timer timer = new Timer();
 
         /*
           get initial data from user (IP Address,Username,Type of Game)
@@ -51,7 +53,6 @@ public class Client implements Runnable, ServerObserver {
         cli.printWelcome();
         System.out.println("IP address of server?");
         String ip = scanner.nextLine();
-
 
         /* open a connection to the server */
         Socket server;
@@ -71,6 +72,13 @@ public class Client implements Runnable, ServerObserver {
         serverAdapterThread.start();
 
         while (loopCheck) {
+
+            if (game.getCodGame() != null) {
+                String message = messageSerializer.serializeCheckModel(game.getCodGame()).toString();
+                serverAdapter.requestCheckModel(message);
+            }
+
+
             switch (currentPage) {
                 case WELCOME:
                     String userName = cli.readUsername();
@@ -172,6 +180,18 @@ public class Client implements Runnable, ServerObserver {
         currentPage = Pages.ENDGAME;
         game.setOldGrid(grid);
         game.setNewGrid(grid);
+        notifyAll();
+    }
+
+    /**
+     * function that gets called when an update model signal is received from the server
+     *
+     * @param g update value of game
+     */
+    @Override
+    public synchronized void receiveModelUpdate(Game g) {
+        //currentPage = Pages.ENDGAME;
+        game = g;
         notifyAll();
     }
 

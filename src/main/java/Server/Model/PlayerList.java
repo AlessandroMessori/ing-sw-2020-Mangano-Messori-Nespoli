@@ -22,8 +22,8 @@ public class PlayerList {
 
         for (Player pl : players) {
             if (player.getUsername().equals(pl.getUsername()) ||
-                    player.getDivinity() == pl.getDivinity() ||
-                    player.getColour() == pl.getColour()) {
+                    (player.getDivinity() == pl.getDivinity() && pl.getDivinity() != null) ||
+                    player.getColour() == pl.getColour() && pl.getColour() != null) {
                 throw new IllegalArgumentException();
             }
         }

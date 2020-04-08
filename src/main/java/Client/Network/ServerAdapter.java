@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Client.Commands;
+import Server.Model.Game;
 import Server.Model.Player;
 import Utils.MessageDeserializer;
 
@@ -51,6 +52,12 @@ public class ServerAdapter implements Runnable {
 
     public synchronized void requestJoinGame(String input) {
         nextCommand = Commands.JOIN_GAME;
+        requestContent = input;
+        notifyAll();
+    }
+
+    public synchronized void requestCheckModel(String input) {
+        nextCommand = Commands.CHECK_MODEL;
         requestContent = input;
         notifyAll();
     }
@@ -103,7 +110,9 @@ public class ServerAdapter implements Runnable {
                 case SEND_CHOSEN_MOVE:
                     //sendChosenMove();
                     break;
-
+                case CHECK_MODEL:
+                    doCheckModel();
+                    break;
                 case STOP:
                     return;
             }
@@ -112,7 +121,6 @@ public class ServerAdapter implements Runnable {
 
 
     private synchronized void doJoinGame() throws IOException, ClassNotFoundException {
-        /* send the string to the server and get the new string back */
         outputStm.writeObject(requestContent);
         String responseContent = (String) inputStm.readObject();
         String username = messageDeserializer.deserializeString(responseContent, "username");
@@ -131,5 +139,22 @@ public class ServerAdapter implements Runnable {
         }
     }
 
+    private synchronized void doCheckModel() throws IOException, ClassNotFoundException {
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+        Game game = messageDeserializer.deserializeObject(responseContent, "game", Game.class);
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveModelUpdate(game);
+        }
+    }
 }
 
