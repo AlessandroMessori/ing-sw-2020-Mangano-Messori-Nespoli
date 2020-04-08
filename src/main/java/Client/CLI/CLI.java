@@ -1,11 +1,15 @@
 package Client.CLI;
 
+import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Server.Model.Divinity;
 import Server.Model.Grid;
 import Server.Model.Move;
+
+import javax.print.DocFlavor;
 
 public class CLI {
     private Grid gameGrid;
@@ -16,7 +20,29 @@ public class CLI {
      * Print a welcome message for the user
      */
     public void printWelcome(){
-        System.out.println("WELCOME TO SANTORINI THE GAME");
+
+        System.out.println("\n" +
+                "\n" +
+                " ___       __   _______   ___       ________  ________  _____ ______   _______           _________  ________         \n" +
+                "|\\  \\     |\\  \\|\\  ___ \\ |\\  \\     |\\   ____\\|\\   __  \\|\\   _ \\  _   \\|\\  ___ \\         |\\___   ___\\\\   __  \\        \n" +
+                "\\ \\  \\    \\ \\  \\ \\   __/|\\ \\  \\    \\ \\  \\___|\\ \\  \\|\\  \\ \\  \\\\\\__\\ \\  \\ \\   __/|        \\|___ \\  \\_\\ \\  \\|\\  \\       \n" +
+                " \\ \\  \\  __\\ \\  \\ \\  \\_|/_\\ \\  \\    \\ \\  \\    \\ \\  \\\\\\  \\ \\  \\\\|__| \\  \\ \\  \\_|/__           \\ \\  \\ \\ \\  \\\\\\  \\      \n" +
+                "  \\ \\  \\|\\__\\_\\  \\ \\  \\_|\\ \\ \\  \\____\\ \\  \\____\\ \\  \\\\\\  \\ \\  \\    \\ \\  \\ \\  \\_|\\ \\           \\ \\  \\ \\ \\  \\\\\\  \\     \n" +
+                "   \\ \\____________\\ \\_______\\ \\_______\\ \\_______\\ \\_______\\ \\__\\    \\ \\__\\ \\_______\\           \\ \\__\\ \\ \\_______\\    \n" +
+                "    \\|____________|\\|_______|\\|_______|\\|_______|\\|_______|\\|__|     \\|__|\\|_______|            \\|__|  \\|_______|    \n" +
+                "                                                                                                                     ");
+
+        System.out.println("            "+" ________  ________  ________   _________  ________  ________  ___  ________   ___     \n" +
+                "            "+"|\\   ____\\|\\   __  \\|\\   ___  \\|\\___   ___\\\\   __  \\|\\   __  \\|\\  \\|\\   ___  \\|\\  \\    \n" +
+                "            "+"\\ \\  \\___|\\ \\  \\|\\  \\ \\  \\\\ \\  \\|___ \\  \\_\\ \\  \\|\\  \\ \\  \\|\\  \\ \\  \\ \\  \\\\ \\  \\ \\  \\   \n" +
+                "            "+" \\ \\_____  \\ \\   __  \\ \\  \\\\ \\  \\   \\ \\  \\ \\ \\  \\\\\\  \\ \\   _  _\\ \\  \\ \\  \\\\ \\  \\ \\  \\  \n" +
+                "            "+ "  \\|____|\\  \\ \\  \\ \\  \\ \\  \\\\ \\  \\   \\ \\  \\ \\ \\  \\\\\\  \\ \\  \\\\  \\\\ \\  \\ \\  \\\\ \\  \\ \\  \\ \n" +
+                "            "+ "    ____\\_\\  \\ \\__\\ \\__\\ \\__\\\\ \\__\\   \\ \\__\\ \\ \\_______\\ \\__\\\\ _\\\\ \\__\\ \\__\\\\ \\__\\ \\__\\\n" +
+                "            "+ "   |\\_________\\|__|\\|__|\\|__| \\|__|    \\|__|  \\|_______|\\|__|\\|__|\\|__|\\|__| \\|__|\\|__|\n" +
+                "            "+ "   \\|_________|                                                                        \n" +
+                "            "+ "                                                                                       \n" +
+                "            "+ "                                                                                       \n" +
+                "\n");
 
     }
 
@@ -47,8 +73,8 @@ public class CLI {
         Scanner input = new Scanner(System.in);
         int val;
         System.out.println("Numero di giocatori: 2 o 3?");
-        val = input.nextInt();
         try{
+            val = input.nextInt();
             if((val<2)||(val>3)){
                 throw new IllegalArgumentException();
             } else {
@@ -60,7 +86,7 @@ public class CLI {
                 }
             }
         }
-        catch(IllegalArgumentException e){
+        catch(IllegalArgumentException | InputMismatchException e){
             System.out.println("*** ERRORE ***\n Il numero di giocatori deve essere 2 o 3\n");
             readTwoOrThree();
         }
@@ -95,18 +121,38 @@ public class CLI {
     public ArrayList<String> readDivinitiesChoice(){
         Scanner input = new Scanner(System.in);
         Divinity[] divinities = Divinity.values();
-        chosenDivinities = new ArrayList<>();
         int val;
         int players;
+        int i = 0;
+        boolean alreadyIn = false;
         if(!twoOrThree) {
             players = 2;
         }else{
             players = 3;
         }
         System.out.println("\n(indicare i numeri corrispondenti alle divinità scelte)\nDivinità scelte: ");
-        for(int i = 0; i < players; i++) {
-            val = input.nextInt();
-            chosenDivinities.add(divinities[val - 1].toString());
+        try {
+            while(chosenDivinities.size() < players){
+
+                val = input.nextInt();
+                if(val > 9) {
+                    throw new IllegalArgumentException();
+                }
+
+                for(String dv: chosenDivinities) {                                  //doppio 1 1 3 salva 1 e 3, non aggiunge 1 due volte
+                    alreadyIn = divinities[val - 1].toString().equals(dv);          // però se faccio 1 g 3 rileva errore ma salva solo 1 e quindi devo rimettere 2 valori
+                }                                                                   //stessa cosa se metto 1 30 3
+                if(!alreadyIn){
+                    chosenDivinities.add(divinities[val - 1].toString());
+                } else {
+                    System.out.println("+++");
+                }
+
+            }
+
+        } catch (IllegalArgumentException | InputMismatchException e) {
+            System.out.println("***");
+            readDivinitiesChoice();
         }
         return chosenDivinities;
     }
@@ -163,9 +209,15 @@ public class CLI {
     public void drawResults(){
 
     }
+
+    public CLI(){
+        gameGrid = new Grid();
+        chosenDivinities = new ArrayList<String>();
+    }
 /*
     public static void main(String[] args) {
         CLI cli = new CLI();
+        ArrayList<String> divinità;
         boolean threePlayers;
         int players;
         cli.printWelcome();
@@ -173,7 +225,8 @@ public class CLI {
         threePlayers = cli.readTwoOrThree();
         System.out.println(threePlayers);
         cli.printListDivinities();
-        cli.readDivinitiesChoice();
+        divinità = cli.readDivinitiesChoice();
+
         if(!threePlayers) {
             players = 2;
         }else{
