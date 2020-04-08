@@ -2,6 +2,9 @@ package Server.Model;
 
 public class Game {
     private int nTurns;
+    private int availableLevel1Buildings;
+    private int availableLevel2Buildings;
+    private int availableLevel3Buildings;
     private String CodGame;
     private boolean threePlayers;
     private Player currentPlayer;
@@ -9,6 +12,7 @@ public class Game {
     private Grid oldGrid;
     private Grid newGrid;
     private MoveList nextMoves;
+
 
 
 
@@ -32,6 +36,51 @@ public class Game {
         {
             throw new IllegalArgumentException();
         }
+    }
+
+    /**
+     * @return available level 1 buildings
+     */
+    public int getAvailableLevel1Buildings() {
+        return availableLevel1Buildings;
+    }
+
+    /**
+     * decreases by 1 the AvailableLevel1Buildings
+     */
+    public void decreaseAvailableLevel1Buildings() { availableLevel1Buildings--; }
+    /**
+     * @return available level 2 buildings
+     */
+    public int getAvailableLevel2Buildings() {
+        return availableLevel2Buildings;
+    }
+
+    /**
+     * decreases by 1 the AvailableLevel2Buildings
+     */
+    public void decreaseAvailableLevel2Buildings() { availableLevel2Buildings--; }
+
+    /**
+     * @return available level 3 buildings
+     */
+    public int getAvailableLevel3Buildings() {
+        return availableLevel3Buildings;
+    }
+
+    /**
+     * decreases by 1 the AvailableLevel3Buildings
+     */
+    public void decreaseAvailableLevel3Buildings() { availableLevel3Buildings--; }
+
+
+    /**
+     * sets the number of turns
+     *
+     * @param t updated number of turns played
+     */
+    public void decreaseMaxLevel1Builings(int t) throws IllegalArgumentException {
+
     }
 
     /**
@@ -184,6 +233,9 @@ public class Game {
         oldGrid = oldG;
         newGrid = newG;
         nextMoves = move;
+        availableLevel1Buildings = 22;
+        availableLevel2Buildings = 18;
+        availableLevel3Buildings = 14;
     }
 
 }

@@ -33,14 +33,14 @@ public class MessageDeserializerTest {
 
     @Test
     public void deserializeStringTest() {
-        String serializedMessage = messageSerializer.serializeJoinGame("Player1", false).toString();
+        String serializedMessage = messageSerializer.serializeJoinGame("Player1", false,null).toString();
         String username = messageDeserializer.deserializeString(serializedMessage, "username");
         assertEquals("Player1", username);
     }
 
     @Test
     public void deserializeBooleanTest() {
-        String serializedMessage = messageSerializer.serializeJoinGame("Player1", false).toString();
+        String serializedMessage = messageSerializer.serializeJoinGame("Player1", false,null).toString();
         boolean threePlayers = messageDeserializer.deserializeBoolean(serializedMessage, "3players");
         assertFalse(threePlayers);
     }

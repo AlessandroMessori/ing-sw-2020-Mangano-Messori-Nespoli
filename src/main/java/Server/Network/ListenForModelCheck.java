@@ -33,6 +33,7 @@ public class ListenForModelCheck extends ResponseHandler {
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             game = model.searchID(gameID);
             response = messageSerializer.serializeGame(game).toString();
+            //System.out.println("Received Model Check Request");
             output.writeObject(response);
         } catch (ClassCastException e) {
             System.out.println("error while writing the response");

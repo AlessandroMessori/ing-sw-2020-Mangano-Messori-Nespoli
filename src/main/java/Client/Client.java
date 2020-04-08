@@ -2,10 +2,13 @@ package Client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Timer;
 
+import Client.Network.PeriodicUpdater;
 import Client.Network.ServerObserver;
 import Client.Network.ServerAdapter;
 import Server.Model.*;
@@ -40,6 +43,7 @@ public class Client implements Runnable, ServerObserver {
          */
         Scanner scanner = new Scanner(System.in);
         boolean loopCheck = true;
+        Instant lastTime;
         currentPage = Pages.WELCOME;
         game = new Game(0, "", false, null, null, null, null);
         divinities = new ArrayList<>();
@@ -70,27 +74,30 @@ public class Client implements Runnable, ServerObserver {
         serverAdapter.addObserver(this);
         Thread serverAdapterThread = new Thread(serverAdapter);
         serverAdapterThread.start();
+        lastTime = Instant.now();
 
         while (loopCheck) {
 
-            if (game.getCodGame() != null) {
-                String message = messageSerializer.serializeCheckModel(game.getCodGame()).toString();
-                serverAdapter.requestCheckModel(message);
+            // periodically fetches the updated game data from Server
+            if (game != null && Duration.between(lastTime, Instant.now()).getSeconds() > 5) {
+                lastTime = Instant.now();
+                PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter);
+                Thread checkModelUpdateThread = new Thread(checkModelUpdate);
+                checkModelUpdateThread.start();
             }
-
 
             switch (currentPage) {
                 case WELCOME:
                     String userName = cli.readUsername();
                     boolean nPlayers = cli.readTwoOrThree();
-                    String message = messageSerializer.serializeJoinGame(userName, nPlayers).toString();
+                    String message = messageSerializer.serializeJoinGame(userName, nPlayers, null).toString();
                     currentPage = Pages.LOADING;
 
                     serverAdapter.requestJoinGame(message);
                     System.out.println("Loading data from server...");
                     break;
                 case LOBBY:
-                    System.out.println("Lobby Page");
+                    //System.out.println("Lobby Page");
                     break;
                 case DIVINITIESCHOICE:
                     System.out.println("Divinities Choice Page");
@@ -126,10 +133,11 @@ public class Client implements Runnable, ServerObserver {
      * @param player the player who joined the game
      */
     @Override
-    public synchronized void receiveNewPlayerConnected(Player player) {
+    public synchronized void receiveNewPlayerConnected(Player player,String gameID) {
         currentPage = Pages.LOBBY;
-        System.out.println("Received Response From Server");
+        System.out.println("Received Response From Server,Going to Lobby Page");
         game.getPlayers().addPlayer(player);
+        game.setCodGame(gameID);
         notifyAll();
     }
 
@@ -192,6 +200,7 @@ public class Client implements Runnable, ServerObserver {
     public synchronized void receiveModelUpdate(Game g) {
         //currentPage = Pages.ENDGAME;
         game = g;
+        //System.out.println(messageSerializer.serializeGame(g).toString());
         notifyAll();
     }
 

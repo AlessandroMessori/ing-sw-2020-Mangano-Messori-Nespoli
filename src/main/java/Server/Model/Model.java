@@ -88,6 +88,24 @@ public class Model {
 
     /**
      *
+     * searches a Game by the username of the player
+     *
+     * @param username the username to search the game by
+     * @return the searched Game
+     */
+    public Game searchGameByUsername(String username){
+        for (Game g:games) {
+           for (int i =0;i< g.getPlayers().size();i++) {
+               if (username.equals(g.getPlayers().getPlayer(i).getUsername())) {
+                   return g;
+               }
+           }
+        }
+        return null;
+    }
+
+    /**
+     *
      * Since Server.Model is SINGLETON, a reset method is required for testing
      */
      public void resetModel(){

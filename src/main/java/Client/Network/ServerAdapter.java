@@ -125,6 +125,7 @@ public class ServerAdapter implements Runnable {
         String responseContent = (String) inputStm.readObject();
         String username = messageDeserializer.deserializeString(responseContent, "username");
         boolean threePlayers = messageDeserializer.deserializeBoolean(responseContent, "3players");
+        String gameID = messageDeserializer.deserializeString(responseContent, "gameID");
 
         /* copy the list of observers in case some observers changes it from inside
          * the notification method */
@@ -135,7 +136,7 @@ public class ServerAdapter implements Runnable {
 
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
-            observer.receiveNewPlayerConnected(new Player(username, null, null));
+            observer.receiveNewPlayerConnected(new Player(username, null, null), gameID);
         }
     }
 

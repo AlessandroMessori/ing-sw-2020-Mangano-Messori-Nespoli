@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MessageSerializer {
 
@@ -20,12 +21,14 @@ public class MessageSerializer {
      * @param threePlayers boolean who represents the choice of playing a game with 2 or 3 players
      * @return the JSON serialized Join Game Message
      */
-    public JsonElement serializeJoinGame(String username, boolean threePlayers) {
+    public JsonElement serializeJoinGame(String username, boolean threePlayers, String gameID) {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("JoinGame"));
         result.add("username", new JsonPrimitive(username));
         result.add("3players", new JsonPrimitive(threePlayers));
+
+        result.add("gameID", new JsonPrimitive(Objects.requireNonNullElse(gameID, "NULL")));
 
         return result;
     }

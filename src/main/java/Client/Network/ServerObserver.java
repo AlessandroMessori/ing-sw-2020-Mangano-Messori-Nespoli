@@ -5,7 +5,7 @@ import Server.Model.*;
 import java.util.ArrayList;
 
 public interface ServerObserver {
-    void receiveNewPlayerConnected(Player player);
+    void receiveNewPlayerConnected(Player player,String gameID);
 
     void receiveDivinities(ArrayList<Divinity> divinities);
 

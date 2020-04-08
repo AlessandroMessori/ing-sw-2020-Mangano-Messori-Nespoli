@@ -25,8 +25,8 @@ public class MessageSerializerTest {
 
     @Test
     public void serializeJoinGameTest() {
-        assertEquals("{\"header\":\"JoinGame\",\"username\":\"Player1\",\"3players\":false}",
-                messageSerializer.serializeJoinGame("Player1", false).toString());
+        assertEquals("{\"header\":\"JoinGame\",\"username\":\"Player1\",\"3players\":false,\"gameID\":\"NULL\"}",
+                messageSerializer.serializeJoinGame("Player1", false,null).toString());
     }
 
     @Test
