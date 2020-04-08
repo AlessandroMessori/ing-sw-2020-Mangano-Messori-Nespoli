@@ -1,7 +1,6 @@
 package Server.Model;
 
-public class
-Move {
+public class Move {
     private Pawn toMove;
     private int x;
     private int y;
