@@ -46,6 +46,17 @@ public class PlayerList {
     }
 
     /**
+     * returns random player from the list
+     *
+     * @return random player
+     */
+    public Player getRandomPlayer() {
+        int randomNumber = (int) (Math.random() * size());
+
+        return players.get(randomNumber);
+    }
+
+    /**
      * searches for a player in the list
      *
      * @param player the player to search
@@ -87,6 +98,11 @@ public class PlayerList {
             players.remove(playerToDelete);
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return players.toString();
     }
 
     /**

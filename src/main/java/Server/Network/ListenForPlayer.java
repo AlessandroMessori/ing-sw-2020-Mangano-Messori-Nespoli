@@ -41,8 +41,15 @@ public class ListenForPlayer extends ResponseHandler {
             Player player = new Player(username, null, null);
             controller.addPlayerToModel(player, nPlayers);
             // to replace with return value of addPlayerToModel
-            String gameID = Model.getModel().searchGameByUsername(player.getUsername()).getCodGame();
-            String response = messageSerializer.serializeJoinGame(username, nPlayers,gameID).toString();
+            Game game = Model.getModel().searchGameByUsername(player.getUsername());
+            String gameID = game.getCodGame();
+            String response = messageSerializer.serializeJoinGame(username, nPlayers, gameID).toString();
+            int numberOfPlayers = nPlayers ? 3 : 2;
+
+            //if the Lobby is full,sets a random player to decide the inGameDivinities
+            if (game.getPlayers().size() == numberOfPlayers) {
+                game.setCurrentPlayer(game.getPlayers().getRandomPlayer());
+            }
 
             /*System.out.println("Number of Games:" + model.getGames().size());
             for (Game gm : model.getGames()) {
