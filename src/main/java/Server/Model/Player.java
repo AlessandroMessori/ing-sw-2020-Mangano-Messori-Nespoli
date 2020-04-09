@@ -55,6 +55,11 @@ public class Player {
         colour = col;
     }
 
+    @Override
+    public String toString() {
+        return getUsername();
+    }
+
     /**
      * constructor
      *

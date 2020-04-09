@@ -26,6 +26,7 @@ public class Client implements Runnable, ServerObserver {
     private ArrayList<Divinity> divinities;
     private CLI cli;
     private MessageSerializer messageSerializer;
+    private String playerUsername;
 
 
     public static void main(String[] args) {
@@ -43,6 +44,7 @@ public class Client implements Runnable, ServerObserver {
          */
         Scanner scanner = new Scanner(System.in);
         boolean loopCheck = true;
+        int updateRate = 5;
         Instant lastTime;
         currentPage = Pages.WELCOME;
         game = new Game(0, "", false, null, null, null, null);
@@ -79,7 +81,7 @@ public class Client implements Runnable, ServerObserver {
         while (loopCheck) {
 
             // periodically fetches the updated game data from Server
-            if (game != null && Duration.between(lastTime, Instant.now()).getSeconds() > 5) {
+            if (game != null && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
                 lastTime = Instant.now();
                 PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter);
                 Thread checkModelUpdateThread = new Thread(checkModelUpdate);
@@ -88,9 +90,9 @@ public class Client implements Runnable, ServerObserver {
 
             switch (currentPage) {
                 case WELCOME:
-                    String userName = cli.readUsername();
+                    playerUsername = cli.readUsername();
                     boolean nPlayers = cli.readTwoOrThree();
-                    String message = messageSerializer.serializeJoinGame(userName, nPlayers, null).toString();
+                    String message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();
                     currentPage = Pages.LOADING;
 
                     serverAdapter.requestJoinGame(message);
@@ -133,7 +135,7 @@ public class Client implements Runnable, ServerObserver {
      * @param player the player who joined the game
      */
     @Override
-    public synchronized void receiveNewPlayerConnected(Player player,String gameID) {
+    public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
         currentPage = Pages.LOBBY;
         System.out.println("Received Response From Server,Going to Lobby Page");
         game.getPlayers().addPlayer(player);
@@ -198,10 +200,40 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveModelUpdate(Game g) {
-        //currentPage = Pages.ENDGAME;
         game = g;
-        //System.out.println(messageSerializer.serializeGame(g).toString());
+
+        if (game != null) {
+
+            /*switch (currentPage) {
+                case LOBBY:
+                    System.out.println("Game ID: " + game.getCodGame());
+                    System.out.println("Connected Players: " + game.getPlayers().toString());
+
+                    int nPlayers = game.getThreePlayers() ? 3 : 2;
+
+                    // check if we have enough players to start the game
+                    if (game.getPlayers().size() == nPlayers) {
+                        if (!game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            System.out.println("Waiting for other players to choose their divinity");
+                            currentPage = Pages.LOADING;
+                        } else {
+                            if (trueinGameDivinities.size() > 0) {
+                                currentPage = Pages.DIVINITYCHOICE;
+                            } else {
+                                currentPage = Pages.DIVINITIESCHOICE;
+                            }
+                        }
+                    }
+
+                    break;
+            }*/
+        }
+
         notifyAll();
+    }
+
+    public void stateSetter() {
+
     }
 
 }

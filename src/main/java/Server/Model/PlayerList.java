@@ -89,6 +89,11 @@ public class PlayerList {
 
     }
 
+    @Override
+    public String toString() {
+        return players.toString();
+    }
+
     /**
      * constructor
      */
