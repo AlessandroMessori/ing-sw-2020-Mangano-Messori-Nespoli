@@ -102,7 +102,7 @@ public class Client implements Runnable, ServerObserver {
                     //System.out.println("Lobby Page");
                     break;
                 case DIVINITIESCHOICE:
-                    System.out.println("Divinities Choice Page");
+                    cli.readDivinitiesChoice();
                     break;
                 case DIVINITYCHOICE:
                     System.out.println("Divinity Choice Page");
@@ -204,7 +204,7 @@ public class Client implements Runnable, ServerObserver {
 
         if (game != null) {
 
-            /*switch (currentPage) {
+            switch (currentPage) {
                 case LOBBY:
                     System.out.println("Game ID: " + game.getCodGame());
                     System.out.println("Connected Players: " + game.getPlayers().toString());
@@ -217,7 +217,7 @@ public class Client implements Runnable, ServerObserver {
                             System.out.println("Waiting for other players to choose their divinity");
                             currentPage = Pages.LOADING;
                         } else {
-                            if (trueinGameDivinities.size() > 0) {
+                            if (game.getInGameDivinities().size() > 0) {
                                 currentPage = Pages.DIVINITYCHOICE;
                             } else {
                                 currentPage = Pages.DIVINITIESCHOICE;
@@ -226,7 +226,7 @@ public class Client implements Runnable, ServerObserver {
                     }
 
                     break;
-            }*/
+            }
         }
 
         notifyAll();

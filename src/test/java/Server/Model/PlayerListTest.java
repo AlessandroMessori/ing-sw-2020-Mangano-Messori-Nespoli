@@ -43,6 +43,19 @@ public class PlayerListTest {
         assertEquals(player.getColour(), Colour.RED);
     }
 
+    @Test
+    public void getRandomPlayerTest() {
+        playerList = new PlayerList();
+
+        playerList.addPlayer(new Player("Player1", Divinity.ATHENA, Colour.RED));
+        playerList.addPlayer(new Player("Player2", Divinity.PROMETHEUS, Colour.BLACK));
+        playerList.addPlayer(new Player("Player3", Divinity.ATLAS, Colour.BLUE));
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(playerList.getRandomPlayer());
+        }
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void getPlayerExceptionTest() {
         playerList = new PlayerList();
