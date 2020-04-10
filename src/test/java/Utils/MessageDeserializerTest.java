@@ -50,7 +50,7 @@ public class MessageDeserializerTest {
         ArrayList<Divinity> divinities = new ArrayList<Divinity>();
         divinities.add(Divinity.APOLLO);
         divinities.add(Divinity.ARTEMIS);
-        String serializedMessage = messageSerializer.serializeDivinities(divinities, "SendDivinities").toString();
+        String serializedMessage = messageSerializer.serializeDivinities(divinities, "SendDivinities","").toString();
         ArrayList<Divinity> deserializedDivinities = messageDeserializer.deserializeObject(serializedMessage, "divinities", ArrayList.class);
         String header = messageDeserializer.deserializeString(serializedMessage, "header");
         assertEquals("SendDivinities", header);

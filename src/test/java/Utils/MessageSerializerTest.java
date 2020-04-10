@@ -34,8 +34,8 @@ public class MessageSerializerTest {
         ArrayList<Divinity> divinities = new ArrayList<Divinity>();
         divinities.add(Divinity.APOLLO);
         divinities.add(Divinity.ARTEMIS);
-        assertEquals("{\"header\":\"TestHeader\",\"divinities\":\"[\\\"APOLLO\\\",\\\"ARTEMIS\\\"]\"}",
-                messageSerializer.serializeDivinities(divinities, "TestHeader").toString());
+        assertEquals("{\"header\":\"TestHeader\",\"divinities\":\"[\\\"APOLLO\\\",\\\"ARTEMIS\\\"]\",\"gameID\":\"\"}",
+                messageSerializer.serializeDivinities(divinities, "TestHeader","").toString());
     }
 
     @Test

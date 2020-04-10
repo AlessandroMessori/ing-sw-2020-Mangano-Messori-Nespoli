@@ -16,8 +16,9 @@ public class PeriodicUpdater implements Runnable {
 
     // Add your task here
     public void run() {
-        String message = messageSerializer.serializeCheckModel(gameID).toString();
-        serverAdapter.requestCheckModel(message);
-        System.out.println("Checking For Model Update...");
+        if (gameID != null) {
+            String message = messageSerializer.serializeCheckModel(gameID).toString();
+            serverAdapter.requestCheckModel(message);
+        }
     }
 }

@@ -31,6 +31,7 @@ public class ListenForModelCheck extends ResponseHandler {
         try {
             String response, gameID;
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
+            System.out.println(gameID);
             game = model.searchID(gameID);
             response = messageSerializer.serializeGame(game).toString();
             System.out.println("Received Model Check Request");

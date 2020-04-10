@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
 
 import Client.Network.PeriodicUpdater;
 import Client.Network.ServerObserver;
@@ -16,10 +15,8 @@ import Server.Server;
 import Server.Model.Game;
 import Client.CLI.CLI;
 import Utils.MessageSerializer;
-import com.google.gson.JsonElement;
 
 public class Client implements Runnable, ServerObserver {
-    /* auxiliary variable used for implementing the consumer-producer pattern*/
     private String response = null;
     private Game game;
     private Pages currentPage;
@@ -27,11 +24,10 @@ public class Client implements Runnable, ServerObserver {
     private CLI cli;
     private MessageSerializer messageSerializer;
     private String playerUsername;
+    private boolean checkModel;
 
 
     public static void main(String[] args) {
-        /* Instantiate a new Client which will also receive events from
-         * the server by implementing the ServerObserver interface */
         Client client = new Client();
         client.run();
     }
@@ -42,19 +38,21 @@ public class Client implements Runnable, ServerObserver {
         /*
          * WARNING: this method executes IN THE CONTEXT OF THE MAIN THREAD
          */
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); //local variables
         boolean loopCheck = true;
-        int updateRate = 5;
+        int updateRate = 3;
+        String message;
         Instant lastTime;
-        currentPage = Pages.WELCOME;
-        game = new Game(0, "", false, null, null, null, null);
+
+        currentPage = Pages.WELCOME; //class properties
+        game = new Game(0, null, false, null, null, null, null);
         divinities = new ArrayList<>();
         cli = new CLI();
         messageSerializer = new MessageSerializer();
-        Timer timer = new Timer();
+        checkModel = false;
 
         /*
-          get initial data from user (IP Address,Username,Type of Game)
+          get IP Address from user
          */
         cli.printWelcome();
         System.out.println("IP address of server?");
@@ -80,8 +78,9 @@ public class Client implements Runnable, ServerObserver {
 
         while (loopCheck) {
 
+            System.out.print("");
             // periodically fetches the updated game data from Server
-            if (game != null && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
+            if (checkModel && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
                 lastTime = Instant.now();
                 PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter);
                 Thread checkModelUpdateThread = new Thread(checkModelUpdate);
@@ -92,17 +91,22 @@ public class Client implements Runnable, ServerObserver {
                 case WELCOME:
                     playerUsername = cli.readUsername();
                     boolean nPlayers = cli.readTwoOrThree();
-                    String message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();
+                    message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();
                     currentPage = Pages.LOADING;
 
                     serverAdapter.requestJoinGame(message);
                     System.out.println("Loading data from server...");
                     break;
                 case LOBBY:
-                    //System.out.println("Lobby Page");
+                    loopCheck = true;
                     break;
                 case DIVINITIESCHOICE:
-                    cli.readDivinitiesChoice();
+                    cli.printListDivinities();
+                    ArrayList<String> chosenDivinities = cli.readDivinitiesChoice();
+                    message = messageSerializer.serializeDivinities(convertDivinityList(chosenDivinities), "sendDivinities", game.getCodGame()).toString();
+                    currentPage = Pages.LOADING;
+
+                    serverAdapter.requestSendDivinities(message);
                     break;
                 case DIVINITYCHOICE:
                     System.out.println("Divinity Choice Page");
@@ -136,10 +140,11 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
-        currentPage = Pages.LOBBY;
         System.out.println("Received Response From Server,Going to Lobby Page");
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
+        checkModel = true;
+        currentPage = Pages.LOBBY;
         notifyAll();
     }
 
@@ -157,13 +162,9 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when a possible divinities signal is received from the server
-     *
-     * @param divinities the list of possible divinities for the player
      */
     @Override
-    public synchronized void receivePossibleDivinities(ArrayList<Divinity> divinities) {
-        currentPage = Pages.DIVINITYCHOICE;
-        this.divinities = divinities;
+    public synchronized void receivePossibleDivinities() {
         notifyAll();
     }
 
@@ -218,8 +219,10 @@ public class Client implements Runnable, ServerObserver {
                             currentPage = Pages.LOADING;
                         } else {
                             if (game.getInGameDivinities().size() > 0) {
+                                System.out.println("Going To Divinity Choice Page");
                                 currentPage = Pages.DIVINITYCHOICE;
                             } else {
+                                System.out.println("Going To Divinities Choice Page");
                                 currentPage = Pages.DIVINITIESCHOICE;
                             }
                         }
@@ -231,6 +234,43 @@ public class Client implements Runnable, ServerObserver {
 
         notifyAll();
     }
+
+    ArrayList<Divinity> convertDivinityList(ArrayList<String> strDivinities) {
+        ArrayList<Divinity> divs = new ArrayList<>();
+
+        for (String dv : strDivinities) {
+            Divinity currentDiv;
+            switch (dv) {
+                case "APOLLO":
+                    currentDiv = Divinity.APOLLO;
+                    break;
+                case "ARTEMIS":
+                    currentDiv = Divinity.ARTEMIS;
+                    break;
+                case "ATHENA":
+                    currentDiv = Divinity.ATHENA;
+                    break;
+                case "HEPHAESTUS":
+                    currentDiv = Divinity.HEPHAESTUS;
+                    break;
+                case "MINOTAUR":
+                    currentDiv = Divinity.MINOTAUR;
+                    break;
+                case "PAN":
+                    currentDiv = Divinity.PAN;
+                    break;
+                case "PROMETHEUS":
+                    currentDiv = Divinity.PROMETHEUS;
+                    break;
+                default:
+                    currentDiv = null;
+            }
+            divs.add(currentDiv);
+        }
+
+        return divs;
+    }
+
 
     public void stateSetter() {
 

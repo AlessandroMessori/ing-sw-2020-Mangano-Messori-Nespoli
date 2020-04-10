@@ -9,7 +9,7 @@ public interface ServerObserver {
 
     void receiveDivinities(ArrayList<Divinity> divinities);
 
-    void receivePossibleDivinities(ArrayList<Divinity> divinities);
+    void receivePossibleDivinities();
 
     void receiveMoves(MoveList moves, Grid grid);
 
