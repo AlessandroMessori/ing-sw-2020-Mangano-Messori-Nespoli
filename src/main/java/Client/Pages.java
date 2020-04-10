@@ -8,5 +8,7 @@ public enum Pages {
     STARTINGPOSITIONCHOICE,  //choosing the starting position
     GAME,                    //playing
     ENDGAME,                 //final page
-    LOADING,                 //loading data from server
+    LOADINGWELCOMEDATA,      //loading data from server
+    LOADINGDIVINITIES,
+    LOADINGDIVINITY,
 }

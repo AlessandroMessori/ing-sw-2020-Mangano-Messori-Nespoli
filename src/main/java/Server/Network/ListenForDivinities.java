@@ -40,7 +40,6 @@ public class ListenForDivinities extends ResponseHandler {
             System.out.println("Received Send Divinities Request");
 
             receivedDivinitiesStr = messageDeserializer.deserializeObject(requestContent, "divinities", ArrayList.class);
-            System.out.println(receivedDivinitiesStr);
             receivedDivinities = CastingHelper.convertDivinityList(receivedDivinitiesStr);
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             game = Model.getModel().searchID(gameID);
@@ -59,7 +58,7 @@ public class ListenForDivinities extends ResponseHandler {
 
             Player randomPlayer = game.getPlayers().getRandomPlayer();
 
-            while (!randomPlayer.getUsername().equals(game.getCurrentPlayer().getUsername())) {
+            while (randomPlayer.getUsername().equals(game.getCurrentPlayer().getUsername())) {
                 randomPlayer = game.getPlayers().getRandomPlayer();
             }
 
