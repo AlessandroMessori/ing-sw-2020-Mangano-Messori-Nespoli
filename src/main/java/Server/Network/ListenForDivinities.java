@@ -4,8 +4,10 @@ import Server.Model.Divinity;
 import Server.Model.Game;
 import Server.Model.Model;
 import Server.Model.Player;
+import Utils.CastingHelper;
 import Utils.MessageDeserializer;
 import Utils.MessageSerializer;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -31,17 +33,29 @@ public class ListenForDivinities extends ResponseHandler {
     @Override
     public void handleResponse(String requestContent) throws IOException {
         try {
+            ArrayList<String> receivedDivinitiesStr;
             ArrayList<Divinity> receivedDivinities;
             String gameID;
 
-            receivedDivinities = messageDeserializer.deserializeObject(requestContent, "divinities", ArrayList.class);
+            System.out.println("Received Send Divinities Request");
+
+            receivedDivinitiesStr = messageDeserializer.deserializeObject(requestContent, "divinities", ArrayList.class);
+            System.out.println(receivedDivinitiesStr);
+            receivedDivinities = CastingHelper.convertDivinityList(receivedDivinitiesStr);
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             game = Model.getModel().searchID(gameID);
 
             //saves the inGameDivinities to model
-            for (Divinity dv : receivedDivinities) {
-                game.getInGameDivinities().addDivinity(dv);
+            for (int i = 0; i < receivedDivinities.size(); i++) {
+                game.getInGameDivinities().addDivinity((Divinity) receivedDivinities.get(i));
             }
+
+            System.out.print("In Game Divinities:[ ");
+            for (int i = 0; i < game.getInGameDivinities().size(); i++) {
+                System.out.print(game.getInGameDivinities().getDivinity(i).toString() + " ");
+            }
+            System.out.println("]");
+
 
             Player randomPlayer = game.getPlayers().getRandomPlayer();
 
@@ -53,6 +67,7 @@ public class ListenForDivinities extends ResponseHandler {
 
             output.writeObject("Received Divinities");
         } catch (ClassCastException e) {
+            e.printStackTrace();
             System.out.println("error while writing the response");
         }
     }

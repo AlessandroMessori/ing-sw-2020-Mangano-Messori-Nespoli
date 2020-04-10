@@ -146,6 +146,7 @@ public class ServerAdapter implements Runnable {
     }
 
     private synchronized void doSendDivinities() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Divinity Choice to Server");
         outputStm.writeObject(requestContent);
         String responseContent = (String) inputStm.readObject();
 

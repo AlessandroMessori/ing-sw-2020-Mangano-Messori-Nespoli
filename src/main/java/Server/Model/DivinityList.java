@@ -23,7 +23,7 @@ public class DivinityList {
     public void addDivinity(Divinity divinity) throws IllegalArgumentException {
 
         for (Divinity dv : divinities) {
-            if (dv == divinity) {
+            if (dv.toString().equals(divinity.toString())) {
                 throw new IllegalArgumentException();
             }
         }
@@ -73,7 +73,7 @@ public class DivinityList {
      * constructor
      */
     public DivinityList() {
-        divinities = new ArrayList<>();
+        divinities = new ArrayList<Divinity>();
     }
 
 
