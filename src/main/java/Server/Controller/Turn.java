@@ -261,6 +261,10 @@ public class Turn {
      * function called when the turn is starting to set variables
      */
     public void startingTurn() throws IllegalArgumentException{
+        setNPossibleMoves(1);
+        setNMovesMade(0);
+        setNPossibleBuildings(1);
+        setNMadeBuildings(0);
         switch(currDivinity) {
             case APOLLO:
                 setCanSwap(true);

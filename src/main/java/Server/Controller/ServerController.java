@@ -338,4 +338,26 @@ public class ServerController {
         game.setOldGrid(game.getNewGrid());
         game.setNewGrid(grid);          //TODO: SEND THE NEW GRID TO OTHER PLAYERS?
     }
+
+    /**
+     *
+     * @param gameID game ID of the game where to set the player's divinity
+     * @param username of the player
+     * @param div divinity to assign to the player
+     */
+    public void setSpecificPlayerDiv(String gameID, String username, Divinity div) throws IllegalArgumentException{
+        Model model = Model.getModel();
+        Game game = model.searchID(gameID);
+        for(int i = 0; i < game.getPlayers().size() - 1; i++) {
+            if(game.getPlayers().getPlayer(i).getUsername().equals(username)){
+                if(game.getPlayers().getPlayer(i).getDivinity() == null){
+                    game.getPlayers().getPlayer(i).setDivinity(div);
+                    return;
+                }
+                else{
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+    }
 }
