@@ -15,6 +15,7 @@ public class Turn {
 
     private Divinity currDivinity;
 
+
     /**
      * APOLLO EFFECT
      *
@@ -268,7 +269,7 @@ public class Turn {
                 setNPossibleMoves(2);
                 break;
             case ATHENA:
-                setPawnMoved(true);     //TODO: TRUE IF PAWNS WERE MOVED IN THE PREVIOUS TURN
+                setPawnMoved(false);     //TODO: TRUE IF PAWNS WERE MOVED IN THE PREVIOUS TURN
                 break;
             case ATLAS:
                 setCanBuildDomes(true);
@@ -353,6 +354,18 @@ public class Turn {
             }
         }
     }
+
+    /**
+     * PAN EFFECT
+     *
+     * @result true if the game can be won by the player with Pan as a divinity
+     */
+    public boolean checkIfWin(){
+        if(!getCurrDivinity().equals("PAN")) {return false;}
+
+        return true;
+    }
+
     /**
      * CONSTRUCTOR
      * @param div indicates the Divinity owned by the player in this Turn

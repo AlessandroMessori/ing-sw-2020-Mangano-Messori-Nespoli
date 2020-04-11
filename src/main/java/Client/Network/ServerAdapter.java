@@ -62,6 +62,11 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestSendDivinities(String input) {
+        nextCommand = Commands.SEND_DIVINITIES;
+        requestContent = input;
+        notifyAll();
+    }
 
     @Override
     public void run() {
@@ -99,7 +104,7 @@ public class ServerAdapter implements Runnable {
                     doJoinGame();
                     break;
                 case SEND_DIVINITIES:
-                    //sendDivinities();
+                    doSendDivinities();
                     break;
                 case SEND_DIVINITY:
                     //sendDivinity();
@@ -137,6 +142,24 @@ public class ServerAdapter implements Runnable {
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
             observer.receiveNewPlayerConnected(new Player(username, null, null), gameID);
+        }
+    }
+
+    private synchronized void doSendDivinities() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Divinity Choice to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receivePossibleDivinities();
         }
     }
 

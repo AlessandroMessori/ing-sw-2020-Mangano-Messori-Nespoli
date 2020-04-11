@@ -7,6 +7,7 @@ public class Game {
     private int availableLevel1Buildings;
     private int availableLevel2Buildings;
     private int availableLevel3Buildings;
+    private int availableDomes;
     private String CodGame;
     private boolean threePlayers;
     private Player currentPlayer;
@@ -78,6 +79,19 @@ public class Game {
     public void decreaseAvailableLevel3Buildings() {
         availableLevel3Buildings--;
     }
+
+    /**
+     *
+     * @return available domes
+     */
+    public int getAvailableDomes(){
+        return availableDomes;
+    }
+
+    /**
+     * decreases by 1 the AvailableDomes
+     */
+    public void decreaseAvailableDomes() { availableDomes--; }
 
 
     /**
@@ -246,6 +260,7 @@ public class Game {
         availableLevel1Buildings = 22;
         availableLevel2Buildings = 18;
         availableLevel3Buildings = 14;
+        availableDomes = 18;
         inGameDivinities = new DivinityList();
     }
 

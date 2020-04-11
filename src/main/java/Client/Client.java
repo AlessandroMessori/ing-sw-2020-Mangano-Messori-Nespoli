@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
 
 import Client.Network.PeriodicUpdater;
 import Client.Network.ServerObserver;
@@ -15,11 +14,10 @@ import Server.Model.*;
 import Server.Server;
 import Server.Model.Game;
 import Client.CLI.CLI;
+import Utils.CastingHelper;
 import Utils.MessageSerializer;
-import com.google.gson.JsonElement;
 
 public class Client implements Runnable, ServerObserver {
-    /* auxiliary variable used for implementing the consumer-producer pattern*/
     private String response = null;
     private Game game;
     private Pages currentPage;
@@ -27,11 +25,10 @@ public class Client implements Runnable, ServerObserver {
     private CLI cli;
     private MessageSerializer messageSerializer;
     private String playerUsername;
+    private boolean checkModel;
 
 
     public static void main(String[] args) {
-        /* Instantiate a new Client which will also receive events from
-         * the server by implementing the ServerObserver interface */
         Client client = new Client();
         client.run();
     }
@@ -42,19 +39,21 @@ public class Client implements Runnable, ServerObserver {
         /*
          * WARNING: this method executes IN THE CONTEXT OF THE MAIN THREAD
          */
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); //local variables
         boolean loopCheck = true;
-        int updateRate = 5;
+        int updateRate = 3;
+        String message;
         Instant lastTime;
-        currentPage = Pages.WELCOME;
-        game = new Game(0, "", false, null, null, null, null);
+
+        currentPage = Pages.WELCOME; //class properties
+        game = new Game(0, null, false, null, null, null, null);
         divinities = new ArrayList<>();
         cli = new CLI();
         messageSerializer = new MessageSerializer();
-        Timer timer = new Timer();
+        checkModel = false;
 
         /*
-          get initial data from user (IP Address,Username,Type of Game)
+          get IP Address from user
          */
         cli.printWelcome();
         System.out.println("IP address of server?");
@@ -80,8 +79,9 @@ public class Client implements Runnable, ServerObserver {
 
         while (loopCheck) {
 
+            System.out.print("");
             // periodically fetches the updated game data from Server
-            if (game != null && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
+            if (checkModel && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
                 lastTime = Instant.now();
                 PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter);
                 Thread checkModelUpdateThread = new Thread(checkModelUpdate);
@@ -92,20 +92,26 @@ public class Client implements Runnable, ServerObserver {
                 case WELCOME:
                     playerUsername = cli.readUsername();
                     boolean nPlayers = cli.readTwoOrThree();
-                    String message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();
-                    currentPage = Pages.LOADING;
+                    message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();
+                    currentPage = Pages.LOADINGWELCOMEDATA;
 
                     serverAdapter.requestJoinGame(message);
                     System.out.println("Loading data from server...");
                     break;
                 case LOBBY:
-                    //System.out.println("Lobby Page");
+                    currentPage = Pages.LOBBY;
                     break;
                 case DIVINITIESCHOICE:
-                    cli.readDivinitiesChoice();
+                    cli.printListDivinities();
+                    ArrayList<String> chosenDivinities = cli.readDivinitiesChoice();
+                    message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(chosenDivinities), "SendDivinities", game.getCodGame()).toString();
+                    currentPage = Pages.LOADINGDIVINITY;
+
+                    serverAdapter.requestSendDivinities(message);
                     break;
                 case DIVINITYCHOICE:
-                    System.out.println("Divinity Choice Page");
+                    System.out.println("Choose Your Divinity");
+                    cli.readChosenDivinity();
                     break;
                 case STARTINGPOSITIONCHOICE:
                     System.out.println("Starting Positions Choice Page");
@@ -116,8 +122,14 @@ public class Client implements Runnable, ServerObserver {
                 case ENDGAME:
                     loopCheck = false;
                     break;
-                case LOADING:
-                    loopCheck = true;
+                case LOADINGWELCOMEDATA:
+                    currentPage = Pages.LOADINGWELCOMEDATA;
+                    break;
+                case LOADINGDIVINITY:
+                    currentPage = Pages.LOADINGDIVINITY;
+                    break;
+                case LOADINGDIVINITIES:
+                    currentPage = Pages.LOADINGDIVINITIES;
                     break;
                 default:
                     System.out.println(response);
@@ -136,10 +148,11 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
-        currentPage = Pages.LOBBY;
         System.out.println("Received Response From Server,Going to Lobby Page");
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
+        checkModel = true;
+        currentPage = Pages.LOBBY;
         notifyAll();
     }
 
@@ -150,20 +163,15 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveDivinities(ArrayList<Divinity> divinities) {
-        currentPage = Pages.DIVINITIESCHOICE;
         this.divinities = divinities;
         notifyAll();
     }
 
     /**
      * function that gets called when a possible divinities signal is received from the server
-     *
-     * @param divinities the list of possible divinities for the player
      */
     @Override
-    public synchronized void receivePossibleDivinities(ArrayList<Divinity> divinities) {
-        currentPage = Pages.DIVINITYCHOICE;
-        this.divinities = divinities;
+    public synchronized void receivePossibleDivinities() {
         notifyAll();
     }
 
@@ -203,6 +211,7 @@ public class Client implements Runnable, ServerObserver {
         game = g;
 
         if (game != null) {
+            int nPlayers = game.getThreePlayers() ? 3 : 2;
 
             switch (currentPage) {
                 case LOBBY:
@@ -212,28 +221,42 @@ public class Client implements Runnable, ServerObserver {
                      */
                     cli.drawLobby(game.getPlayers(), game.getCodGame());
 
-                    int nPlayers = game.getThreePlayers() ? 3 : 2;
-
                     // check if we have enough players to start the game
                     if (game.getPlayers().size() == nPlayers) {
-                        if (!game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                            System.out.println("Waiting for other players to choose their divinity");
-                            currentPage = Pages.LOADING;
+                        if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            System.out.println("Going To Divinities Choice Page");
+                            currentPage = Pages.DIVINITIESCHOICE;
                         } else {
-                            if (game.getInGameDivinities().size() > 0) {
-                                currentPage = Pages.DIVINITYCHOICE;
-                            } else {
-                                currentPage = Pages.DIVINITIESCHOICE;
-                            }
+                            System.out.println("Waiting for another player to choose the in game divinities");
+                            currentPage = Pages.LOADINGDIVINITIES;
                         }
                     }
-
                     break;
+                case LOADINGDIVINITIES:
+                    if (game.getPlayers().size() == nPlayers && game.getInGameDivinities().size() == nPlayers) {
+                        if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            System.out.println("Going to Divinity Choice Page");
+                            currentPage = Pages.DIVINITYCHOICE;
+                        } else {
+                            System.out.println("Waiting for other players to chose their divinities");
+                            currentPage = Pages.LOADINGDIVINITY;
+                        }
+                    }
+                    break;
+                case LOADINGDIVINITY:
+                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        System.out.println("Going to Divinity Choice Page");
+                        currentPage = Pages.DIVINITYCHOICE;
+                    }
+                    break;
+
             }
         }
 
         notifyAll();
+
     }
+
 
     public void stateSetter() {
 

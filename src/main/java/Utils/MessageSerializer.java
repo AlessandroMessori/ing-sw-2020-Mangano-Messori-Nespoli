@@ -57,11 +57,12 @@ public class MessageSerializer {
      * @return the JSON serialized send Divinities Message
      */
     //used by the client and the server
-    public JsonElement serializeDivinities(ArrayList<Divinity> divinities, String header) {
+    public JsonElement serializeDivinities(ArrayList<Divinity> divinities, String header, String gameID) {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive(header));
         result.add("divinities", new JsonPrimitive(gson.toJson(divinities)));
+        result.add("gameID", new JsonPrimitive(gameID));
 
         return result;
     }
