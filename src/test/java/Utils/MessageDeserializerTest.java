@@ -61,7 +61,7 @@ public class MessageDeserializerTest {
 
     @Test
     public void deserializeDivinityTest() {
-        String serializedMessage = messageSerializer.serializeDivinity(Divinity.APOLLO).toString();
+        String serializedMessage = messageSerializer.serializeDivinity(Divinity.APOLLO,"username").toString();
         Divinity div = messageDeserializer.deserializeObject(serializedMessage, "divinity", Divinity.class);
         assertEquals(Divinity.APOLLO, div);
     }

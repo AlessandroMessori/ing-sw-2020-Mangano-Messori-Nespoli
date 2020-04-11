@@ -16,6 +16,12 @@ public class CastingHelper {
             case "ARTEMIS":
                 currentDiv = Divinity.ARTEMIS;
                 break;
+            case "ATLAS":
+                currentDiv = Divinity.ATLAS;
+                break;
+            case "DEMETER":
+                currentDiv = Divinity.DEMETER;
+                break;
             case "ATHENA":
                 currentDiv = Divinity.ATHENA;
                 break;

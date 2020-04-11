@@ -110,10 +110,10 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case DIVINITYCHOICE:
                     System.out.println("Choose Your Divinity");
-                    //cli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
+                    cli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
                     cli.printPossibleDivinities();
                     String div = cli.readChosenDivinity();
-                    message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div)).toString();
+                    message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div),playerUsername).toString();
                     alreadyChosenDivinity = true;
                     currentPage = Pages.LOADINGDIVINITY;
 
