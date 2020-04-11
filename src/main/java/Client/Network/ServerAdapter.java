@@ -68,6 +68,12 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestSendDivinity(String input) {
+        nextCommand = Commands.SEND_DIVINITIES;
+        requestContent = input;
+        notifyAll();
+    }
+
     @Override
     public void run() {
         try {
@@ -106,9 +112,6 @@ public class ServerAdapter implements Runnable {
                 case SEND_DIVINITIES:
                     doSendDivinities();
                     break;
-                case SEND_DIVINITY:
-                    //sendDivinity();
-                    break;
                 case SEND_STARTING_POSITION:
                     //sendStartingPosition();
                     break;
@@ -146,7 +149,7 @@ public class ServerAdapter implements Runnable {
     }
 
     private synchronized void doSendDivinities() throws IOException, ClassNotFoundException {
-        System.out.println("Sending Divinity Choice to Server");
+        System.out.println("Sending Divinities Choice to Server");
         outputStm.writeObject(requestContent);
         String responseContent = (String) inputStm.readObject();
 

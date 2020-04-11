@@ -46,7 +46,7 @@ public class ListenForDivinities extends ResponseHandler {
 
             //saves the inGameDivinities to model
             for (int i = 0; i < receivedDivinities.size(); i++) {
-                game.getInGameDivinities().addDivinity((Divinity) receivedDivinities.get(i));
+                game.getInGameDivinities().addDivinity(receivedDivinities.get(i));
             }
 
             System.out.print("In Game Divinities:[ ");
