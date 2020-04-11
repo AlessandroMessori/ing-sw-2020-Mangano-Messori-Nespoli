@@ -111,8 +111,10 @@ public class CLI {
             lobby = true;
             System.out.println(" + " + inGamePlayers.getPlayer(0).getUsername());
         } else {
-
-            System.out.println(" + " + inGamePlayers.getPlayer(inGamePlayers.size() - 1).getUsername());
+            if(oldSize < inGamePlayers.size()) {
+                oldSize = inGamePlayers.size();
+                System.out.println(" + " + inGamePlayers.getPlayer(oldSize-1).getUsername());
+            }
         }
 
     }
@@ -145,7 +147,7 @@ public class CLI {
         Divinity[] divinities = Divinity.values();
         int val;
         String word;
-        String reset = null;
+        String reset;
         boolean alreadyIn = false;
         System.out.println("\n(indicate the numbers corresponding to the chosen divinities)\nChosen divinities: ");
         while(chosenDivinities.size() < players){
