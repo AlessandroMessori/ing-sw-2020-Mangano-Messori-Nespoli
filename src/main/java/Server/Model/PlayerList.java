@@ -59,15 +59,13 @@ public class PlayerList {
     /**
      * searches for a player in the list
      *
-     * @param player the player to search
+     * @param uName the username of the player to search
      * @return index of the found player in the list,returns -1 if the player isn't found
      */
-    public int searchPlayer(Player player) {
+    public int searchPlayerByUsername(String uName) {
         int i = 0;
         for (Player pl : players) {
-            if (player.getUsername().equals(pl.getUsername()) &&
-                    player.getDivinity() == pl.getDivinity() &&
-                    player.getColour() == pl.getColour()) {
+            if (pl.getUsername().equals(uName)) {
                 return i;
             }
             i++;

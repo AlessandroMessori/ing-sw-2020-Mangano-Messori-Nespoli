@@ -69,7 +69,7 @@ public class ServerAdapter implements Runnable {
     }
 
     public synchronized void requestSendDivinity(String input) {
-        nextCommand = Commands.SEND_DIVINITIES;
+        nextCommand = Commands.SEND_DIVINITY;
         requestContent = input;
         notifyAll();
     }
@@ -111,6 +111,9 @@ public class ServerAdapter implements Runnable {
                     break;
                 case SEND_DIVINITIES:
                     doSendDivinities();
+                    break;
+                case SEND_DIVINITY:
+                    doSendDivinity();
                     break;
                 case SEND_STARTING_POSITION:
                     //sendStartingPosition();
@@ -162,14 +165,51 @@ public class ServerAdapter implements Runnable {
 
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
-            observer.receivePossibleDivinities();
+            observer.receivePossibleDivinities(responseContent);
+        }
+    }
+
+    private synchronized void doSendDivinity() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Divinity Choice to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveDivinities(responseContent);
         }
     }
 
     private synchronized void doCheckModel() throws IOException, ClassNotFoundException {
         outputStm.writeObject(requestContent);
+        Game game;
         String responseContent = (String) inputStm.readObject();
-        Game game = messageDeserializer.deserializeObject(responseContent, "game", Game.class);
+        try {
+            game = messageDeserializer.deserializeObject(responseContent, "game", Game.class);
+        } catch (Exception e) {
+            if (responseContent == null) {
+                System.out.println("null response content");
+            }
+            else if (responseContent.equals("")){
+                System.out.println("void response content");
+            }
+            else {
+                System.out.println("responseContent:");
+                System.out.println(responseContent);
+            }
+
+            e.printStackTrace();
+
+            game = null;
+        }
+
 
         /* copy the list of observers in case some observers changes it from inside
          * the notification method */

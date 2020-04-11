@@ -39,8 +39,7 @@ public class ListenForPlayer extends ResponseHandler {
             //System.out.println("Number of Games before Controller call:" + model.getGames().size());
 
             Player player = new Player(username, null, null);
-            controller.addPlayerToModel(player, nPlayers);
-            Game game = Model.getModel().searchGameByUsername(username);
+            Game game = controller.addPlayerToModel(player, nPlayers);
             String gameID = game.getCodGame();
             System.out.println("Added player " + username + " to game " + gameID);
             String response = messageSerializer.serializeJoinGame(username, nPlayers, gameID).toString();

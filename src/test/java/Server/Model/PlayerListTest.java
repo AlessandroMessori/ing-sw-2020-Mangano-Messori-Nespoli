@@ -133,8 +133,8 @@ public class PlayerListTest {
         Player toSearchPlayer2 = new Player("Player3", Divinity.HEPHAESTUS, Colour.BLACK);
 
 
-        assertEquals(1, playerList.searchPlayer(toSearchPlayer1));
-        assertEquals(-1, playerList.searchPlayer(toSearchPlayer2));
+        assertEquals(1, playerList.searchPlayerByUsername(toSearchPlayer1.getUsername()));
+        assertEquals(-1, playerList.searchPlayerByUsername(toSearchPlayer2.getUsername()));
     }
 
 }

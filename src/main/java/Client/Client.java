@@ -113,14 +113,15 @@ public class Client implements Runnable, ServerObserver {
                     cli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
                     cli.printPossibleDivinities();
                     String div = cli.readChosenDivinity();
-                    message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div),playerUsername).toString();
+                    message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div), playerUsername, game.getCodGame()).toString();
                     alreadyChosenDivinity = true;
                     currentPage = Pages.LOADINGDIVINITY;
 
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    System.out.println("Starting Positions Choice Page");
+                    //System.out.println("Starting Positions Choice Page");
+                    currentPage = Pages.STARTINGPOSITIONCHOICE;
                     break;
                 case GAME:
                     System.out.println("Game Page");
@@ -171,10 +172,8 @@ public class Client implements Runnable, ServerObserver {
      * @param divinities the list of all divinities in the game
      */
     @Override
-    public synchronized void receiveDivinities(ArrayList<Divinity> divinities) {
-        for (int i = 0; i < divinities.size(); i++) {
-            game.getInGameDivinities().addDivinity(divinities.get(i));
-        }
+    public synchronized void receiveDivinities(String divinities) {
+        System.out.println(divinities);
         notifyAll();
     }
 
@@ -182,7 +181,8 @@ public class Client implements Runnable, ServerObserver {
      * function that gets called when a possible divinities signal is received from the server
      */
     @Override
-    public synchronized void receivePossibleDivinities() {
+    public synchronized void receivePossibleDivinities(String response) {
+        System.out.println(response);
         notifyAll();
     }
 
@@ -258,6 +258,9 @@ public class Client implements Runnable, ServerObserver {
                     if (!alreadyChosenDivinity && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                         System.out.println("Going to Divinity Choice Page");
                         currentPage = Pages.DIVINITYCHOICE;
+                    } else if (alreadyChosenDivinity && game.getInGameDivinities().size() == 0) {
+                        System.out.println("Going to Starting Position Choice Page");
+                        currentPage = Pages.STARTINGPOSITIONCHOICE;
                     }
                     break;
 

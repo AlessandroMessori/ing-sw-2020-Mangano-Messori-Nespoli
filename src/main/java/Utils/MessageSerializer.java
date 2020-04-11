@@ -73,12 +73,13 @@ public class MessageSerializer {
      * @param divinity the divinity to serialize
      * @return the JSON serialized send Divinity Message
      */
-    public JsonElement serializeDivinity(Divinity divinity, String username) {
+    public JsonElement serializeDivinity(Divinity divinity, String username, String gameID) {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("SendChosenDivinity"));
         result.add("divinity", new JsonPrimitive(gson.toJson(divinity)));
-        result.add("username", new JsonPrimitive(gson.toJson(username)));
+        result.add("username", new JsonPrimitive(username));
+        result.add("gameID", new JsonPrimitive(gameID));
 
         return result;
     }

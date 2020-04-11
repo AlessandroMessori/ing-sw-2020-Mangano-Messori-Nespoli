@@ -61,7 +61,7 @@ public class MessageDeserializerTest {
 
     @Test
     public void deserializeDivinityTest() {
-        String serializedMessage = messageSerializer.serializeDivinity(Divinity.APOLLO,"username").toString();
+        String serializedMessage = messageSerializer.serializeDivinity(Divinity.APOLLO,"username","gameID").toString();
         Divinity div = messageDeserializer.deserializeObject(serializedMessage, "divinity", Divinity.class);
         assertEquals(Divinity.APOLLO, div);
     }
@@ -78,6 +78,12 @@ public class MessageDeserializerTest {
         move.setY(2);
         String serializedMessage = messageSerializer.serializeChosenMove(grid, move).toString();
         Move mv = messageDeserializer.deserializeObject(serializedMessage, "move", Move.class);
+    }
+
+
+    @Test
+    public void test(){
+        Game game = messageDeserializer.deserializeObject("{\"header\":\"SendGameUpdate\",\"game\":\"{\\\"nTurns\\\":0,\\\"availableLevel1Buildings\\\":22,\\\"availableLevel2Buildings\\\":18,\\\"availableLevel3Buildings\\\":14,\\\"availableDomes\\\":18,\\\"CodGame\\\":\\\"5nwfcdusj5\\\",\\\"threePlayers\\\":false,\\\"currentPlayer\\\":{\\\"username\\\":\\\"G1\\\",\\\"divinity\\\":\\\"APOLLO\\\"},\\\"players\\\":{\\\"players\\\":[{\\\"username\\\":\\\"G1\\\",\\\"divinity\\\":\\\"APOLLO\\\"},{\\\"username\\\":\\\"G2\\\",\\\"divinity\\\":\\\"ATHENA\\\"}]},\\\"inGameDivinities\\\":{\\\"divinities\\\":[]}}\"}\n","game",Game.class);
     }
 
     @Test

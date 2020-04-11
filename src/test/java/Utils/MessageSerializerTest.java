@@ -40,8 +40,8 @@ public class MessageSerializerTest {
 
     @Test
     public void serializeSendDivinityTest() {
-        assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"\\\"APOLLO\\\"\",\"username\":\"\\\"username\\\"\"}",
-                messageSerializer.serializeDivinity(Divinity.APOLLO,"username").toString());
+        assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"\\\"APOLLO\\\"\",\"username\":\"\\\"username\\\"\",\"gameID\":\"gameID\"}",
+                messageSerializer.serializeDivinity(Divinity.APOLLO,"username","gameID").toString());
     }
 
     @Test

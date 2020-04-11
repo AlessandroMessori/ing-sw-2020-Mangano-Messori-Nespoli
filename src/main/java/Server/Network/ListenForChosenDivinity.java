@@ -3,6 +3,7 @@ package Server.Network;
 import Server.Model.Divinity;
 import Server.Model.Game;
 import Server.Model.Model;
+import Server.Model.Player;
 import Utils.MessageDeserializer;
 
 import java.io.IOException;
@@ -28,9 +29,26 @@ public class ListenForChosenDivinity extends ResponseHandler {
     @Override
     public void handleResponse(String requestContent) throws IOException {
         try {
-            output.writeObject("ListenForChosenDivinity Response Handler");
             Divinity chosenDivinity = messageDeserializer.deserializeObject(requestContent, "divinity", Divinity.class);
             String username = messageDeserializer.deserializeString(requestContent, "username");
+            String gameID = messageDeserializer.deserializeString(requestContent, "gameID");
+
+            game = Model.getModel().searchID(gameID);
+            game.getInGameDivinities().deleteDivinity(chosenDivinity);
+            // Add Divinity to Player
+            game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(username)).setDivinity(chosenDivinity);
+
+            Player randomPlayer = game.getPlayers().getRandomPlayer();
+
+            if (game.getInGameDivinities().size() > 0) { //sets the player to choose the divinity
+                while (randomPlayer.getDivinity() != null) {
+                    randomPlayer = game.getPlayers().getRandomPlayer();
+                }
+
+
+                game.setCurrentPlayer(randomPlayer);
+            }
+            output.writeObject("Received Divinity");
         } catch (ClassCastException e) {
             System.out.println("Error while writing the response");
         }
