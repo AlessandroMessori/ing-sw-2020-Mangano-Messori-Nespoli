@@ -226,8 +226,11 @@ public class Client implements Runnable, ServerObserver {
 
             switch (currentPage) {
                 case LOBBY:
+                    /*
                     System.out.println("Game ID: " + game.getCodGame());
                     System.out.println("Connected Players: " + game.getPlayers().toString());
+                     */
+                    cli.drawLobby(game.getPlayers(), game.getCodGame());
 
                     // check if we have enough players to start the game
                     if (game.getPlayers().size() == nPlayers) {

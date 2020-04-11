@@ -1,13 +1,12 @@
 package Client.CLI;
 
+import java.awt.desktop.SystemEventListener;
 import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import Server.Model.Divinity;
-import Server.Model.Grid;
-import Server.Model.Move;
+import Server.Model.*;
 
 import javax.print.DocFlavor;
 
@@ -15,6 +14,10 @@ public class CLI {
     private Grid gameGrid;
     private boolean twoOrThree;
     private ArrayList<String> chosenDivinities;
+    private ArrayList<String> inGameDivinities;
+    private int players;
+    private int oldSize;
+    private boolean lobby;
 
     /**
      * Print a welcome message for the user
@@ -40,8 +43,6 @@ public class CLI {
                 "            "+ "    ____\\_\\  \\ \\__\\ \\__\\ \\__\\\\ \\__\\   \\ \\__\\ \\ \\_______\\ \\__\\\\ _\\\\ \\__\\ \\__\\\\ \\__\\ \\__\\\n" +
                 "            "+ "   |\\_________\\|__|\\|__|\\|__| \\|__|    \\|__|  \\|_______|\\|__|\\|__|\\|__|\\|__| \\|__|\\|__|\n" +
                 "            "+ "   \\|_________|                                                                        \n" +
-                "            "+ "                                                                                       \n" +
-                "            "+ "                                                                                       \n" +
                 "\n");
 
     }
@@ -50,19 +51,15 @@ public class CLI {
      * Read the Username of the player
      * @return Chosen Username
      */
-    public String readUsername(){
+    public String readUsername() {
         String username;
-        System.out.println("Scegli il tuo Username: ");
+        do {
+        System.out.println("Chose your username (max 16 chars): ");
         Scanner input = new Scanner(System.in);
         username = input.next();
+        } while (username.length() > 16);
         return username;
     }
-    /*
-    public String readIPAddress(){
-        Scanner input = new Scanner(System.in);
-        return input.next();
-    }
-    */
 
     /**
      * Read if the game will be a 2-players game or a 3-players game
@@ -72,43 +69,68 @@ public class CLI {
     public boolean readTwoOrThree() throws IllegalArgumentException{
         Scanner input = new Scanner(System.in);
         int val;
-        System.out.println("Numero di giocatori: 2 o 3?");
+        System.out.println("Number of players: 2 or 3?");
         try{
             val = input.nextInt();
             if((val<2)||(val>3)){
                 throw new IllegalArgumentException();
+
             } else {
                 if(val == 2){
                     twoOrThree = false;
+                    players = 2;
                 }
                 if(val == 3){
                     twoOrThree = true;
+                    players = 3;
                 }
             }
         }
         catch(IllegalArgumentException | InputMismatchException e){
-            System.out.println("*** ERRORE ***\n Il numero di giocatori deve essere 2 o 3\n");
+            System.out.println("*** ERROR ***\n number must be 2 or 3\n");
             readTwoOrThree();
         }
         return twoOrThree;
     }
 
-    public void drawLobby(){
+    /**
+     * Draw the Lobby
+     * @param inGamePlayers list of players
+     * @param gameId value of gamId of which game the player connected
+     */
+    public void drawLobby(PlayerList inGamePlayers, String gameId){
+
+        if(!lobby) {
+            oldSize = 1;
+            System.out.println(" ____________________________________________________");
+            System.out.println("| LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t |");
+            System.out.println(" ----------------------------------------------------");
+            //System.out.println((char) 27 + "[7m"+" LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t " + (char) 27 +"[0m");
+            System.out.println("\tPlayers");
+            //System.out.println((char) 27 + "[1m\tPlayers" + (char) 27 + "[0m" + "\t\t" + inGamePlayers.size() +"/" + players);
+            lobby = true;
+            System.out.println(" + " + inGamePlayers.getPlayer(0).getUsername());
+        } else {
+
+            System.out.println(" + " + inGamePlayers.getPlayer(inGamePlayers.size() - 1).getUsername());
+        }
 
     }
+    /*
+    private void drawLobbyPlayers(PlayerList inGamePlayers){
+        System.out.println((char) 27 + "[1m Players"+ (char) 27 + "[0m" +"\t\t\t\t\t\t" + inGamePlayers.size() +"/" + players);
+        for(int i = 0; i < inGamePlayers.size(); i++){
+            System.out.println(" + " + inGamePlayers.getPlayer(i).getUsername());
 
+        }
+    }
+*/
     /**
      * Print the list of all divinities for the initial choice
      */
     public void printListDivinities(){
         Divinity[] divinities = Divinity.values();
-        int players;
-        if(!twoOrThree) {
-            players = 2;
-        }else{
-            players = 3;
-        }
-        System.out.println("\nScegli " + players + " divinità per la partita:");
+        System.out.println("\nChose " + players + " divinities for the game:");
         for(int i = 0; i < divinities.length; i++) {
             System.out.println(i+1 + " " + divinities[i]);
         }
@@ -122,53 +144,90 @@ public class CLI {
         Scanner input = new Scanner(System.in);
         Divinity[] divinities = Divinity.values();
         int val;
-        int players;
-        int i = 0;
+        String word;
+        String reset = null;
         boolean alreadyIn = false;
-        if(!twoOrThree) {
-            players = 2;
-        }else{
-            players = 3;
-        }
-        System.out.println("\n(indicare i numeri corrispondenti alle divinità scelte)\nDivinità scelte: ");
-        try {
-            while(chosenDivinities.size() < players){
-
-                val = input.nextInt();
-                if(val > 9) {
-                    throw new IllegalArgumentException();
-                }
-
-                for(String dv: chosenDivinities) {                                  //doppio 1 1 3 salva 1 e 3, non aggiunge 1 due volte
-                    alreadyIn = divinities[val - 1].toString().equals(dv);          // però se faccio 1 g 3 rileva errore ma salva solo 1 e quindi devo rimettere 2 valori
-                }                                                                   //stessa cosa se metto 1 30 3
-                if(!alreadyIn){
-                    chosenDivinities.add(divinities[val - 1].toString());
+        System.out.println("\n(indicate the numbers corresponding to the chosen divinities)\nChosen divinities: ");
+        while(chosenDivinities.size() < players){
+            word = input.next();
+            if (word.matches("^-?\\d+$")) {
+                val = Integer.parseInt(word);
+                if ((val > 0) && (val < 10)) {
+                    for (String dv : chosenDivinities) {
+                        alreadyIn = divinities[val - 1].toString().equals(dv);
+                    }
+                    if (!alreadyIn) {
+                        chosenDivinities.add(divinities[val - 1].toString());
+                        System.out.println("+++ Added " + divinities[val-1].toString() + " +++");
+                    } else {
+                        System.out.println("Divinity: " + val + " " + divinities[val-1].toString() + " is already chosen.");
+                    }
                 } else {
-                    System.out.println("+++");
+                    System.out.println("\"" + val + "\""+ " is not a valid input, input must be a number between 1 and 9. Retry ");
                 }
-
+            } else {
+                System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
             }
-
-        } catch (IllegalArgumentException | InputMismatchException e) {
-            System.out.println("***");
+        }
+        //gameDivinities(chosenDivinities);
+        System.out.println("\nChosen divinities");
+        System.out.println(chosenDivinities);
+        System.out.println("\nConfirm the selection?\n y: yes        n: no");
+        reset = input.next();
+        while(!(reset.equals("y")) && !(reset.equals("n"))){
+            System.out.println("\nChosen divinities");
+            System.out.println(chosenDivinities);
+            System.out.println("Confirm the selection?\n y: yes        n: no");
+            reset = input.next();
+        }
+        if(reset.equals("n")){
+            resetDivinities();
+            printListDivinities();
             readDivinitiesChoice();
         }
+
         return chosenDivinities;
     }
 
     /**
+     * reset the chosen divinities for the game
+     */
+    private void resetDivinities(){
+        chosenDivinities = new ArrayList<>();
+    }
+/*
+    /**
+     * print an ArrayList of String
+     * @param div ArrayList to print
+     */
+    /*
+    private void gameDivinities(ArrayList<String> div){
+        Divinity[] divinities = Divinity.values();
+        System.out.println("\nChosen divinities");
+        for (String chosenDivinity : div) {
+            System.out.println(chosenDivinity);
+        }
+    }
+    */
+    /**
      * Print the 2 or 3 divinities from which the player has to choose
      */
     public void printPossibleDivinities(){
-        if(chosenDivinities.size() != 1) {
-            System.out.println("\nDivinità in gioco tra cui scegliere: ");
-            for (int i = 0; i < chosenDivinities.size(); i++) {
-                System.out.println(i + 1 + " " + chosenDivinities.get(i));
+        boolean chosen;
+        System.out.println("\nIn-game divinities to choose from (if marked, it has already been chosen): ");
+        for (int i = 0; i < chosenDivinities.size(); i++) {
+            chosen = false;
+            for (String inGameDivinity : inGameDivinities) {
+
+                if (chosenDivinities.get(i).equals(inGameDivinity)) {
+                    chosen = true;
+                }
             }
-        } else {
-            System.out.println("\nDivinità rimasta: ");
-            System.out.println(1 + " " + chosenDivinities.get(0));
+            if(!chosen){
+                System.out.println((i + 1) + " " + chosenDivinities.get(i));
+            }else{
+                System.out.println((char) 27 + "[9m" + (i + 1) + " " + chosenDivinities.get(i) + (char) 27 + "[0m");
+            }
         }
     }
 
@@ -177,17 +236,58 @@ public class CLI {
      * @return name of the divinity chose from the player
      */
     public String readChosenDivinity(){
-        String chosenDivinity;
+        String plDivinity = null;
         Scanner input = new Scanner(System.in);
-        if(chosenDivinities.size() != 1) {
-            System.out.println("\n(indicare il numero corrispondente della divinità scelta)\nDivinità scelta: ");
-            int val = input.nextInt();
-            chosenDivinity = chosenDivinities.get(val - 1);
-        } else {
-            chosenDivinity = chosenDivinities.get(0);
+        String word;
+        boolean chosen = false;
+        boolean in = false;
+        int val;
+        int diff = chosenDivinities.size() - inGameDivinities.size();
+
+        while(!chosen){
+            if(diff != 1) {
+                System.out.println("\n(indicate the number corresponding to the chosen divinity)\nChosen divinity: ");
+                word = input.next();
+                if (word.matches("^-?\\d+$")) {
+                    val = Integer.parseInt(word);
+                    if((val > 0) && (val < chosenDivinities.size()+1)) {
+                        for (String inGameDivinity : inGameDivinities) {
+                            in = false;
+                            if (chosenDivinities.get(val-1).equals(inGameDivinity)) {
+                                in = true;
+                            }
+                        }
+                        if(!in){
+                            plDivinity = chosenDivinities.get(val - 1);
+                            chosen = true;
+                        }else{
+                            System.out.println("Divinity: " + val + " " + chosenDivinities.get(val-1) + " is already chosen.");
+                        }
+
+                    }else{
+                        System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + chosenDivinities.size() + ". Retry");
+                    }
+                } else {
+                    System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + chosenDivinities.size() + ". Retry");
+                }
+            } else {
+                for (int j = 0; j < chosenDivinities.size(); j++) {
+                    for (int t = 0; t < inGameDivinities.size(); t++) {
+                        in = false;
+                        if (inGameDivinities.get(t).equals(chosenDivinities.get(j))) {
+                            in = true;
+                        }
+                    }
+                    if(!in){
+                        plDivinity = chosenDivinities.get(j);
+                        chosen = true;
+                    }
+                }
+                System.out.println("\nRemaining divinity: " + plDivinity);
+            }
         }
-        chosenDivinities.remove(chosenDivinity);
-        return chosenDivinity;
+        inGameDivinities.add(plDivinity);
+        return plDivinity;
     }
 
     public void drawGrid(Grid grid){
@@ -210,33 +310,38 @@ public class CLI {
 
     }
 
+    public void setChosenDivinities(ArrayList<String> chosenDivinities) {
+        this.chosenDivinities = chosenDivinities;
+    }
+
+    /**
+     * Constructor
+     */
     public CLI(){
         gameGrid = new Grid();
         chosenDivinities = new ArrayList<String>();
+        inGameDivinities = new ArrayList<String>();
+        lobby = false;
+        //inGamePlayers = new ArrayList<String>();
     }
+
 /*
     public static void main(String[] args) {
-        CLI cli = new CLI();
-        ArrayList<String> divinità;
-        boolean threePlayers;
-        int players;
-        cli.printWelcome();
-        System.out.println(cli.readUsername());
-        threePlayers = cli.readTwoOrThree();
-        System.out.println(threePlayers);
-        cli.printListDivinities();
-        divinità = cli.readDivinitiesChoice();
 
-        if(!threePlayers) {
-            players = 2;
-        }else{
-            players = 3;
-        }
-        for(int i = 0; i < players; i++) {
+        CLI cli = new CLI();
+        cli.printWelcome();
+        cli.readUsername();
+        cli.readTwoOrThree();
+        cli.printListDivinities();
+        cli.readDivinitiesChoice();
+
+        for(int i = 0; i < cli.players; i++) {
             cli.printPossibleDivinities();
             System.out.println(cli.readChosenDivinity());
         }
-    }
 
+
+    }
 */
+
 }
