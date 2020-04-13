@@ -40,7 +40,7 @@ public class MessageSerializerTest {
 
     @Test
     public void serializeSendDivinityTest() {
-        assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"\\\"APOLLO\\\"\",\"username\":\"\\\"username\\\"\",\"gameID\":\"gameID\"}",
+        assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"\\\"APOLLO\\\"\",\"username\":\"username\",\"gameID\":\"gameID\"}",
                 messageSerializer.serializeDivinity(Divinity.APOLLO,"username","gameID").toString());
     }
 
@@ -51,7 +51,7 @@ public class MessageSerializerTest {
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
         Gson gson = new Gson();
-        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader"));
+        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader","username","gameID"));
     }
 
     @Test

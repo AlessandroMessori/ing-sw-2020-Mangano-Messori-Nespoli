@@ -92,11 +92,13 @@ public class MessageSerializer {
      * @return the JSON serialized send Starting Position Message
      */
     //used by client and server
-    public JsonElement serializeStartingPosition(Grid grid, String header) {
+    public JsonElement serializeStartingPosition(Grid grid, String header,String username, String gameID) {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive(header));
         result.add("grid", new JsonPrimitive(gson.toJson(grid)));
+        result.add("username", new JsonPrimitive(username));
+        result.add("gameID", new JsonPrimitive(gameID));
 
         return result;
     }

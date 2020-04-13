@@ -1,5 +1,6 @@
 package Server.Network;
 
+import Server.Controller.ServerController;
 import Server.Model.Divinity;
 import Server.Model.Game;
 import Server.Model.Model;
@@ -16,6 +17,7 @@ public class ListenForChosenDivinity extends ResponseHandler {
     private MessageDeserializer messageDeserializer;
     private Model model;
     private Game game;
+    private ServerController serverController;
 
 
     public ListenForChosenDivinity(Socket cl, ObjectOutputStream out) {
@@ -24,6 +26,7 @@ public class ListenForChosenDivinity extends ResponseHandler {
         output = out;
         messageDeserializer = new MessageDeserializer();
         model = Model.getModel();
+        serverController = new ServerController();
     }
 
     @Override
@@ -36,7 +39,7 @@ public class ListenForChosenDivinity extends ResponseHandler {
             game = Model.getModel().searchID(gameID);
             game.getInGameDivinities().deleteDivinity(chosenDivinity);
             // Add Divinity to Player
-            game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(username)).setDivinity(chosenDivinity);
+            serverController.setSpecificPlayerDiv(gameID, username, chosenDivinity);
 
             Player randomPlayer = game.getPlayers().getRandomPlayer();
 
