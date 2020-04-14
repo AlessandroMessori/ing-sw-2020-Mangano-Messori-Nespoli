@@ -17,8 +17,9 @@ public class MessageSerializer {
     /**
      * serializes in JSON a Join Game Message
      *
-     * @param username     value of the username
+     * @param username value of the username
      * @param threePlayers boolean who represents the choice of playing a game with 2 or 3 players
+     * @param gameID identifier of the game
      * @return the JSON serialized Join Game Message
      */
     public JsonElement serializeJoinGame(String username, boolean threePlayers, String gameID) {
@@ -53,7 +54,8 @@ public class MessageSerializer {
      * serializes in JSON a send Divinities Message
      *
      * @param divinities the list of divinities to serialize
-     * @param header     header of the message
+     * @param header header of the message
+     * @param gameID identifier of the game
      * @return the JSON serialized send Divinities Message
      */
     //used by the client and the server
@@ -71,6 +73,8 @@ public class MessageSerializer {
      * serializes in JSON a send Divinity Message
      *
      * @param divinity the divinity to serialize
+     * @param gameID identifier of the game
+     * @param username identifier of the user sending the message
      * @return the JSON serialized send Divinity Message
      */
     public JsonElement serializeDivinity(Divinity divinity, String username, String gameID) {
@@ -89,6 +93,8 @@ public class MessageSerializer {
      *
      * @param grid   the grid to serialize
      * @param header header of the message
+     * @param username identifier of the user sending the message
+     * @param gameID identifier of the game
      * @return the JSON serialized send Starting Position Message
      */
     //used by client and server

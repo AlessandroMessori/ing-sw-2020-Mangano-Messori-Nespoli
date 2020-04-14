@@ -11,4 +11,6 @@ public enum Pages {
     LOADINGWELCOMEDATA,      //loading data from server
     LOADINGDIVINITIES,
     LOADINGDIVINITY,
+    LOADINGSTARTINGPOSITION,
+    LOADINGMOVE
 }

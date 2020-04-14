@@ -41,7 +41,8 @@ public class MessageDeserializer {
      *
      * @param message the JSON String from which to extract the value
      * @param propName the field name of the Object to deserialize
-     * @param type the type of the Object to deserialize
+     * @param type the Object to deserialize
+     * @param <T> the type of the Object to deserialize
      *
      * @return deserialized Object
      */

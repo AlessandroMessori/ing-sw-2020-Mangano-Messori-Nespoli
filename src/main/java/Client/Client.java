@@ -26,6 +26,7 @@ public class Client implements Runnable, ServerObserver {
     private String playerUsername;
     private boolean checkModel;
     private boolean alreadyChosenDivinity;
+    private boolean alreadyChosenStartingPosition;
 
 
     public static void main(String[] args) {
@@ -260,10 +261,18 @@ public class Client implements Runnable, ServerObserver {
                         currentPage = Pages.DIVINITYCHOICE;
                     } else if (alreadyChosenDivinity && game.getInGameDivinities().size() == 0) {
                         System.out.println("Going to Starting Position Choice Page");
-                        currentPage = Pages.STARTINGPOSITIONCHOICE;
+                        currentPage = Pages.LOADINGSTARTINGPOSITION;
                     }
                     break;
-
+                case LOADINGSTARTINGPOSITION:
+                    if (!alreadyChosenStartingPosition && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        System.out.println("Choose your Starting Position");
+                        currentPage = Pages.STARTINGPOSITIONCHOICE;
+                    } else if (alreadyChosenStartingPosition /* && game.PlayersWhoHaven'tChosenStartingPosition.size() == 0*/) {
+                        System.out.println("Going to Game Page");
+                        currentPage = Pages.LOADINGMOVE;
+                    }
+                    break;
             }
         }
 
