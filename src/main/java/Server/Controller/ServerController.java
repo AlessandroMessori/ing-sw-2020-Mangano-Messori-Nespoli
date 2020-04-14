@@ -381,4 +381,29 @@ public class ServerController {
             }
         }
     }
+
+    public PlayerList getPlayersThatAlreadyPlaced(Grid grid){
+        PlayerList playerList = new PlayerList();
+        boolean alreadyContained = false;
+        for(int i = 0; i <= 4; i++){
+            for(int j = 0; j <= 4; j++){
+                if(grid.getCells(i,j).getPawn() != null){
+                    if(playerList.size() == 0){
+                        playerList.addPlayer(grid.getCells(i, j).getPawn().getOwner());
+                    }
+                    else{
+                        for(int k = 0; k <= playerList.size() - 1; k++){
+                            if(playerList.getPlayer(k).getUsername().equals(grid.getCells(i,j).getPawn().getOwner().getUsername())){
+                                alreadyContained = true;
+                            }
+                        }
+                        if(!alreadyContained){
+                            playerList.addPlayer(grid.getCells(i,j).getPawn().getOwner());
+                        }
+                    }
+                }
+            }
+        }
+        return playerList;
+    }
 }
