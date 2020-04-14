@@ -36,7 +36,7 @@ public class ClientController {
         {
             Pawn enemyPawn = grid.getCells(move.getX(),move.getY()).getPawn();
 
-            if(enemyPawn != null && move.getToMove().getOwner().getDivinity().equals("APOLLO")) //APOLLO EFFECT
+            if(enemyPawn != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
             {
                 grid.getCells(move.getX(),move.getY()).setPawn(enemyPawn);
             }
@@ -48,62 +48,62 @@ public class ClientController {
 
             if(grid.getCells(move.getX() + 1,move.getY()).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX() + 1,move.getY()).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX() - 1,move.getY()).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX() - 1,move.getY()).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX() + 1,move.getY() - 1).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX() + 1,move.getY() - 1).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX() + 1,move.getY() + 1).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX() + 1,move.getY() + 1).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX(),move.getY() + 1).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX(),move.getY() + 1).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX(),move.getY() - 1).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX(),move.getY() - 1).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX() - 1,move.getY() + 1).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX() - 1,move.getY() + 1).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             else if(grid.getCells(move.getX() - 1,move.getY() - 1).getPawn().getId() == move.getToMove().getId()){
                 grid.getCells(move.getX() - 1,move.getY() - 1).setPawn(null);
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")){
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA){
                     turn.setPawnMoved(true);
                 }
             }
 
             if(grid.getCells(move.getX(),move.getY()).getPawn().getId() == move.getToMove().getId()){
-                if(move.getToMove().getOwner().getDivinity().equals("ATHENA")) {
+                if(move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
                     turn.setPawnMoved(false);
                 }
             }

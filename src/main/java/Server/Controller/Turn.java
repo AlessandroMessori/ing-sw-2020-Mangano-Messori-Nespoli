@@ -37,6 +37,24 @@ public class Turn {
     private boolean canSwap = false;                 //Apollo
 
     /**
+     * CONDITION FOR
+     * ARTEMIS EFFECT
+     *
+     * @return the move where the pawn can't move since it's its starting place
+     */
+    public Move getCantMoveBackHere() {return cantMoveBackHere;}
+
+    /**
+     * CONDITION FOR
+     * ARTEMIS EFFECT
+     *
+     * @param move the starting point for the pawn
+     */
+    public void setCantMoveBackHere(Move move){ cantMoveBackHere = move;}
+
+    private Move cantMoveBackHere = new Move(null);
+
+    /**
      * ARTEMIS EFFECT
      *
      * @return the number of possible moves in this turn (default: 1)
@@ -115,6 +133,24 @@ public class Turn {
     }
 
     private boolean canBuildDomes = false;           //Atlas
+
+    /**
+     * CONDITION FOR
+     * DEMETER EFFECT
+     *
+     * @param move building move where the player built and can't build again
+     */
+    public void setCantBuildOnThisBlock(Move move){cantBuildOnThisBlock = move;}
+
+    /**
+     * CONDITION FOR
+     * DEMETER EFFECT
+     *
+     * @return the last building move made, where the player can't build again
+     */
+    public Move getCantBuildOnThisBlock(){return cantBuildOnThisBlock;}
+
+    private Move cantBuildOnThisBlock = new Move(null);
 
     /**
      * DEMETER EFFECT
@@ -271,6 +307,11 @@ public class Turn {
                 break;
             case ARTEMIS:
                 setNPossibleMoves(2);
+                Move moveM = new Move(null);
+                moveM.setIfMove(true);
+                moveM.setX(-1);
+                moveM.setY(-1);
+                setCantMoveBackHere(moveM);
                 break;
             case ATHENA:
                 setPawnMoved(false);     //TODO: TRUE IF PAWNS WERE MOVED IN THE PREVIOUS TURN
@@ -280,6 +321,11 @@ public class Turn {
                 break;
             case DEMETER:
                 setNPossibleBuildings(2);
+                Move moveB = new Move(null);
+                moveB.setIfMove(false);
+                moveB.setX(-1);
+                moveB.setY(-1);
+                setCantBuildOnThisBlock(moveB);
                 break;
             case HEPHAESTUS:
                 setCanBuildOnLastPlacedBlock(true);
