@@ -48,7 +48,7 @@ public class Client implements Runnable, ServerObserver {
         ArrayList<String> chosenDivinities;
 
         currentPage = Pages.WELCOME; //class properties
-        game = new Game(0, null, false, null, null, null, null);
+        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         cli = new CLI();
         messageSerializer = new MessageSerializer();
         checkModel = false;
@@ -121,8 +121,13 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    //System.out.println("Starting Positions Choice Page");
-                    currentPage = Pages.STARTINGPOSITIONCHOICE;
+                    System.out.println("Selecting a random starting position");
+                    setsDefaultStartingPosition();
+                    message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame()).toString();
+                    alreadyChosenStartingPosition = true;
+                    currentPage = Pages.LOADINGSTARTINGPOSITION;
+
+                    serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
                     System.out.println("Game Page");
@@ -143,7 +148,7 @@ public class Client implements Runnable, ServerObserver {
                     currentPage = Pages.LOADINGDIVINITIES;
                     break;
                 default:
-                    System.out.println(response);
+                    //System.out.println(response);
                     break;
             }
         }
@@ -227,10 +232,6 @@ public class Client implements Runnable, ServerObserver {
 
             switch (currentPage) {
                 case LOBBY:
-                    /*
-                    System.out.println("Game ID: " + game.getCodGame());
-                    System.out.println("Connected Players: " + game.getPlayers().toString());
-                     */
                     cli.drawLobby(game.getPlayers(), game.getCodGame());
 
                     // check if we have enough players to start the game
@@ -266,12 +267,13 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case LOADINGSTARTINGPOSITION:
                     if (!alreadyChosenStartingPosition && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        System.out.println("Choose your Starting Position");
+                        System.out.println("\nChoose your Starting Position");
                         currentPage = Pages.STARTINGPOSITIONCHOICE;
-                    } else if (alreadyChosenStartingPosition /* && game.PlayersWhoHaven'tChosenStartingPosition.size() == 0*/) {
-                        System.out.println("Going to Game Page");
+                    } else if (alreadyChosenStartingPosition && game.getNTurns() > 0) {
+                        System.out.println("\nGoing to Game Page");
                         currentPage = Pages.LOADINGMOVE;
                     }
+
                     break;
             }
         }
@@ -280,5 +282,40 @@ public class Client implements Runnable, ServerObserver {
 
     }
 
+    /*Temporary utility function,selects a new staring position with the first free cell*/
+    void setsDefaultStartingPosition() {
+
+        int x = 0;
+        int y = 0;
+        int pawnCounter = 0;
+
+        boolean loopCheck = true;
+
+        while (loopCheck && x < 5) {
+            y = 0;
+            while (loopCheck && y < 5) {
+
+                if (game.getNewGrid().getCells(x, y).getPawn() == null) {
+                    Player currentPlayer = game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(playerUsername));
+                    game.getNewGrid().getCells(x, y).setPawn(new Pawn(currentPlayer));
+                    pawnCounter++;
+                    System.out.println("Adding new pawn at position: " + x + "," + y);
+                }
+
+                if (pawnCounter >= 2) {
+                    loopCheck = false;
+                }
+
+                y++;
+            }
+            x++;
+        }
+
+
+    }
 
 }
+
+
+
+

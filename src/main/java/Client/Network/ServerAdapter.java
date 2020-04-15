@@ -74,6 +74,12 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestSendStartingPosition(String input) {
+        nextCommand = Commands.SEND_STARTING_POSITION;
+        requestContent = input;
+        notifyAll();
+    }
+
     @Override
     public void run() {
         try {
@@ -116,7 +122,7 @@ public class ServerAdapter implements Runnable {
                     doSendDivinity();
                     break;
                 case SEND_STARTING_POSITION:
-                    //sendStartingPosition();
+                    doSendStartingPosition();
                     break;
                 case SEND_CHOSEN_MOVE:
                     //sendChosenMove();
@@ -186,6 +192,25 @@ public class ServerAdapter implements Runnable {
             observer.receiveDivinities(responseContent);
         }
     }
+
+    private synchronized void doSendStartingPosition() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Starting Position Choice to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveDivinities(responseContent);
+        }
+    }
+
 
     private synchronized void doCheckModel() throws IOException, ClassNotFoundException {
         outputStm.writeObject(requestContent);

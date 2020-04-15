@@ -1,9 +1,7 @@
 package Server.Network;
 
-import Server.Model.Game;
-import Server.Model.Grid;
-import Server.Model.Model;
-import Server.Model.Player;
+import Server.Controller.ServerController;
+import Server.Model.*;
 import Utils.CastingHelper;
 import Utils.MessageDeserializer;
 
@@ -16,6 +14,7 @@ public class ListenForStartingPosition extends ResponseHandler {
     private Socket client;
     private ObjectOutputStream output;
     private MessageDeserializer messageDeserializer;
+    private ServerController serverController;
     private Model model;
     private Game game;
 
@@ -25,6 +24,7 @@ public class ListenForStartingPosition extends ResponseHandler {
         client = cl;
         output = out;
         messageDeserializer = new MessageDeserializer();
+        serverController = new ServerController();
         model = Model.getModel();
     }
 
@@ -44,11 +44,27 @@ public class ListenForStartingPosition extends ResponseHandler {
             game.setOldGrid(grid);
             game.setNewGrid(grid);
 
-            //select new current player
+
+            //Select new current player
+            Player randomPlayer = game.getPlayers().getRandomPlayer();
+            PlayerList alreadyPlacedPlayers = serverController.getPlayersThatAlreadyPlaced(grid);
+            int nPlayers = game.getThreePlayers() ? 3 : 2;
+
+            if (alreadyPlacedPlayers != null && alreadyPlacedPlayers.size() > 0 && alreadyPlacedPlayers.size() < nPlayers) {      //Selects a new player to choose its current position
+                while (alreadyPlacedPlayers.searchPlayerByUsername(randomPlayer.getUsername()) != -1) { //sets the player to choose the divinity
+                    randomPlayer = game.getPlayers().getRandomPlayer();
+                }
+            } else {  //Every player has chosen their starting position,the game can start
+                System.out.println("Starting Game");
+                game.setNTurns(1);
+            }
+
+            game.setCurrentPlayer(randomPlayer);
 
             output.writeObject("Received Starting Position");
 
-        } catch (ClassCastException e) {
+        } catch (
+                ClassCastException e) {
             System.out.println("error while writing the response");
         }
     }

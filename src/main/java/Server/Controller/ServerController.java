@@ -14,60 +14,55 @@ public class ServerController {
 
 
     /**
-     *
      * @param length length of wanted random string
      * @return a random string
      */
-    public static String randomString (int length) {
+    public static String randomString(int length) {
         Random rnd = new Random();
         char[] arr = new char[length];
 
-        for (int i=0; i<length; i++) {
-            int n = rnd.nextInt (36);
-            arr[i] = (char) (n < 10 ? '0'+n : 'a'+n-10);
+        for (int i = 0; i < length; i++) {
+            int n = rnd.nextInt(36);
+            arr[i] = (char) (n < 10 ? '0' + n : 'a' + n - 10);
         }
 
-        return new String (arr);
+        return new String(arr);
     }
 
 
-
     /**
-     *
      * adds the player to the game
-     * @param p player to add
+     *
+     * @param p   player to add
      * @param if3 boolean which checks if the player wants to play in a 2 or a 3 players game
      * @return the Game to which the player is added
      */
-    public Game addPlayerToModel(Player p, boolean if3){        //TODO SYNCHRONIZED
+    public Game addPlayerToModel(Player p, boolean if3) {        //TODO SYNCHRONIZED
         String x;
         Model model = Model.getModel();
 
-        if(model.getGames().size() == 0){       //starting case
-            model.addGame(new Game(0,x = randomString(10),if3,null,null,null,null));
+        if (model.getGames().size() == 0) {       //starting case
+            model.addGame(new Game(0, x = randomString(10), if3, null, new Grid(), new Grid(), null));
             model.searchID(x).getPlayers().addPlayer(p);
-            return(model.searchID(x));
+            return (model.searchID(x));
         }
-        for(Game g : model.getGames()){
-            if(!g.getThreePlayers() && !if3){           //if 2 players
-                if(g.getPlayers().size() < 2){
+        for (Game g : model.getGames()) {
+            if (!g.getThreePlayers() && !if3) {           //if 2 players
+                if (g.getPlayers().size() < 2) {
                     g.getPlayers().addPlayer(p);
                     return g;
                 }
-            }
-            else if(g.getThreePlayers() && if3){       //if 3 players
-                if(g.getPlayers().size() < 3){
+            } else if (g.getThreePlayers() && if3) {       //if 3 players
+                if (g.getPlayers().size() < 3) {
                     g.getPlayers().addPlayer(p);
                     return g;
                 }
-            }
-            else {
+            } else {
                 x = randomString(10);
-                while(model.searchID(x) != null)
-                {
+                while (model.searchID(x) != null) {
                     x = randomString(10);
                 }
-                model.addGame(new Game(0,x,if3,null,null,null,null));
+                model.addGame(new Game(0, x, if3, null, null, null, null));
                 model.searchID(x).getPlayers().addPlayer(p);
                 return model.searchID(x);
             }
@@ -76,47 +71,44 @@ public class ServerController {
     }
 
     /**
-     *
      * @param divinity the divinity to add to the inGameDivinities list
      */
-    public void setInGameDivinities(Divinity divinity){
+    public void setInGameDivinities(Divinity divinity) {
         inGameDivinities.add(divinity);
     }
 
     /**
-     *
      * @return the list of Divinities
      */
-    public ArrayList<Divinity> getInGameDivinities(){
+    public ArrayList<Divinity> getInGameDivinities() {
         return inGameDivinities;
     }
 
     /**
-     *
      * deletes a divinity from inGameDivinities
+     *
      * @param div the divinity to remove
      */
-    public void deleteDivinity(Divinity div){
+    public void deleteDivinity(Divinity div) {
         inGameDivinities.remove(div);
     }
 
     /**
-     *
      * @param grid grid on which to calculate the next possible move(s), based on the player's divinity
      * @return the possible MoveList
      */
-    public MoveList calculateNextMove(Grid grid, Player p, String gameID, Move move, Turn turn){
+    public MoveList calculateNextMove(Grid grid, Player p, String gameID, Move move, Turn turn) {
         MoveList movelist = null;
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
-        if(game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && turn.getNMovesMade() == 0){
+        if (game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && turn.getNMovesMade() == 0) {
             turn.setCantMoveBackHere(move);
         }
 
         /*Turn turn = new Turn(p.getDivinity());      //THING TO DO BEFORE CALL A INIZIO GIOCO!
         turn.startingTurn();   */                     //THING TO DO IMMEDIATELY BEFORE CALL
 
-        if(move.getIfMove()) {              //IF MOVEMENT
+        if (move.getIfMove()) {              //IF MOVEMENT
             movelist = null;
             /*turn.canItComeUp(grid, move); //TODO: PUT OUTSIDE THIS FUNCTION, WHEN CALCULATENEXTMOVE() IS CALLED
             if (!turn.getCanComeUp()) {
@@ -134,14 +126,14 @@ public class ServerController {
             }
 
             if (turn.getNPossibleMoves() > 0) {
-                for(int i = -1; i <= 4; i++){
-                    for(int j = -1; j <= 4; j++){
-                        if(0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
+                for (int i = -1; i <= 4; i++) {
+                    for (int j = -1; j <= 4; j++) {
+                        if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                             if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
                                 if (!grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                                     if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
                                         if ((move.getX() + i != turn.getCantMoveBackHere().getX()) && move.getY() + j != turn.getCantMoveBackHere().getY()) {
-                                            if(!turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
+                                            if (!turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
                                                 Move possMove = new Move(move.getToMove());
 
                                                 possMove.setIfMove(true);
@@ -248,15 +240,13 @@ public class ServerController {
                 turn.setNPossibleMoves(turn.getNPossibleMoves() - 1);
                 turn.setNMovesMade(turn.getNMovesMade() + 1);
             }
-        }
-
-        else if(!move.getIfMove()){             //BUILDING MOVE
+        } else if (!move.getIfMove()) {             //BUILDING MOVE
             movelist = null;
-            if(turn.getCanBuildDomes()){        //ATLAS EFFECT
-                for(int i = 0; i <= 4; i++){
-                    for(int j = 0; i <= 4; j++){
-                        if(grid.getCells(i,j).getPawn() == null && !grid.getCells(i,j).getTower().getIsDome()){
-                            if(game.getAvailableDomes() > 0) {
+            if (turn.getCanBuildDomes()) {        //ATLAS EFFECT
+                for (int i = 0; i <= 4; i++) {
+                    for (int j = 0; i <= 4; j++) {
+                        if (grid.getCells(i, j).getPawn() == null && !grid.getCells(i, j).getTower().getIsDome()) {
+                            if (game.getAvailableDomes() > 0) {
                                 Move possMove = new Move(null);
 
                                 possMove.setIfMove(false);
@@ -269,9 +259,9 @@ public class ServerController {
 
                 }
             }
-            for(int i = -1; i <= 1; i++){
-                for(int j = -1; j <= 1; j++ ) {
-                    if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4){
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                         if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                             if ((turn.getCantBuildOnThisBlock().getX() != move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() != move.getY() + j)) {
                                 if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 0) {
@@ -339,21 +329,19 @@ public class ServerController {
     }
 
     /**
-     *
-     * @param p player to add the divinity
+     * @param p   player to add the divinity
      * @param div divinity to add to the player
      */
-    public void addDivinityToPlayer(Player p, Divinity div){
+    public void addDivinityToPlayer(Player p, Divinity div) {
         p.setDivinity(div);
         deleteDivinity(div);
     }
 
     /**
-     *
-     * @param grid new grid after the move
+     * @param grid   new grid after the move
      * @param gameID the ID of the current game
      */
-    public void updateModelGrid(Grid grid, String gameID){
+    public void updateModelGrid(Grid grid, String gameID) {
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
         game.setOldGrid(game.getNewGrid());
@@ -361,44 +349,42 @@ public class ServerController {
     }
 
     /**
-     *
-     * @param gameID game ID of the game where to set the player's divinity
+     * @param gameID   game ID of the game where to set the player's divinity
      * @param username of the player
-     * @param div divinity to assign to the player
+     * @param div      divinity to assign to the player
      */
-    public void setSpecificPlayerDiv(String gameID, String username, Divinity div) throws IllegalArgumentException{
+    public void setSpecificPlayerDiv(String gameID, String username, Divinity div) throws IllegalArgumentException {
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
-        for(int i = 0; i < game.getPlayers().size() - 1; i++) {
-            if(game.getPlayers().getPlayer(i).getUsername().equals(username)){
-                if(game.getPlayers().getPlayer(i).getDivinity() == null){
+        for (int i = 0; i < game.getPlayers().size() - 1; i++) {
+            if (game.getPlayers().getPlayer(i).getUsername().equals(username)) {
+                if (game.getPlayers().getPlayer(i).getDivinity() == null) {
                     game.getPlayers().getPlayer(i).setDivinity(div);
                     return;
-                }
-                else{
+                } else {
                     throw new IllegalArgumentException();
                 }
             }
         }
     }
 
-    public PlayerList getPlayersThatAlreadyPlaced(Grid grid){
+    public PlayerList getPlayersThatAlreadyPlaced(Grid grid) {
         PlayerList playerList = new PlayerList();
         boolean alreadyContained = false;
-        for(int i = 0; i <= 4; i++){
-            for(int j = 0; j <= 4; j++){
-                if(grid.getCells(i,j).getPawn() != null){
-                    if(playerList.size() == 0){
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                if (grid.getCells(i, j).getPawn() != null) {
+                    if (playerList.size() == 0) {
                         playerList.addPlayer(grid.getCells(i, j).getPawn().getOwner());
-                    }
-                    else{
-                        for(int k = 0; k <= playerList.size() - 1; k++){
-                            if(playerList.getPlayer(k).getUsername().equals(grid.getCells(i,j).getPawn().getOwner().getUsername())){
+                    } else {
+                        alreadyContained = false;
+                        for (int k = 0; k <= playerList.size() - 1; k++) {
+                            if (playerList.getPlayer(k).getUsername().equals(grid.getCells(i, j).getPawn().getOwner().getUsername())) {
                                 alreadyContained = true;
                             }
                         }
-                        if(!alreadyContained){
-                            playerList.addPlayer(grid.getCells(i,j).getPawn().getOwner());
+                        if (!alreadyContained) {
+                            playerList.addPlayer(grid.getCells(i, j).getPawn().getOwner());
                         }
                     }
                 }

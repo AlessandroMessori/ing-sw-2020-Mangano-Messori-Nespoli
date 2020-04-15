@@ -81,17 +81,18 @@ public class Game {
     }
 
     /**
-     *
      * @return available domes
      */
-    public int getAvailableDomes(){
+    public int getAvailableDomes() {
         return availableDomes;
     }
 
     /**
      * decreases by 1 the AvailableDomes
      */
-    public void decreaseAvailableDomes() { availableDomes--; }
+    public void decreaseAvailableDomes() {
+        availableDomes--;
+    }
 
 
     /**
@@ -262,6 +263,13 @@ public class Game {
         availableLevel3Buildings = 14;
         availableDomes = 18;
         inGameDivinities = new DivinityList();
+
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                getNewGrid().setCells(new Cell(null, null), x, y);
+                getOldGrid().setCells(new Cell(null, null), x, y);
+            }
+        }
     }
 
 }
