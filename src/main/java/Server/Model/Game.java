@@ -11,6 +11,7 @@ public class Game {
     private String CodGame;
     private boolean threePlayers;
     private Player currentPlayer;
+    private Player winner;
     private PlayerList players;
     private Grid oldGrid;
     private Grid newGrid;
@@ -95,14 +96,13 @@ public class Game {
     }
 
 
-    /**
+    /*/**
      * sets the number of turns
      *
      * @param t updated number of turns played
      */
-    public void decreaseMaxLevel1Builings(int t) throws IllegalArgumentException {
-
-    }
+    /*public void decreaseMaxLevel1Builings(int t) throws IllegalArgumentException {
+    }*/
 
     /**
      * @return the game ID
@@ -164,6 +164,18 @@ public class Game {
         }
         throw new IllegalArgumentException();
     }
+
+    /**
+     *
+     * @return the winner of the game
+     */
+    public Player getWinner(){ return winner; }
+
+    /**
+     *
+     * @param p the winner of the game
+     */
+    public void setWinner(Player p){ winner = p; }
 
     /**
      * @return the list of players of the game
@@ -254,6 +266,7 @@ public class Game {
         CodGame = CodG;
         threePlayers = threePl;
         currentPlayer = currPl;
+        winner = null;
         players = new PlayerList();       // NOT SURE
         oldGrid = oldG;
         newGrid = newG;

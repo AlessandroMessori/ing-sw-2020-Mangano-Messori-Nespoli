@@ -43,7 +43,7 @@ public class ClientController {
 
             grid.getCells(move.getX(),move.getY()).setPawn(move.getToMove());
             if(grid.getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {
-                //TODO: WIN MESSAGE
+                game.setWinner(game.getCurrentPlayer());            //WINNING MOVE
             }
 
             if(grid.getCells(move.getX() + 1,move.getY()).getPawn().getId() == move.getToMove().getId()){

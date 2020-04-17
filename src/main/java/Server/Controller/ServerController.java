@@ -368,6 +368,11 @@ public class ServerController {
         }
     }
 
+    /**
+     *
+     * @param grid the grid where to see the pawns
+     * @return a PlayerList of players that already placed pawns
+     */
     public PlayerList getPlayersThatAlreadyPlaced(Grid grid) {
         PlayerList playerList = new PlayerList();
         boolean alreadyContained = false;
