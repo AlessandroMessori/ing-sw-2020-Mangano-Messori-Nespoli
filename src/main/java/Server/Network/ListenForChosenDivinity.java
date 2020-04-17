@@ -43,14 +43,13 @@ public class ListenForChosenDivinity extends ResponseHandler {
 
             Player randomPlayer = game.getPlayers().getRandomPlayer();
 
-            if (game.getInGameDivinities().size() > 0) { //sets the player to choose the divinity
-                while (randomPlayer.getDivinity() != null) {
-                    randomPlayer = game.getPlayers().getRandomPlayer();
-                }
-
-
-                game.setCurrentPlayer(randomPlayer);
+            while (randomPlayer.getUsername().equals(username)) {
+                randomPlayer = game.getPlayers().getRandomPlayer();
             }
+
+
+            game.setCurrentPlayer(randomPlayer);
+
             output.writeObject("Received Divinity");
         } catch (ClassCastException e) {
             System.out.println("Error while writing the response");

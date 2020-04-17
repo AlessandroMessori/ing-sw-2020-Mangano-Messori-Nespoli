@@ -42,7 +42,7 @@ public class Client implements Runnable, ServerObserver {
          */
         Scanner scanner = new Scanner(System.in); //local variables
         boolean loopCheck = true;
-        int updateRate = 3;
+        int updateRate = 1;
         String message;
         Instant lastTime;
         ArrayList<String> chosenDivinities;
