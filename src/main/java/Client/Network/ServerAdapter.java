@@ -80,6 +80,12 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestSendChosenMove(String input) {
+        nextCommand = Commands.SEND_CHOSEN_MOVE;
+        requestContent = input;
+        notifyAll();
+    }
+
     @Override
     public void run() {
         try {
@@ -211,6 +217,41 @@ public class ServerAdapter implements Runnable {
         }
     }
 
+    private synchronized void doSendChosenMove() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Chosen Move to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveMoves(responseContent);
+        }
+    }
+
+    private synchronized void receiveEndGame() throws IOException, ClassNotFoundException {
+        System.out.println("Sending EndGame to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveEndGame(responseContent);
+        }
+    }
 
     private synchronized void doCheckModel() throws IOException, ClassNotFoundException {
         outputStm.writeObject(requestContent);
@@ -221,11 +262,9 @@ public class ServerAdapter implements Runnable {
         } catch (Exception e) {
             if (responseContent == null) {
                 System.out.println("null response content");
-            }
-            else if (responseContent.equals("")){
+            } else if (responseContent.equals("")) {
                 System.out.println("void response content");
-            }
-            else {
+            } else {
                 System.out.println("responseContent:");
                 System.out.println(responseContent);
             }

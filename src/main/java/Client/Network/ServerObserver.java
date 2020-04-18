@@ -9,9 +9,9 @@ public interface ServerObserver {
 
     void receivePossibleDivinities(String response);
 
-    void receiveMoves(MoveList moves, Grid grid);
+    void receiveMoves(String moves);
 
-    void receiveEndGame(Grid grid);
+    void receiveEndGame(String endGame);
 
     void receiveModelUpdate(Game game);
 }

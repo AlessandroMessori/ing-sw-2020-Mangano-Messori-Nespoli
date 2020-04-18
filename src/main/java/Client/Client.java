@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import Client.Network.PeriodicUpdater;
@@ -14,6 +15,7 @@ import Server.Model.*;
 import Server.Server;
 import Server.Model.Game;
 import Client.CLI.CLI;
+import Client.Controller.ClientController;
 import Utils.CastingHelper;
 import Utils.MessageSerializer;
 
@@ -22,12 +24,13 @@ public class Client implements Runnable, ServerObserver {
     private Game game;
     private Pages currentPage;
     private CLI cli;
+    private ClientController clientController;
     private MessageSerializer messageSerializer;
     private String playerUsername;
     private boolean checkModel;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
-
+    private int lastMovedTurn = 0;
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -50,6 +53,7 @@ public class Client implements Runnable, ServerObserver {
         currentPage = Pages.WELCOME; //class properties
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         cli = new CLI();
+        clientController = new ClientController();
         messageSerializer = new MessageSerializer();
         checkModel = false;
         alreadyChosenDivinity = false;
@@ -121,6 +125,7 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
+                    //cli.drawGrid();
                     System.out.println("Selecting a random starting position");
                     setsDefaultStartingPosition();
                     message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame()).toString();
@@ -131,6 +136,15 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case GAME:
                     System.out.println("Game Page");
+                    //cli.drawGrid();
+                    System.out.println("Selecting a random move between NextMoves");
+                    Move chosenMove = getRandomMove();
+                    Grid grid = clientController.updateGridByMove(chosenMove, game.getNewGrid(), game.getCodGame(), null);
+                    message = messageSerializer.serializeChosenMove(grid, chosenMove).toString();
+                    lastMovedTurn = game.getNTurns();
+                    currentPage = Pages.LOADINGMOVE;
+
+                    serverAdapter.requestSendChosenMove(message);
                     break;
                 case ENDGAME:
                     loopCheck = false;
@@ -146,6 +160,12 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case LOADINGDIVINITIES:
                     currentPage = Pages.LOADINGDIVINITIES;
+                    break;
+                case LOADINGSTARTINGPOSITION:
+                    currentPage = Pages.LOADINGSTARTINGPOSITION;
+                    break;
+                case LOADINGMOVE:
+                    currentPage = Pages.LOADINGMOVE;
                     break;
                 default:
                     //System.out.println(response);
@@ -194,27 +214,18 @@ public class Client implements Runnable, ServerObserver {
 
     /**
      * function that gets called when an new move signal is received from the server
-     *
-     * @param moves the list of possible moves for the player
-     * @param grid  updated game grid
      */
-    public synchronized void receiveMoves(MoveList moves, Grid grid) {
-        currentPage = Pages.GAME;
-        game.setOldGrid(grid);
-        game.setNewGrid(grid);
+    public synchronized void receiveMoves(String moves) {
+        System.out.println(moves);
         notifyAll();
     }
 
     /**
      * function that gets called when an end game signal is received from the server
-     *
-     * @param grid final value of the game grid
      */
     @Override
-    public synchronized void receiveEndGame(Grid grid) {
-        currentPage = Pages.ENDGAME;
-        game.setOldGrid(grid);
-        game.setNewGrid(grid);
+    public synchronized void receiveEndGame(String endGame) {
+        System.out.println(endGame);
         notifyAll();
     }
 
@@ -275,6 +286,16 @@ public class Client implements Runnable, ServerObserver {
                     }
 
                     break;
+                case LOADINGMOVE:
+                    if (game.getWinner() != null) {
+                        currentPage = Pages.ENDGAME;
+                    } else if (lastMovedTurn < game.getNTurns() && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        currentPage = Pages.GAME;
+                    } else {
+                        currentPage = Pages.LOADINGMOVE;
+                    }
+
+                    break;
             }
         }
 
@@ -314,6 +335,13 @@ public class Client implements Runnable, ServerObserver {
 
     }
 
+    /*Temporary utility function,selects a random move between chosen Moves*/
+    Move getRandomMove() {
+        MoveList moves = game.getNextMoves();
+        Random r = new Random();
+        int rnd = r.nextInt(moves.size());
+        return moves.getMove(rnd);
+    }
 }
 
 
