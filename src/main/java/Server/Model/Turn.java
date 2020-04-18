@@ -1,4 +1,4 @@
-package Server.Controller;
+package Server.Model;
 
 import Server.Model.*;
 import Server.Model.Divinity;
@@ -296,7 +296,8 @@ public class Turn {
      *
      * function called when the turn is starting to set variables
      */
-    public void startingTurn() throws IllegalArgumentException{
+    public void startingTurn(Divinity div) throws IllegalArgumentException{
+        currDivinity = div;
         setNPossibleMoves(1);
         setNMovesMade(0);
         setNPossibleBuildings(1);

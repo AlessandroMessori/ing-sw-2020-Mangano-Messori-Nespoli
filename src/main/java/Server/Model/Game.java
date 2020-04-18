@@ -17,6 +17,7 @@ public class Game {
     private Grid newGrid;
     private MoveList nextMoves;
     private DivinityList inGameDivinities;
+    private Turn gameTurn;
 
 
     /**
@@ -251,6 +252,18 @@ public class Game {
     }
 
     /**
+     *
+     * @param turn the current turn in-game
+     */
+    public void setGameTurn(Turn turn){ gameTurn = turn;}
+
+    /**
+     *
+     * @return the current turn in-game
+     */
+    public Turn getGameTurn() { return gameTurn; }
+
+    /**
      * constructor
      *
      * @param nTur    indicates the number of turn passed + 1
@@ -276,6 +289,7 @@ public class Game {
         availableLevel3Buildings = 14;
         availableDomes = 18;
         inGameDivinities = new DivinityList();
+        gameTurn = new Turn(null);
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {

@@ -5,8 +5,6 @@ import Server.Model.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static Server.Model.Divinity.APOLLO;
-
 public class ServerController {
 
 
