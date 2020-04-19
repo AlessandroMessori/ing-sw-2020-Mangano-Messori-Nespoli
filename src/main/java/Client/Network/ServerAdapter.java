@@ -131,7 +131,7 @@ public class ServerAdapter implements Runnable {
                     doSendStartingPosition();
                     break;
                 case SEND_CHOSEN_MOVE:
-                    //sendChosenMove();
+                    doSendChosenMove();
                     break;
                 case CHECK_MODEL:
                     doCheckModel();
@@ -193,7 +193,8 @@ public class ServerAdapter implements Runnable {
             observersCpy = new ArrayList<>(observers);
         }
 
-        /* notify the observers that we got the string */
+        /* notify the observers t
+        System.out.println(moves. "possible moves");hat we got the string */
         for (ServerObserver observer : observersCpy) {
             observer.receiveDivinities(responseContent);
         }

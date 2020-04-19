@@ -32,6 +32,8 @@ public class ListenForChosenMove extends ResponseHandler {
 
             Game game = model.searchID(gameToCopy.getCodGame());
 
+            System.out.println("Received Send Chosen Move Request");
+
             //updates the game in Model with the data sent from the Client
             game.copyGame(gameToCopy);
 

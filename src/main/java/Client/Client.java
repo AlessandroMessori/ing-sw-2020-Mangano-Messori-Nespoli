@@ -137,18 +137,26 @@ public class Client implements Runnable, ServerObserver {
                 case GAME:
                     //cli.drawGrid();
                     System.out.println("Turn: " + game.getNTurns());
-                    System.out.println("Selecting a random move between NextMoves");
-                    Move chosenMove = getRandomMove();
-                    String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
-                    System.out.println(moveText + "coordinates" + chosenMove.getX() + "," + chosenMove.getY()+ ")");
-                    game = clientController.updateGameByMove(chosenMove, game);
-                    message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
-                    lastMovedTurn = game.getNTurns();
-                    currentPage = Pages.LOADINGMOVE;
+                    Move chosenMove;
 
-                    serverAdapter.requestSendChosenMove(message);
+                    if (game.getNextMoves().size() > 0) {
+                        chosenMove = getRandomMove();
+                        String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
+                        System.out.println(moveText + " coordinates (" + chosenMove.getX() + "," + chosenMove.getY() + ")");
+                        game = clientController.updateGameByMove(chosenMove, game);
+
+                        message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
+                        lastMovedTurn = game.getNTurns();
+                        currentPage = (game.getWinner() != null) ? Pages.ENDGAME : Pages.LOADINGMOVE;
+
+                        serverAdapter.requestSendChosenMove(message);
+                    } else {
+                        System.out.println("There are no possible moves!");
+                        loopCheck = false;
+                    }
                     break;
                 case ENDGAME:
+                    System.out.println("GAME OVER!");
                     loopCheck = false;
                     break;
                 case LOBBY: //passive states: the user can't do anything,the application is idle until an update from the server is received
@@ -201,7 +209,7 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveDivinities(String divinities) {
-        System.out.println(divinities);
+        System.out.println("");
         notifyAll();
     }
 
@@ -210,7 +218,7 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receivePossibleDivinities(String response) {
-        System.out.println(response);
+        System.out.println("");
         notifyAll();
     }
 
@@ -218,7 +226,7 @@ public class Client implements Runnable, ServerObserver {
      * function that gets called when an new move signal is received from the server
      */
     public synchronized void receiveMoves(String moves) {
-        System.out.println(moves);
+        System.out.println("");
         notifyAll();
     }
 
@@ -227,7 +235,7 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveEndGame(String endGame) {
-        System.out.println(endGame);
+        System.out.println("");
         notifyAll();
     }
 
@@ -340,6 +348,9 @@ public class Client implements Runnable, ServerObserver {
     /*Temporary utility function,selects a random move between chosen Moves*/
     Move getRandomMove() {
         MoveList moves = game.getNextMoves();
+
+        System.out.println(moves.size() + " possible moves");
+        System.out.println("Selecting a random move between NextMoves");
         Random r = new Random();
         int rnd = r.nextInt(moves.size());
         return moves.getMove(rnd);

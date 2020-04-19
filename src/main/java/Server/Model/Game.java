@@ -158,7 +158,7 @@ public class Game {
         for (int i = 0; i < players.size(); i++)     //POSSIBLE ERROR: BEFORE I PUT "PLAYERS.SIZE() - 1", NOW CHANGED
         {
             Player p1 = players.getPlayer(i);
-            if (p1.equals(p)) {
+            if (p1.getUsername().equals(p.getUsername())) {
                 currentPlayer = p;
                 return;
             }
@@ -279,10 +279,10 @@ public class Game {
         setNTurns(gameToCopy.getNTurns());
         setOldGrid(gameToCopy.getOldGrid());
         setNewGrid(gameToCopy.getNewGrid());
-        setCodGame(gameToCopy.getCodGame());
+        //setCodGame(gameToCopy.getCodGame());
         setGameTurn(gameToCopy.getGameTurn());
-        players = gameToCopy.getPlayers();
-        setThreePlayers(gameToCopy.getThreePlayers());
+        //players = gameToCopy.getPlayers();
+        //setThreePlayers(gameToCopy.getThreePlayers());
     }
 
     /**
