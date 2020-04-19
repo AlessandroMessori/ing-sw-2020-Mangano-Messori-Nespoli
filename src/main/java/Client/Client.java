@@ -135,12 +135,14 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
-                    System.out.println("Game Page");
                     //cli.drawGrid();
+                    System.out.println("Turn: " + game.getNTurns());
                     System.out.println("Selecting a random move between NextMoves");
                     Move chosenMove = getRandomMove();
-                    Grid grid = clientController.updateGridByMove(chosenMove, game.getNewGrid(), game.getCodGame(), null);
-                    message = messageSerializer.serializeChosenMove(grid, chosenMove).toString();
+                    String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
+                    System.out.println(moveText + "coordinates" + chosenMove.getX() + "," + chosenMove.getY()+ ")");
+                    game = clientController.updateGameByMove(chosenMove, game);
+                    message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
                     lastMovedTurn = game.getNTurns();
                     currentPage = Pages.LOADINGMOVE;
 

@@ -167,16 +167,18 @@ public class Game {
     }
 
     /**
-     *
      * @return the winner of the game
      */
-    public Player getWinner(){ return winner; }
+    public Player getWinner() {
+        return winner;
+    }
 
     /**
-     *
      * @param p the winner of the game
      */
-    public void setWinner(Player p){ winner = p; }
+    public void setWinner(Player p) {
+        winner = p;
+    }
 
     /**
      * @return the list of players of the game
@@ -252,16 +254,36 @@ public class Game {
     }
 
     /**
-     *
      * @param turn the current turn in-game
      */
-    public void setGameTurn(Turn turn){ gameTurn = turn;}
+    public void setGameTurn(Turn turn) {
+        gameTurn = turn;
+    }
 
     /**
-     *
      * @return the current turn in-game
      */
-    public Turn getGameTurn() { return gameTurn; }
+    public Turn getGameTurn() {
+        return gameTurn;
+    }
+
+    /**
+     * copies all the properties from a Game
+     *
+     * @param gameToCopy the game to copy from
+     */
+    public void copyGame(Game gameToCopy) {
+        setWinner(gameToCopy.getWinner());
+        setNextMoves(gameToCopy.getNextMoves());
+        setCurrentPlayer(gameToCopy.getCurrentPlayer());
+        setNTurns(gameToCopy.getNTurns());
+        setOldGrid(gameToCopy.getOldGrid());
+        setNewGrid(gameToCopy.getNewGrid());
+        setCodGame(gameToCopy.getCodGame());
+        setGameTurn(gameToCopy.getGameTurn());
+        players = gameToCopy.getPlayers();
+        setThreePlayers(gameToCopy.getThreePlayers());
+    }
 
     /**
      * constructor
@@ -293,8 +315,8 @@ public class Game {
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                getNewGrid().setCells(new Cell(null, null), x, y);
-                getOldGrid().setCells(new Cell(null, null), x, y);
+                getNewGrid().setCells(new Cell(new Tower(0,false), null), x, y);
+                getOldGrid().setCells(new Cell(new Tower(0,false), null), x, y);
             }
         }
     }

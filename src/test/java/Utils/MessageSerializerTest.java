@@ -26,7 +26,7 @@ public class MessageSerializerTest {
     @Test
     public void serializeJoinGameTest() {
         assertEquals("{\"header\":\"JoinGame\",\"username\":\"Player1\",\"3players\":false,\"gameID\":\"NULL\"}",
-                messageSerializer.serializeJoinGame("Player1", false,null).toString());
+                messageSerializer.serializeJoinGame("Player1", false, null).toString());
     }
 
     @Test
@@ -35,13 +35,13 @@ public class MessageSerializerTest {
         divinities.add(Divinity.APOLLO);
         divinities.add(Divinity.ARTEMIS);
         assertEquals("{\"header\":\"TestHeader\",\"divinities\":\"[\\\"APOLLO\\\",\\\"ARTEMIS\\\"]\",\"gameID\":\"\"}",
-                messageSerializer.serializeDivinities(divinities, "TestHeader","").toString());
+                messageSerializer.serializeDivinities(divinities, "TestHeader", "").toString());
     }
 
     @Test
     public void serializeSendDivinityTest() {
         assertEquals("{\"header\":\"SendChosenDivinity\",\"divinity\":\"\\\"APOLLO\\\"\",\"username\":\"username\",\"gameID\":\"gameID\"}",
-                messageSerializer.serializeDivinity(Divinity.APOLLO,"username","gameID").toString());
+                messageSerializer.serializeDivinity(Divinity.APOLLO, "username", "gameID").toString());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class MessageSerializerTest {
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
         Gson gson = new Gson();
-        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader","username","gameID"));
+        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID"));
     }
 
     @Test
@@ -59,12 +59,11 @@ public class MessageSerializerTest {
         Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
         Pawn pawn = new Pawn(testPlayer);
         Cell cell = new Cell(new Tower(1, false), pawn);
-        Grid grid = new Grid();
-        grid.setCells(cell, 2, 3);
+        Game game = new Game(0, "", false, new Player("G1", Divinity.ATHENA, Colour.RED), new Grid(), new Grid(), new MoveList());
         Move move = new Move(pawn);
         move.setX(2);
         move.setY(2);
-        System.out.println(messageSerializer.serializeChosenMove(grid, move));
+        System.out.println(messageSerializer.serializeChosenMove(game, move));
     }
 
     @Test

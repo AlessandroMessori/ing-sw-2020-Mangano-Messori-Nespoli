@@ -96,7 +96,7 @@ public class ServerController {
      * @return the possible MoveList
      */
     public MoveList calculateNextMove(Grid grid, Player p, String gameID, Move move, Turn turn) {
-        MoveList movelist = null;
+        MoveList movelist = new MoveList();
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
         if (game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && turn.getNMovesMade() == 0) {
@@ -107,7 +107,7 @@ public class ServerController {
         turn.startingTurn();   */                     //THING TO DO IMMEDIATELY BEFORE CALL
 
         if (move.getIfMove()) {              //IF MOVEMENT
-            movelist = null;
+            movelist = new MoveList();
             /*turn.canItComeUp(grid, move); //TODO: PUT OUTSIDE THIS FUNCTION, WHEN CALCULATENEXTMOVE() IS CALLED
             if (!turn.getCanComeUp()) {
                 if (turn.getCanBuildBeforeMove()) {
@@ -239,7 +239,7 @@ public class ServerController {
                 turn.setNMovesMade(turn.getNMovesMade() + 1);
             }
         } else if (!move.getIfMove()) {             //BUILDING MOVE
-            movelist = null;
+            movelist = new MoveList();
             if (turn.getCanBuildDomes()) {        //ATLAS EFFECT
                 for (int i = 0; i <= 4; i++) {
                     for (int j = 0; i <= 4; j++) {

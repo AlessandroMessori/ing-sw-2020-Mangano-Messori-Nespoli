@@ -112,15 +112,15 @@ public class MessageSerializer {
     /**
      * serializes in JSON a send Chosen Move Message
      *
-     * @param grid the grid to serialize
+     * @param game the game to serialize
      * @param move the move to serialize
      * @return the JSON serialized send Chosen Move Message
      */
-    public JsonElement serializeChosenMove(Grid grid, Move move) {
+    public JsonElement serializeChosenMove(Game game, Move move) {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("SendChosenMove"));
-        result.add("grid", new JsonPrimitive(gson.toJson(grid)));
+        result.add("game", new JsonPrimitive(gson.toJson(game)));
         result.add("move", new JsonPrimitive(gson.toJson(move)));
 
         return result;

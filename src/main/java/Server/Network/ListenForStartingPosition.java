@@ -44,7 +44,19 @@ public class ListenForStartingPosition extends ResponseHandler {
             game.setOldGrid(grid);
             game.setNewGrid(grid);
 
+            Move move = new Move(null);
+            move.setIfMove(true);
 
+            for (int x=0;x<5;x++) {
+                for(int y=0;y<5;y++) {
+                    Cell currentCell = game.getNewGrid().getCells(x, y);
+                    if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                        move.setX(x);
+                        move.setY(y);
+                        move.setToMove(currentCell.getPawn());
+                    }
+                }
+            }
             //Select new current player
             Player randomPlayer = game.getPlayers().getRandomPlayer();
             PlayerList alreadyPlacedPlayers = serverController.getPlayersThatAlreadyPlaced(grid);
@@ -55,9 +67,11 @@ public class ListenForStartingPosition extends ResponseHandler {
                     randomPlayer = game.getPlayers().getRandomPlayer();
                 }
             } else {  //Every player has chosen their starting position,the game can start
+                game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(),randomPlayer,gameID,move,game.getGameTurn()));
                 System.out.println("Starting Game");
                 game.setNTurns(1);
             }
+
 
             game.setCurrentPlayer(randomPlayer);
 
