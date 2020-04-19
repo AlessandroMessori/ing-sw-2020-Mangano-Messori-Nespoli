@@ -117,10 +117,10 @@ public class ClientController {
                 }
             }
 
-            else
+            /*else
             {
                 throw new IllegalArgumentException();       //DANGER: MAY NOT WORK
-            }
+            }*/
 
         }
 
