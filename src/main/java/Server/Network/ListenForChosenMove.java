@@ -3,6 +3,7 @@ package Server.Network;
 import Server.Controller.ServerController;
 import Server.Model.*;
 import Utils.MessageDeserializer;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -46,8 +47,10 @@ public class ListenForChosenMove extends ResponseHandler {
 
             game.setCurrentPlayer(randomPlayer);
             game.setNTurns(game.getNTurns() + 1);
+            game.setGameTurn(new Turn(game.getCurrentPlayer().getDivinity()));
 
             //calculates and sets the next possible moves for the player
+            //System.out.println(new Gson().toJson(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), game.getCodGame(), chosenMove, game.getGameTurn())));
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), game.getCodGame(), chosenMove, game.getGameTurn()));
 
 
