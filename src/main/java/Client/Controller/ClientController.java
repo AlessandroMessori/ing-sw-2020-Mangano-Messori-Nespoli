@@ -45,11 +45,13 @@ public class ClientController {
 
             for(int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
-                    if(game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                        if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn().getId() == move.getToMove().getId()) {
-                            game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
-                            if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
-                                game.getGameTurn().setPawnMoved(true);
+                    if(0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
+                        if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                            if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn().getId() == move.getToMove().getId()) {
+                                game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
+                                if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
+                                    game.getGameTurn().setPawnMoved(true);
+                                }
                             }
                         }
                     }
