@@ -127,9 +127,9 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case STARTINGPOSITIONCHOICE:
                     Colour chosenColor = cli.choseColor();
-
-                    cli.drawGrid(game.getNewGrid());
+                    game.getCurrentPlayer().setColour(chosenColor);
                     game.setNewGrid(cli.readStartingPosition(game.getCurrentPlayer()));
+                    cli.drawGrid(game.getNewGrid());
                     game.setOldGrid(game.getNewGrid());
                     message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame(), chosenColor).toString();
                     alreadyChosenStartingPosition = true;
