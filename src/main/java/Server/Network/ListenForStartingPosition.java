@@ -4,6 +4,7 @@ import Server.Controller.ServerController;
 import Server.Model.*;
 import Utils.CastingHelper;
 import Utils.MessageDeserializer;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -43,20 +44,6 @@ public class ListenForStartingPosition extends ResponseHandler {
             // add updated grid to model
             game.setOldGrid(grid);
             game.setNewGrid(grid);
-
-            Move move = new Move(null);
-            move.setIfMove(true);
-
-            for (int x=0;x<5;x++) {
-                for(int y=0;y<5;y++) {
-                    Cell currentCell = game.getNewGrid().getCells(x, y);
-                    if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                        move.setX(x);
-                        move.setY(y);
-                        move.setToMove(currentCell.getPawn());
-                    }
-                }
-            }
             //Select new current player
             Player randomPlayer = game.getPlayers().getRandomPlayer();
             PlayerList alreadyPlacedPlayers = serverController.getPlayersThatAlreadyPlaced(grid);
@@ -66,14 +53,32 @@ public class ListenForStartingPosition extends ResponseHandler {
                 while (alreadyPlacedPlayers.searchPlayerByUsername(randomPlayer.getUsername()) != -1) { //sets the player to choose the divinity
                     randomPlayer = game.getPlayers().getRandomPlayer();
                 }
+                game.setCurrentPlayer(randomPlayer);
             } else {  //Every player has chosen their starting position,the game can start
-                game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(),randomPlayer,gameID,move,game.getGameTurn()));
+                Move move = new Move(null);
+                move.setIfMove(true);
+
+                for (int x = 0; x < 5; x++) {
+                    for (int y = 0; y < 5; y++) {
+                        Cell currentCell = game.getNewGrid().getCells(x, y);
+                        if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(randomPlayer.getUsername())) {
+                            move.setX(x);
+                            move.setY(y);
+                            move.setToMove(currentCell.getPawn());
+                        }
+                    }
+                }
+
+
+                game.setCurrentPlayer(randomPlayer);
+                game.setGameTurn(new Turn(randomPlayer.getDivinity()));     // initializes game Turn
+                game.getGameTurn().startingTurn(randomPlayer.getDivinity()); // starts turn
+
+                //calculates initial moves for starting player
+                game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), randomPlayer, gameID, move, game.getGameTurn()));
                 System.out.println("Starting Game");
                 game.setNTurns(1);
             }
-
-
-            game.setCurrentPlayer(randomPlayer);
 
             output.writeObject("Received Starting Position");
 

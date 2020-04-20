@@ -37,20 +37,32 @@ public class ListenForChosenMove extends ResponseHandler {
 
             //updates the game in Model with the data sent from the Client
             game.copyGame(gameToCopy);
+            game.setnMoves(game.getnMoves() + 1);
 
-            //updates the current player
-            Player randomPlayer = game.getPlayers().getRandomPlayer();
-
-            while (randomPlayer.getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                randomPlayer = game.getPlayers().getRandomPlayer();
+            if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() > 0) {
+                chosenMove.setIfMove(false);
             }
 
-            game.setCurrentPlayer(randomPlayer);
-            game.setNTurns(game.getNTurns() + 1);
-            game.setGameTurn(new Turn(game.getCurrentPlayer().getDivinity()));
+            if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0) {
+                // current turn is over,starting new turn
+                chosenMove.setIfMove(true);
+                //selects a new player to play
+                Player randomPlayer = game.getPlayers().getRandomPlayer();
 
+                while (randomPlayer.getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                    randomPlayer = game.getPlayers().getRandomPlayer();
+                }
+
+                game.setCurrentPlayer(randomPlayer);
+                game.setNTurns(game.getNTurns() + 1);
+
+                //reinizialites turn data
+                game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
+            }
             //calculates and sets the next possible moves for the player
-            //System.out.println(new Gson().toJson(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), game.getCodGame(), chosenMove, game.getGameTurn())));
+            System.out.println(new Gson().toJson(chosenMove));
+
+
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), game.getCodGame(), chosenMove, game.getGameTurn()));
 
 
