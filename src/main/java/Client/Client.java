@@ -126,10 +126,12 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    //cli.drawGrid();
-                    System.out.println("Selecting a random starting position");
-                    setsDefaultStartingPosition();
-                    message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame()).toString();
+                    Colour chosenColor = cli.choseColor();
+
+                    cli.drawGrid(game.getNewGrid());
+                    game.setNewGrid(cli.readStartingPosition(game.getCurrentPlayer()));
+                    game.setOldGrid(game.getNewGrid());
+                    message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame(), chosenColor).toString();
                     alreadyChosenStartingPosition = true;
                     currentPage = Pages.LOADINGSTARTINGPOSITION;
 
@@ -139,9 +141,9 @@ public class Client implements Runnable, ServerObserver {
                     if (lastMovedturn < game.getNTurns()) {
                         System.out.println("Turn: " + game.getNTurns());
                         lastMovedturn = game.getNTurns();
-                        }
+                    }
 
-                    //cli.drawGrid();
+                    cli.drawGrid(game.getNewGrid());
                     Move chosenMove;
 
                     if (game.getNextMoves().size() > 0) {

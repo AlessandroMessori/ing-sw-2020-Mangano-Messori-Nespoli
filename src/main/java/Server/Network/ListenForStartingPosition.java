@@ -34,13 +34,16 @@ public class ListenForStartingPosition extends ResponseHandler {
         try {
             Grid grid;
             String gameID;
+            Colour colour;
 
             System.out.println("Received Send Starting Position Request");
 
             grid = messageDeserializer.deserializeObject(requestContent, "grid", Grid.class);
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             game = Model.getModel().searchID(gameID);
+            colour = messageDeserializer.deserializeObject(requestContent, "colour", Colour.class);
 
+            game.getCurrentPlayer().setColour(colour);
             // add updated grid to model
             game.setOldGrid(grid);
             game.setNewGrid(grid);
