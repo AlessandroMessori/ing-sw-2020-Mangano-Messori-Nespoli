@@ -131,6 +131,7 @@ public class CLI {
         Colour color = null;
         Scanner input = new Scanner(System.in);
         int val;
+        StringColor colorShowed = null;
         String word;
         boolean alreadyIn = false;
         boolean chosen;
@@ -138,6 +139,12 @@ public class CLI {
 
         System.out.println("\nIn-game Colors to choose from (if marked, it has already been chosen): ");
         for(int i = 0; i < colors.length; i++){
+            if(colors[i] == Colour.BLUE) colorShowed = StringColor.ANSI_BLUE;
+            if(colors[i] == Colour.RED) colorShowed = StringColor.ANSI_RED;
+            if(colors[i] == Colour.GREEN) colorShowed = StringColor.ANSI_GREEN;
+            if(colors[i] == Colour.YELLOW) colorShowed = StringColor.ANSI_YELLOW;
+            if(colors[i] == Colour.WHITE) colorShowed = StringColor.ANSI_WHITE;
+            if(colors[i] == Colour.PINK) colorShowed = StringColor.ANSI_PINK;
             chosen = false;
             for(String inGameColor : inGameColors){
                 if (inGameColor.equals(colors[i].toString())) {
@@ -145,9 +152,9 @@ public class CLI {
                 }
             }
             if(!chosen){
-                System.out.println((i + 1) + " " + colors[i].toString());
+                System.out.println((i + 1) + " "+ colorShowed + colors[i].toString() + StringColor.RESET);
             }else{
-                System.out.println((char) 27 + "[9m" + (i + 1) + " " + colors[i].toString() + (char) 27 + "[0m");
+                System.out.println((char) 27 + "[9m" + (i + 1) + " " + colorShowed + colors[i].toString() + (char) 27 + "[0m");
             }
         }
 
@@ -505,18 +512,18 @@ public class CLI {
         lobby = false;
     }
 
-/*
+
     public static void main(String[] args) {
 
 
 
         CLI cli = new CLI();
+        cli.choseColor();
+       /*
         Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
 
         cli.gameGrid.getCells(2,3).setTower(new Tower(2,false));
         cli.drawGrid(cli.readStartingPosition(p));
-
-
 
         cli.printWelcome();
         cli.readUsername();
@@ -529,8 +536,8 @@ public class CLI {
             System.out.println(cli.readChosenDivinity());
         }
 
-
-    }
 */
+    }
+
 
 }
