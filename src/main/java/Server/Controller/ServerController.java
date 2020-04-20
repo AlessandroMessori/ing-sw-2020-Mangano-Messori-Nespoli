@@ -357,7 +357,7 @@ public class ServerController {
     public void setSpecificPlayerDiv(String gameID, String username, Divinity div) throws IllegalArgumentException {
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
-        for (int i = 0; i < game.getPlayers().size() - 1; i++) {
+        for (int i = 0; i < game.getPlayers().size(); i++) {
             if (game.getPlayers().getPlayer(i).getUsername().equals(username)) {
                 if (game.getPlayers().getPlayer(i).getDivinity() == null) {
                     game.getPlayers().getPlayer(i).setDivinity(div);

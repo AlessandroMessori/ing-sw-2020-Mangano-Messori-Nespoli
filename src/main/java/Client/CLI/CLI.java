@@ -1,14 +1,10 @@
 package Client.CLI;
 
-import java.awt.desktop.SystemEventListener;
-import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Server.Model.*;
-
-import javax.print.DocFlavor;
 
 public class CLI {
     private Grid gameGrid;
@@ -131,6 +127,7 @@ public class CLI {
         Colour color = null;
         Scanner input = new Scanner(System.in);
         int val;
+        StringColor[] colorShowed = StringColor.values();
         String word;
         boolean alreadyIn = false;
         boolean chosen;
@@ -138,6 +135,7 @@ public class CLI {
 
         System.out.println("\nIn-game Colors to choose from (if marked, it has already been chosen): ");
         for(int i = 0; i < colors.length; i++){
+
             chosen = false;
             for(String inGameColor : inGameColors){
                 if (inGameColor.equals(colors[i].toString())) {
@@ -145,9 +143,9 @@ public class CLI {
                 }
             }
             if(!chosen){
-                System.out.println((i + 1) + " " + colors[i].toString());
+                System.out.println((i + 1) + " " + colorShowed[i] + colors[i].toString() + StringColor.RESET);
             }else{
-                System.out.println((char) 27 + "[9m" + (i + 1) + " " + colors[i].toString() + (char) 27 + "[0m");
+                System.out.println((char) 27 + "[9m" + (i + 1) + " "  + colors[i].toString() + (char) 27 + "[0m");
             }
         }
 
@@ -164,10 +162,10 @@ public class CLI {
                     if (!alreadyIn) {
                         inGameColors.add(colors[val - 1].toString());
                         color = colors[val - 1];
-                        System.out.println("+++ Chosen " + colors[val - 1].toString() + " +++");
+                        System.out.println("+++ Chosen " + colorShowed[val-1] + colors[val - 1].toString() + StringColor.RESET + " +++");
                         playerChoice = true;
                     } else {
-                        System.out.println("Color: " + val + " " + colors[val - 1].toString() + " is already chosen.");
+                        System.out.println("Color: " + val + " " + colorShowed[val-1] + colors[val - 1].toString() + StringColor.RESET +" is already chosen.");
                     }
                 } else {
                     System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry ");
@@ -351,7 +349,7 @@ public class CLI {
             for(int y = 0; y < 5; y++) {
                 if(y == 0) {
                     rowOne.append("\t|");
-                    rowTwo.append( x+1 + "\t|");
+                    rowTwo.append( (x+1) + "\t|");
                 }else{
                     rowOne.append("|");
                     rowTwo.append("|");
@@ -478,7 +476,7 @@ public class CLI {
         return gameGrid;
     }
 
-    public void printListMoves(){
+    public void printListMoves(MoveList possibleMoves){
 
     }
 
@@ -511,12 +509,12 @@ public class CLI {
 
 
         CLI cli = new CLI();
+        for(int i = 0; i < 3; i++) cli.choseColor();
+
         Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
 
         cli.gameGrid.getCells(2,3).setTower(new Tower(2,false));
         cli.drawGrid(cli.readStartingPosition(p));
-
-
 
         cli.printWelcome();
         cli.readUsername();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
     private int nTurns;
+    private int nMoves;
     private int availableLevel1Buildings;
     private int availableLevel2Buildings;
     private int availableLevel3Buildings;
@@ -35,6 +36,26 @@ public class Game {
     public void setNTurns(int t) throws IllegalArgumentException {
         if (t >= 0) {
             nTurns = t;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * @return number of moves played
+     */
+    public int getnMoves() {
+        return nMoves;
+    }
+
+    /**
+     * sets the number of turns
+     *
+     * @param m updated number of moves played
+     */
+    public void setnMoves(int m) throws IllegalArgumentException {
+        if (m >= 0) {
+            nMoves = m;
         } else {
             throw new IllegalArgumentException();
         }
@@ -277,10 +298,11 @@ public class Game {
         setNextMoves(gameToCopy.getNextMoves());
         setCurrentPlayer(gameToCopy.getCurrentPlayer());
         setNTurns(gameToCopy.getNTurns());
+        setnMoves(gameToCopy.getnMoves());
         setOldGrid(gameToCopy.getOldGrid());
         setNewGrid(gameToCopy.getNewGrid());
-        //setCodGame(gameToCopy.getCodGame());
         setGameTurn(gameToCopy.getGameTurn());
+        //setCodGame(gameToCopy.getCodGame());
         //players = gameToCopy.getPlayers();
         //setThreePlayers(gameToCopy.getThreePlayers());
     }
@@ -312,11 +334,12 @@ public class Game {
         availableDomes = 18;
         inGameDivinities = new DivinityList();
         gameTurn = new Turn(null);
+        nMoves = 0;
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                getNewGrid().setCells(new Cell(new Tower(0,false), null), x, y);
-                getOldGrid().setCells(new Cell(new Tower(0,false), null), x, y);
+                getNewGrid().setCells(new Cell(new Tower(0, false), null), x, y);
+                getOldGrid().setCells(new Cell(new Tower(0, false), null), x, y);
             }
         }
     }

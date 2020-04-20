@@ -51,7 +51,7 @@ public class MessageSerializerTest {
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
         Gson gson = new Gson();
-        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID"));
+        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID",Colour.RED));
     }
 
     @Test

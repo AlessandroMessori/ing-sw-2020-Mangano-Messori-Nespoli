@@ -30,7 +30,8 @@ public class Client implements Runnable, ServerObserver {
     private boolean checkModel;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
-    private int lastMovedTurn = 0;
+    private int lastMoveNumber = -1;
+    private int lastMovedturn = 0;
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -125,18 +126,24 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    //cli.drawGrid();
-                    System.out.println("Selecting a random starting position");
-                    setsDefaultStartingPosition();
-                    message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame()).toString();
+                    Colour chosenColor = cli.choseColor();
+
+                    cli.drawGrid(game.getNewGrid());
+                    game.setNewGrid(cli.readStartingPosition(game.getCurrentPlayer()));
+                    game.setOldGrid(game.getNewGrid());
+                    message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame(), chosenColor).toString();
                     alreadyChosenStartingPosition = true;
                     currentPage = Pages.LOADINGSTARTINGPOSITION;
 
                     serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
-                    //cli.drawGrid();
-                    System.out.println("Turn: " + game.getNTurns());
+                    if (lastMovedturn < game.getNTurns()) {
+                        System.out.println("Turn: " + game.getNTurns());
+                        lastMovedturn = game.getNTurns();
+                    }
+
+                    cli.drawGrid(game.getNewGrid());
                     Move chosenMove;
 
                     if (game.getNextMoves().size() > 0) {
@@ -146,7 +153,7 @@ public class Client implements Runnable, ServerObserver {
                         game = clientController.updateGameByMove(chosenMove, game);
 
                         message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
-                        lastMovedTurn = game.getNTurns();
+                        lastMoveNumber = game.getnMoves();
                         currentPage = (game.getWinner() != null) ? Pages.ENDGAME : Pages.LOADINGMOVE;
 
                         serverAdapter.requestSendChosenMove(message);
@@ -299,7 +306,7 @@ public class Client implements Runnable, ServerObserver {
                 case LOADINGMOVE:
                     if (game.getWinner() != null) {
                         currentPage = Pages.ENDGAME;
-                    } else if (lastMovedTurn < game.getNTurns() && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                    } else if (lastMoveNumber < game.getnMoves() && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                         currentPage = Pages.GAME;
                     } else {
                         currentPage = Pages.LOADINGMOVE;
