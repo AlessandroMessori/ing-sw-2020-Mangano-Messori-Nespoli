@@ -46,7 +46,7 @@ public class MessageSerializerTest {
 
     @Test
     public void serializeStartingPositionTest() {
-        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         Cell cell = new Cell(new Tower(1, false), new Pawn(testPlayer));
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
@@ -56,7 +56,7 @@ public class MessageSerializerTest {
 
     @Test
     public void serializeChosenMoveTest() {
-        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         Pawn pawn = new Pawn(testPlayer);
         Cell cell = new Cell(new Tower(1, false), pawn);
         Game game = new Game(0, "", false, new Player("G1", Divinity.ATHENA, Colour.RED), new Grid(), new Grid(), new MoveList());
@@ -68,7 +68,7 @@ public class MessageSerializerTest {
 
     @Test
     public void serializeNextMovesTest() {
-        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         Pawn pawn = new Pawn(testPlayer);
         Cell cell = new Cell(new Tower(1, false), pawn);
         MoveList moves = new MoveList();

@@ -13,7 +13,7 @@ public class MoveTest {
 
     @Before
     public void setUp(){
-        pawn = new Pawn(new Player("Player1", Divinity.ATHENA, Colour.BLACK));
+        pawn = new Pawn(new Player("Player1", Divinity.ATHENA, Colour.YELLOW));
         move = new Move(pawn);
     }
 

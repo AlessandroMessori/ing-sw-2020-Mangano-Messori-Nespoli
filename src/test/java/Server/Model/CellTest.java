@@ -40,7 +40,7 @@ public class CellTest {
 
     @Test
     public void getPawnTest() {
-        player = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        player = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         pawn = new Pawn(player);
         cell = new Cell(new Tower(0,false), pawn);
         assertSame(cell.getPawn(), pawn);
@@ -48,7 +48,7 @@ public class CellTest {
 
     @Test
     public void setPawnTest() {
-        player = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        player = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         pawn = new Pawn(player);
         cell = new Cell(new Tower(0,false), null);
         cell.setPawn(pawn);
