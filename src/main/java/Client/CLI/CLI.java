@@ -7,11 +7,8 @@ import java.util.Scanner;
 import Server.Model.*;
 
 public class CLI {
-    //private Grid gameGrid;
     private boolean twoOrThree;
     private ArrayList<String> chosenDivinities;
-    private ArrayList<String> inGameDivinities;
-    //private ArrayList<String> inGameColors;
     private int players;
     private int oldSize;
     private boolean lobby;
@@ -227,7 +224,7 @@ public class CLI {
                     }
                     if (!alreadyIn) {
                         chosenDivinities.add(divinities[val - 1].toString());
-                        System.out.println("+++ Added " + divinities[val-1].toString() + " +++");
+                        System.out.println("You chose: " + val + " " + divinities[val-1].toString());
                     } else {
                         System.out.println("Divinity: " + val + " " + divinities[val-1].toString() + " is already chosen.");
                     }
@@ -266,38 +263,42 @@ public class CLI {
 
     /**
      * Print the 2 or 3 divinities from which the player has to choose
+     * @param playableDivinities ArrayList of playable divinities for the current game
+     * @param inGameDivinities ArrayList of divinities you can chose from, not already chosen
      */
-    public void printPossibleDivinities(){
+    public void printPossibleDivinities(ArrayList<String> playableDivinities, ArrayList<String> inGameDivinities){
         boolean chosen = false;
         System.out.println("\nIn-game divinities to choose from (if marked, it has already been chosen): ");
-        for (int i = 0; i < chosenDivinities.size(); i++) {
+        for (int i = 0; i < playableDivinities.size(); i++) {
             chosen = false;
             for (String inGameDivinity : inGameDivinities) {
 
-                if (chosenDivinities.get(i).equals(inGameDivinity)) {
+                if (playableDivinities.get(i).equals(inGameDivinity)) {
                     chosen = true;
                 }
             }
             if(!chosen){
-                System.out.println((i + 1) + " " + chosenDivinities.get(i));
+                System.out.println((char) 27 + "[9m" + (i + 1) + " " + playableDivinities.get(i) + (char) 27 + "[0m");
             }else{
-                System.out.println((char) 27 + "[9m" + (i + 1) + " " + chosenDivinities.get(i) + (char) 27 + "[0m");
+                System.out.println((i + 1) + " " + playableDivinities.get(i));
             }
         }
     }
 
     /**
      * Read the divinity chose from the player
+     * @param playableDivinities ArrayList of playable divinities for the current game
+     * @param inGameDivinities ArrayList of divinities you can chose from, not already chosen
      * @return name of the divinity chose from the player
      */
-    public String readChosenDivinity(){
+    public String readChosenDivinity(ArrayList<String> playableDivinities, ArrayList<String> inGameDivinities){
         String plDivinity = null;
         Scanner input = new Scanner(System.in);
         String word;
         boolean chosen = false;
         boolean in = false;
         int val;
-        int diff = chosenDivinities.size() - inGameDivinities.size();
+        int diff = inGameDivinities.size();
 
         while(!chosen){
             if(diff != 1) {
@@ -305,40 +306,31 @@ public class CLI {
                 word = input.next();
                 if (word.matches("^-?\\d+$")) {
                     val = Integer.parseInt(word);
-                    if((val > 0) && (val < chosenDivinities.size()+1)) {
+                    if((val > 0) && (val < playableDivinities.size()+1)) {
                         in = false;
                         for (String inGameDivinity : inGameDivinities) {
 
-                            if (chosenDivinities.get(val-1).equals(inGameDivinity)) {
+                            if (playableDivinities.get(val-1).equals(inGameDivinity)) {
                                 in = true;
                             }
                         }
                         if(!in){
-                            plDivinity = chosenDivinities.get(val - 1);
-                            chosen = true;
+                            System.out.println("Divinity: " + val + " " + playableDivinities.get(val-1) + " is already chosen.");
                         }else{
-                            System.out.println("Divinity: " + val + " " + chosenDivinities.get(val-1) + " is already chosen.");
+                            plDivinity = playableDivinities.get(val - 1);
+                            System.out.println("You chose: "+  plDivinity);
+                            chosen = true;
                         }
 
                     }else{
-                        System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + chosenDivinities.size() + ". Retry");
+                        System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + playableDivinities.size() + ". Retry");
                     }
                 } else {
-                    System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + chosenDivinities.size() + ". Retry");
+                    System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + playableDivinities.size() + ". Retry");
                 }
             } else {
-                for (int j = 0; j < chosenDivinities.size(); j++) {
-                    for (int t = 0; t < inGameDivinities.size(); t++) {
-                        in = false;
-                        if (inGameDivinities.get(t).equals(chosenDivinities.get(j))) {
-                            in = true;
-                        }
-                    }
-                    if(!in){
-                        plDivinity = chosenDivinities.get(j);
-                        chosen = true;
-                    }
-                }
+                plDivinity = inGameDivinities.get(0);
+                chosen = true;
                 System.out.println("\nRemaining divinity: " + plDivinity);
             }
         }
@@ -514,10 +506,7 @@ public class CLI {
      * Constructor
      */
     public CLI(){
-        //gameGrid = new Grid();
         chosenDivinities = new ArrayList<String>();
-        inGameDivinities = new ArrayList<String>();
-        //inGameColors = new ArrayList<String>();
         lobby = false;
     }
 
