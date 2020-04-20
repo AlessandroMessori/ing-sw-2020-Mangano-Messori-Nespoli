@@ -123,6 +123,7 @@ public class CLI {
 
     /**
      * Print the list of possible colors for the player and let him chose one
+     * @param inGameColors already chosen colors
      * @return color chosen
      */
     public Colour choseColor(ArrayList<String> inGameColors) {
@@ -270,9 +271,9 @@ public class CLI {
         boolean chosen = false;
         System.out.println("\nIn-game divinities to choose from (if marked, it has already been chosen): ");
         for (int i = 0; i < chosenDivinities.size(); i++) {
-
+            chosen = false;
             for (String inGameDivinity : inGameDivinities) {
-                chosen = false;
+
                 if (chosenDivinities.get(i).equals(inGameDivinity)) {
                     chosen = true;
                 }
@@ -305,8 +306,9 @@ public class CLI {
                 if (word.matches("^-?\\d+$")) {
                     val = Integer.parseInt(word);
                     if((val > 0) && (val < chosenDivinities.size()+1)) {
+                        in = false;
                         for (String inGameDivinity : inGameDivinities) {
-                            in = false;
+
                             if (chosenDivinities.get(val-1).equals(inGameDivinity)) {
                                 in = true;
                             }
