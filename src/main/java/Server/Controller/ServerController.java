@@ -262,6 +262,9 @@ public class ServerController {
                     if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                         if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                             if ((turn.getCantBuildOnThisBlock().getX() != move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() != move.getY() + j)) {
+                                if(i == 0 && j == 0){
+                                    continue;               //TO NOT BUILD UNDER THE PAWN; COULD NOT WORK
+                                }
                                 if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 0) {
                                     if (game.getAvailableLevel1Buildings() > 0) {
                                         Move possMove = new Move(null);
