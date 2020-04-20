@@ -48,7 +48,7 @@ public class PlayerListTest {
         playerList = new PlayerList();
 
         playerList.addPlayer(new Player("Player1", Divinity.ATHENA, Colour.RED));
-        playerList.addPlayer(new Player("Player2", Divinity.PROMETHEUS, Colour.BLACK));
+        playerList.addPlayer(new Player("Player2", Divinity.PROMETHEUS, Colour.YELLOW));
         playerList.addPlayer(new Player("Player3", Divinity.ATLAS, Colour.BLUE));
 
         for (int i = 0; i < 10; i++) {
@@ -95,7 +95,7 @@ public class PlayerListTest {
         playerList.addPlayer(new Player("Player2", Divinity.ATLAS, Colour.BLUE));
 
 
-        playerList.addPlayer(new Player("Player2", Divinity.ATHENA, Colour.BLACK));
+        playerList.addPlayer(new Player("Player2", Divinity.ATHENA, Colour.YELLOW));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class PlayerListTest {
         playerList.addPlayer(new Player("Player2", Divinity.ATLAS, Colour.BLUE));
 
         Player toSearchPlayer1 = playerList.getPlayer(1);
-        Player toSearchPlayer2 = new Player("Player3", Divinity.HEPHAESTUS, Colour.BLACK);
+        Player toSearchPlayer2 = new Player("Player3", Divinity.HEPHAESTUS, Colour.YELLOW);
 
 
         assertEquals(1, playerList.searchPlayerByUsername(toSearchPlayer1.getUsername()));

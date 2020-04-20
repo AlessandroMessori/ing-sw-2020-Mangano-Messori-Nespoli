@@ -37,7 +37,7 @@ public class GridTest {
 
     @Test
     public void printGridTest() {
-        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.BLACK);
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         cell = new Cell(new Tower(1, false), new Pawn(testPlayer));
         grid = new Grid();
         grid.setCells(cell, 2, 3);

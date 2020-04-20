@@ -15,6 +15,7 @@ public class CLI {
     private boolean twoOrThree;
     private ArrayList<String> chosenDivinities;
     private ArrayList<String> inGameDivinities;
+    private ArrayList<String> inGameColors;
     private int players;
     private int oldSize;
     private boolean lobby;
@@ -103,11 +104,12 @@ public class CLI {
         if(!lobby) {
             oldSize = 1;
             System.out.println(" ____________________________________________________");
-            System.out.println("| LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t |");
+            //System.out.println("| LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t |");
+            System.out.println(" " + (char) 27 + "[7m"+" LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t " + (char) 27 +"[0m");
             System.out.println(" ----------------------------------------------------");
-            //System.out.println((char) 27 + "[7m"+" LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t " + (char) 27 +"[0m");
+
             System.out.println("\tPlayers");
-            //System.out.println((char) 27 + "[1m\tPlayers" + (char) 27 + "[0m" + "\t\t" + inGamePlayers.size() +"/" + players);
+            //System.out.println((char) 27 + "[1m\tPlayers" + (char) 27 + "[0m");
             lobby = true;
             System.out.println(" + " + inGamePlayers.getPlayer(0).getUsername());
         } else {
@@ -118,15 +120,66 @@ public class CLI {
         }
 
     }
-    /*
-    private void drawLobbyPlayers(PlayerList inGamePlayers){
-        System.out.println((char) 27 + "[1m Players"+ (char) 27 + "[0m" +"\t\t\t\t\t\t" + inGamePlayers.size() +"/" + players);
-        for(int i = 0; i < inGamePlayers.size(); i++){
-            System.out.println(" + " + inGamePlayers.getPlayer(i).getUsername());
 
+    /**
+     * Print the list of possible colors for the player and let him chose one
+     * @return color chosen
+     */
+    public Colour choseColor(){
+
+        Colour[] colors = Colour.values();
+        Colour color = null;
+        Scanner input = new Scanner(System.in);
+        int val;
+        String word;
+        boolean alreadyIn = false;
+        boolean chosen;
+        boolean playerChoice = false;
+
+        System.out.println("\nIn-game Colors to choose from (if marked, it has already been chosen): ");
+        for(int i = 0; i < colors.length; i++){
+            chosen = false;
+            for(String inGameColor : inGameColors){
+                if (inGameColor.equals(colors[i].toString())) {
+                    chosen = true;
+                }
+            }
+            if(!chosen){
+                System.out.println((i + 1) + " " + colors[i].toString());
+            }else{
+                System.out.println((char) 27 + "[9m" + (i + 1) + " " + colors[i].toString() + (char) 27 + "[0m");
+            }
         }
+
+        while(!playerChoice) {
+            System.out.println("\n(indicate the numbers corresponding to the chosen color)\nChosen color: ");
+
+            word = input.next();
+            if (word.matches("^-?\\d+$")) {
+                val = Integer.parseInt(word);
+                if ((val > 0) && (val < (colors.length + 1))) {
+                    for (String col : inGameColors) {
+                        alreadyIn = colors[val - 1].toString().equals(col);
+                    }
+                    if (!alreadyIn) {
+                        inGameColors.add(colors[val - 1].toString());
+                        color = colors[val - 1];
+                        System.out.println("+++ Chosen " + colors[val - 1].toString() + " +++");
+                        playerChoice = true;
+                    } else {
+                        System.out.println("Color: " + val + " " + colors[val - 1].toString() + " is already chosen.");
+                    }
+                } else {
+                    System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry ");
+                }
+            } else {
+                System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
+            }
+        }
+        return color;
+
     }
-*/
+
     /**
      * Print the list of all divinities for the initial choice
      */
@@ -171,7 +224,6 @@ public class CLI {
                 System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
             }
         }
-        //gameDivinities(chosenDivinities);
         System.out.println("\nChosen divinities");
         System.out.println(chosenDivinities);
         System.out.println("\nConfirm the selection?\n y: yes        n: no");
@@ -197,20 +249,7 @@ public class CLI {
     private void resetDivinities(){
         chosenDivinities = new ArrayList<>();
     }
-/*
-    /**
-     * print an ArrayList of String
-     * @param div ArrayList to print
-     */
-    /*
-    private void gameDivinities(ArrayList<String> div){
-        Divinity[] divinities = Divinity.values();
-        System.out.println("\nChosen divinities");
-        for (String chosenDivinity : div) {
-            System.out.println(chosenDivinity);
-        }
-    }
-    */
+
     /**
      * Print the 2 or 3 divinities from which the player has to choose
      */
@@ -292,12 +331,151 @@ public class CLI {
         return plDivinity;
     }
 
+    /**
+     * Print the grid of the game
+     * @param grid grid to print
+     */
     public void drawGrid(Grid grid){
+        StringBuilder rowOne = new StringBuilder();
+        StringBuilder rowTwo = new StringBuilder();
+        String top = "\t _______________________________________";
+        String mid = "__\t|_______|_______|_______|_______|_______|"; //"––\t|–––––––|–––––––|–––––––|–––––––|–––––––|";
+        String bot = "__\t|\t\t|\t\t|\t\t|\t\t|\t\t|" + "\n" +
+                "\t ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"; //"\t ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
+
+        System.out.println("\\ Y |   1   |   2   |   3   |   4   |   5   |");
+        System.out.println("X \\" + top);
+
+        for(int x = 0; x < 5; x++){
+
+            for(int y = 0; y < 5; y++) {
+                if(y == 0) {
+                    rowOne.append("\t|");
+                    rowTwo.append( x+1 + "\t|");
+                }else{
+                    rowOne.append("|");
+                    rowTwo.append("|");
+                }
+                if(grid.getCells(x,y).getPawn() != null){
+                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.BLUE) {
+                        rowOne.append(StringColor.ANSI_BLUE + " ♙ \t" + StringColor.RESET);
+                    }
+                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.RED) {
+                        rowOne.append(StringColor.ANSI_RED + " ♙ \t" + StringColor.RESET);
+                    }
+                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.GREEN) {
+                        rowOne.append(StringColor.ANSI_GREEN + " ♙ \t" + StringColor.RESET);
+                    }
+                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.YELLOW) {
+                        rowOne.append(StringColor.ANSI_YELLOW + " ♙ \t" + StringColor.RESET);
+                    }
+                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.WHITE) {
+                        rowOne.append(StringColor.ANSI_WHITE + " ♙ \t" + StringColor.RESET);
+                    }
+                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.PINK) {
+                        rowOne.append(StringColor.ANSI_PINK + " ♙ \t" + StringColor.RESET);
+                    }
+                }else{
+                    rowOne.append("\t\t");
+                }
+                if(grid.getCells(x,y).getTower().getLevel() != 0){
+                    int lvl = grid.getCells(x,y).getTower().getLevel();
+                    if(lvl == 4){
+                        rowTwo.append("\tX");
+                    }else {
+                        rowTwo.append("\tT" + lvl + "\t");
+                    }
+                }else{
+                    rowTwo.append("\t\t");
+                }
+                if(y == 4) {
+                    rowOne.append("|");
+                    rowTwo.append("|");
+                }
+
+            }
+            System.out.println(rowOne);
+            System.out.println(rowTwo);
+            if(x != 4) {
+                System.out.println(mid);
+            }
+            rowOne.delete(0, rowOne.length());
+            rowTwo.delete(0, rowTwo.length());
+
+        }
+
+    System.out.println(bot);
 
     }
 
-    public void /*Grid*/ readStartingPosition(){
+    /**
+     * Read the starting position for player's pawns
+     * @param choosingPlayer player that has to chose the starting positions
+     * @return an updated grid of the game with the player's pawns
+     */
+    public Grid readStartingPosition(Player choosingPlayer){
+        Scanner input = new Scanner(System.in);
+        StringColor color = null;
+        boolean positionChosen;
+        boolean validPosition;
+        Pawn newPawn;
+        int valx = 0;
+        int valy = 0;
 
+        System.out.println("Chose the starting position for your workers");
+        System.out.println("Write coordinates X,Y \n");
+
+        if(choosingPlayer.getColour() == Colour.BLUE) color = StringColor.ANSI_BLUE;
+        if(choosingPlayer.getColour() == Colour.RED) color = StringColor.ANSI_RED;
+        if(choosingPlayer.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
+        if(choosingPlayer.getColour() == Colour.YELLOW) color = StringColor.ANSI_YELLOW;
+        if(choosingPlayer.getColour() == Colour.WHITE) color = StringColor.ANSI_WHITE;
+        if(choosingPlayer.getColour() == Colour.PINK) color = StringColor.ANSI_PINK;
+
+        for(int j = 0; j < 2; j++) {
+            positionChosen = false;
+            validPosition = false;
+            drawGrid(gameGrid);
+            while (!positionChosen) {
+
+                System.out.println("\nPosition of "+ color +"Worker " + (j + 1) + StringColor.RESET);
+                System.out.println("X Y");
+                String row = input.nextLine();
+                String[] words = row.split(" ");
+                if(words.length < 2){
+                    System.out.println("You must give TWO values in input");
+                }else {
+
+                    if ((words[0].matches("^-?\\d+$")) && (Integer.parseInt(words[0]) > 0) && (Integer.parseInt(words[0]) < 6)) {
+                        valx = Integer.parseInt(words[0]);
+                    } else {
+                        System.out.println("The value must be a number between 1 and 5 ");
+                    }
+                    if ((words[1].matches("^-?\\d+$")) && (Integer.parseInt(words[1]) > 0) && (Integer.parseInt(words[1]) < 6)) {
+                        valy = Integer.parseInt(words[1]);
+                    } else {
+                        System.out.println("The value must be a number between 1 and 5 ");
+                    }
+                    if ((valx > 0) && (valy > 0)) {
+                        if (gameGrid.getCells(valx - 1, valy - 1).getPawn() == null) {
+                            validPosition = true;
+                        } else {
+                            System.out.println("(" + valx + "," + valy + ") is not a valid position\n The position is already occupied");
+                        }
+                    }
+                    if (validPosition) {
+                        positionChosen = true;
+                    }
+                }
+            }
+
+            newPawn = new Pawn(choosingPlayer);
+            gameGrid.getCells(valx-1,valy-1).setPawn(newPawn);
+
+
+        }
+
+        return gameGrid;
     }
 
     public void printListMoves(){
@@ -323,14 +501,23 @@ public class CLI {
         gameGrid = new Grid();
         chosenDivinities = new ArrayList<String>();
         inGameDivinities = new ArrayList<String>();
+        inGameColors = new ArrayList<String>();
         lobby = false;
-        //inGamePlayers = new ArrayList<String>();
     }
 
 /*
     public static void main(String[] args) {
 
+
+
         CLI cli = new CLI();
+        Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
+
+        cli.gameGrid.getCells(2,3).setTower(new Tower(2,false));
+        cli.drawGrid(cli.readStartingPosition(p));
+
+
+
         cli.printWelcome();
         cli.readUsername();
         cli.readTwoOrThree();
