@@ -98,7 +98,7 @@ public class CLI {
     public void drawLobby(PlayerList inGamePlayers, String gameId){
 
         if(!lobby) {
-            oldSize = 1;
+            oldSize = inGamePlayers.size();
             System.out.println(" ____________________________________________________");
             //System.out.println("| LOBBY                  ||   GameID: " + gameId + "    |");
             System.out.println(" " + (char) 27 + "[7m"+" LOBBY                  ||   GameID: " + gameId + "     " + (char) 27 +"[0m");
@@ -107,7 +107,11 @@ public class CLI {
             System.out.println("   Players");
             //System.out.println((char) 27 + "[1m   Players" + (char) 27 + "[0m");
             lobby = true;
-            System.out.println(" + " + inGamePlayers.getPlayer(0).getUsername());
+
+            for (int i=0;i<inGamePlayers.size();i++){
+                System.out.println(" + " + inGamePlayers.getPlayer(i).getUsername());
+            }
+
         } else {
             if(oldSize < inGamePlayers.size()) {
                 oldSize = inGamePlayers.size();
