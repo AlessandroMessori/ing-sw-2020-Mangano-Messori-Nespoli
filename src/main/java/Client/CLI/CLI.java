@@ -512,14 +512,14 @@ public class CLI {
         lobby = false;
     }
 
-
+/*
     public static void main(String[] args) {
 
 
 
         CLI cli = new CLI();
         cli.choseColor();
-       /*
+
         Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
 
         cli.gameGrid.getCells(2,3).setTower(new Tower(2,false));
@@ -536,8 +536,8 @@ public class CLI {
             System.out.println(cli.readChosenDivinity());
         }
 
-*/
-    }
 
+    }
+*/
 
 }
