@@ -100,12 +100,12 @@ public class CLI {
         if(!lobby) {
             oldSize = 1;
             System.out.println(" ____________________________________________________");
-            //System.out.println("| LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t |");
-            System.out.println(" " + (char) 27 + "[7m"+" LOBBY\t\t\t\t\t\t||\tGameID: " + gameId + "\t " + (char) 27 +"[0m");
+            //System.out.println("| LOBBY                  ||   GameID: " + gameId + "    |");
+            System.out.println(" " + (char) 27 + "[7m"+" LOBBY                  ||   GameID: " + gameId + "     " + (char) 27 +"[0m");
             System.out.println(" ----------------------------------------------------");
 
-            System.out.println("\tPlayers");
-            //System.out.println((char) 27 + "[1m\tPlayers" + (char) 27 + "[0m");
+            System.out.println("   Players");
+            //System.out.println((char) 27 + "[1m   Players" + (char) 27 + "[0m");
             lobby = true;
             System.out.println(" + " + inGamePlayers.getPlayer(0).getUsername());
         } else {
@@ -138,7 +138,7 @@ public class CLI {
 
             chosen = false;
             for(String inGameColor : inGameColors){
-                if (inGameColor.equals(colors[i].toString())) {
+                if (colors[i].toString().equals(inGameColor)) {
                     chosen = true;
                 }
             }
@@ -336,10 +336,10 @@ public class CLI {
     public void drawGrid(Grid grid){
         StringBuilder rowOne = new StringBuilder();
         StringBuilder rowTwo = new StringBuilder();
-        String top = "\t _______________________________________";
-        String mid = "__\t|_______|_______|_______|_______|_______|"; //"––\t|–––––––|–––––––|–––––––|–––––––|–––––––|";
-        String bot = "__\t|\t\t|\t\t|\t\t|\t\t|\t\t|" + "\n" +
-                "\t ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"; //"\t ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
+        String top = "  _______________________________________";
+        String mid = "__  |_______|_______|_______|_______|_______|"; //"––       |–––––––|–––––––|–––––––|–––––––|–––––––|";
+        String bot = "__  |       |       |       |       |       |" + "\n" +
+                "     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"; //"        ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
 
         System.out.println("\\ Y |   1   |   2   |   3   |   4   |   5   |");
         System.out.println("X \\" + top);
@@ -348,43 +348,43 @@ public class CLI {
 
             for(int y = 0; y < 5; y++) {
                 if(y == 0) {
-                    rowOne.append("\t|");
-                    rowTwo.append( (x+1) + "\t|");
+                    rowOne.append("    |");
+                    rowTwo.append( (x+1) + "   |");
                 }else{
                     rowOne.append("|");
                     rowTwo.append("|");
                 }
                 if(grid.getCells(x,y).getPawn() != null){
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.BLUE) {
-                        rowOne.append(StringColor.ANSI_BLUE + " ♙ \t" + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_BLUE + " ♙    " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.RED) {
-                        rowOne.append(StringColor.ANSI_RED + " ♙ \t" + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_RED + " ♙    " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.GREEN) {
-                        rowOne.append(StringColor.ANSI_GREEN + " ♙ \t" + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_GREEN + " ♙    " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.YELLOW) {
-                        rowOne.append(StringColor.ANSI_YELLOW + " ♙ \t" + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_YELLOW + " ♙    " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.WHITE) {
-                        rowOne.append(StringColor.ANSI_WHITE + " ♙ \t" + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_WHITE + " ♙    " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.PINK) {
-                        rowOne.append(StringColor.ANSI_PINK + " ♙ \t" + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_PINK + " ♙    " + StringColor.RESET);
                     }
                 }else{
-                    rowOne.append("\t\t");
+                    rowOne.append("       ");
                 }
                 if(grid.getCells(x,y).getTower().getLevel() != 0){
                     int lvl = grid.getCells(x,y).getTower().getLevel();
                     if(lvl == 4){
-                        rowTwo.append("\tX");
+                        rowTwo.append("   X");
                     }else {
-                        rowTwo.append("\tT" + lvl + "\t");
+                        rowTwo.append("    T" + lvl + " ");
                     }
                 }else{
-                    rowTwo.append("\t\t");
+                    rowTwo.append("       ");
                 }
                 if(y == 4) {
                     rowOne.append("|");
@@ -509,11 +509,13 @@ public class CLI {
 
 
         CLI cli = new CLI();
-        for(int i = 0; i < 3; i++) cli.choseColor();
-
+        //for(int i = 0; i < 3; i++) cli.choseColor();
         Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
-
+        cli.gameGrid.getCells(2,3).setPawn(new Pawn(p));
         cli.gameGrid.getCells(2,3).setTower(new Tower(2,false));
+        cli.drawGrid(cli.gameGrid);
+
+
         cli.drawGrid(cli.readStartingPosition(p));
 
         cli.printWelcome();
