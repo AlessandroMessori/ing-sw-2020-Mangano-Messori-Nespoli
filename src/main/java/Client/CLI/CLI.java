@@ -7,7 +7,7 @@ import java.util.Scanner;
 import Server.Model.*;
 
 public class CLI {
-    private Grid gameGrid;
+    //private Grid gameGrid;
     private boolean twoOrThree;
     private ArrayList<String> chosenDivinities;
     private ArrayList<String> inGameDivinities;
@@ -411,7 +411,7 @@ public class CLI {
      * @param choosingPlayer player that has to chose the starting positions
      * @return an updated grid of the game with the player's pawns
      */
-    public Grid readStartingPosition(Player choosingPlayer){
+    public Grid readStartingPosition(Player choosingPlayer, Grid gameGrid){
         Scanner input = new Scanner(System.in);
         StringColor color = null;
         boolean positionChosen;
@@ -496,7 +496,7 @@ public class CLI {
      * Constructor
      */
     public CLI(){
-        gameGrid = new Grid();
+        //gameGrid = new Grid();
         chosenDivinities = new ArrayList<String>();
         inGameDivinities = new ArrayList<String>();
         inGameColors = new ArrayList<String>();
