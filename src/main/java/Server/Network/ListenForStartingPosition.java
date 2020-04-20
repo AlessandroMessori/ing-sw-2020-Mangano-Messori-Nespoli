@@ -44,6 +44,7 @@ public class ListenForStartingPosition extends ResponseHandler {
             colour = messageDeserializer.deserializeObject(requestContent, "colour", Colour.class);
 
             game.getCurrentPlayer().setColour(colour);
+            game.addChosenColour(colour);
             // add updated grid to model
             game.setOldGrid(grid);
             game.setNewGrid(grid);

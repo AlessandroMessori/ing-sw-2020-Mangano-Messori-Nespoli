@@ -1,10 +1,12 @@
 package Client;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -126,7 +128,7 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    Colour chosenColor = cli.choseColor();
+                    Colour chosenColor = cli.choseColor(convertColors(game.getAlreadyChosenColors()));
                     game.getCurrentPlayer().setColour(chosenColor);
                     game.setNewGrid(cli.readStartingPosition(game.getCurrentPlayer(), game.getNewGrid()));
                     cli.drawGrid(game.getNewGrid());
@@ -149,8 +151,9 @@ public class Client implements Runnable, ServerObserver {
                     if (game.getNextMoves().size() > 0) {
                         chosenMove = getRandomMove();
                         String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
-                        System.out.println(moveText + " coordinates (" + chosenMove.getX() + "," + chosenMove.getY() + ")");
+                        System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
                         game = clientController.updateGameByMove(chosenMove, game);
+                        cli.drawGrid(game.getNewGrid());
 
                         message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
                         lastMoveNumber = game.getnMoves();
@@ -361,6 +364,14 @@ public class Client implements Runnable, ServerObserver {
         Random r = new Random();
         int rnd = r.nextInt(moves.size());
         return moves.getMove(rnd);
+    }
+
+    ArrayList<String> convertColors(ArrayList<Colour> colors) {
+        ArrayList<String> strColors = new ArrayList<String>();
+        for (Colour cl : colors) {
+            strColors.add(cl.toString());
+        }
+        return strColors;
     }
 }
 

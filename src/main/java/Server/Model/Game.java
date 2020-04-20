@@ -1,6 +1,8 @@
 package Server.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Game {
     private int nTurns;
@@ -18,6 +20,7 @@ public class Game {
     private Grid newGrid;
     private MoveList nextMoves;
     private DivinityList inGameDivinities;
+    private ArrayList<Colour> alreadyChosenColors;
     private Turn gameTurn;
 
 
@@ -275,6 +278,22 @@ public class Game {
     }
 
     /**
+     * @return the list of colours of the game
+     */
+    public ArrayList<Colour> getAlreadyChosenColors() {
+        return alreadyChosenColors;
+    }
+
+    /**
+     * adds a colour
+     *
+     * @param colour the colour to add;
+     */
+    public void addChosenColour(Colour colour) {
+        alreadyChosenColors.add(colour);
+    }
+
+    /**
      * @param turn the current turn in-game
      */
     public void setGameTurn(Turn turn) {
@@ -333,6 +352,7 @@ public class Game {
         availableLevel3Buildings = 14;
         availableDomes = 18;
         inGameDivinities = new DivinityList();
+        alreadyChosenColors = new ArrayList<>();
         gameTurn = new Turn(null);
         nMoves = 0;
 
