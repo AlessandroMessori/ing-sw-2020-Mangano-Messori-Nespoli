@@ -11,7 +11,7 @@ public class CLI {
     private boolean twoOrThree;
     private ArrayList<String> chosenDivinities;
     private ArrayList<String> inGameDivinities;
-    private ArrayList<String> inGameColors;
+    //private ArrayList<String> inGameColors;
     private int players;
     private int oldSize;
     private boolean lobby;
@@ -125,34 +125,42 @@ public class CLI {
      * Print the list of possible colors for the player and let him chose one
      * @return color chosen
      */
-    public Colour choseColor(){
+    public Colour choseColor(ArrayList<String> inGameColors) {
 
         Colour[] colors = Colour.values();
-        Colour color = null;
-        Scanner input = new Scanner(System.in);
-        int val;
         StringColor[] colorShowed = StringColor.values();
-        String word;
-        boolean alreadyIn = false;
         boolean chosen;
-        boolean playerChoice = false;
 
         System.out.println("\nIn-game Colors to choose from (if marked, it has already been chosen): ");
-        for(int i = 0; i < colors.length; i++){
+        for (int i = 0; i < colors.length; i++) {
 
             chosen = false;
-            for(String inGameColor : inGameColors){
+            for (String inGameColor : inGameColors) {
                 if (colors[i].toString().equals(inGameColor)) {
                     chosen = true;
                 }
             }
-            if(!chosen){
+            if (!chosen) {
                 System.out.println((i + 1) + " " + colorShowed[i] + colors[i].toString() + StringColor.RESET);
-            }else{
-                System.out.println((char) 27 + "[9m" + (i + 1) + " "  + colors[i].toString() + (char) 27 + "[0m");
+            } else {
+                System.out.println((char) 27 + "[9m" + (i + 1) + " " + colors[i].toString() + (char) 27 + "[0m");
             }
         }
+        /*
+        return readColorChoice();
+    }
 
+    private Colour readColorChoice (){
+        Colour[] colors = Colour.values();
+        StringColor[] colorShowed = StringColor.values();
+        */
+        Colour color = null;
+        Scanner input = new Scanner(System.in);
+        int val;
+
+        String word;
+        boolean alreadyIn = false;
+        boolean playerChoice = false;
         while(!playerChoice) {
             System.out.println("\n(indicate the numbers corresponding to the chosen color)\nChosen color: ");
 
@@ -160,13 +168,16 @@ public class CLI {
             if (word.matches("^-?\\d+$")) {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < (colors.length + 1))) {
+                    alreadyIn = false;
                     for (String col : inGameColors) {
-                        alreadyIn = colors[val - 1].toString().equals(col);
+
+                        if(colors[val-1].toString().equals(col)) {
+                            alreadyIn = true;
+                        }
                     }
                     if (!alreadyIn) {
-                        inGameColors.add(colors[val - 1].toString());
                         color = colors[val - 1];
-                        System.out.println("+++ Chosen " + colorShowed[val-1] + colors[val - 1].toString() + StringColor.RESET + " +++");
+                        System.out.println("+++ Chosen " + colorShowed[val-1] + color.toString() + StringColor.RESET + " +++");
                         playerChoice = true;
                     } else {
                         System.out.println("Color: " + val + " " + colorShowed[val-1] + colors[val - 1].toString() + StringColor.RESET +" is already chosen.");
@@ -178,8 +189,8 @@ public class CLI {
                 System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
             }
         }
+        inGameColors.add(color.toString());
         return color;
-
     }
 
     /**
@@ -195,7 +206,7 @@ public class CLI {
 
     /**
      * Read the 2 or 3, based on how many players has the game, chosen divinities
-     * @return arraylist with the chosen divinities
+     * @return Arraylist with the chosen divinities
      */
     public ArrayList<String> readDivinitiesChoice(){
         Scanner input = new Scanner(System.in);
@@ -256,12 +267,12 @@ public class CLI {
      * Print the 2 or 3 divinities from which the player has to choose
      */
     public void printPossibleDivinities(){
-        boolean chosen;
+        boolean chosen = false;
         System.out.println("\nIn-game divinities to choose from (if marked, it has already been chosen): ");
         for (int i = 0; i < chosenDivinities.size(); i++) {
-            chosen = false;
-            for (String inGameDivinity : inGameDivinities) {
 
+            for (String inGameDivinity : inGameDivinities) {
+                chosen = false;
                 if (chosenDivinities.get(i).equals(inGameDivinity)) {
                     chosen = true;
                 }
@@ -360,22 +371,22 @@ public class CLI {
                 }
                 if(grid.getCells(x,y).getPawn() != null){
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.BLUE) {
-                        rowOne.append(StringColor.ANSI_BLUE + " ♙    " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_BLUE + " W     " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.RED) {
-                        rowOne.append(StringColor.ANSI_RED + " ♙    " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_RED + " W     " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.GREEN) {
-                        rowOne.append(StringColor.ANSI_GREEN + " ♙    " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_GREEN + " W     " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.YELLOW) {
-                        rowOne.append(StringColor.ANSI_YELLOW + " ♙    " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_YELLOW + " W     " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.WHITE) {
-                        rowOne.append(StringColor.ANSI_WHITE + " ♙    " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_WHITE + " W     " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.PINK) {
-                        rowOne.append(StringColor.ANSI_PINK + " ♙    " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_PINK + " W     " + StringColor.RESET);
                     }
                 }else{
                     rowOne.append("       ");
@@ -413,6 +424,7 @@ public class CLI {
     /**
      * Read the starting position for player's pawns
      * @param choosingPlayer player that has to chose the starting positions
+     * @param gameGrid grid of the game
      * @return an updated grid of the game with the player's pawns
      */
     public Grid readStartingPosition(Player choosingPlayer, Grid gameGrid){
@@ -503,7 +515,7 @@ public class CLI {
         //gameGrid = new Grid();
         chosenDivinities = new ArrayList<String>();
         inGameDivinities = new ArrayList<String>();
-        inGameColors = new ArrayList<String>();
+        //inGameColors = new ArrayList<String>();
         lobby = false;
     }
 
@@ -511,13 +523,13 @@ public class CLI {
     public static void main(String[] args) {
 
 
-
+        Grid gameGrid = new Grid();
         CLI cli = new CLI();
         //for(int i = 0; i < 3; i++) cli.choseColor();
         Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
-        cli.gameGrid.getCells(2,3).setPawn(new Pawn(p));
-        cli.gameGrid.getCells(2,3).setTower(new Tower(2,false));
-        cli.drawGrid(cli.gameGrid);
+        gameGrid.getCells(2,3).setPawn(new Pawn(p));
+        gameGrid.getCells(2,3).setTower(new Tower(2,false));
+        cli.drawGrid(gameGrid);
 
 
         cli.drawGrid(cli.readStartingPosition(p));
