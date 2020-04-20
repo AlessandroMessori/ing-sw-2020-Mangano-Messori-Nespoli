@@ -19,6 +19,7 @@ public class Game {
     private Grid oldGrid;
     private Grid newGrid;
     private MoveList nextMoves;
+    private DivinityList possibleDivinities;
     private DivinityList inGameDivinities;
     private ArrayList<Colour> alreadyChosenColors;
     private Turn gameTurn;
@@ -278,6 +279,13 @@ public class Game {
     }
 
     /**
+     * @return the list of possible divinities of the game
+     */
+    public DivinityList getPossibleDivinities() {
+        return possibleDivinities;
+    }
+
+    /**
      * @return the list of colours of the game
      */
     public ArrayList<Colour> getAlreadyChosenColors() {
@@ -352,6 +360,7 @@ public class Game {
         availableLevel3Buildings = 14;
         availableDomes = 18;
         inGameDivinities = new DivinityList();
+        possibleDivinities = new DivinityList();
         alreadyChosenColors = new ArrayList<>();
         gameTurn = new Turn(null);
         nMoves = 0;
