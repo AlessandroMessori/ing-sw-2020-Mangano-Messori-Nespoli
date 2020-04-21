@@ -159,7 +159,7 @@ public class Client implements Runnable, ServerObserver {
                         Move chosenMove;
 
                         if (game.getNextMoves().size() > 0) {
-                            chosenMove = getRandomMove();
+                            chosenMove = cli.choseMove(game.getNextMoves());
                             String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
                             System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
                             game = clientController.updateGameByMove(chosenMove, game);
