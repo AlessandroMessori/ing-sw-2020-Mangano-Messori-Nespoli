@@ -528,21 +528,23 @@ public class CLI {
 
         for(int x = 0; x < 5; x++){
             for(int y = 0; y < 5; y++){
-                if(gameGrid.getCells(x,y).getPawn().getOwner().equals(currentPlayer)){
-                    if(gameGrid.getCells(x,y).getPawn().getId() % 2 == 1){
-                        playerPawns[0] = gameGrid.getCells(x,y).getPawn();
-                        coordinates[0] = x;
-                        coordinates[1] = y;
-                    }else{
-                        playerPawns[1] = gameGrid.getCells(x,y).getPawn();
-                        coordinates[2] = x;
-                        coordinates[3] = y;
+                if(gameGrid.getCells(x,y).getPawn() != null) {
+                    if (gameGrid.getCells(x, y).getPawn().getOwner().equals(currentPlayer)) {
+                        if (gameGrid.getCells(x, y).getPawn().getId() % 2 == 1) {
+                            playerPawns[0] = gameGrid.getCells(x, y).getPawn();
+                            coordinates[0] = x;
+                            coordinates[1] = y;
+                        } else {
+                            playerPawns[1] = gameGrid.getCells(x, y).getPawn();
+                            coordinates[2] = x;
+                            coordinates[3] = y;
+                        }
                     }
                 }
             }
         }
 
-        System.out.println("Which worker do you want to move?");
+        System.out.println("Which worker do you want to use?");
 
         //print
         for(int i = 0; i < playerPawns.length; i++){
@@ -569,28 +571,83 @@ public class CLI {
         return pawnToMove;
     }
 
-    public void printListMoves(MoveList possibleMoves){
-        MoveList pawnOneMove = new MoveList();
-        MoveList pawnTwoMove = new MoveList();
+    public Move choseMove(MoveList possibleAction){ //move ifmove dice se è mossa di movimento (true) o costruzione (false)
+        Move chosenMove = null;                     //TODO: finire la scelta
+        Scanner input = new Scanner(System.in);
+        String word;
+        String action;
+        StringBuilder list = new StringBuilder();
+        StringBuilder rowOne = new StringBuilder();
+        StringBuilder rowTwo = new StringBuilder();
+        StringBuilder rowThree = new StringBuilder();
+        StringBuilder rowFour = new StringBuilder();
+        int val;
 
-        for(int i = 0; i < possibleMoves.size(); i++){
-            if(possibleMoves.getMove(i).getToMove().getId() % 2 == 1){
-                //pawn1's moves
-                pawnOneMove.addMove(possibleMoves.getMove(i));
-            }else{
-                //pawn2's moves
-                pawnTwoMove.addMove(possibleMoves.getMove(i));
+        if(possibleAction.getMove(0).getIfMove()){
+            action = "Move";
+        }else{
+            action = "Build";
+        }
+
+        //print
+        if((possibleAction.size() == 9 )||(possibleAction.size() == 6)||(possibleAction.size() == 5)){     //9 -> 3 row e 3 col
+            for(int i = 1; i < possibleAction.size()+1; i++){
+                if(i % 3 == 1 ) {
+                    rowOne.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                } else if(i % 3 == 2){
+                    rowTwo.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                } else {
+                    rowThree.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                }
+            }
+            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
+        } else if((possibleAction.size() == 8)||(possibleAction.size() == 7)){   //7 e 8 -> 4 row e 2 col
+            for(int i = 1; i < possibleAction.size()+1; i++){
+                if(i % 4 == 1) {
+                    rowOne.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                } else if(i % 4 == 2){
+                    rowTwo.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                } else if(i % 4 == 3){
+                    rowThree.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                } else {
+                    rowFour.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                }
+            }
+            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n" + rowFour + "\n");
+        } /*else if((possibleAction.size() == 6)||(possibleAction.size() == 5)){   //6 e 5 -> 3 row e 2 col
+            for(int i = 1; i < possibleAction.size()+1; i++){
+                if(i % 3 == 1 ) {
+                    rowOne.append(i + " " + action + " to (x: " + possibleAction.getMove(i - 1).getX() + ", y: " + possibleAction.getMove(i - 1).getY() + ")");
+                } else if(i % 3 == 2){
+                    rowTwo.append(i + " " + action + " to (x: " + possibleAction.getMove(i - 1).getX() + ", y: " + possibleAction.getMove(i - 1).getY() + ")");
+                } else {
+                    rowThree.append(i + " " + action + " to (x: " + possibleAction.getMove(i - 1).getX() + ", y: " + possibleAction.getMove(i - 1).getY() + ")");
+                }
+            }
+            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
+        } */else if(possibleAction.size() == 4){   //4 -> 2 row e 2 col
+            for(int i = 1; i < possibleAction.size()+1; i++){
+                if(i % 2 == 1) {
+                    rowOne.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                }else{
+                    rowTwo.append("   " + i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")       ");
+                }
+            }
+            list.append(rowOne + "\n" + rowTwo + "\n");
+        } else {    //3 2 e 1 rispettive row 1 col
+            for(int i =1; i < possibleAction.size()+1; i++){
+                list.append( i + " " + action + " to (x: " + possibleAction.getMove(i-1).getX() + ", y: " + possibleAction.getMove(i-1).getY() + ")\n" );
             }
         }
-        
 
+        System.out.println(list);
+
+        //choice
+
+        return chosenMove;
     }
 
-    public void /*Move*/ readChosenMove(){
-
-    }
-
-    public void drawResults(){
+    public void drawResults(Player currentPlayer, Player winnerPlayer){
 
     }
 
