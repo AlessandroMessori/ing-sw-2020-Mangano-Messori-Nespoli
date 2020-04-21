@@ -558,7 +558,7 @@ public class CLI {
 
         //print
         for (int i = 0; i < playerPawns.length; i++) {
-            System.out.println(i + 1 + ". " + color + "Worker" + i + 1 + StringColor.RESET + " at (" + coordinates[(i * 2)] + "," + coordinates[((i * 2) + 1)] + ")");
+            System.out.println(i + 1 + ". " + color + "Worker" + i + 1 + StringColor.RESET + " at (" + (coordinates[(i * 2)] + 1) + "," + (coordinates[((i * 2) + 1)] + 1) + ")");
         }
 
         //choice
@@ -568,7 +568,7 @@ public class CLI {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < playerPawns.length + 1)) {
                     pawnToMove = playerPawns[val - 1];
-                    System.out.println("You chose: " + val + ". " + color + " Worker" + val + StringColor.RESET + " at (" + coordinates[((val - 1) * 2) + 1] + "," + coordinates[((val - 1) * 2) + 1] + ")");
+                    System.out.println("You chose: " + val + ". " + color + " Worker" + val + StringColor.RESET + " at (" + (coordinates[((val - 1) * 2) + 1] + 1) + "," + (coordinates[((val - 1) * 2) + 1] + 1) + ")");
                     chosen = true;
                 } else {
                     System.out.println("\"" + val + "\"" + " is not a valid input, input must be 1 or 2. Retry ");
@@ -604,24 +604,24 @@ public class CLI {
         if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {     //9 -> 3 row e 3 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
                 if (i % 3 == 1) {
-                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else if (i % 3 == 2) {
-                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else {
-                    rowThree.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowThree.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
         } else if ((possibleAction.size() == 8) || (possibleAction.size() == 7)) {   //7 e 8 -> 4 row e 2 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
                 if (i % 4 == 1) {
-                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else if (i % 4 == 2) {
-                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else if (i % 4 == 3) {
-                    rowThree.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowThree.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else {
-                    rowFour.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowFour.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n" + rowFour + "\n");
@@ -636,19 +636,18 @@ public class CLI {
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
-        } */
-        else if (possibleAction.size() == 4) {   //4 -> 2 row e 2 col
+        } */ else if (possibleAction.size() == 4) {   //4 -> 2 row e 2 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
                 if (i % 2 == 1) {
-                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else {
-                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")       ");
+                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n");
         } else {    //3 2 e 1 rispettive row 1 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
-                list.append(i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX()+1) + ", y: " + (possibleAction.getMove(i - 1).getY()+1) + ")\n");
+                list.append(i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")\n");
             }
         }
 
@@ -663,7 +662,7 @@ public class CLI {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < possibleAction.size() + 1)) {
                     chosenMove = possibleAction.getMove(val - 1);
-                    System.out.println("You chose: " + action + " to (x: " + (chosenMove.getX()+1) + ", y: " + (chosenMove.getY()+1) + ")");
+                    System.out.println("You chose: " + action + " to (x: " + (chosenMove.getX() + 1) + ", y: " + (chosenMove.getY() + 1) + ")");
                     chosen = true;
                 } else {
                     System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + possibleAction.size() + ". Retry");
@@ -676,7 +675,7 @@ public class CLI {
         return chosenMove;
     }
 
-    public void drawResults(Player currentPlayer, Player winnerPlayer){
+    public void drawResults(Player currentPlayer, Player winnerPlayer) {
 
     }
 
@@ -687,7 +686,7 @@ public class CLI {
     /**
      * Constructor
      */
-    public CLI(){
+    public CLI() {
         chosenDivinities = new ArrayList<String>();
         lobby = false;
     }
