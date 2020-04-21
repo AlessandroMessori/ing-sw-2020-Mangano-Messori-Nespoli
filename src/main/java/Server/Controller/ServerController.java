@@ -124,9 +124,9 @@ public class ServerController {
             }
 
             if (turn.getNPossibleMoves() > 0) {
-                for (int i = -1; i <= 4; i++) {
-                    for (int j = -1; j <= 4; j++) {
-                        if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (0 <= (move.getX() + i) && (move.getX() + i) <= 4 && 0 <= (move.getY() + j) && (move.getY() + j) <= 4) {
                             if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
                                 if (!grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                                     if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
