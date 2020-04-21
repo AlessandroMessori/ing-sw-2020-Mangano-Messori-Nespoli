@@ -429,6 +429,8 @@ public class CLI {
         Pawn newPawn;
         int valx = 0;
         int valy = 0;
+        int max = (int) Math.pow(10,5);
+        int min = (int) Math.pow(10,4);
 
         System.out.println("Chose the starting position for your workers");
         System.out.println("Write coordinates X,Y \n");
@@ -478,6 +480,7 @@ public class CLI {
             }
 
             newPawn = new Pawn(choosingPlayer);
+            newPawn.setId((int)(Math.random() * (max - min + 1) + min));
             gameGrid.getCells(valx-1,valy-1).setPawn(newPawn);
 
 
