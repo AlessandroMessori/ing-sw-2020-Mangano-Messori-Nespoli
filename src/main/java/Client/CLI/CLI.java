@@ -365,23 +365,55 @@ public class CLI {
                 }
                 if(grid.getCells(x,y).getPawn() != null){
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.BLUE) {
-                        rowOne.append(StringColor.ANSI_BLUE + " W     " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_BLUE + " W");
+                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                            rowOne.append("1");
+                        }else{
+                            rowOne.append("2");
+                        }
+                        //rowOne.append("    " + StringColor.RESET);
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.RED) {
-                        rowOne.append(StringColor.ANSI_RED + " W     " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_RED + " W");//     " + StringColor.RESET);
+                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                            rowOne.append("1");
+                        }else{
+                            rowOne.append("2");
+                        }
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.GREEN) {
-                        rowOne.append(StringColor.ANSI_GREEN + " W     " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_GREEN + " W");//     " + StringColor.RESET);
+                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                            rowOne.append("1");
+                        }else{
+                            rowOne.append("2");
+                        }
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.YELLOW) {
-                        rowOne.append(StringColor.ANSI_YELLOW + " W     " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_YELLOW + " W");//     " + StringColor.RESET);
+                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                            rowOne.append("1");
+                        }else{
+                            rowOne.append("2");
+                        }
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.WHITE) {
-                        rowOne.append(StringColor.ANSI_WHITE + " W     " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_WHITE + " W");//     " + StringColor.RESET);
+                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                            rowOne.append("1");
+                        }else{
+                            rowOne.append("2");
+                        }
                     }
                     if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.PINK) {
-                        rowOne.append(StringColor.ANSI_PINK + " W     " + StringColor.RESET);
+                        rowOne.append(StringColor.ANSI_PINK + " W");//     " + StringColor.RESET);
+                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                            rowOne.append("1");
+                        }else{
+                            rowOne.append("2");
+                        }
                     }
+                    rowOne.append("    " + StringColor.RESET);
                 }else{
                     rowOne.append("       ");
                 }
@@ -431,6 +463,7 @@ public class CLI {
         int valy = 0;
         int max = (int) Math.pow(10,5);
         int min = (int) Math.pow(10,4);
+        int randInt;
 
         System.out.println("Chose the starting position for your workers");
         System.out.println("Write coordinates X,Y \n");
@@ -480,7 +513,19 @@ public class CLI {
             }
 
             newPawn = new Pawn(choosingPlayer);
-            newPawn.setId((int)(Math.random() * (max - min + 1) + min));
+            if(j == 0) {
+                //first pawn have an odd id
+                do {
+                    randInt = (int) (Math.random() * (max - min + 1) + min);
+                } while (randInt %2 != 1);
+            }else{
+                //second pawn have an even id
+                do {
+                    randInt = (int) (Math.random() * (max - min + 1) + min);
+                } while (randInt %2 != 0);
+
+            }
+            newPawn.setId(randInt);
             gameGrid.getCells(valx-1,valy-1).setPawn(newPawn);
 
 
@@ -489,7 +534,20 @@ public class CLI {
         return gameGrid;
     }
 
-    public void printListMoves(MoveList possibleMoves){
+    public void printListMoves(MoveList possibleMoves, boolean build){
+        MoveList pawnOneMove = new MoveList();
+        MoveList pawnTwoMove = new MoveList();
+
+        for(int i = 0; i < possibleMoves.size(); i++){
+            if(possibleMoves.getMove(i).getToMove().getId() % 2 == 1){
+                //pawn1's moves
+                pawnOneMove.addMove(possibleMoves.getMove(i));
+            }else{
+                //pawn2's moves
+                pawnTwoMove.addMove(possibleMoves.getMove(i));
+            }
+        }
+        
 
     }
 
@@ -521,12 +579,12 @@ public class CLI {
         CLI cli = new CLI();
         //for(int i = 0; i < 3; i++) cli.choseColor();
         Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
-        gameGrid.getCells(2,3).setPawn(new Pawn(p));
-        gameGrid.getCells(2,3).setTower(new Tower(2,false));
-        cli.drawGrid(gameGrid);
+        //gameGrid.getCells(2,3).setPawn(new Pawn(p));
+        //gameGrid.getCells(2,3).setTower(new Tower(2,false));
+        //cli.drawGrid(gameGrid);
+        cli.drawGrid(cli.readStartingPosition(p,gameGrid));
 
 
-        cli.drawGrid(cli.readStartingPosition(p));
 
         cli.printWelcome();
         cli.readUsername();
