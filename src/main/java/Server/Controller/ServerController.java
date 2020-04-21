@@ -134,6 +134,7 @@ public class ServerController {
                                             if (!turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
                                                 Move possMove = new Move(move.getToMove());
 
+                                                possMove.setToMove(move.getToMove());   //ADDED
                                                 possMove.setIfMove(true);
                                                 possMove.setX(move.getX() + i);
                                                 possMove.setY(move.getY() + j);
