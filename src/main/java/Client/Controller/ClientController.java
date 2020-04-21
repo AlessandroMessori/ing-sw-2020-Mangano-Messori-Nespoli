@@ -48,8 +48,7 @@ public class ClientController {
                     if(0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                         if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                             if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn().getId() == move.getToMove().getId()) {
-                                if(i == 0 && j == 0){
-                                    game.getGameTurn().setPawnMoved(false);
+                                if(i == 0 && j == 0){       //TODO: FIX SETPAWNMOVED
                                     continue;
                                 }
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
