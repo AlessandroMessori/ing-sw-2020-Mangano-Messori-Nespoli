@@ -332,7 +332,7 @@ public class CLI {
                 System.out.println("\nRemaining divinity: " + plDivinity);
             }
         }
-        inGameDivinities.add(plDivinity);
+        //inGameDivinities.add(plDivinity);
         return plDivinity;
     }
 
@@ -402,6 +402,21 @@ public class CLI {
 
     System.out.println(bot);
 
+    }
+
+    /**
+     * Print the list of players in game
+     * @param inGamePlayers list of players in game
+     */
+    public void drawPlayers(PlayerList inGamePlayers){
+        StringBuilder list = new StringBuilder();
+        StringColor color;
+        list.append("Players:\n");
+        for(int i = 0; i < inGamePlayers.size(); i++){
+            color = colorString(inGamePlayers.getPlayer(i));
+            list.append(color + inGamePlayers.getPlayer(i).getUsername() + StringColor.RESET+ "Divinity: " + inGamePlayers.getPlayer(i).getDivinity().toString() + "\n");
+        }
+        System.out.println(list);
     }
 
     private StringColor colorString(Player pl){
@@ -495,7 +510,66 @@ public class CLI {
         return gameGrid;
     }
 
-    public void printListMoves(MoveList possibleMoves, boolean build){
+    /**
+     * Chose the pawn to move
+     * @param currentPlayer player that have to chose
+     * @param gameGrid grid of the game
+     * @return the Pawn that the player want to move
+     */
+    public Pawn choseToMove(Player currentPlayer, Grid gameGrid){
+        Pawn pawnToMove = null;
+        int val;
+        String word;
+        Scanner input = new Scanner(System.in);
+        Pawn[] playerPawns = new Pawn[2];
+        StringColor color = colorString(currentPlayer);
+        int[] coordinates = new int[4];
+        boolean chosen = false;
+
+        for(int x = 0; x < 5; x++){
+            for(int y = 0; y < 5; y++){
+                if(gameGrid.getCells(x,y).getPawn().getOwner().equals(currentPlayer)){
+                    if(gameGrid.getCells(x,y).getPawn().getId() % 2 == 1){
+                        playerPawns[0] = gameGrid.getCells(x,y).getPawn();
+                        coordinates[0] = x;
+                        coordinates[1] = y;
+                    }else{
+                        playerPawns[1] = gameGrid.getCells(x,y).getPawn();
+                        coordinates[2] = x;
+                        coordinates[3] = y;
+                    }
+                }
+            }
+        }
+
+        System.out.println("Which worker do you want to move?");
+
+        //print
+        for(int i = 0; i < playerPawns.length; i++){
+            System.out.println(i+1 + ". " + color + "Worker" + i+1 + StringColor.RESET + " at (" + coordinates[(i*2)] + "," + coordinates[((i*2)+1)] + ")");
+        }
+
+        //choice
+        while(!chosen){
+            word = input.next();
+            if (word.matches("^-?\\d+$")) {
+                val = Integer.parseInt(word);
+                if ((val > 0) && (val < playerPawns.length + 1)) {
+                    pawnToMove = playerPawns[val-1];
+                    System.out.println("You chose: " + val + ". " + color +" Worker" + val + StringColor.RESET  + " at (" + coordinates[((val-1)*2)+1] + "," + coordinates[((val-1)*2)+1] +")");
+                    chosen = true;
+                } else {
+                    System.out.println("\"" + val + "\""+ " is not a valid input, input must be 1 or 2. Retry ");
+                }
+            } else {
+                System.out.println("\"" + word + "\"" + " is not a valid input, input must be 1 or 2. Retry");
+            }
+        }
+
+        return pawnToMove;
+    }
+
+    public void printListMoves(MoveList possibleMoves){
         MoveList pawnOneMove = new MoveList();
         MoveList pawnTwoMove = new MoveList();
 
