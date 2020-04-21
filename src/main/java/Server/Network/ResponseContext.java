@@ -59,6 +59,9 @@ public class ResponseContext implements Runnable {
                     case "SendStartingPosition":
                         responseHandler = new ListenForStartingPosition(client, output);
                         break;
+                    case "SendChosenPawn":
+                        responseHandler = new ListenForChosenPawn(client, output);
+                        break;
                     case "SendChosenMove":
                         responseHandler = new ListenForChosenMove(client, output);
                         break;

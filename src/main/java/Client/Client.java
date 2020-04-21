@@ -20,6 +20,7 @@ import Client.CLI.CLI;
 import Client.Controller.ClientController;
 import Utils.CastingHelper;
 import Utils.MessageSerializer;
+import com.google.gson.Gson;
 
 public class Client implements Runnable, ServerObserver {
     private String response = null;

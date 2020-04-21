@@ -4,6 +4,7 @@ import Server.Controller.ServerController;
 import Server.Model.*;
 import Utils.CastingHelper;
 import Utils.MessageDeserializer;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -40,8 +41,6 @@ public class ListenForChosenPawn extends ResponseHandler {
 
             System.out.println("Received Choose Pawn Request");
 
-            receivedDivinitiesStr = messageDeserializer.deserializeObject(requestContent, "divinities", ArrayList.class);
-            receivedDivinities = CastingHelper.convertDivinityList(receivedDivinitiesStr);
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             pawn = messageDeserializer.deserializeObject(requestContent, "pawn", Pawn.class);
             move = new Move(pawn);
@@ -51,15 +50,22 @@ public class ListenForChosenPawn extends ResponseHandler {
 
             for (int x = 0; x < 5; x++) {
                 for (int y = 0; y < 5; y++) {
-                    if (game.getNewGrid().getCells(x, y).getPawn() != null && game.getNewGrid().getCells(x, y).getPawn().getId() == pawn.getId()) {
-                        move.setIfMove(true);
-                        move.setX(x);
-                        move.setY(y);
+                    if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                        if (game.getNewGrid().getCells(x, y).getPawn().getId() == pawn.getId()) {
+                            move.setIfMove(true);
+                            move.setX(x);
+                            move.setY(y);
+                        }
                     }
                 }
             }
 
+            System.out.println(new Gson().toJson(move));
+
+            game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), gameID, move, game.getGameTurn()));
+
+            System.out.println(new Gson().toJson(game.getNextMoves()));
 
             output.writeObject("Received Chosen Pawn");
         } catch (ClassCastException e) {
