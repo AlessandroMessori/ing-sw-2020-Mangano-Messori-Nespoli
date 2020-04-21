@@ -23,14 +23,42 @@ public class ClientController {
     }*/
 
     /**
+     * ATHENA EFFECT
+     *
+     * @param grid grid where to see if Pawn was moved
+     * @param move where the pawn is now
+     * @return a boolean true if the pawn was moved, false if not
+     */
+    public boolean checkIfMoved(Grid grid, Move move){
+        int count = 0;
+        for(int i = -1; i <= 4; i++){
+            for(int j = -1; j <= 4; j++){
+                if(grid.getCells(move.getX() + i,move.getY() + j).getPawn().getId() == move.getToMove().getId()){
+                    count++;
+                }
+            }
+        }
+        if(count == 1){
+            return false;
+        }
+        return true;
+
+    }
+
+    /**
      *
      * @param move is the move the current player has done
      * @param game is the game to be modified
      * @return the game updated after the move is done
      */
     public Game updateGameByMove(Move move, Game game) throws IllegalArgumentException{
+        game.setOldGrid(game.getNewGrid());
         if(move.getIfMove() == true)
         {
+            if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){
+                game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));
+            }
+
             Pawn enemyPawn = game.getNewGrid().getCells(move.getX(),move.getY()).getPawn();
 
             if(enemyPawn != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
@@ -47,18 +75,18 @@ public class ClientController {
                 for (int j = -1; j <= 1; j++) {
                     if(0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                         if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                            if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn().getId() == move.getToMove().getId()) {
-                                if(i == 0 && j == 0){       //TODO: FIX SETPAWNMOVED
+                            if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn().getId() == (move.getToMove().getId())) {
+                                if(i == 0 && j == 0){
                                     continue;
                                 }
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
                                 if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
-                                    if(i == 0 && j == 0) {
+                                    /*if(i == 0 && j == 0) {
                                         game.getGameTurn().setPawnMoved(false);
                                     }
                                     else {
                                         game.getGameTurn().setPawnMoved(true);
-                                    }
+                                    }*/
                                 }
                             }
                         }
@@ -117,13 +145,13 @@ public class ClientController {
 
              */
 
-            if(game.getNewGrid().getCells(move.getX(),move.getY()).getPawn() != null) {
+            /*if(game.getNewGrid().getCells(move.getX(),move.getY()).getPawn() != null) {
                 if (game.getNewGrid().getCells(move.getX(), move.getY()).getPawn().getId() == move.getToMove().getId()) {
                     if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
                         game.getGameTurn().setPawnMoved(false);
                     }
                 }
-            }
+            }*/
 
             /*else
             {
