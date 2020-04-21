@@ -102,7 +102,6 @@ public class CLI {
             System.out.println(" ----------------------------------------------------");
 
             System.out.println("   Players");
-            //System.out.println((char) 27 + "[1m   Players" + (char) 27 + "[0m");
             lobby = true;
 
             for (int i=0;i<inGamePlayers.size();i++){
@@ -125,6 +124,8 @@ public class CLI {
      */
     public Colour choseColor(ArrayList<String> inGameColors) {
 
+        //print colors
+
         Colour[] colors = Colour.values();
         StringColor[] colorShowed = StringColor.values();
         boolean chosen;
@@ -144,20 +145,15 @@ public class CLI {
                 System.out.println((char) 27 + "[9m" + (i + 1) + " " + colors[i].toString() + (char) 27 + "[0m");
             }
         }
-        /*
-        return readColorChoice();
-    }
 
-    private Colour readColorChoice (){
-        Colour[] colors = Colour.values();
-        StringColor[] colorShowed = StringColor.values();
-        */
+        //choice of color
+
         Colour color = null;
         Scanner input = new Scanner(System.in);
         int val;
 
         String word;
-        boolean alreadyIn = false;
+        boolean alreadyIn;
         boolean playerChoice = false;
         while(!playerChoice) {
             System.out.println("\n(indicate the numbers corresponding to the chosen color)\nChosen color: ");
@@ -267,7 +263,7 @@ public class CLI {
      * @param inGameDivinities ArrayList of divinities you can chose from, not already chosen
      */
     public void printPossibleDivinities(ArrayList<String> playableDivinities, ArrayList<String> inGameDivinities){
-        boolean chosen = false;
+        boolean chosen;
         System.out.println("\nIn-game divinities to choose from (if marked, it has already been chosen): ");
         for (int i = 0; i < playableDivinities.size(); i++) {
             chosen = false;
@@ -275,6 +271,7 @@ public class CLI {
 
                 if (playableDivinities.get(i).equals(inGameDivinity)) {
                     chosen = true;
+                    break;
                 }
             }
             if(!chosen){
@@ -296,7 +293,7 @@ public class CLI {
         Scanner input = new Scanner(System.in);
         String word;
         boolean chosen = false;
-        boolean in = false;
+        boolean in;
         int val;
         int diff = inGameDivinities.size();
 
@@ -310,8 +307,9 @@ public class CLI {
                         in = false;
                         for (String inGameDivinity : inGameDivinities) {
 
-                            if (playableDivinities.get(val-1).equals(inGameDivinity)) {
+                            if (playableDivinities.get(val - 1).equals(inGameDivinity)) {
                                 in = true;
+                                break;
                             }
                         }
                         if(!in){
@@ -345,6 +343,7 @@ public class CLI {
     public void drawGrid(Grid grid){
         StringBuilder rowOne = new StringBuilder();
         StringBuilder rowTwo = new StringBuilder();
+        StringColor color;
         String top = "  _______________________________________";
         String mid = "__  |_______|_______|_______|_______|_______|"; //"––       |–––––––|–––––––|–––––––|–––––––|–––––––|";
         String bot = "__  |       |       |       |       |       |" + "\n" +
@@ -364,54 +363,12 @@ public class CLI {
                     rowTwo.append("|");
                 }
                 if(grid.getCells(x,y).getPawn() != null){
-                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.BLUE) {
-                        rowOne.append(StringColor.ANSI_BLUE + " W");
-                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
-                            rowOne.append("1");
-                        }else{
-                            rowOne.append("2");
-                        }
-                        //rowOne.append("    " + StringColor.RESET);
-                    }
-                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.RED) {
-                        rowOne.append(StringColor.ANSI_RED + " W");//     " + StringColor.RESET);
-                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
-                            rowOne.append("1");
-                        }else{
-                            rowOne.append("2");
-                        }
-                    }
-                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.GREEN) {
-                        rowOne.append(StringColor.ANSI_GREEN + " W");//     " + StringColor.RESET);
-                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
-                            rowOne.append("1");
-                        }else{
-                            rowOne.append("2");
-                        }
-                    }
-                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.YELLOW) {
-                        rowOne.append(StringColor.ANSI_YELLOW + " W");//     " + StringColor.RESET);
-                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
-                            rowOne.append("1");
-                        }else{
-                            rowOne.append("2");
-                        }
-                    }
-                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.WHITE) {
-                        rowOne.append(StringColor.ANSI_WHITE + " W");//     " + StringColor.RESET);
-                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
-                            rowOne.append("1");
-                        }else{
-                            rowOne.append("2");
-                        }
-                    }
-                    if(grid.getCells(x,y).getPawn().getOwner().getColour() == Colour.PINK) {
-                        rowOne.append(StringColor.ANSI_PINK + " W");//     " + StringColor.RESET);
-                        if(grid.getCells(x,y).getPawn().getId()%2 == 1){
-                            rowOne.append("1");
-                        }else{
-                            rowOne.append("2");
-                        }
+                    color = colorString(grid.getCells(x,y).getPawn().getOwner());
+                    rowOne.append(color + " W");
+                    if(grid.getCells(x,y).getPawn().getId()%2 == 1){
+                        rowOne.append("1");
+                    }else{
+                        rowOne.append("2");
                     }
                     rowOne.append("    " + StringColor.RESET);
                 }else{
@@ -447,6 +404,17 @@ public class CLI {
 
     }
 
+    private StringColor colorString(Player pl){
+        StringColor color = null;
+        if(pl.getColour() == Colour.BLUE) color = StringColor.ANSI_BLUE;
+        if(pl.getColour() == Colour.RED) color = StringColor.ANSI_RED;
+        if(pl.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
+        if(pl.getColour() == Colour.YELLOW) color = StringColor.ANSI_YELLOW;
+        if(pl.getColour() == Colour.WHITE) color = StringColor.ANSI_WHITE;
+        if(pl.getColour() == Colour.PINK) color = StringColor.ANSI_PINK;
+        return color;
+    }
+
     /**
      * Read the starting position for player's pawns
      * @param choosingPlayer player that has to chose the starting positions
@@ -455,7 +423,7 @@ public class CLI {
      */
     public Grid readStartingPosition(Player choosingPlayer, Grid gameGrid){
         Scanner input = new Scanner(System.in);
-        StringColor color = null;
+        StringColor color;
         boolean positionChosen;
         boolean validPosition;
         Pawn newPawn;
@@ -467,14 +435,7 @@ public class CLI {
 
         System.out.println("Chose the starting position for your workers");
         System.out.println("Write coordinates X,Y \n");
-
-        if(choosingPlayer.getColour() == Colour.BLUE) color = StringColor.ANSI_BLUE;
-        if(choosingPlayer.getColour() == Colour.RED) color = StringColor.ANSI_RED;
-        if(choosingPlayer.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
-        if(choosingPlayer.getColour() == Colour.YELLOW) color = StringColor.ANSI_YELLOW;
-        if(choosingPlayer.getColour() == Colour.WHITE) color = StringColor.ANSI_WHITE;
-        if(choosingPlayer.getColour() == Colour.PINK) color = StringColor.ANSI_PINK;
-
+        color = colorString(choosingPlayer);
         for(int j = 0; j < 2; j++) {
             positionChosen = false;
             validPosition = false;
