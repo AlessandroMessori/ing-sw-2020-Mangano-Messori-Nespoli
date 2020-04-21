@@ -140,32 +140,41 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
-                    if (lastMovedturn < game.getNTurns()) {
+                    if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
                         System.out.println("Turn: " + game.getNTurns());
+                        Pawn chosenPawn;
                         cli.drawPlayers(game.getPlayers());
-                        cli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
-                        lastMovedturn = game.getNTurns();
-                    }
-
-                    cli.drawGrid(game.getNewGrid());
-                    Move chosenMove;
-
-                    if (game.getNextMoves().size() > 0) {
-                        chosenMove = getRandomMove();
-                        String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
-                        System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
-                        game = clientController.updateGameByMove(chosenMove, game);
                         cli.drawGrid(game.getNewGrid());
+                        chosenPawn = cli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
 
-                        message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
+                        message = messageSerializer.serializeChosenPawn(game.getCodGame(), playerUsername, chosenPawn).toString();
+                        lastMovedturn = game.getNTurns();
                         lastMoveNumber = game.getnMoves();
-                        currentPage = (game.getWinner() != null) ? Pages.ENDGAME : Pages.LOADINGMOVE;
+                        currentPage = Pages.LOADINGMOVE;
 
-                        serverAdapter.requestSendChosenMove(message);
-                    } else {
-                        System.out.println("There are no possible moves!");
-                        loopCheck = false;
+                        serverAdapter.requestSendChosenPawn(message);
+                    } else { // Making Moves
+                        cli.drawGrid(game.getNewGrid());
+                        Move chosenMove;
+
+                        if (game.getNextMoves().size() > 0) {
+                            chosenMove = getRandomMove();
+                            String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
+                            System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
+                            game = clientController.updateGameByMove(chosenMove, game);
+                            cli.drawGrid(game.getNewGrid());
+
+                            message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
+                            lastMoveNumber = game.getnMoves();
+                            currentPage = (game.getWinner() != null) ? Pages.ENDGAME : Pages.LOADINGMOVE;
+
+                            serverAdapter.requestSendChosenMove(message);
+                        } else {
+                            System.out.println("There are no possible moves!");
+                            loopCheck = false;
+                        }
                     }
+
                     break;
                 case ENDGAME:
                     System.out.println("GAME OVER!");
@@ -230,6 +239,14 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receivePossibleDivinities(String response) {
+        System.out.println("");
+        notifyAll();
+    }
+
+    /**
+     * function that gets called when an pawn signal is received from the server
+     */
+    public synchronized void receivePawn(String pawn) {
         System.out.println("");
         notifyAll();
     }

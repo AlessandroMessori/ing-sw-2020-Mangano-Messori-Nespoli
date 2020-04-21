@@ -4,6 +4,7 @@ public class Player {
     private String username;
     private Divinity divinity;
     private Colour colour;
+    private Pawn currentPawn;
 
     /**
      * @return value of Username;
@@ -25,6 +26,13 @@ public class Player {
      */
     public Colour getColour() {
         return colour;
+    }
+
+    /**
+     * @return value of Pawn;
+     */
+    public Pawn getCurrentPawn() {
+        return currentPawn;
     }
 
     /**
@@ -55,6 +63,15 @@ public class Player {
         colour = col;
     }
 
+    /**
+     * sets value of currentPawn
+     *
+     * @param p value of currentPawn;
+     */
+    public void setCurrentPawn(Pawn p) {
+        currentPawn = p;
+    }
+    
     @Override
     public String toString() {
         return getUsername();

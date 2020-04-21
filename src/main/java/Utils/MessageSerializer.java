@@ -111,6 +111,25 @@ public class MessageSerializer {
     }
 
     /**
+     * serializes in JSON a send Chosen Pawn Message
+     *
+     * @param gameID   the id of the game
+     * @param username the username of the pawn owner
+     * @param pawn     the pawn to serialize
+     * @return the JSON serialized send Chosen Pawn Message
+     */
+    public JsonElement serializeChosenPawn(String gameID, String username, Pawn pawn) {
+        JsonObject result = new JsonObject();
+
+        result.add("header", new JsonPrimitive("SendChosenPawn"));
+        result.add("gameID", new JsonPrimitive(gameID));
+        result.add("username", new JsonPrimitive(username));
+        result.add("pawn", new JsonPrimitive(gson.toJson(pawn)));
+
+        return result;
+    }
+
+    /**
      * serializes in JSON a send Chosen Move Message
      *
      * @param game the game to serialize

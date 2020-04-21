@@ -59,27 +59,11 @@ public class ListenForStartingPosition extends ResponseHandler {
                 }
                 game.setCurrentPlayer(randomPlayer);
             } else {  //Every player has chosen their starting position,the game can start
-                Move move = new Move(null);
-                move.setIfMove(true);
-
-                for (int x = 0; x < 5; x++) {
-                    for (int y = 0; y < 5; y++) {
-                        Cell currentCell = game.getNewGrid().getCells(x, y);
-                        if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(randomPlayer.getUsername())) {
-                            move.setX(x);
-                            move.setY(y);
-                            move.setToMove(currentCell.getPawn());
-                        }
-                    }
-                }
-
 
                 game.setCurrentPlayer(randomPlayer);
                 game.setGameTurn(new Turn(randomPlayer.getDivinity()));     // initializes game Turn
                 game.getGameTurn().startingTurn(randomPlayer.getDivinity()); // starts turn
 
-                //calculates initial moves for starting player
-                game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), randomPlayer, gameID, move, game.getGameTurn()));
                 System.out.println("Starting Game");
                 game.setNTurns(1);
             }

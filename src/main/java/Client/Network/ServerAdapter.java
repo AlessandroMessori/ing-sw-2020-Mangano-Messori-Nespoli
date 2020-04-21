@@ -80,6 +80,12 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestSendChosenPawn(String input) {
+        nextCommand = Commands.SEND_CHOSEN_PAWN;
+        requestContent = input;
+        notifyAll();
+    }
+
     public synchronized void requestSendChosenMove(String input) {
         nextCommand = Commands.SEND_CHOSEN_MOVE;
         requestContent = input;
@@ -129,6 +135,9 @@ public class ServerAdapter implements Runnable {
                     break;
                 case SEND_STARTING_POSITION:
                     doSendStartingPosition();
+                    break;
+                case SEND_CHOSEN_PAWN:
+                    doSendChosenPawn();
                     break;
                 case SEND_CHOSEN_MOVE:
                     doSendChosenMove();
@@ -215,6 +224,24 @@ public class ServerAdapter implements Runnable {
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
             observer.receiveDivinities(responseContent);
+        }
+    }
+
+    private synchronized void doSendChosenPawn() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Chosen Pawn to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receivePawn(responseContent);
         }
     }
 
