@@ -119,8 +119,8 @@ public class Client implements Runnable, ServerObserver {
                 case DIVINITYCHOICE:
                     System.out.println("Choose Your Divinity");
                     cli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
-                    cli.printPossibleDivinities(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()),CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
-                    String div = cli.readChosenDivinity(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()),CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
+                    cli.printPossibleDivinities(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
+                    String div = cli.readChosenDivinity(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
                     message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div), playerUsername, game.getCodGame()).toString();
                     alreadyChosenDivinity = true;
                     currentPage = Pages.LOADINGDIVINITY;
@@ -142,6 +142,8 @@ public class Client implements Runnable, ServerObserver {
                 case GAME:
                     if (lastMovedturn < game.getNTurns()) {
                         System.out.println("Turn: " + game.getNTurns());
+                        cli.drawPlayers(game.getPlayers());
+                        cli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
                         lastMovedturn = game.getNTurns();
                     }
 
