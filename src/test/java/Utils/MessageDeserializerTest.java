@@ -92,7 +92,7 @@ public class MessageDeserializerTest {
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
         Gson gson = new Gson();
-        String message = messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID",Colour.RED).toString();
+        String message = messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID", Colour.RED).toString();
         Grid deserializedGrid = messageDeserializer.deserializeObject(message, "grid", Grid.class);
         System.out.println(deserializedGrid);
     }
@@ -117,5 +117,10 @@ public class MessageDeserializerTest {
         String message = messageSerializer.serializeNextMoves(grid, moves, "Player1").toString();
         MoveList deserializedMoves = messageDeserializer.deserializeObject(message, "moves", MoveList.class);
         System.out.println(deserializedMoves);
+    }
+
+    @Test
+    public void messageSerializerTest() {
+        messageSerializer = new MessageSerializer();
     }
 }

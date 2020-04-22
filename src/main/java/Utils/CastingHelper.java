@@ -7,8 +7,15 @@ import java.util.ArrayList;
 
 public class CastingHelper {
 
+    /**
+     * converts a Divinity from String
+     *
+     * @param strDivinity the String Divnity to convert+
+     *
+     * @return the converted Divinity
+     */
     public static Divinity convertDivinity(String strDivinity) {
-        Divinity currentDiv = null;
+        Divinity currentDiv;
         switch (strDivinity) {
             case "APOLLO":
                 currentDiv = Divinity.APOLLO;
@@ -44,6 +51,13 @@ public class CastingHelper {
         return currentDiv;
     }
 
+    /**
+     * converts an ArrayList of String Divinities to an ArrayList of Divinities
+     *
+     * @param strDivinities the ArrayList to Convert
+     *
+     * @return the ArrayList of converted divinities
+     */
     public static ArrayList<Divinity> convertDivinityList(ArrayList<String> strDivinities) {
         ArrayList<Divinity> divs = new ArrayList<>();
 
@@ -56,6 +70,13 @@ public class CastingHelper {
         return divs;
     }
 
+    /**
+     * converts an ArrayList of Divinities to an ArrayList of String Divinities
+     *
+     * @param divinities the ArrayList to Convert
+     *
+     * @return the ArrayList of converted string divinities
+     */
     public static ArrayList<String> convertDivinityListToString(DivinityList divinities) {
         ArrayList<String> divs = new ArrayList<>();
 
