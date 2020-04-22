@@ -95,6 +95,7 @@ public class MessageSerializer {
      * @param header   header of the message
      * @param username identifier of the user sending the message
      * @param gameID   identifier of the game
+     * @param color    color of the player
      * @return the JSON serialized send Starting Position Message
      */
     //used by client and server

@@ -344,49 +344,13 @@ public class Client implements Runnable, ServerObserver {
 
     }
 
-    /*Temporary utility function,selects a new staring position with the first free cell*/
-    void setsDefaultStartingPosition() {
-
-        int x = 0;
-        int y = 0;
-        int pawnCounter = 0;
-
-        boolean loopCheck = true;
-
-        while (loopCheck && x < 5) {
-            y = 0;
-            while (loopCheck && y < 5) {
-
-                if (game.getNewGrid().getCells(x, y).getPawn() == null) {
-                    Player currentPlayer = game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(playerUsername));
-                    game.getNewGrid().getCells(x, y).setPawn(new Pawn(currentPlayer));
-                    pawnCounter++;
-                    System.out.println("Adding new pawn at position: " + x + "," + y);
-                }
-
-                if (pawnCounter >= 2) {
-                    loopCheck = false;
-                }
-
-                y++;
-            }
-            x++;
-        }
-
-
-    }
-
-    /*Temporary utility function,selects a random move between chosen Moves*/
-    Move getRandomMove() {
-        MoveList moves = game.getNextMoves();
-
-        System.out.println(moves.size() + " possible moves");
-        System.out.println("Selecting a random move between NextMoves");
-        Random r = new Random();
-        int rnd = r.nextInt(moves.size());
-        return moves.getMove(rnd);
-    }
-
+    /**
+     * converts an ArrayList of Colors to an ArrayList of Strings
+     *
+     * @param colors the ArrayList to Convert
+     *
+     * @return the ArrayList of converted strings
+     */
     ArrayList<String> convertColors(ArrayList<Colour> colors) {
         ArrayList<String> strColors = new ArrayList<String>();
         for (Colour cl : colors) {

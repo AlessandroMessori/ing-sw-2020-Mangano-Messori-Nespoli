@@ -51,7 +51,15 @@ public class MessageSerializerTest {
         Grid grid = new Grid();
         grid.setCells(cell, 2, 3);
         Gson gson = new Gson();
-        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID",Colour.RED));
+        System.out.println(messageSerializer.serializeStartingPosition(grid, "TestHeader", "username", "gameID", Colour.RED));
+    }
+
+    @Test
+    public void serializeChosenPawnTest() {
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
+        Pawn pawn = new Pawn(testPlayer);
+        assertEquals("{\"header\":\"SendChosenPawn\",\"gameID\":\"gameID\",\"username\":\"username\",\"pawn\":\"{\\\"owner\\\":{\\\"username\\\":\\\"Player1\\\",\\\"divinity\\\":\\\"ATHENA\\\",\\\"colour\\\":\\\"YELLOW\\\"},\\\"id\\\":0}\"}",
+                messageSerializer.serializeChosenPawn("gameID", "username", pawn).toString());
     }
 
     @Test
@@ -84,5 +92,24 @@ public class MessageSerializerTest {
         moves.addMove(move2);
 
         System.out.println(messageSerializer.serializeNextMoves(grid, moves, "Player1"));
+    }
+
+
+    @Test
+    public void serializeGameTest() {
+        Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
+        Pawn pawn = new Pawn(testPlayer);
+        Cell cell = new Cell(new Tower(1, false), pawn);
+        Game game = new Game(0, "", false, new Player("G1", Divinity.ATHENA, Colour.RED), new Grid(), new Grid(), new MoveList());
+        Move move = new Move(pawn);
+        move.setX(2);
+        move.setY(2);
+        System.out.println(messageSerializer.serializeGame(game));
+    }
+
+    @Test
+    public void serializeCheckModelTest() {
+        assertEquals("{\"header\":\"CheckModel\",\"gameID\":\"gameID\"}",
+                messageSerializer.serializeCheckModel("gameID").toString());
     }
 }
