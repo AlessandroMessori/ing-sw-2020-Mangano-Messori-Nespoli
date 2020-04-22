@@ -15,6 +15,21 @@ public class Turn {
 
     private Divinity currDivinity;
 
+    /**
+     * APOLLO EFFECT
+     *
+     * @param p pawn to swap with current player's one
+     */
+    public void setEnemyPawn(Pawn p){enemyPawn = p;}
+
+    /**
+     * APOLLO EFFECT
+     *
+     * @return the Pawn to swap with the current player's one
+     */
+    public Pawn getEnemyPawn() {return enemyPawn;}
+
+    private Pawn enemyPawn = null;
 
     /**
      * APOLLO EFFECT
@@ -297,6 +312,7 @@ public class Turn {
      * function called when the turn is starting to set variables
      */
     public void startingTurn(Divinity div) throws IllegalArgumentException{
+        enemyPawn = null;
         currDivinity = div;
         setNPossibleMoves(1);
         setNMovesMade(0);

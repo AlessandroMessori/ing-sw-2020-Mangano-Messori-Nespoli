@@ -130,11 +130,13 @@ public class ServerController {
                             if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
                                 if (!grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                                     if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
-                                        if ((move.getX() + i != turn.getCantMoveBackHere().getX()) && move.getY() + j != turn.getCantMoveBackHere().getY()) {
-                                            if (!turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
+                                        if (game.getCurrentPlayer().getDivinity() != Divinity.ARTEMIS || ((move.getX() + i != turn.getCantMoveBackHere().getX()) && move.getY() + j != turn.getCantMoveBackHere().getY())) {
+                                            if (game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || !turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
                                                 Move possMove = new Move(move.getToMove());
 
-                                                possMove.setToMove(move.getToMove());   //ADDED
+                                                if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i,move.getY() + j).getPawn() != null){
+                                                    game.getGameTurn().setEnemyPawn(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                }
                                                 possMove.setIfMove(true);
                                                 possMove.setX(move.getX() + i);
                                                 possMove.setY(move.getY() + j);
@@ -236,6 +238,8 @@ public class ServerController {
 
                     }
                 }*/
+                /*turn.getCantMoveBackHere().setX(-1);
+                turn.getCantMoveBackHere().setY(-1);*/
                 turn.setNPossibleMoves(turn.getNPossibleMoves() - 1);
                 turn.setNMovesMade(turn.getNMovesMade() + 1);
             }
@@ -262,7 +266,7 @@ public class ServerController {
                 for (int j = -1; j <= 1; j++) {
                     if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                         if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
-                            if ((turn.getCantBuildOnThisBlock().getX() != move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() != move.getY() + j)) {
+                            if (game.getCurrentPlayer().getDivinity() != Divinity.DEMETER || ((turn.getCantBuildOnThisBlock().getX() != move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() != move.getY() + j))) {
                                 if(i == 0 && j == 0){
                                     continue;               //TO NOT BUILD UNDER THE PAWN; COULD NOT WORK
                                 }
@@ -325,7 +329,6 @@ public class ServerController {
             turn.setNMadeBuildings(turn.getNMadeBuildings() + 1);
             turn.setNPossibleBuildings(turn.getNPossibleBuildings() - 1);
         }
-
 
         return movelist;
     }

@@ -59,12 +59,8 @@ public class ClientController {
                 game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));
             }
 
-            Pawn enemyPawn = game.getNewGrid().getCells(move.getX(),move.getY()).getPawn();
+            /*Pawn enemyPawn = game.getNewGrid().getCells(move.getX(),move.getY()).getPawn();*/
 
-            if(enemyPawn != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
-            {
-                game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(enemyPawn);
-            }
 
             game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());
             if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {
@@ -80,6 +76,10 @@ public class ClientController {
                                     continue;
                                 }
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
+                                if(game.getGameTurn().getEnemyPawn() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
+                                {
+                                    game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn());
+                                }
                                 /*if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
                                     if(i == 0 && j == 0) {
                                         game.getGameTurn().setPawnMoved(false);
