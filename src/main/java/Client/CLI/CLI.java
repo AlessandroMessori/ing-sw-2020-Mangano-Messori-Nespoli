@@ -239,18 +239,13 @@ public class CLI {
                 System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
             }
         }
-        /*
-        System.out.println("\nChosen divinities");
-        System.out.println(chosenDivinities);
-        System.out.println("\nConfirm the selection?\n y: yes        n: no");
-        reset = input.next();
-        */
-         do {
+
+        do {
             System.out.println("\nChosen divinities");
             System.out.println(chosenDivinities);
             System.out.println("Confirm the selection?\n y: yes        n: no");
             reset = input.next();
-         } while (!(reset.equals("y")) && !(reset.equals("n")));
+        } while (!(reset.equals("y")) && !(reset.equals("n")));
 
         if (reset.equals("n")) {
             resetDivinities();
@@ -359,9 +354,9 @@ public class CLI {
         StringBuilder rowTwo = new StringBuilder();
         StringColor color;
         String top = "  _______________________________________";
-        String mid = "__  |_______|_______|_______|_______|_______|"; //"––       |–––––––|–––––––|–––––––|–––––––|–––––––|";
+        String mid = "__  |_______|_______|_______|_______|_______|";
         String bot = "__  |       |       |       |       |       |" + "\n" +
-                "     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"; //"        ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
+                "     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
 
         System.out.println("\\ Y |   1   |   2   |   3   |   4   |   5   |");
         System.out.println("X \\" + top);
@@ -377,7 +372,7 @@ public class CLI {
                     rowTwo.append("|");
                 }
                 if (grid.getCells(x, y).getPawn() != null) {
-                    color = colorString(grid.getCells(x, y).getPawn().getOwner());
+                    color = colorString(grid.getCells(x, y).getPawn().getOwner(), false);
                     rowOne.append(color + " W");
                     if (grid.getCells(x, y).getPawn().getId() % 2 == 1) {
                         rowOne.append("1");
@@ -428,20 +423,29 @@ public class CLI {
         StringColor color;
         list.append("\nPlayers:\n");
         for (int i = 0; i < inGamePlayers.size(); i++) {
-            color = colorString(inGamePlayers.getPlayer(i));
+            color = colorString(inGamePlayers.getPlayer(i), false);
             list.append("   " + color + inGamePlayers.getPlayer(i).getUsername() + StringColor.RESET + "  Divinity: " + inGamePlayers.getPlayer(i).getDivinity().toString() + "\n");
         }
         System.out.println(list);
     }
 
-    private StringColor colorString(Player pl) {
+    private StringColor colorString(Player pl, boolean background) {
         StringColor color = null;
-        if (pl.getColour() == Colour.BLUE) color = StringColor.ANSI_BLUE;
-        if (pl.getColour() == Colour.RED) color = StringColor.ANSI_RED;
-        if (pl.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
-        if (pl.getColour() == Colour.YELLOW) color = StringColor.ANSI_YELLOW;
-        if (pl.getColour() == Colour.WHITE) color = StringColor.ANSI_WHITE;
-        if (pl.getColour() == Colour.PINK) color = StringColor.ANSI_PINK;
+        if(!background) {
+            if (pl.getColour() == Colour.BLUE) color = StringColor.ANSI_BLUE;
+            if (pl.getColour() == Colour.RED) color = StringColor.ANSI_RED;
+            if (pl.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
+            if (pl.getColour() == Colour.YELLOW) color = StringColor.ANSI_YELLOW;
+            if (pl.getColour() == Colour.WHITE) color = StringColor.ANSI_WHITE;
+            if (pl.getColour() == Colour.PINK) color = StringColor.ANSI_PINK;
+        }else{
+            if (pl.getColour() == Colour.BLUE) color = StringColor.BACKGROUND_BLUE;
+            if (pl.getColour() == Colour.RED) color = StringColor.BACKGROUND_RED;
+            if (pl.getColour() == Colour.GREEN) color = StringColor.BACKGROUND_GREEN;
+            if (pl.getColour() == Colour.YELLOW) color = StringColor.BACKGROUND_YELLOW;
+            if (pl.getColour() == Colour.WHITE) color = StringColor.BACKGROUND_WHITE;
+            if (pl.getColour() == Colour.PINK) color = StringColor.BACKGROUND_PINK;
+        }
         return color;
     }
 
@@ -468,7 +472,7 @@ public class CLI {
 
         System.out.println("Chose the starting position for your workers");
         System.out.println("Write coordinates X,Y \n");
-        color = colorString(choosingPlayer);
+        color = colorString(choosingPlayer, false);
         for (int j = 0; j < 2; j++) {
             positionChosen = false;
             validPosition = false;
@@ -497,27 +501,11 @@ public class CLI {
                             }
 
                         } else {
-                            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " The value must be numbers between 1 and 5 ");
+                            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " Input must be numbers between 1 and 5 ");
                         }
                     } else {
-                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " The value must be numbers between 1 and 5 ");
+                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " Input must be numbers between 1 and 5 ");
                     }
-                    /*
-                    if ((words[1].matches("^-?\\d+$")) && (Integer.parseInt(words[1]) > 0) && (Integer.parseInt(words[1]) < 6)) {
-                        valy = Integer.parseInt(words[1]);
-                    } else {
-                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " The value must be a number between 1 and 5 ");
-                    }
-
-                    if ((valx > 0) && (valy > 0)) {
-                        if (gameGrid.getCells(valx - 1, valy - 1).getPawn() == null) {
-                            validPosition = true;
-                        } else {
-                            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " (" + valx + "," + valy + ") is not a valid position\n The position is already occupied");
-                        }
-                    }
-                     */
-
                     if (validPosition) {
                         positionChosen = true;
                     }
@@ -580,7 +568,7 @@ public class CLI {
         String word;
         Scanner input = new Scanner(System.in);
         Pawn[] playerPawns = new Pawn[2];
-        StringColor color = colorString(currentPlayer);
+        StringColor color = colorString(currentPlayer, false);
         int[] coordinates = new int[4];
         boolean chosen = false;
 
@@ -590,12 +578,12 @@ public class CLI {
                     if (gameGrid.getCells(x, y).getPawn().getOwner().getUsername().equals(currentPlayer.getUsername())) {
                         if (gameGrid.getCells(x, y).getPawn().getId() % 2 == 1) {
                             playerPawns[0] = gameGrid.getCells(x, y).getPawn();
-                            coordinates[0] = x;
-                            coordinates[1] = y;
+                            coordinates[0] = x + 1;
+                            coordinates[1] = y + 1;
                         } else {
                             playerPawns[1] = gameGrid.getCells(x, y).getPawn();
-                            coordinates[2] = x;
-                            coordinates[3] = y;
+                            coordinates[2] = x + 1;
+                            coordinates[3] = y + 1;
                         }
                     }
                 }
@@ -604,7 +592,7 @@ public class CLI {
 
         //print
         for (int i = 0; i < playerPawns.length; i++) {
-            System.out.println(i + 1 + ". " + color + "Worker" + i + 1 + StringColor.RESET + " at (" + (coordinates[(i * 2)] + 1) + "," + (coordinates[((i * 2) + 1)] + 1) + ")");
+            System.out.println((i + 1) + ". " + color + "Worker" + (i + 1) + StringColor.RESET + " at (" + coordinates[(i * 2)] + "," + coordinates[((i * 2) + 1)] + ")");
         }
 
         System.out.println("Which worker do you want to use?");
@@ -616,13 +604,13 @@ public class CLI {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < playerPawns.length + 1)) {
                     pawnToMove = playerPawns[val - 1];
-                    System.out.println("\nYou chose: " + val + ". " + color + " Worker" + val + StringColor.RESET + " at (" + (coordinates[((val - 1) * 2) + 1] + 1) + "," + (coordinates[((val - 1) * 2) + 1] + 1) + ")");
+                    System.out.println("\nYou chose: " + val + ". " + color + " Worker" + val + StringColor.RESET + " at (" + coordinates[((val - 1) * 2)] + "," + coordinates[((val - 1) * 2) + 1] + ")");
                     chosen = true;
                 } else {
-                    System.out.println("\"" + val + "\"" + " is not a valid input, input must be 1 or 2. Retry ");
+                    System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + val + "\"" + " is not a valid input, input must be 1 or 2. Retry ");
                 }
             } else {
-                System.out.println("\"" + word + "\"" + " is not a valid input, input must be 1 or 2. Retry");
+                System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + word + "\"" + " is not a valid input, input must be 1 or 2. Retry");
             }
         }
 
@@ -737,28 +725,78 @@ public class CLI {
      */
     public void drawResults(Player currentPlayer, Player winnerPlayer) {
         /*
-         ______________________________________________________
-        |                                                      |
-        |                                                      |
-        |                                                      |
-        |                                                      |
-        |                                                      |
-         ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-        |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
-        |                                                      |
-        |                                                      |
-        |                                                      |
-        |______________________________________________________|
+
+
+ /██     /██ /██████  /██   /██      /██      /██  /██████  /██   /██
+ \  ██ /██/| ██  \ ██| ██  | ██     | ██ /███| ██| ██  \ ██| ████| ██
+   \  ██/  | ██  | ██| ██  | ██     | ████_  ████| ██  | ██| ██  ████
+    | ██   |  ██████/|  ██████/     | ██/   \  ██|  ██████/| ██ \  ██
+    |__/    \______/  \______/      |__/     \__/ \______/ |__/  \__/
+                                                                      
+
+
+╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗
+╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║
+ ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩
+
+
+
+        |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+        |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |
+        |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |
+        |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |
+        |___________________________________________|
          */
-        StringColor color = colorString(winnerPlayer);
-        if(currentPlayer.equals(winnerPlayer)){
-            System.out.println(" YOU WIN ");
+        StringColor color = colorString(currentPlayer, false);
+        StringBuilder results = new StringBuilder();
+        if(currentPlayer.getUsername().equals(winnerPlayer.getUsername())){
+            results.append(" \n" +
+                    color + "  /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\" + StringColor.RESET + "\n" +
+                    color + " /                                                                                  \\" + StringColor.RESET + "\n" +
+                    color + "|      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |" + StringColor.RESET + "\n" +
+                    color + "|      \\  ██ /██/| ██  \\ ██| ██  | ██      | ██ /███| ██| ██  \\ ██| ████| ██         |" + StringColor.RESET + "\n" +
+                    color + "|       \\  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |" + StringColor.RESET + "\n" +
+                    color + "|        \\  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |" + StringColor.RESET + "\n" +
+                    color + "|         | ██   |  ██████/|  ██████/      | ██/   \\  ██|  ██████/| ██ \\  ██         |" + StringColor.RESET + "\n" +
+                    color + "|         |__/    \\______/  \\______/       |__/     \\__/ \\______/ |__/  \\__/         |" + StringColor.RESET + "\n" +
+                    color + " \\                                                                                  /" + StringColor.RESET + "\n" +
+                    color + "  \\________________________________________________________________________________/" + StringColor.RESET);
+
         } else {
-            System.out.println(" YOU LOST ");
-            System.out.println(color + " " + winnerPlayer.getUsername() + StringColor.RESET + " wins");
+            results.append("\n" +
+                    color + " |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|" + StringColor.RESET + "\n" +
+                    color + " |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |" + StringColor.RESET + "\n" +
+                    color + " |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |" + StringColor.RESET + "\n" +
+                    color + " |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |" + StringColor.RESET + "\n" +
+                    color + " |___________________________________________|" + StringColor.RESET + "\n\n");
+
+            color = colorString(winnerPlayer, true);
+            results.append((color + " " + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));
+            results.append("\n");
+            results.append(color + "   " + StringColor.RESET);
+            results.append(" ".repeat(Math.max(0, winnerPlayer.getUsername().length() + 24)));
+            results.append(color + "   " + StringColor.RESET);
+            results.append("\n");
+            results.append(color + "   " + StringColor.RESET);
+            color = colorString(winnerPlayer, false);
+            results.append(color + "     " + winnerPlayer.getUsername() + StringColor.RESET + " IS THE WINNER     ");
+            color = colorString(winnerPlayer, true);
+            results.append(color + "   " + StringColor.RESET);
+            results.append("\n");
+            results.append(color + "   " + StringColor.RESET);
+            results.append(" ".repeat(Math.max(0, winnerPlayer.getUsername().length() + 24)));
+            results.append(color + "   " + StringColor.RESET);
+            results.append("\n");
+            results.append((color + " " + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));
         }
+        System.out.println(results);
     }
 
+    /**
+     * Set ArrayList<String> chosenDivinities
+     *
+     * @param chosenDivinities list of chosen divinities
+     */
     public void setChosenDivinities(ArrayList<String> chosenDivinities) {
         this.chosenDivinities = chosenDivinities;
     }
@@ -770,36 +808,5 @@ public class CLI {
         chosenDivinities = new ArrayList<String>();
         lobby = false;
     }
-
-/*
-    public static void main(String[] args) {
-
-
-        Grid gameGrid = new Grid();
-        CLI cli = new CLI();
-        cli.readTwoOrThree();
-        cli.printListDivinities();
-        cli.readDivinitiesChoice();
-
-
-
-        Player p = new Player("ddawdw",Divinity.ATHENA,Colour.WHITE);
-        //gameGrid.getCells(2,3).setPawn(new Pawn(p));
-        gameGrid.getCells(2,3).setTower(new Tower(4,true));
-        gameGrid.getCells(1,3).setTower(new Tower(2,false));
-        //cli.drawGrid(gameGrid);
-        cli.drawGrid(cli.readStartingPosition(p,gameGrid));
-        cli.printWelcome();
-        cli.readUsername();
-
-
-        for(int i = 0; i < cli.players; i++) {
-            cli.printPossibleDivinities();
-            System.out.println(cli.readChosenDivinity());
-        }
-
-
-    }
-*/
 
 }
