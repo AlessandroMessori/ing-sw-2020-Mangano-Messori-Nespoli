@@ -243,7 +243,7 @@ public class ServerController {
                 turn.setNPossibleMoves(turn.getNPossibleMoves() - 1);
                 turn.setNMovesMade(turn.getNMovesMade() + 1);
             }
-        } else if (!move.getIfMove()) {             //BUILDING MOVE
+        } else if (!move.getIfMove()) {             //BUILDING MOVE //TODO: ADD IF(...&& NMADEBUILDINGS == 0)
             movelist = new MoveList();
             if (turn.getCanBuildDomes()) {        //ATLAS EFFECT
                 for (int i = 0; i <= 4; i++) {
@@ -329,6 +329,34 @@ public class ServerController {
             turn.setNMadeBuildings(turn.getNMadeBuildings() + 1);
             turn.setNPossibleBuildings(turn.getNPossibleBuildings() - 1);
         }
+
+        //ALTERNATIVE FOR DEMETER
+
+        /*else if(move.getIfMove() == false && game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && turn.getNMadeBuildings() == 1){
+            Move moveP = new Move(move.getToMove());
+            for(int i = 0; i <= 4; i++){
+                for(int j = 0; j <= 4; j++){
+                    if(grid.getCells(i,j).getPawn().getId() == move.getToMove().getId()){
+                        moveP.setX(i);
+                        moveP.setY(j);
+                    }
+                }
+            }
+            for(int i = 0; i <= 1; i++){
+                for(int j = 0; j <= 1; j++){
+                    if (0 <= moveP.getX() + i && moveP.getX() + i <= 4 && 0 <= moveP.getY() + j && moveP.getY() + j <= 4){
+                        if(grid.getCells(moveP.getX() + i, moveP.getY() + j).getPawn() == null){
+                            if(!grid.getCells(moveP.getX() + i,moveP.getY() + j).getTower().getIsDome()){
+                                if(moveP.getX() + i == move.getX() && moveP.getY() + j == move.getY()){
+                                    continue;
+                                }
+                                //TODO BUILDING MOVE
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
 
         return movelist;
     }

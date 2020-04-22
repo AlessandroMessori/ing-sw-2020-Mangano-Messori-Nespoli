@@ -312,6 +312,18 @@ public class Turn {
      * function called when the turn is starting to set variables
      */
     public void startingTurn(Divinity div) throws IllegalArgumentException{
+        Move moveM = new Move(null);
+        moveM.setIfMove(true);
+        moveM.setX(777);
+        moveM.setY(777);
+        setCantMoveBackHere(moveM);
+
+        Move moveB = new Move(null);
+        moveB.setIfMove(false);
+        moveB.setX(777);
+        moveB.setY(777);
+        setCantBuildOnThisBlock(moveB);
+
         enemyPawn = null;
         currDivinity = div;
         setNPossibleMoves(1);
@@ -324,11 +336,6 @@ public class Turn {
                 break;
             case ARTEMIS:
                 setNPossibleMoves(2);
-                Move moveM = new Move(null);
-                moveM.setIfMove(true);
-                moveM.setX(-1);
-                moveM.setY(-1);
-                setCantMoveBackHere(moveM);
                 break;
             case ATHENA:
                 setPawnMoved(false);     //TODO: TRUE IF PAWNS WERE MOVED IN THE PREVIOUS TURN
@@ -338,11 +345,6 @@ public class Turn {
                 break;
             case DEMETER:
                 setNPossibleBuildings(2);
-                Move moveB = new Move(null);
-                moveB.setIfMove(false);
-                moveB.setX(-1);
-                moveB.setY(-1);
-                setCantBuildOnThisBlock(moveB);
                 break;
             case HEPHAESTUS:
                 setCanBuildOnLastPlacedBlock(true);
