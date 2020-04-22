@@ -48,11 +48,15 @@ public class CLI {
      */
     public String readUsername() {
         String username;
+        int max = 16;
         do {
-            System.out.println("Chose your username (max 16 chars): ");
+            System.out.println("Chose your username (max " + max + " chars): ");
             Scanner input = new Scanner(System.in);
             username = input.next();
-        } while (username.length() > 16);
+            if(username.length() > max){
+                System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + "Username has more than " + max + " char");
+            }
+        } while (username.length() > max);
         return username;
     }
 
@@ -82,7 +86,7 @@ public class CLI {
                 }
             }
         } catch (IllegalArgumentException | InputMismatchException e) {
-            System.out.println("*** ERROR ***\n number must be 2 or 3\n");
+            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " Number of players must be 2 or 3\n");
             readTwoOrThree();
         }
         return twoOrThree;
@@ -143,9 +147,9 @@ public class CLI {
                 }
             }
             if (!chosen) {
-                System.out.println((i + 1) + " " + colorShowed[i] + colors[i].toString() + StringColor.RESET);
+                System.out.println("   " + (i + 1) + ". " + colorShowed[i] + colors[i].toString() + StringColor.RESET);
             } else {
-                System.out.println((char) 27 + "[9m" + (i + 1) + " " + colors[i].toString() + (char) 27 + "[0m");
+                System.out.println("  " + (char) 27 + "[9m" + " " + (i + 1) + ". " + colors[i].toString() + " " + (char) 27 + "[0m");
             }
         }
 
@@ -174,16 +178,16 @@ public class CLI {
                     }
                     if (!alreadyIn) {
                         color = colors[val - 1];
-                        System.out.println("+++ Chosen " + colorShowed[val - 1] + color.toString() + StringColor.RESET + " +++");
+                        System.out.println(" You chose " + colorShowed[val - 1] + color.toString() + StringColor.RESET);
                         playerChoice = true;
                     } else {
-                        System.out.println("Color: " + val + " " + colorShowed[val - 1] + colors[val - 1].toString() + StringColor.RESET + " is already chosen.");
+                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " Color: " + val + ". " + colorShowed[val - 1] + colors[val - 1].toString() + StringColor.RESET + " is already chosen.");
                     }
                 } else {
-                    System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry ");
+                    System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + val + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry ");
                 }
             } else {
-                System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
+                System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
             }
         }
         inGameColors.add(color.toString());
@@ -197,7 +201,7 @@ public class CLI {
         Divinity[] divinities = Divinity.values();
         System.out.println("\nChose " + players + " divinities for the game:");
         for (int i = 0; i < divinities.length; i++) {
-            System.out.println(i + 1 + " " + divinities[i]);
+            System.out.println("   " + (i + 1) + ". " + divinities[i]);
         }
     }
 
@@ -224,27 +228,30 @@ public class CLI {
                     }
                     if (!alreadyIn) {
                         chosenDivinities.add(divinities[val - 1].toString());
-                        System.out.println("You chose: " + val + " " + divinities[val - 1].toString());
+                        System.out.println(" You chose: " + val + ". " + divinities[val - 1].toString());
                     } else {
-                        System.out.println("Divinity: " + val + " " + divinities[val - 1].toString() + " is already chosen.");
+                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " Divinity: " + val + ". " + divinities[val - 1].toString() + " is already chosen.");
                     }
                 } else {
-                    System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry ");
+                    System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + val + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry ");
                 }
             } else {
-                System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
+                System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + word + "\"" + " is not a valid input, input must be a number between 1 and 9. Retry");
             }
         }
+        /*
         System.out.println("\nChosen divinities");
         System.out.println(chosenDivinities);
         System.out.println("\nConfirm the selection?\n y: yes        n: no");
         reset = input.next();
-        while (!(reset.equals("y")) && !(reset.equals("n"))) {
+        */
+         do {
             System.out.println("\nChosen divinities");
             System.out.println(chosenDivinities);
             System.out.println("Confirm the selection?\n y: yes        n: no");
             reset = input.next();
-        }
+         } while (!(reset.equals("y")) && !(reset.equals("n")));
+
         if (reset.equals("n")) {
             resetDivinities();
             printListDivinities();
@@ -280,9 +287,9 @@ public class CLI {
                 }
             }
             if (!chosen) {
-                System.out.println((char) 27 + "[9m" + (i + 1) + " " + playableDivinities.get(i) + (char) 27 + "[0m");
+                System.out.println("  " + (char) 27 + "[9m" + " " + (i + 1) + ". " + playableDivinities.get(i) + " " + (char) 27 + "[0m");
             } else {
-                System.out.println((i + 1) + " " + playableDivinities.get(i));
+                System.out.println("   " + (i + 1) + ". " + playableDivinities.get(i));
             }
         }
     }
@@ -319,18 +326,18 @@ public class CLI {
                             }
                         }
                         if (!in) {
-                            System.out.println("Divinity: " + val + " " + playableDivinities.get(val - 1) + " is already chosen.");
+                            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " Divinity: " + val + ". " + playableDivinities.get(val - 1) + " is already chosen.");
                         } else {
                             plDivinity = playableDivinities.get(val - 1);
-                            System.out.println("You chose: " + plDivinity);
+                            System.out.println(" You chose: " + plDivinity);
                             chosen = true;
                         }
 
                     } else {
-                        System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + playableDivinities.size() + ". Retry");
+                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + playableDivinities.size() + ". Retry");
                     }
                 } else {
-                    System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + playableDivinities.size() + ". Retry");
+                    System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + "\"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + playableDivinities.size() + ". Retry");
                 }
             } else {
                 plDivinity = inGameDivinities.get(0);
@@ -384,7 +391,7 @@ public class CLI {
                 if (grid.getCells(x, y).getTower().getLevel() != 0) {
                     int lvl = grid.getCells(x, y).getTower().getLevel();
                     if (lvl == 4) {
-                        rowTwo.append("   X");
+                        rowTwo.append("    X  ");
                     } else {
                         rowTwo.append("    T" + lvl + " ");
                     }
@@ -419,10 +426,10 @@ public class CLI {
     public void drawPlayers(PlayerList inGamePlayers) {
         StringBuilder list = new StringBuilder();
         StringColor color;
-        list.append("Players:\n");
+        list.append("\nPlayers:\n");
         for (int i = 0; i < inGamePlayers.size(); i++) {
             color = colorString(inGamePlayers.getPlayer(i));
-            list.append(color + inGamePlayers.getPlayer(i).getUsername() + StringColor.RESET + "Divinity: " + inGamePlayers.getPlayer(i).getDivinity().toString() + "\n");
+            list.append("   " + color + inGamePlayers.getPlayer(i).getUsername() + StringColor.RESET + "  Divinity: " + inGamePlayers.getPlayer(i).getDivinity().toString() + "\n");
         }
         System.out.println(list);
     }
@@ -450,12 +457,14 @@ public class CLI {
         StringColor color;
         boolean positionChosen;
         boolean validPosition;
+        boolean idNotValid;
         Pawn newPawn;
-        int valx = 0;
-        int valy = 0;
+        int valx;
+        int valy;
         int max = (int) Math.pow(10, 5);
         int min = (int) Math.pow(10, 4);
         int randInt;
+        ArrayList<Integer> takenPawnId = new ArrayList<Integer>();
 
         System.out.println("Chose the starting position for your workers");
         System.out.println("Write coordinates X,Y \n");
@@ -463,6 +472,8 @@ public class CLI {
         for (int j = 0; j < 2; j++) {
             positionChosen = false;
             validPosition = false;
+            valx = 0;
+            valy = 0;
             drawGrid(gameGrid);
             while (!positionChosen) {
 
@@ -471,28 +482,52 @@ public class CLI {
                 String row = input.nextLine();
                 String[] words = row.split(" ");
                 if (words.length < 2) {
-                    System.out.println("You must give TWO values in input");
+                    System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " You must give TWO values in input");
                 } else {
 
                     if ((words[0].matches("^-?\\d+$")) && (Integer.parseInt(words[0]) > 0) && (Integer.parseInt(words[0]) < 6)) {
                         valx = Integer.parseInt(words[0]);
+                        if ((words[1].matches("^-?\\d+$")) && (Integer.parseInt(words[1]) > 0) && (Integer.parseInt(words[1]) < 6)) {
+                            valy = Integer.parseInt(words[1]);
+
+                            if (gameGrid.getCells(valx - 1, valy - 1).getPawn() == null) {
+                                validPosition = true;
+                            } else {
+                                System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " (" + valx + "," + valy + ") is not a valid position\n The position is already occupied");
+                            }
+
+                        } else {
+                            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " The value must be numbers between 1 and 5 ");
+                        }
                     } else {
-                        System.out.println("The value must be a number between 1 and 5 ");
+                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " The value must be numbers between 1 and 5 ");
                     }
+                    /*
                     if ((words[1].matches("^-?\\d+$")) && (Integer.parseInt(words[1]) > 0) && (Integer.parseInt(words[1]) < 6)) {
                         valy = Integer.parseInt(words[1]);
                     } else {
-                        System.out.println("The value must be a number between 1 and 5 ");
+                        System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " The value must be a number between 1 and 5 ");
                     }
+
                     if ((valx > 0) && (valy > 0)) {
                         if (gameGrid.getCells(valx - 1, valy - 1).getPawn() == null) {
                             validPosition = true;
                         } else {
-                            System.out.println("(" + valx + "," + valy + ") is not a valid position\n The position is already occupied");
+                            System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " (" + valx + "," + valy + ") is not a valid position\n The position is already occupied");
                         }
                     }
+                     */
+
                     if (validPosition) {
                         positionChosen = true;
+                    }
+                }
+            }
+
+            for (int x = 0; x < 5; x++) {
+                for (int y = 0; y < 5; y++) {
+                    if (gameGrid.getCells(x, y).getPawn() != null) {
+                        takenPawnId.add(gameGrid.getCells(x,y).getPawn().getId());
                     }
                 }
             }
@@ -502,13 +537,26 @@ public class CLI {
                 //first pawn have an odd id
                 do {
                     randInt = (int) (Math.random() * (max - min + 1) + min);
-                } while (randInt % 2 != 1);
+                    idNotValid = false;
+                    for(int idInExam : takenPawnId){
+                        if(idInExam == randInt){
+                            idNotValid = true;
+                            break;
+                        }
+                    }
+                } while ((randInt % 2 != 1)&&(!idNotValid));
             } else {
                 //second pawn have an even id
                 do {
                     randInt = (int) (Math.random() * (max - min + 1) + min);
-                } while (randInt % 2 != 0);
-
+                    idNotValid = false;
+                    for(int idInExam : takenPawnId){
+                        if(idInExam == randInt){
+                            idNotValid = true;
+                            break;
+                        }
+                    }
+                } while ((randInt % 2 != 0)&&(!idNotValid));
             }
             newPawn.setId(randInt);
             gameGrid.getCells(valx - 1, valy - 1).setPawn(newPawn);
@@ -554,12 +602,12 @@ public class CLI {
             }
         }
 
-        System.out.println("Which worker do you want to use?");
-
         //print
         for (int i = 0; i < playerPawns.length; i++) {
             System.out.println(i + 1 + ". " + color + "Worker" + i + 1 + StringColor.RESET + " at (" + (coordinates[(i * 2)] + 1) + "," + (coordinates[((i * 2) + 1)] + 1) + ")");
         }
+
+        System.out.println("Which worker do you want to use?");
 
         //choice
         while (!chosen) {
@@ -568,7 +616,7 @@ public class CLI {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < playerPawns.length + 1)) {
                     pawnToMove = playerPawns[val - 1];
-                    System.out.println("You chose: " + val + ". " + color + " Worker" + val + StringColor.RESET + " at (" + (coordinates[((val - 1) * 2) + 1] + 1) + "," + (coordinates[((val - 1) * 2) + 1] + 1) + ")");
+                    System.out.println("\nYou chose: " + val + ". " + color + " Worker" + val + StringColor.RESET + " at (" + (coordinates[((val - 1) * 2) + 1] + 1) + "," + (coordinates[((val - 1) * 2) + 1] + 1) + ")");
                     chosen = true;
                 } else {
                     System.out.println("\"" + val + "\"" + " is not a valid input, input must be 1 or 2. Retry ");
@@ -581,6 +629,12 @@ public class CLI {
         return pawnToMove;
     }
 
+    /**
+     * Chose the move that the player wants to do
+     *
+     * @param possibleAction list of possible action from which the player has to chose
+     * @return the action that the player choose
+     */
     public Move choseMove(MoveList possibleAction) { //move ifmove dice se è mossa di movimento (true) o costruzione (false)
         Move chosenMove = null;
         Scanner input = new Scanner(System.in);
@@ -604,24 +658,24 @@ public class CLI {
         if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {     //9 -> 3 row e 3 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
                 if (i % 3 == 1) {
-                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else if (i % 3 == 2) {
-                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else {
-                    rowThree.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
         } else if ((possibleAction.size() == 8) || (possibleAction.size() == 7)) {   //7 e 8 -> 4 row e 2 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
                 if (i % 4 == 1) {
-                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else if (i % 4 == 2) {
-                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else if (i % 4 == 3) {
-                    rowThree.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else {
-                    rowFour.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowFour.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n" + rowFour + "\n");
@@ -639,15 +693,15 @@ public class CLI {
         } */ else if (possibleAction.size() == 4) {   //4 -> 2 row e 2 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
                 if (i % 2 == 1) {
-                    rowOne.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 } else {
-                    rowTwo.append("   " + i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n");
         } else {    //3 2 e 1 rispettive row 1 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
-                list.append(i + " " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")\n");
+                list.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")\n");
             }
         }
 
@@ -656,27 +710,53 @@ public class CLI {
         //choice
         while (!chosen) {
 
-            System.out.println("\n(indicate the number corresponding to the chosen action)\nChosen Action: ");
+            System.out.println("(indicate the number corresponding to the chosen action)\nChosen Action: ");
             word = input.next();
             if (word.matches("^-?\\d+$")) {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < possibleAction.size() + 1)) {
                     chosenMove = possibleAction.getMove(val - 1);
-                    System.out.println("You chose: " + action + " to (x: " + (chosenMove.getX() + 1) + ", y: " + (chosenMove.getY() + 1) + ")");
+                    System.out.println(" Your choice: " + val + ". " + action + " to (x: " + (chosenMove.getX() + 1) + ", y: " + (chosenMove.getY() + 1) + ")");
                     chosen = true;
                 } else {
-                    System.out.println("\"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + possibleAction.size() + ". Retry");
+                    System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + possibleAction.size() + ". Retry");
                 }
             } else {
-                System.out.println("\"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + possibleAction.size() + ". Retry");
+                System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + word + "\"" + " is not a valid input, input must be a number between 1 and " + possibleAction.size() + ". Retry");
             }
         }
 
         return chosenMove;
     }
 
+    /**
+     * Draw the results of the game
+     *
+     * @param currentPlayer player that is playing
+     * @param winnerPlayer winner player
+     */
     public void drawResults(Player currentPlayer, Player winnerPlayer) {
-
+        /*
+         ______________________________________________________
+        |                                                      |
+        |                                                      |
+        |                                                      |
+        |                                                      |
+        |                                                      |
+         ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+        |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+        |                                                      |
+        |                                                      |
+        |                                                      |
+        |______________________________________________________|
+         */
+        StringColor color = colorString(winnerPlayer);
+        if(currentPlayer.equals(winnerPlayer)){
+            System.out.println(" YOU WIN ");
+        } else {
+            System.out.println(" YOU LOST ");
+            System.out.println(color + " " + winnerPlayer.getUsername() + StringColor.RESET + " wins");
+        }
     }
 
     public void setChosenDivinities(ArrayList<String> chosenDivinities) {
@@ -697,20 +777,21 @@ public class CLI {
 
         Grid gameGrid = new Grid();
         CLI cli = new CLI();
-        //for(int i = 0; i < 3; i++) cli.choseColor();
-        Player p = new Player("dad",Divinity.ATHENA,Colour.YELLOW);
-        //gameGrid.getCells(2,3).setPawn(new Pawn(p));
-        //gameGrid.getCells(2,3).setTower(new Tower(2,false));
-        //cli.drawGrid(gameGrid);
-        cli.drawGrid(cli.readStartingPosition(p,gameGrid));
-
-
-
-        cli.printWelcome();
-        cli.readUsername();
         cli.readTwoOrThree();
         cli.printListDivinities();
         cli.readDivinitiesChoice();
+
+
+
+        Player p = new Player("ddawdw",Divinity.ATHENA,Colour.WHITE);
+        //gameGrid.getCells(2,3).setPawn(new Pawn(p));
+        gameGrid.getCells(2,3).setTower(new Tower(4,true));
+        gameGrid.getCells(1,3).setTower(new Tower(2,false));
+        //cli.drawGrid(gameGrid);
+        cli.drawGrid(cli.readStartingPosition(p,gameGrid));
+        cli.printWelcome();
+        cli.readUsername();
+
 
         for(int i = 0; i < cli.players; i++) {
             cli.printPossibleDivinities();

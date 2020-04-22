@@ -5,7 +5,7 @@ public enum StringColor {
     ANSI_RED("\u001B[31m"),
     ANSI_GREEN ("\u001B[32m"),
     ANSI_YELLOW ("\u001B[93m"),
-    ANSI_WHITE ("\u001B[90m"),
+    ANSI_WHITE ("\u001B[30m"),
     ANSI_PINK ("\u001B[95m");
 
 
