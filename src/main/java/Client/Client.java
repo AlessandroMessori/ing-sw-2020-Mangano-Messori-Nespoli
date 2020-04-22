@@ -180,6 +180,7 @@ public class Client implements Runnable, ServerObserver {
                 case ENDGAME:
                     System.out.println("GAME OVER!");
                     loopCheck = false;
+                    cli.drawResults(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(playerUsername)), game.getWinner());
                     break;
                 case LOBBY: //passive states: the user can't do anything,the application is idle until an update from the server is received
                     currentPage = Pages.LOBBY;
