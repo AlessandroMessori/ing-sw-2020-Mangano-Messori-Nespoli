@@ -1,5 +1,6 @@
 package Server.Model;
 
+import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -277,6 +278,30 @@ public class GameTest {
         int buildingsLeft = game.getAvailableLevel3Buildings();
         game.decreaseAvailableLevel3Buildings();
         assertEquals(buildingsLeft - 1, game.getAvailableLevel3Buildings());
+    }
+
+    @Test
+    public void addChosenColourTest() {
+        game.addChosenColour(Colour.RED);
+        game.addChosenColour(Colour.BLUE);
+        assertSame(game.getAlreadyChosenColors().get(0), Colour.RED);
+        assertSame(game.getAlreadyChosenColors().get(1), Colour.BLUE);
+    }
+
+    @Test
+    public void copyGameTest() {
+        Player p1 = new Player("Player1", Divinity.ATHENA, Colour.RED);
+        Grid g1 = new Grid();
+        Grid g2 = new Grid();
+        Game newGame = new Game(3, "0dd1", false, p1, g1, g2, null);
+        Player p2 = new Player("Player2", Divinity.PROMETHEUS, Colour.BLUE);
+        Grid g3 = new Grid();
+        Grid g4 = new Grid();
+        game = new Game(3, "0d1", false, p2, g3, g4, null);
+
+        newGame.copyGame(game);
+
+        assertEquals(new Gson().toJson(game), new Gson().toJson(newGame));
     }
 
 }

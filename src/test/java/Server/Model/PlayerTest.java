@@ -41,18 +41,24 @@ public class PlayerTest {
     @Test
     public void setUsernameTest() {
         player.setUsername("Player2");
-        assertTrue("Player2".equals(player.getUsername()));
+        assertEquals("Player2", player.getUsername());
     }
 
     @Test
     public void setDivinityTest() {
         player.setDivinity(Divinity.ATLAS);
-        assertTrue(player.getDivinity() == Divinity.ATLAS);
+        assertSame(player.getDivinity(), Divinity.ATLAS);
     }
 
     @Test
     public void setColourTest() {
         player.setColour(Colour.BLUE);
-        assertTrue(player.getColour() == Colour.BLUE);
+        assertSame(player.getColour(), Colour.BLUE);
+    }
+
+    @Test
+    public void setCurrentPawnTest() {
+        player.setCurrentPawn(new Pawn(player));
+        assertEquals(player.getUsername(),player.getCurrentPawn().getOwner().getUsername());
     }
 }

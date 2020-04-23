@@ -107,7 +107,7 @@ public class PlayerList {
      * constructor
      */
     public PlayerList() {
-        players = new ArrayList<Player>();
+        players = new ArrayList<>();
     }
 
 

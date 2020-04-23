@@ -137,4 +137,14 @@ public class PlayerListTest {
         assertEquals(-1, playerList.searchPlayerByUsername(toSearchPlayer2.getUsername()));
     }
 
+    @Test
+    public void playerListToStringTest() {
+        playerList = new PlayerList();
+
+        playerList.addPlayer(new Player("Player1", Divinity.ATHENA, Colour.RED));
+        playerList.addPlayer(new Player("Player2", Divinity.ATLAS, Colour.BLUE));
+
+        assertEquals("[Player1, Player2]",playerList.toString());
+    }
+
 }

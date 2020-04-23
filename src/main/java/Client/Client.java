@@ -165,6 +165,10 @@ public class Client implements Runnable, ServerObserver {
                             game = clientController.updateGameByMove(chosenMove, game);
                             cli.drawGrid(game.getNewGrid());
 
+                            if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
+                                game.getGameTurn().setCantBuildOnThisBlock(chosenMove);
+                            }
+
                             message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
                             lastMoveNumber = game.getnMoves();
                             currentPage = (game.getWinner() != null) ? Pages.ENDGAME : Pages.LOADINGMOVE;
