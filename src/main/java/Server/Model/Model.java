@@ -54,8 +54,7 @@ public class Model {
                 return(g1);
             }
         }
-        final Game o = null;
-        return o;
+        return null;
     }
 
     /**
@@ -84,24 +83,6 @@ public class Model {
         {
             games.remove(GameToDelete);
         }
-    }
-
-    /**
-     *
-     * searches a Game by the username of the player
-     *
-     * @param username the username to search the game by
-     * @return the searched Game
-     */
-    public Game searchGameByUsername(String username){
-        for (Game g:games) {
-           for (int i =0;i< g.getPlayers().size();i++) {
-               if (username.equals(g.getPlayers().getPlayer(i).getUsername())) {
-                   return g;
-               }
-           }
-        }
-        return null;
     }
 
     /**

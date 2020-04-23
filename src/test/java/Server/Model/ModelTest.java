@@ -46,7 +46,8 @@ public class ModelTest {
 
         game = new Game(1, "01", false, p1, g1, g2,null);
         model.addGame(game);
-        assertTrue(model.searchID("01").equals(game));
+        assertEquals(model.getGames().get(0),game);
+        assertEquals(model.searchID("01"),game);
 
     }
 
@@ -121,6 +122,11 @@ public class ModelTest {
         game = new Game(1, "01", false, p1, g1, g2,null);
         model.loadGame(game);
                                     //TO IMPLEMENT IN THE FUTURE
+    }
+
+    @Test
+    public void resetModelTest(){
+        model.resetModel();
     }
 
 }

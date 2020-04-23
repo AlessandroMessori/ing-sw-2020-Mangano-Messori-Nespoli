@@ -33,9 +33,20 @@ public class GameTest {
         assertTrue(game.getNTurns() == 10);
     }
 
+    @Test
+    public void setNMovesTest() {
+        game.setnMoves(10);
+        assertSame(10, game.getnMoves());
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void setNTurnsExceptionTest() {
         game.setNTurns(-10);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setNMovesExceptionTest() {
+        game.setnMoves(-10);
     }
 
     @Test
@@ -87,6 +98,14 @@ public class GameTest {
 
         game.setCurrentPlayer(game.getPlayers().getPlayer(1));
         assertSame("Player2", game.getCurrentPlayer().getUsername());
+    }
+
+    @Test
+    public void setWinnerTest() {
+        Player p2 = new Player("Player2", Divinity.ATLAS, Colour.BLUE);
+
+        game.setWinner(game.getPlayers().getPlayer(1));
+        assertEquals("Player2", game.getWinner().getUsername());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -220,6 +239,21 @@ public class GameTest {
     }
 
     @Test
+    public void getAvailableLevelDomesTest() {
+        Player p1 = new Player("Player1", Divinity.ATHENA, Colour.RED);
+        Player p2 = new Player("Player2", Divinity.ATLAS, Colour.BLUE);
+        Grid g1 = new Grid();
+        Grid g2 = new Grid();
+
+        game = new Game(1, "01", false, p1, g1, g2, null);
+        game.setPlayers(p1);
+        game.setPlayers(p2);
+        assertEquals(18, game.getAvailableDomes());
+        game.decreaseAvailableDomes();
+        assertEquals(17, game.getAvailableDomes());
+    }
+
+    @Test
     public void getAvailableLevel1BuildingsTest() {
         Player p1 = new Player("Player1", Divinity.ATHENA, Colour.RED);
         Player p2 = new Player("Player2", Divinity.ATLAS, Colour.BLUE);
@@ -281,6 +315,18 @@ public class GameTest {
     }
 
     @Test
+    public void getInGameDivinitesTest() {
+        game.getInGameDivinities().addDivinity(Divinity.ATHENA);
+        assertSame(game.getInGameDivinities().getDivinity(0), Divinity.ATHENA);
+    }
+
+    @Test
+    public void getPossiblrDivinitesTest() {
+        game.getPossibleDivinities().addDivinity(Divinity.ATHENA);
+        assertSame(game.getPossibleDivinities().getDivinity(0), Divinity.ATHENA);
+    }
+
+    @Test
     public void addChosenColourTest() {
         game.addChosenColour(Colour.RED);
         game.addChosenColour(Colour.BLUE);
@@ -293,15 +339,30 @@ public class GameTest {
         Player p1 = new Player("Player1", Divinity.ATHENA, Colour.RED);
         Grid g1 = new Grid();
         Grid g2 = new Grid();
-        Game newGame = new Game(3, "0dd1", false, p1, g1, g2, null);
+        Game newGame = new Game(3, "0dd1", false, null, g1, g2, null);
         Player p2 = new Player("Player2", Divinity.PROMETHEUS, Colour.BLUE);
+        newGame.getPlayers().addPlayer(p2);
+        newGame.setCurrentPlayer(p2);
         Grid g3 = new Grid();
         Grid g4 = new Grid();
         game = new Game(3, "0d1", false, p2, g3, g4, null);
+        game.getPlayers().addPlayer(p1);
+        game.setCurrentPlayer(p1);
 
-        newGame.copyGame(game);
+        game.copyGame(game);
 
-        assertEquals(new Gson().toJson(game), new Gson().toJson(newGame));
+        System.out.println(new Gson().toJson(game));
+    }
+
+    @Test
+    public void setGameTurnTest() {
+        Player p1 = new Player("Player1", Divinity.ATHENA, Colour.RED);
+        Grid g1 = new Grid();
+        Grid g2 = new Grid();
+        game = new Game(3, "0dd1", false, null, g1, g2, null);
+        game.setGameTurn(new Turn(Divinity.ATHENA));
+        assertEquals("{\"currDivinity\":\"ATHENA\",\"canSwap\":false,\"cantMoveBackHere\":{\"x\":0,\"y\":0,\"ifMove\":false},\"nPossibleMoves\":1,\"nMovesMade\":0,\"pawnMoved\":false,\"canBuildDomes\":false,\"cantBuildOnThisBlock\":{\"x\":0,\"y\":0,\"ifMove\":false},\"nPossibleBuildings\":1,\"nMadeBuildings\":0,\"canBuildOnLastPlacedBlock\":false,\"canMoveAndSwap\":false,\"victoryAfterDescent\":false,\"canComeUp\":false,\"canBuildBeforeMove\":false}",
+                new Gson().toJson(game.getGameTurn()));
     }
 
 }

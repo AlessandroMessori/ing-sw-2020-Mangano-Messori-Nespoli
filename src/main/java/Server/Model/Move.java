@@ -1,5 +1,9 @@
 package Server.Model;
-
+//Apollo OK
+//Artemis OK
+//Athena
+//Atlas
+//Demeter
 public class Move {
     private Pawn toMove;
     private int x;
