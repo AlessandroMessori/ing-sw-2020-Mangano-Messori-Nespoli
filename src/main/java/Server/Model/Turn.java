@@ -6,7 +6,6 @@ import Server.Model.Divinity;
 public class Turn {
 
     /**
-     *
      * @return the divinity of the player who is currently playing
      */
     public Divinity getCurrDivinity() {
@@ -20,14 +19,18 @@ public class Turn {
      *
      * @param p pawn to swap with current player's one
      */
-    public void setEnemyPawn(Pawn p){enemyPawn = p;}
+    public void setEnemyPawn(Pawn p) {
+        enemyPawn = p;
+    }
 
     /**
      * APOLLO EFFECT
      *
      * @return the Pawn to swap with the current player's one
      */
-    public Pawn getEnemyPawn() {return enemyPawn;}
+    public Pawn getEnemyPawn() {
+        return enemyPawn;
+    }
 
     private Pawn enemyPawn = null;
 
@@ -43,7 +46,7 @@ public class Turn {
     /**
      * APOLLO EFFECT
      *
-     * @param canSwap  a boolean which indicates if the Pawn can be swapped
+     * @param canSwap a boolean which indicates if the Pawn can be swapped
      */
     public void setCanSwap(boolean canSwap) {
         this.canSwap = canSwap;
@@ -57,7 +60,9 @@ public class Turn {
      *
      * @return the move where the pawn can't move since it's its starting place
      */
-    public Move getCantMoveBackHere() {return cantMoveBackHere;}
+    public Move getCantMoveBackHere() {
+        return cantMoveBackHere;
+    }
 
     /**
      * CONDITION FOR
@@ -65,7 +70,9 @@ public class Turn {
      *
      * @param move the starting point for the pawn
      */
-    public void setCantMoveBackHere(Move move){ cantMoveBackHere = move;}
+    public void setCantMoveBackHere(Move move) {
+        cantMoveBackHere = move;
+    }
 
     private Move cantMoveBackHere = new Move(null);
 
@@ -90,7 +97,6 @@ public class Turn {
     private int nPossibleMoves = 1;                 //Artemis
 
     /**
-     *
      * @return the number of moves already made
      */
     public int getNMovesMade() {
@@ -98,7 +104,6 @@ public class Turn {
     }
 
     /**
-     *
      * @param nMovesMade the number of moves already made
      */
     public void setNMovesMade(int nMovesMade) {
@@ -155,7 +160,9 @@ public class Turn {
      *
      * @param move building move where the player built and can't build again
      */
-    public void setCantBuildOnThisBlock(Move move){cantBuildOnThisBlock = move;}
+    public void setCantBuildOnThisBlock(Move move) {
+        cantBuildOnThisBlock = move;
+    }
 
     /**
      * CONDITION FOR
@@ -163,7 +170,9 @@ public class Turn {
      *
      * @return the last building move made, where the player can't build again
      */
-    public Move getCantBuildOnThisBlock(){return cantBuildOnThisBlock;}
+    public Move getCantBuildOnThisBlock() {
+        return cantBuildOnThisBlock;
+    }
 
     private Move cantBuildOnThisBlock = new Move(null);
 
@@ -188,7 +197,6 @@ public class Turn {
     private int nPossibleBuildings = 1;             //Demeter
 
     /**
-     *
      * @return the number of buildings already made
      */
     public int getNMadeBuildings() {
@@ -196,7 +204,6 @@ public class Turn {
     }
 
     /**
-     *
      * @param nMadeBuildings the number of buildings already made
      */
     public void setNMadeBuildings(int nMadeBuildings) {
@@ -308,10 +315,9 @@ public class Turn {
     private boolean canBuildBeforeMove = false;     //Prometheus, true if canComeUp = false
 
     /**
-     *
      * function called when the turn is starting to set variables
      */
-    public void startingTurn(Divinity div) throws IllegalArgumentException{
+    public void startingTurn(Divinity div) throws IllegalArgumentException {
         Move moveM = new Move(null);
         moveM.setIfMove(true);
         moveM.setX(777);
@@ -330,7 +336,7 @@ public class Turn {
         setNMovesMade(0);
         setNPossibleBuildings(1);
         setNMadeBuildings(0);
-        switch(currDivinity) {
+        switch (currDivinity) {
             case APOLLO:
                 setCanSwap(true);
                 break;
@@ -356,93 +362,72 @@ public class Turn {
                 setVictoryAfterDescent(true);
                 break;
             case PROMETHEUS:
-                if(!getCanComeUp())
-                {
+                if (!getCanComeUp()) {
                     setCanBuildBeforeMove(true);
                 }
                 break;
-            default:
-                throw new IllegalArgumentException();
 
         }
 
     }
 
     /**
-     *
      * @param grid
      * @param move
      */
-    public void canItComeUp(Grid grid, Move move){      //useful for Prometheus
-        if(grid.getCells(move.getX() + 1,move.getY()).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX() + 1,move.getY()).getTower().getIsDome()) {
+    /*public void canItComeUp(Grid grid, Move move) {      //useful for Prometheus
+        if (grid.getCells(move.getX() + 1, move.getY()).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX() + 1, move.getY()).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX() - 1, move.getY()).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX() - 1, move.getY()).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX() + 1, move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX() + 1, move.getY() + 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX() + 1, move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX() + 1, move.getY() - 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX() - 1, move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX() - 1, move.getY() + 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX() - 1, move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX() - 1, move.getY() - 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX(), move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX(), move.getY() + 1).getTower().getIsDome()) {
+                setCanComeUp(true);
+            }
+        } else if (grid.getCells(move.getX(), move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
+            if (!grid.getCells(move.getX(), move.getY() - 1).getTower().getIsDome()) {
                 setCanComeUp(true);
             }
         }
-        else if(grid.getCells(move.getX() - 1,move.getY()).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX() - 1,move.getY()).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-        else if(grid.getCells(move.getX() + 1,move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX() + 1,move.getY() + 1).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-        else if(grid.getCells(move.getX() + 1,move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX() + 1,move.getY() - 1).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-        else if(grid.getCells(move.getX() - 1,move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX() - 1,move.getY() + 1).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-        else if(grid.getCells(move.getX() - 1,move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX() - 1,move.getY() - 1).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-        else if(grid.getCells(move.getX(),move.getY() + 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX(),move.getY() + 1).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-        else if(grid.getCells(move.getX(),move.getY() - 1).getTower().getLevel() == grid.getCells(move.getX(),move.getY()).getTower().getLevel() + 1)
-        {
-            if(!grid.getCells(move.getX(),move.getY() - 1).getTower().getIsDome()) {
-                setCanComeUp(true);
-            }
-        }
-    }
+    }*/
 
     /**
      * PAN EFFECT
      *
      * @result true if the game can be won by the player with Pan as a divinity
      */
-    public boolean checkIfWin(){
-        if(!getCurrDivinity().equals("PAN")) {return false;}
-
-        return true;
+    public boolean checkIfWin() {
+        return getCurrDivinity() == Divinity.PAN;
     }
 
     /**
      * CONSTRUCTOR
+     *
      * @param div indicates the Divinity owned by the player in this Turn
      */
-    public Turn(Divinity div){
+    public Turn(Divinity div) {
         currDivinity = div;
     }
-
 
 
 }
