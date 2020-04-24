@@ -157,16 +157,18 @@ public class Client implements Runnable, ServerObserver {
                     } else { // Making Moves
                         cli.drawGrid(game.getNewGrid());
                         Move chosenMove;
+                        boolean endTurn = false;
 
                         if (game.getNextMoves().size() > 0) {
                             chosenMove = cli.choseMove(game.getNextMoves());
                             String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
                             System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
-                            game = clientController.updateGameByMove(chosenMove, game);
+                            endTurn = chosenMove.getX() == 6 && chosenMove.getY() == 6;
+                            game = endTurn ? game : clientController.updateGameByMove(chosenMove, game);
                             cli.drawGrid(game.getNewGrid());
 
                             if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
-                               Move cantBuildMove = new Move(chosenPawn);
+                                Move cantBuildMove = new Move(chosenPawn);
                                 cantBuildMove.setX(chosenMove.getX());
                                 cantBuildMove.setY(chosenMove.getY());
                                 cantBuildMove.setIfMove(false);
