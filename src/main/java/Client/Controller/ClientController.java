@@ -165,6 +165,7 @@ public class ClientController {
         }
 
         if(!move.getIfMove()){
+
             if(move.getX() < 0 && move.getY() < 0){
                 int defX = 0, defY = 0;
                 game.decreaseAvailableDomes();
@@ -182,8 +183,8 @@ public class ClientController {
                 }
                 game.getNewGrid().getCells(defX,defY).getTower().setLevel(game.getNewGrid().getCells(defX,defY).getTower().getLevel() + 1);
                 game.getNewGrid().getCells(defX,defY).getTower().setIsDome(true);
+                return game;
             }
-
 
             if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 0) {
                 game.decreaseAvailableLevel1Buildings();
