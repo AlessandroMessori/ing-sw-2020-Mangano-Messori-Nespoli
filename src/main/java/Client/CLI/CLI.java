@@ -636,7 +636,7 @@ public class CLI {
         String word;
         String action;
         StringBuilder list = new StringBuilder();
-        StringBuilder[] row  = new StringBuilder[4];
+        StringBuilder[] row;
         /*
         StringBuilder rowOne = new StringBuilder();
         StringBuilder rowTwo = new StringBuilder();
@@ -645,11 +645,8 @@ public class CLI {
         */
         int val;
         int line;
-        int nRow = 4;
+        int nRow;
         boolean chosen = false;
-        for (int i = 0; i < nRow; i++){
-            row[i] = new StringBuilder();
-        }
 
         if (possibleAction.getMove(0).getIfMove()) {
             action = "Move";
@@ -658,38 +655,17 @@ public class CLI {
         }
 
         //print
-        if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {     //9 -> 3 row e 3 col
-            nRow = 3;
-            /*
-            for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if(possibleAction.getMove(i-1).getX() < 0) {
-                    //row[(i+nRow-1)%nRow].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-
-                    if (i % nRow == 1) {
-                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else if (i % nRow == 2) {
-                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else {
-                        rowThree.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    }
-
-                } else {
-                    //row[(i+nRow)%nRow].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-
-                    if (i % 3 == 1) {
-                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else if (i % 3 == 2) {
-                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else {
-                        rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    }
-
-                }
-            }
-
-            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
-            */
-        } else if ((possibleAction.size() == 8) || (possibleAction.size() == 7)) {   //7 e 8 -> 4 row e 2 col
+        if ((possibleAction.size() == 27)){
+            nRow = 9;
+        }else if ((possibleAction.size() == 26)){
+            nRow = 8;
+        }else if ((possibleAction.size() == 28) || (possibleAction.size() == 21) || (possibleAction.size() == 14) || (possibleAction.size() == 13)){
+            nRow = 7;
+        }else if ((possibleAction.size() == 30) || (possibleAction.size() == 29) || (possibleAction.size() == 24)  || (possibleAction.size() == 23)  || (possibleAction.size() == 22) || (possibleAction.size() == 18)  || (possibleAction.size() == 17) || (possibleAction.size() == 11)){
+            nRow = 6;
+        }else if ((possibleAction.size() == 25)  || (possibleAction.size() == 20)  || (possibleAction.size() == 19) || (possibleAction.size() == 13 ) || (possibleAction.size() == 10)) {
+            nRow = 5;
+        } else if ((possibleAction.size() == 16) || (possibleAction.size() == 12) || (possibleAction.size() == 11) || (possibleAction.size() == 8) || (possibleAction.size() == 7)) {
             nRow = 4; //1+3=4%4=0 2+3=5%4=1 3+3=6%4=2 4+3=7%4=3
             /*
             for (int i = 1; i < possibleAction.size() + 1; i++) {
@@ -724,7 +700,38 @@ public class CLI {
 
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n" + rowFour + "\n");
             */
-        } else if (possibleAction.size() == 4) {   //4 -> 2 row e 2 col
+        }else if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {
+            nRow = 3;
+            /*
+            for (int i = 1; i < possibleAction.size() + 1; i++) {
+                if(possibleAction.getMove(i-1).getX() < 0) {
+                    //row[(i+nRow-1)%nRow].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+
+                    if (i % nRow == 1) {
+                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else if (i % nRow == 2) {
+                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else {
+                        rowThree.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    }
+
+                } else {
+                    //row[(i+nRow)%nRow].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+
+                    if (i % 3 == 1) {
+                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else if (i % 3 == 2) {
+                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else {
+                        rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    }
+
+                }
+            }
+
+            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
+            */
+        } else if (possibleAction.size() == 4) {
             nRow = 2;
             /*
             for (int i = 1; i < possibleAction.size() + 1; i++) {
@@ -764,6 +771,11 @@ public class CLI {
                 }
             }
             */
+        }
+
+        row = new StringBuilder[nRow];
+        for (int i = 0; i < nRow; i++) {
+            row[i] = new StringBuilder();
         }
         for (int i = 1; i < possibleAction.size() + 1; i++) {
             line = (i + nRow - 1) % nRow;
