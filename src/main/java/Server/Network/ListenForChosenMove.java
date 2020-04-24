@@ -43,7 +43,7 @@ public class ListenForChosenMove extends ResponseHandler {
                 chosenMove.setIfMove(false);
             }
 
-            if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0) {
+            if ((chosenMove.getX() == 6 && chosenMove.getY() == 6) && (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0)) {
                 // current turn is over,starting new turn
                 chosenMove.setIfMove(true);
                 //selects a new player to play
