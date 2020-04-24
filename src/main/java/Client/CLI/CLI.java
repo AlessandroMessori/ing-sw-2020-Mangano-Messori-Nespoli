@@ -645,51 +645,74 @@ public class CLI {
         //print
         if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {     //9 -> 3 row e 3 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if (i % 3 == 1) {
-                    rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
-                } else if (i % 3 == 2) {
-                    rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                if(possibleAction.getMove(i-1).getX() < 0) {
+                    if (i % 3 == 1) {
+                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else if (i % 3 == 2) {
+                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else {
+                        rowThree.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    }
                 } else {
-                    rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    if (i % 3 == 1) {
+                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else if (i % 3 == 2) {
+                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else {
+                        rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    }
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
         } else if ((possibleAction.size() == 8) || (possibleAction.size() == 7)) {   //7 e 8 -> 4 row e 2 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if (i % 4 == 1) {
-                    rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
-                } else if (i % 4 == 2) {
-                    rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
-                } else if (i % 4 == 3) {
-                    rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                if(possibleAction.getMove(i-1).getX() < 0) {
+                    if (i % 4 == 1) {
+                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else if (i % 4 == 2) {
+                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else if (i % 4 == 3) {
+                        rowThree.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else {
+                        rowFour.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    }
                 } else {
-                    rowFour.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    if (i % 4 == 1) {
+                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else if (i % 4 == 2) {
+                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else if (i % 4 == 3) {
+                        rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else {
+                        rowFour.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    }
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n" + rowFour + "\n");
-        } /*else if((possibleAction.size() == 6)||(possibleAction.size() == 5)){   //6 e 5 -> 3 row e 2 col
-            for(int i = 1; i < possibleAction.size()+1; i++){
-                if(i % 3 == 1 ) {
-                    rowOne.append(i + " " + action + " to (x: " + possibleAction.getMove(i - 1).getX() + ", y: " + possibleAction.getMove(i - 1).getY() + ")");
-                } else if(i % 3 == 2){
-                    rowTwo.append(i + " " + action + " to (x: " + possibleAction.getMove(i - 1).getX() + ", y: " + possibleAction.getMove(i - 1).getY() + ")");
-                } else {
-                    rowThree.append(i + " " + action + " to (x: " + possibleAction.getMove(i - 1).getX() + ", y: " + possibleAction.getMove(i - 1).getY() + ")");
-                }
-            }
-            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
-        } */ else if (possibleAction.size() == 4) {   //4 -> 2 row e 2 col
+        } else if (possibleAction.size() == 4) {   //4 -> 2 row e 2 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if (i % 2 == 1) {
-                    rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                if(possibleAction.getMove(i-1).getX() < 0) {
+                    if (i % 2 == 1) {
+                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    } else {
+                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
+                    }
                 } else {
-                    rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")       ");
+                    if (i % 2 == 1) {
+                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    } else {
+                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+                    }
                 }
             }
             list.append(rowOne + "\n" + rowTwo + "\n");
         } else {    //3 2 e 1 rispettive row 1 col
             for (int i = 1; i < possibleAction.size() + 1; i++) {
-                list.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")\n");
+                if(possibleAction.getMove(i-1).getX() < 0) {
+                    list.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")\n");
+                } else {
+                    list.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")\n");
+                }
             }
         }
 
