@@ -165,6 +165,26 @@ public class ClientController {
         }
 
         if(!move.getIfMove()){
+            if(move.getX() < 0 && move.getY() < 0){
+                int defX = 0, defY = 0;
+                game.decreaseAvailableDomes();
+
+                for(int i = -1; i >= -5; i--){
+                    if(move.getX() == i){
+                        defX = Math.abs(i) - 1;
+                    }
+                }
+
+                for(int i = -1; i >= -5; i--){
+                    if(move.getY() == i){
+                        defY = Math.abs(i) - 1;
+                    }
+                }
+                game.getNewGrid().getCells(defX,defY).getTower().setLevel(game.getNewGrid().getCells(defX,defY).getTower().getLevel() + 1);
+                game.getNewGrid().getCells(defX,defY).getTower().setIsDome(true);
+            }
+
+
             if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 0) {
                 game.decreaseAvailableLevel1Buildings();
             }

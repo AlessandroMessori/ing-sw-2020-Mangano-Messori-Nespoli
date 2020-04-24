@@ -22,11 +22,11 @@ public class MoveList {
      */
     public void addMove(Move move) throws IllegalArgumentException {
 
-        for (Move mv : moves) {
+        /*for (Move mv : moves) {
             if (move.getX() == mv.getX() && move.getY() == mv.getY()) {
                 throw new IllegalArgumentException();
             }
-        }
+        }*/
 
         moves.add(move);
     }

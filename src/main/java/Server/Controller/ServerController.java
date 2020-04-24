@@ -156,97 +156,7 @@ public class ServerController {
                         }
                     }
                 }
-                /*
-                if (grid.getCells(move.getX() - 1, move.getY()).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX() - 1, move.getY()).getTower().getIsDome()) {
-                        if ((grid.getCells(move.getX() - 1, move.getY()).getPawn() == null) || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
-                            if ((move.getX() - 1 != turn.getCantMoveBackHere().getX()) && move.getY() != turn.getCantMoveBackHere().getY()) {
-                                Move possMove = new Move(move.getToMove());
 
-                                possMove.setX(move.getX() - 1);
-                                possMove.setY(move.getY());
-                                movelist.addMove(possMove);
-                            }
-                        }
-
-                    }
-                }
-                if (grid.getCells(move.getX() + 1, move.getY() + 1).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX() + 1, move.getY() + 1).getTower().getIsDome()) {
-                        if((grid.getCells(move.getX() + 1, move.getY() + 1).getPawn() == null) || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
-                            if ((move.getX() + 1 != turn.getCantMoveBackHere().getX()) && move.getY() + 1 != turn.getCantMoveBackHere().getY()) {
-                                Move possMove = new Move(move.getToMove());
-
-                                possMove.setX(move.getX() + 1);
-                                possMove.setY(move.getY() + 1);
-                                movelist.addMove(possMove);
-                            }
-                        }
-
-                    }
-                }
-                if (grid.getCells(move.getX() + 1, move.getY() - 1).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX() + 1, move.getY() - 1).getTower().getIsDome()) {
-                        if((move.getX() + 1 != turn.getCantMoveBackHere().getX()) && move.getY() - 1 != turn.getCantMoveBackHere().getY()) {
-                            Move possMove = new Move(move.getToMove());
-
-                            possMove.setX(move.getX() + 1);
-                            possMove.setY(move.getY() - 1);
-                            movelist.addMove(possMove);
-                        }
-
-                    }
-                }
-                if (grid.getCells(move.getX() - 1, move.getY() + 1).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX() - 1, move.getY() + 1).getTower().getIsDome()) {
-                        if((move.getX() - 1 != turn.getCantMoveBackHere().getX()) && move.getY() + 1!= turn.getCantMoveBackHere().getY()) {
-                            Move possMove = new Move(move.getToMove());
-
-                            possMove.setX(move.getX() - 1);
-                            possMove.setY(move.getY() + 1);
-                            movelist.addMove(possMove);
-                        }
-
-                    }
-                }
-                if (grid.getCells(move.getX() - 1, move.getY() - 1).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX() - 1, move.getY() - 1).getTower().getIsDome()) {
-                        if((move.getX() - 1 != turn.getCantMoveBackHere().getX()) && move.getY() - 1 != turn.getCantMoveBackHere().getY()) {
-                            Move possMove = new Move(move.getToMove());
-
-                            possMove.setX(move.getX() - 1);
-                            possMove.setY(move.getY() - 1);
-                            movelist.addMove(possMove);
-                        }
-
-                    }
-                }
-                if (grid.getCells(move.getX(), move.getY() + 1).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX(), move.getY() + 1).getTower().getIsDome()) {
-                        if((move.getX() != turn.getCantMoveBackHere().getX()) && move.getY() + 1 != turn.getCantMoveBackHere().getY()) {
-                            Move possMove = new Move(move.getToMove());
-
-                            possMove.setX(move.getX());
-                            possMove.setY(move.getY() + 1);
-                            movelist.addMove(possMove);
-                        }
-
-                    }
-                }
-                if (grid.getCells(move.getX(), move.getY() - 1).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
-                    if (!grid.getCells(move.getX(), move.getY() - 1).getTower().getIsDome()) {
-                        if((move.getX() != turn.getCantMoveBackHere().getX()) && move.getY() - 1 != turn.getCantMoveBackHere().getY()) {
-                            Move possMove = new Move(move.getToMove());
-
-                            possMove.setX(move.getX());
-                            possMove.setY(move.getY() - 1);
-                            movelist.addMove(possMove);
-                        }
-
-                    }
-                }*/
-                /*turn.getCantMoveBackHere().setX(-1);
-                turn.getCantMoveBackHere().setY(-1);*/
                 if(game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && game.getGameTurn().getNMovesMade() == 1){
                     Move possMove = new Move(move.getToMove());
 
@@ -263,7 +173,7 @@ public class ServerController {
             movelist = new MoveList();
             if (turn.getCanBuildDomes()) {        //ATLAS EFFECT
                 for (int i = 0; i <= 4; i++) {
-                    for (int j = 0; i <= 4; j++) {
+                    for (int j = 0; j <= 4; j++) {
                         if (grid.getCells(i, j).getPawn() == null && !grid.getCells(i, j).getTower().getIsDome()) {
                             if (game.getAvailableDomes() > 0) {
                                 Move possMove = new Move(null);
