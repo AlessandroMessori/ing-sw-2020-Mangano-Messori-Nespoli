@@ -247,6 +247,15 @@ public class ServerController {
                 }*/
                 /*turn.getCantMoveBackHere().setX(-1);
                 turn.getCantMoveBackHere().setY(-1);*/
+                if(game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && game.getGameTurn().getNMovesMade() == 1){
+                    Move possMove = new Move(move.getToMove());
+
+                    possMove.setIfMove(true);
+                    possMove.setX(6);
+                    possMove.setY(6);
+                    movelist.addMove(possMove);
+                }
+
                 turn.setNPossibleMoves(turn.getNPossibleMoves() - 1);
                 turn.setNMovesMade(turn.getNMovesMade() + 1);
             }
@@ -338,6 +347,15 @@ public class ServerController {
 
                 }
             }
+            if(game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNMadeBuildings() == 1){
+                Move possMove = new Move(move.getToMove());
+
+                possMove.setIfMove(false);
+                possMove.setX(6);
+                possMove.setY(6);
+                movelist.addMove(possMove);
+            }
+
             turn.setNMadeBuildings(turn.getNMadeBuildings() + 1);
             turn.setNPossibleBuildings(turn.getNPossibleBuildings() - 1);
         }
