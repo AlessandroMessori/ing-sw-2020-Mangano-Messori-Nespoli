@@ -637,12 +637,6 @@ public class CLI {
         String action;
         StringBuilder list = new StringBuilder();
         StringBuilder[] row;
-        /*
-        StringBuilder rowOne = new StringBuilder();
-        StringBuilder rowTwo = new StringBuilder();
-        StringBuilder rowThree = new StringBuilder();
-        StringBuilder rowFour = new StringBuilder();
-        */
         int val;
         int line;
         int nRow;
@@ -667,110 +661,12 @@ public class CLI {
             nRow = 5;
         } else if ((possibleAction.size() == 16) || (possibleAction.size() == 12) || (possibleAction.size() == 11) || (possibleAction.size() == 8) || (possibleAction.size() == 7)) {
             nRow = 4; //1+3=4%4=0 2+3=5%4=1 3+3=6%4=2 4+3=7%4=3
-            /*
-            for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if(possibleAction.getMove(i-1).getX() < 0) {
-                    //row[(i+nRow-1)%nRow].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-
-                    if (i % 4 == 1) {
-                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else if (i % 4 == 2) {
-                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else if (i % 4 == 3) {
-                        rowThree.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else {
-                        rowFour.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    }
-
-                } else {
-                    //row[(i+nRow)%nRow].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-
-                    if (i % 4 == 1) {
-                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else if (i % 4 == 2) {
-                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else if (i % 4 == 3) {
-                        rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else {
-                        rowFour.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    }
-
-                }
-            }
-
-            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n" + rowFour + "\n");
-            */
         }else if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {
             nRow = 3;
-            /*
-            for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if(possibleAction.getMove(i-1).getX() < 0) {
-                    //row[(i+nRow-1)%nRow].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-
-                    if (i % nRow == 1) {
-                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else if (i % nRow == 2) {
-                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else {
-                        rowThree.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    }
-
-                } else {
-                    //row[(i+nRow)%nRow].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-
-                    if (i % 3 == 1) {
-                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else if (i % 3 == 2) {
-                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else {
-                        rowThree.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    }
-
-                }
-            }
-
-            list.append(rowOne + "\n" + rowTwo + "\n" + rowThree + "\n");
-            */
         } else if (possibleAction.size() == 4) {
             nRow = 2;
-            /*
-            for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if(possibleAction.getMove(i-1).getX() < 0) {
-                    //row[(i+nRow-1)%nRow].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-
-                    if (i % 2 == 1) {
-                        rowOne.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    } else {
-                        rowTwo.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    }
-
-                } else {
-                    //row[(i+nRow)%nRow].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-
-                    if (i % 2 == 1) {
-                        rowOne.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    } else {
-                        rowTwo.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    }
-
-                }
-            }
-
-            list.append(rowOne + "\n" + rowTwo + "\n");
-            */
         } else {    //3 2 e 1 rispettive row 1 col
             nRow = possibleAction.size(); //1+2=3%3=0 2+2=4%3=1 3+2=5%3=2| 1+1=2%2=0 2+1=3%2=1 | 1+0=1%1=0
-            /*
-            for (int i = 1; i < possibleAction.size() + 1; i++) {
-                if(possibleAction.getMove(i-1).getX() < 0) {
-                    //row[(i+nRow-1)%nRow].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-                    list.append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")\n");
-                } else {
-                    //row[(i+nRow)%nRow].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
-                    list.append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")\n");
-                }
-            }
-            */
         }
 
         row = new StringBuilder[nRow];
@@ -823,26 +719,22 @@ public class CLI {
     public void drawResults(Player currentPlayer, Player winnerPlayer) {
         /*
 
+          /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
+         /                                                                                  \
+        |      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |
+        |      \  ██ /██/| ██  \ ██| ██  | ██      | ██ /███| ██| ██  \ ██| ████| ██         |
+        |       \  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |
+        |        \  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |
+        |         | ██   |  ██████/|  ██████/      | ██/   \  ██|  ██████/| ██ \  ██         |
+        |         |__/    \______/  \______/       |__/     \__/ \______/ |__/  \__/         |
+         \                                                                                  /
+          \________________________________________________________________________________/
 
- /██     /██ /██████  /██   /██      /██      /██  /██████  /██   /██
- \  ██ /██/| ██  \ ██| ██  | ██     | ██ /███| ██| ██  \ ██| ████| ██
-   \  ██/  | ██  | ██| ██  | ██     | ████_  ████| ██  | ██| ██  ████
-    | ██   |  ██████/|  ██████/     | ██/   \  ██|  ██████/| ██ \  ██
-    |__/    \______/  \______/      |__/     \__/ \______/ |__/  \__/
-                                                                      
-
-
-╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗
-╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║
- ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩
-
-
-
-        |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
-        |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |
-        |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |
-        |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |
-        |___________________________________________|
+            |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+            |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |
+            |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |
+            |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |
+            |___________________________________________|
          */
         StringColor color = colorString(currentPlayer, false);
         StringBuilder results = new StringBuilder();
