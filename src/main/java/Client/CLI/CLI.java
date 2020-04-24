@@ -637,10 +637,12 @@ public class CLI {
         String action;
         StringBuilder list = new StringBuilder();
         StringBuilder[] row  = new StringBuilder[4];
+        /*
         StringBuilder rowOne = new StringBuilder();
         StringBuilder rowTwo = new StringBuilder();
         StringBuilder rowThree = new StringBuilder();
         StringBuilder rowFour = new StringBuilder();
+        */
         int val;
         int line;
         int nRow = 4;
