@@ -632,6 +632,7 @@ public class CLI {
      */
     public Move choseMove(MoveList possibleAction) { //move ifmove dice se è mossa di movimento (true) o costruzione (false)
         Move chosenMove = null;
+        //Move jumpAction;
         Scanner input = new Scanner(System.in);
         String word;
         String action;
@@ -675,10 +676,15 @@ public class CLI {
         }
         for (int i = 1; i < possibleAction.size() + 1; i++) {
             line = (i + nRow - 1) % nRow;
-            if (possibleAction.getMove(i - 1).getX() < 0) {
-                row[line].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")       ");
-            } else {
-                row[line].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")              ");
+            if(possibleAction.getMove(i-1).getX() > 5){
+                //jumpAction = possibleAction.getMove(i-1);
+                row[(i + nRow) % nRow].append("   " + i + ". SKIP" + action.toUpperCase() + "                          ");
+            }else {
+                if (possibleAction.getMove(i - 1).getX() < 0) {
+                    row[line].append("   " + i + ". " + action + " a Dome to (x: " + (-possibleAction.getMove(i - 1).getX()) + ", y: " + (-possibleAction.getMove(i - 1).getY()) + ")    ");
+                } else {
+                    row[line].append("   " + i + ". " + action + " to (x: " + (possibleAction.getMove(i - 1).getX() + 1) + ", y: " + (possibleAction.getMove(i - 1).getY() + 1) + ")           ");
+                }
             }
         }
 
@@ -697,7 +703,13 @@ public class CLI {
                 val = Integer.parseInt(word);
                 if ((val > 0) && (val < possibleAction.size() + 1)) {
                     chosenMove = possibleAction.getMove(val - 1);
-                    System.out.println(" Your choice: " + val + ". " + action + " to (x: " + (chosenMove.getX() + 1) + ", y: " + (chosenMove.getY() + 1) + ")");
+                    if(chosenMove.getX() < 0){
+                        System.out.println(" Your choice: " + val + ". " + action + " a Dome to (x: " + (-chosenMove.getX()) + ", y: " + (-chosenMove.getY()) + ")");
+                    }else if (chosenMove.getX() > 5){
+                        System.out.println(" Your choice: Skip " + action + " a second time");
+                    } else {
+                        System.out.println(" Your choice: " + val + ". " + action + " to (x: " + (chosenMove.getX() + 1) + ", y: " + (chosenMove.getY() + 1) + ")");
+                    }
                     chosen = true;
                 } else {
                     System.out.println(StringColor.ANSI_RED + " ⚠ " + StringColor.RESET + " \"" + val + "\"" + " is not a valid input, input must be a number between 1 and " + possibleAction.size() + ". Retry");
