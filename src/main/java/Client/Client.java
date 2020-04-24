@@ -35,6 +35,7 @@ public class Client implements Runnable, ServerObserver {
     private boolean alreadyChosenStartingPosition;
     private int lastMoveNumber = -1;
     private int lastMovedturn = 0;
+    private Pawn chosenPawn = null;
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -141,7 +142,6 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
-                    Pawn chosenPawn;
                     if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
                         System.out.println("Turn: " + game.getNTurns());
                         cli.drawPlayers(game.getPlayers());
@@ -166,12 +166,17 @@ public class Client implements Runnable, ServerObserver {
                             cli.drawGrid(game.getNewGrid());
 
                             if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
-                                game.getGameTurn().setCantBuildOnThisBlock(chosenMove);
+                               Move cantBuildMove = new Move(chosenPawn);
+                                cantBuildMove.setX(chosenMove.getX());
+                                cantBuildMove.setY(chosenMove.getY());
+                                cantBuildMove.setIfMove(false);
+                                game.getGameTurn().setCantBuildOnThisBlock(cantBuildMove);
 
-                                for (int x = 0; x < 5; x++) { //sending data
+                                for (int x = 0; x < 5; x++) { //sending data for Demeter second building
                                     for (int y = 0; y < 5; y++) {
                                         if (game.getNewGrid().getCells(x, y).getPawn() != null) {
-                                            if (chosenMove.getToMove().getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {
+                                            //System.out.println(new Gson().toJson(chosenPawn));
+                                            if (chosenPawn.getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {
                                                 chosenMove.setX(x);
                                                 chosenMove.setY(y);
                                             }
