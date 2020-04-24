@@ -487,7 +487,7 @@ public class CLI {
             valy = 0;
             drawGrid(gameGrid);
             while (!positionChosen) {
-
+ 
                 System.out.println("\nPosition of " + color + "Worker " + (j + 1) + StringColor.RESET);
                 System.out.println("X Y");
                 String row = input.nextLine();
