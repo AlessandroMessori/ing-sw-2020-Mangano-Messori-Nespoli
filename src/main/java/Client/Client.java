@@ -141,9 +141,9 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
+                    Pawn chosenPawn;
                     if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
                         System.out.println("Turn: " + game.getNTurns());
-                        Pawn chosenPawn;
                         cli.drawPlayers(game.getPlayers());
                         cli.drawGrid(game.getNewGrid());
                         chosenPawn = cli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
@@ -167,6 +167,18 @@ public class Client implements Runnable, ServerObserver {
 
                             if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
                                 game.getGameTurn().setCantBuildOnThisBlock(chosenMove);
+
+                                for (int x = 0; x < 5; x++) { //sending data
+                                    for (int y = 0; y < 5; y++) {
+                                        if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                                            if (chosenMove.getToMove().getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {
+                                                chosenMove.setX(x);
+                                                chosenMove.setY(y);
+                                            }
+                                        }
+                                    }
+                                }
+
                             }
 
                             message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
@@ -352,7 +364,6 @@ public class Client implements Runnable, ServerObserver {
      * converts an ArrayList of Colors to an ArrayList of Strings
      *
      * @param colors the ArrayList to Convert
-     *
      * @return the ArrayList of converted strings
      */
     ArrayList<String> convertColors(ArrayList<Colour> colors) {
