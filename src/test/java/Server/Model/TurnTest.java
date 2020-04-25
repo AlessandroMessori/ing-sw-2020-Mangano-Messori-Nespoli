@@ -30,8 +30,11 @@ public class TurnTest {
     public void getEnemyPawnTest() {
         Player owner = new Player("uName",Divinity.ATHENA,Colour.RED);
         Pawn p = new Pawn(owner);
-        turn.setEnemyPawn(p);
-        assertEquals(p,turn.getEnemyPawn());
+        turn.setEnemyPawn1(p);
+        assertEquals(p,turn.getEnemyPawn1());
+        Pawn p2 = new Pawn(owner);
+        turn.setEnemyPawn2(p2);
+        assertEquals(p2,turn.getEnemyPawn2());
     }
 
     @Test

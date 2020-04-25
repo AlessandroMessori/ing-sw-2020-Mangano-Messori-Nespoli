@@ -94,29 +94,6 @@ public class MoveListTest {
         assertEquals(returnedMove2.getY(), 4);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addMoveExceptionTest() {
-
-        moveList = new MoveList();
-        Move move1, move2, move3;
-        move1 = new Move(pawn);
-        move2 = new Move(pawn);
-        move3 = new Move(pawn);
-
-        move1.setX(1);
-        move1.setY(2);
-        move2.setX(3);
-        move2.setY(4);
-        move3.setX(1);
-        move3.setY(2);
-
-        moveList.addMove(move1);
-        moveList.addMove(move2);
-
-
-        moveList.addMove(move3); //wrong add
-    }
-
     @Test
     public void deleteMoveTest() {
         moveList = new MoveList();
