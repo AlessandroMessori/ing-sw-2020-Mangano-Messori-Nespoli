@@ -180,8 +180,8 @@ public class ServerController {
                                     Move possMove = new Move(null);
 
                                     possMove.setIfMove(false);
-                                    possMove.setX(i - 2*i - 1);
-                                    possMove.setY(j - 2*j - 1);
+                                    possMove.setX(move.getX() + i - 2*i - 1);
+                                    possMove.setY(move.getY() + j - 2*j - 1);
                                     movelist.addMove(possMove);
                                 }
                             }
