@@ -171,7 +171,7 @@ public class ServerController {
             }
         } else if (!move.getIfMove()) {             //BUILDING MOVE //TODO: ADD IF(...&& NMADEBUILDINGS == 0)
             movelist = new MoveList();
-            if (turn.getCanBuildDomes()) {        //ATLAS EFFECT
+            if (game.getCurrentPlayer().getDivinity() == Divinity.ATLAS) {        //ATLAS EFFECT
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (0 <= (move.getX() + i) && (move.getX() + i) <= 4 && 0 <= (move.getY() + j) && (move.getY() + j) <= 4) {
@@ -180,14 +180,13 @@ public class ServerController {
                                     Move possMove = new Move(null);
 
                                     possMove.setIfMove(false);
-                                    possMove.setX(move.getX() + i - 2*i - 1);
-                                    possMove.setY(move.getY() + j - 2*j - 1);
+                                    possMove.setX(-(move.getX() + i) - 1);
+                                    possMove.setY(-(move.getY() + j) - 1);
                                     movelist.addMove(possMove);
                                 }
                             }
                         }
                     }
-
                 }
             }
             for (int i = -1; i <= 1; i++) {
