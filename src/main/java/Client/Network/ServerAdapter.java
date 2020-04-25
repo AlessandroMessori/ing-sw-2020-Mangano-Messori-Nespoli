@@ -155,20 +155,33 @@ public class ServerAdapter implements Runnable {
     private synchronized void doJoinGame() throws IOException, ClassNotFoundException {
         outputStm.writeObject(requestContent);
         String responseContent = (String) inputStm.readObject();
-        String username = messageDeserializer.deserializeString(responseContent, "username");
-        boolean threePlayers = messageDeserializer.deserializeBoolean(responseContent, "3players");
-        String gameID = messageDeserializer.deserializeString(responseContent, "gameID");
 
-        /* copy the list of observers in case some observers changes it from inside
-         * the notification method */
-        List<ServerObserver> observersCpy;
-        synchronized (observers) {
-            observersCpy = new ArrayList<>(observers);
-        }
+        if (responseContent.equals("The username you selected was already taken,try again with a different username")) {
+            List<ServerObserver> observersCpy;
+            synchronized (observers) {
+                observersCpy = new ArrayList<>(observers);
+            }
 
-        /* notify the observers that we got the string */
-        for (ServerObserver observer : observersCpy) {
-            observer.receiveNewPlayerConnected(new Player(username, null, null), gameID);
+            /* notify the observers that we got the string */
+            for (ServerObserver observer : observersCpy) {
+                observer.receiveUsernameTaken(responseContent);
+            }
+        } else {
+            String username = messageDeserializer.deserializeString(responseContent, "username");
+            boolean threePlayers = messageDeserializer.deserializeBoolean(responseContent, "3players");
+            String gameID = messageDeserializer.deserializeString(responseContent, "gameID");
+
+            /* copy the list of observers in case some observers changes it from inside
+             * the notification method */
+            List<ServerObserver> observersCpy;
+            synchronized (observers) {
+                observersCpy = new ArrayList<>(observers);
+            }
+
+            /* notify the observers that we got the string */
+            for (ServerObserver observer : observersCpy) {
+                observer.receiveNewPlayerConnected(new Player(username, null, null), gameID);
+            }
         }
     }
 

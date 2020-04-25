@@ -34,35 +34,21 @@ public class ListenForPlayer extends ResponseHandler {
             String username = messageDeserializer.deserializeString(requestContent, "username");
             boolean nPlayers = messageDeserializer.deserializeBoolean(requestContent, "3players");
 
-            Model model = Model.getModel();
-
-            //System.out.println("Number of Games before Controller call:" + model.getGames().size());
-
             Player player = new Player(username, null, null);
             Game game = controller.addPlayerToModel(player, nPlayers);
             String gameID = game.getCodGame();
             System.out.println("Added player " + username + " to game " + gameID);
             String response = messageSerializer.serializeJoinGame(username, nPlayers, gameID).toString();
-            int numberOfPlayers = nPlayers ? 3 : 2;
+            int nPlayersOnGame = game.getThreePlayers() ? 3 : 2;
 
             //if the Lobby is full,sets a random player to decide the inGameDivinities
-            if (game.getPlayers().size() == numberOfPlayers) {
+            if (game.getPlayers().size() == nPlayersOnGame) {
                 game.setCurrentPlayer(game.getPlayers().getRandomPlayer());
             }
 
-            /*System.out.println("Number of Games:" + model.getGames().size());
-            for (Game gm : model.getGames()) {
-                System.out.print("Game " + gm.getCodGame() + ":Players : [");
-                for (int i = 0; i < gm.getPlayers().size(); i++) {
-                    System.out.print(gm.getPlayers().getPlayer(i).getUsername() + ",");
-                }
-                System.out.println("]");
-            }*/
-
-
             output.writeObject(response);
-        } catch (ClassCastException e) {
-            System.out.println("error while writing the response");
+        } catch (IllegalArgumentException e) {
+            output.writeObject("The username you selected was already taken,try again with a different username");
         }
     }
 }

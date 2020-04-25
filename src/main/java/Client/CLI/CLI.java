@@ -14,6 +14,14 @@ public class CLI {
     private boolean lobby;
 
     /**
+     * sets player value
+     * @param n player value
+     */
+    public void setPlayers(int n){
+        players = n;
+    }
+
+    /**
      * Print a welcome message for the user
      */
     public void printWelcome() {

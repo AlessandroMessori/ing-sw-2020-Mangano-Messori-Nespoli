@@ -234,6 +234,17 @@ public class Client implements Runnable, ServerObserver {
     }
 
     /**
+     * function that gets called when a username taken signal is received from the server
+     *
+     * @param response the server error response
+     */
+    @Override
+    public synchronized void receiveUsernameTaken(String response) {
+        System.out.println(response);
+        currentPage = Pages.WELCOME;
+    }
+
+    /**
      * function that gets called when a new player signal is received from the server
      *
      * @param player the player who joined the game
@@ -304,6 +315,7 @@ public class Client implements Runnable, ServerObserver {
 
         if (game != null) {
             int nPlayers = game.getThreePlayers() ? 3 : 2;
+            cli.setPlayers(nPlayers);
 
             switch (currentPage) {
                 case LOBBY:
@@ -321,7 +333,8 @@ public class Client implements Runnable, ServerObserver {
                     }
                     break;
                 case LOADINGDIVINITIES:
-                    if (game.getPlayers().size() == nPlayers && game.getInGameDivinities().size() == nPlayers) {
+                    int nPlayersInGame = game.getThreePlayers() ? 3 : 2;
+                    if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
                         if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                             System.out.println("Going to Divinity Choice Page");
                             currentPage = Pages.DIVINITYCHOICE;

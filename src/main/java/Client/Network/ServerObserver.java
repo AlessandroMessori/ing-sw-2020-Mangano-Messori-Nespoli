@@ -3,6 +3,9 @@ package Client.Network;
 import Server.Model.*;
 
 public interface ServerObserver {
+
+    void receiveUsernameTaken(String Response);
+
     void receiveNewPlayerConnected(Player player, String gameID);
 
     void receiveDivinities(String divinities);

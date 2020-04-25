@@ -1,5 +1,6 @@
 package Server;
 
+import Server.Model.Model;
 import Server.Network.ResponseContext;
 
 import java.io.IOException;

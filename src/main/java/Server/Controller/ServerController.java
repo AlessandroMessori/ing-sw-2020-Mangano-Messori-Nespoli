@@ -35,37 +35,41 @@ public class ServerController {
      * @param if3 boolean which checks if the player wants to play in a 2 or a 3 players game
      * @return the Game to which the player is added
      */
-    public Game addPlayerToModel(Player p, boolean if3) {        //TODO SYNCHRONIZED
+    public Game addPlayerToModel(Player p, boolean if3) throws IllegalArgumentException {        //TODO SYNCHRONIZED
         String x;
+        int i = 0;
         Model model = Model.getModel();
 
-        if (model.getGames().size() == 0) {       //starting case
-            model.addGame(new Game(0, x = randomString(10), if3, null, new Grid(), new Grid(), null));
-            model.searchID(x).getPlayers().addPlayer(p);
-            return (model.searchID(x));
-        }
-        for (Game g : model.getGames()) {
-            if (!g.getThreePlayers() && !if3) {           //if 2 players
-                if (g.getPlayers().size() < 2) {
-                    g.getPlayers().addPlayer(p);
-                    return g;
+        //searches for available games
+        while (i < model.getGames().size()) {
+
+            Game currentGame = model.getGames().get(i);
+            int nPlayers = currentGame.getThreePlayers() ? 3 : 2;
+
+            if (currentGame.getPlayers().size() < nPlayers) {
+
+                for (int j = 0;j <currentGame.getPlayers().size();j++){
+                     if (currentGame.getPlayers().getPlayer(j).getUsername().equals(p.getUsername())) {
+                         throw new IllegalArgumentException(); //the username is already taken
+                     }
                 }
-            } else if (g.getThreePlayers() && if3) {       //if 3 players
-                if (g.getPlayers().size() < 3) {
-                    g.getPlayers().addPlayer(p);
-                    return g;
-                }
+
+                currentGame.getPlayers().addPlayer(p);
+                return currentGame;
             } else {
-                x = randomString(10);
-                while (model.searchID(x) != null) {
-                    x = randomString(10);
-                }
-                model.addGame(new Game(0, x, if3, null, null, null, null));
-                model.searchID(x).getPlayers().addPlayer(p);
-                return model.searchID(x);
+                i++;
             }
         }
-        return null;
+
+        //creates a new game
+
+        x = randomString(10);
+        while (model.searchID(x) != null) {
+            x = randomString(10);
+        }
+        model.addGame(new Game(0,x, if3, null, new Grid(), new Grid(), null));
+        model.searchID(x).getPlayers().addPlayer(p);
+        return model.searchID(x);
     }
 
     /**
@@ -124,38 +128,36 @@ public class ServerController {
                                 if (!grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                                     if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || ((game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && !game.getCurrentPlayer().getUsername().equals(grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername()))) {
                                         /*if (game.getCurrentPlayer().getDivinity() != Divinity.ARTEMIS || (game.getGameTurn().getNMovesMade() == 0) || ((move.getX() + i != game.getGameTurn().getCantMoveBackHere().getX()) && move.getY() + j != game.getGameTurn().getCantMoveBackHere().getY())) {*/
-                                            if (game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || !turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
-                                                if(i == 0 && j == 0){
-                                                    continue;
-                                                }
-                                                if(game.getGameTurn().getNMovesMade() == 1 && game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && ((move.getX() + i == game.getGameTurn().getCantMoveBackHere().getX()) && move.getY() + j == game.getGameTurn().getCantMoveBackHere().getY())){
-                                                    continue;
-                                                }
-                                                Move possMove = new Move(move.getToMove());
-
-                                                if(game.getGameTurn().getEnemyPawn1() == null) {        //TODO: ADD ENEMYPLAYER3 FOR APOLLO
-                                                    if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                                                        if(!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername()))
-                                                        {
-                                                            game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
-                                                        }
-                                                    }
-                                                }
-
-                                                if(game.getGameTurn().getEnemyPawn1() != null){
-                                                    if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                                                        if(!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername()))
-                                                        {
-                                                            game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
-                                                        }
-                                                    }
-                                                }
-
-                                                possMove.setIfMove(true);
-                                                possMove.setX(move.getX() + i);
-                                                possMove.setY(move.getY() + j);
-                                                movelist.addMove(possMove);
+                                        if (game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || !turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
+                                            if (i == 0 && j == 0) {
+                                                continue;
                                             }
+                                            if (game.getGameTurn().getNMovesMade() == 1 && game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && ((move.getX() + i == game.getGameTurn().getCantMoveBackHere().getX()) && move.getY() + j == game.getGameTurn().getCantMoveBackHere().getY())) {
+                                                continue;
+                                            }
+                                            Move possMove = new Move(move.getToMove());
+
+                                            if (game.getGameTurn().getEnemyPawn1() == null) {        //TODO: ADD ENEMYPLAYER3 FOR APOLLO
+                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                    if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                                                        game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                    }
+                                                }
+                                            }
+
+                                            if (game.getGameTurn().getEnemyPawn1() != null) {
+                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                    if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                                                        game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                    }
+                                                }
+                                            }
+
+                                            possMove.setIfMove(true);
+                                            possMove.setX(move.getX() + i);
+                                            possMove.setY(move.getY() + j);
+                                            movelist.addMove(possMove);
+                                        }
                                         //}
                                     }
                                 }
@@ -164,7 +166,7 @@ public class ServerController {
                     }
                 }
 
-                if(game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && game.getGameTurn().getNMovesMade() == 1){
+                if (game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && game.getGameTurn().getNMovesMade() == 1) {
                     Move possMove = new Move(move.getToMove());
 
                     possMove.setIfMove(true);
@@ -182,7 +184,7 @@ public class ServerController {
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (0 <= (move.getX() + i) && (move.getX() + i) <= 4 && 0 <= (move.getY() + j) && (move.getY() + j) <= 4) {
-                            if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i,move.getY() + j).getTower().getIsDome()) {
+                            if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                                 if (game.getAvailableDomes() > 0) {
                                     Move possMove = new Move(null);
 
@@ -201,63 +203,63 @@ public class ServerController {
                     if (0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
                         if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
                             /*if (game.getCurrentPlayer().getDivinity() != Divinity.DEMETER || ((turn.getCantBuildOnThisBlock().getX() != move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() != move.getY() + j))) {*/
-                                if(i == 0 && j == 0){
-                                    continue;               //TO NOT BUILD UNDER THE PAWN; COULD NOT WORK
+                            if (i == 0 && j == 0) {
+                                continue;               //TO NOT BUILD UNDER THE PAWN; COULD NOT WORK
+                            }
+
+                            if (game.getGameTurn().getNMadeBuildings() == 1 && game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && ((turn.getCantBuildOnThisBlock().getX() == move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() == move.getY() + j))) {
+                                continue;
+                            }
+
+                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 0) {
+                                if (game.getAvailableLevel1Buildings() > 0) {
+                                    Move possMove = new Move(null);
+
+                                    possMove.setIfMove(false);
+                                    possMove.setX(move.getX() + i);
+                                    possMove.setY(move.getY() + j);
+
+                                    movelist.addMove(possMove);
+
                                 }
+                            }
+                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 1) {
+                                if (game.getAvailableLevel2Buildings() > 0) {
+                                    Move possMove = new Move(null);
 
-                                if(game.getGameTurn().getNMadeBuildings() == 1 && game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && ((turn.getCantBuildOnThisBlock().getX() == move.getX() + i) && (turn.getCantBuildOnThisBlock().getY() == move.getY() + j))){
-                                    continue;
+                                    possMove.setIfMove(false);
+                                    possMove.setX(move.getX() + i);
+                                    possMove.setY(move.getY() + j);
+
+                                    movelist.addMove(possMove);
+
                                 }
+                            }
 
-                                if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 0) {
-                                    if (game.getAvailableLevel1Buildings() > 0) {
-                                        Move possMove = new Move(null);
+                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 2) {
+                                if (game.getAvailableLevel3Buildings() > 0) {
+                                    Move possMove = new Move(null);
 
-                                        possMove.setIfMove(false);
-                                        possMove.setX(move.getX() + i);
-                                        possMove.setY(move.getY() + j);
+                                    possMove.setIfMove(false);
+                                    possMove.setX(move.getX() + i);
+                                    possMove.setY(move.getY() + j);
 
-                                        movelist.addMove(possMove);
+                                    movelist.addMove(possMove);
 
-                                    }
                                 }
-                                if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 1) {
-                                    if (game.getAvailableLevel2Buildings() > 0) {
-                                        Move possMove = new Move(null);
+                            }
 
-                                        possMove.setIfMove(false);
-                                        possMove.setX(move.getX() + i);
-                                        possMove.setY(move.getY() + j);
+                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 3) {
+                                if (game.getAvailableDomes() > 0) {
+                                    Move possMove = new Move(null);
 
-                                        movelist.addMove(possMove);
+                                    possMove.setIfMove(false);
+                                    possMove.setX(move.getX() + i);
+                                    possMove.setY(move.getY() + j);
 
-                                    }
+                                    movelist.addMove(possMove);
+
                                 }
-
-                                if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 2) {
-                                    if (game.getAvailableLevel3Buildings() > 0) {
-                                        Move possMove = new Move(null);
-
-                                        possMove.setIfMove(false);
-                                        possMove.setX(move.getX() + i);
-                                        possMove.setY(move.getY() + j);
-
-                                        movelist.addMove(possMove);
-
-                                    }
-                                }
-
-                                if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 3) {
-                                    if (game.getAvailableDomes() > 0) {
-                                        Move possMove = new Move(null);
-
-                                        possMove.setIfMove(false);
-                                        possMove.setX(move.getX() + i);
-                                        possMove.setY(move.getY() + j);
-
-                                        movelist.addMove(possMove);
-
-                                    }
                                 //}
                             }
                         }
@@ -265,7 +267,7 @@ public class ServerController {
 
                 }
             }
-            if(game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNMadeBuildings() == 1){
+            if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNMadeBuildings() == 1) {
                 Move possMove = new Move(move.getToMove());
 
                 possMove.setIfMove(false);
@@ -350,7 +352,6 @@ public class ServerController {
     }
 
     /**
-     *
      * @param grid the grid where to see the pawns
      * @return a PlayerList of players that already placed pawns
      */
