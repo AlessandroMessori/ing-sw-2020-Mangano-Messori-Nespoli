@@ -82,16 +82,27 @@ public class ClientController {
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
                                 if(game.getGameTurn().getEnemyPawn1() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
                                 {
-                                    game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn1());
+                                    for(int k = 0; k <= 4; k++){
+                                        for(int l = 0; l <= 4; l++){
+                                            if(game.getNewGrid().getCells(k,l).getPawn() != null){
+                                                if(game.getNewGrid().getCells(k,l).getPawn().getId() == game.getGameTurn().getEnemyPawn1().getId()){
+                                                    game.getGameTurn().setEnemyPawn1(null);
+                                                }
+                                                if(game.getGameTurn().getEnemyPawn2() != null){
+                                                    if(game.getNewGrid().getCells(k,l).getPawn().getId() == game.getGameTurn().getEnemyPawn2().getId()){
+                                                        game.getGameTurn().setEnemyPawn2(null);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (game.getGameTurn().getEnemyPawn1() != null) {
+                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn1());
+                                    }
+                                    else if(game.getGameTurn().getEnemyPawn2() != null){
+                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn2());
+                                    }
                                 }
-                                /*if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
-                                    if(i == 0 && j == 0) {
-                                        game.getGameTurn().setPawnMoved(false);
-                                    }
-                                    else {
-                                        game.getGameTurn().setPawnMoved(true);
-                                    }
-                                }*/
                             }
                         }
                     }

@@ -141,7 +141,7 @@ public class ServerController {
                                                 }
                                                 Move possMove = new Move(move.getToMove());
 
-                                                if(game.getGameTurn().getEnemyPawn1() == null) {
+                                                if(game.getGameTurn().getEnemyPawn1() == null) {        //TODO: ADD ENEMYPLAYER3 FOR APOLLO
                                                     if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                         game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
                                                     }
