@@ -649,16 +649,31 @@ public class CLI {
             action = "Build";
         }
 
-        //print
+        /*
         if ((possibleAction.size() == 27)){
             nRow = 9;
         }else if ((possibleAction.size() == 26)){
             nRow = 8;
         }else if ((possibleAction.size() == 28) || (possibleAction.size() == 21) || (possibleAction.size() == 14) || (possibleAction.size() == 13)){
             nRow = 7;
-        }else if ((possibleAction.size() == 30) || (possibleAction.size() == 29) || (possibleAction.size() == 24)  || (possibleAction.size() == 23)  || (possibleAction.size() == 22) || (possibleAction.size() == 18)  || (possibleAction.size() == 17) || (possibleAction.size() == 11)){
+        }else if ((possibleAction.size() == 30) || (possibleAction.size() == 29) || (possibleAction.size() == 24)  || (possibleAction.size() == 23)  || (possibleAction.size() == 22) || (possibleAction.size() == 18)  || (possibleAction.size() == 17)){
             nRow = 6;
-        }else if ((possibleAction.size() == 25)  || (possibleAction.size() == 20)  || (possibleAction.size() == 19) || (possibleAction.size() == 13 ) || (possibleAction.size() == 10)) {
+        }else if ((possibleAction.size() == 25)  || (possibleAction.size() == 20)  || (possibleAction.size() == 19) || (possibleAction.size() == 15) || (possibleAction.size() == 10)) {
+            nRow = 5;
+        } else if ((possibleAction.size() == 16) || (possibleAction.size() == 12) || (possibleAction.size() == 11) || (possibleAction.size() == 8) || (possibleAction.size() == 7)) {
+            nRow = 4; //1+3=4%4=0 2+3=5%4=1 3+3=6%4=2 4+3=7%4=3
+        }else if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {
+            nRow = 3;
+        } else if (possibleAction.size() == 4) {
+            nRow = 2;
+        } else {    //3 2 e 1 rispettive row 1 col
+            nRow = possibleAction.size(); //1+2=3%3=0 2+2=4%3=1 3+2=5%3=2| 1+1=2%2=0 2+1=3%2=1 | 1+0=1%1=0
+        }
+         */
+        //print
+        if ((possibleAction.size() > 16)){
+            nRow = 6;
+        }else if ((possibleAction.size() == 15) || (possibleAction.size() == 14) || (possibleAction.size() == 13) || (possibleAction.size() == 10)) {
             nRow = 5;
         } else if ((possibleAction.size() == 16) || (possibleAction.size() == 12) || (possibleAction.size() == 11) || (possibleAction.size() == 8) || (possibleAction.size() == 7)) {
             nRow = 4; //1+3=4%4=0 2+3=5%4=1 3+3=6%4=2 4+3=7%4=3
