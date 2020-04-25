@@ -35,6 +35,7 @@ public class Client implements Runnable, ServerObserver {
     private boolean alreadyChosenStartingPosition;
     private int lastMoveNumber = -1;
     private int lastMovedturn = 0;
+    private Pawn chosenPawn = null;
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -143,7 +144,6 @@ public class Client implements Runnable, ServerObserver {
                 case GAME:
                     if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
                         System.out.println("Turn: " + game.getNTurns());
-                        Pawn chosenPawn;
                         cli.drawPlayers(game.getPlayers());
                         cli.drawGrid(game.getNewGrid());
                         chosenPawn = cli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
@@ -157,16 +157,35 @@ public class Client implements Runnable, ServerObserver {
                     } else { // Making Moves
                         cli.drawGrid(game.getNewGrid());
                         Move chosenMove;
+                        boolean endTurn = false;
 
                         if (game.getNextMoves().size() > 0) {
                             chosenMove = cli.choseMove(game.getNextMoves());
                             String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
                             System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
-                            game = clientController.updateGameByMove(chosenMove, game);
+                            endTurn = chosenMove.getX() == 6 && chosenMove.getY() == 6;
+                            game = endTurn ? game : clientController.updateGameByMove(chosenMove, game);
                             cli.drawGrid(game.getNewGrid());
 
                             if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
-                                game.getGameTurn().setCantBuildOnThisBlock(chosenMove);
+                                Move cantBuildMove = new Move(chosenPawn);
+                                cantBuildMove.setX(chosenMove.getX());
+                                cantBuildMove.setY(chosenMove.getY());
+                                cantBuildMove.setIfMove(false);
+                                game.getGameTurn().setCantBuildOnThisBlock(cantBuildMove);
+
+                                for (int x = 0; x < 5; x++) { //sending data for Demeter second building
+                                    for (int y = 0; y < 5; y++) {
+                                        if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                                            //System.out.println(new Gson().toJson(chosenPawn));
+                                            if (chosenPawn.getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {
+                                                chosenMove.setX(x);
+                                                chosenMove.setY(y);
+                                            }
+                                        }
+                                    }
+                                }
+
                             }
 
                             message = messageSerializer.serializeChosenMove(game, chosenMove).toString();
@@ -352,7 +371,6 @@ public class Client implements Runnable, ServerObserver {
      * converts an ArrayList of Colors to an ArrayList of Strings
      *
      * @param colors the ArrayList to Convert
-     *
      * @return the ArrayList of converted strings
      */
     ArrayList<String> convertColors(ArrayList<Colour> colors) {
@@ -363,7 +381,6 @@ public class Client implements Runnable, ServerObserver {
         return strColors;
     }
 }
-
 
 
 
