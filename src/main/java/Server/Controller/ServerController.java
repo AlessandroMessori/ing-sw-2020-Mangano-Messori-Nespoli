@@ -135,13 +135,19 @@ public class ServerController {
 
                                                 if(game.getGameTurn().getEnemyPawn1() == null) {        //TODO: ADD ENEMYPLAYER3 FOR APOLLO
                                                     if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                                                        game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        if(!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername()))
+                                                        {
+                                                            game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        }
                                                     }
                                                 }
 
                                                 if(game.getGameTurn().getEnemyPawn1() != null){
                                                     if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                                                        game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        if(!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername()))
+                                                        {
+                                                            game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        }
                                                     }
                                                 }
 
