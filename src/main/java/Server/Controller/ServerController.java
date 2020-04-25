@@ -141,9 +141,18 @@ public class ServerController {
                                                 }
                                                 Move possMove = new Move(move.getToMove());
 
-                                                if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i,move.getY() + j).getPawn() != null){
-                                                    game.getGameTurn().setEnemyPawn(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                if(game.getGameTurn().getEnemyPawn1() == null) {
+                                                    if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                        game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                    }
                                                 }
+
+                                                if(game.getGameTurn().getEnemyPawn1() != null){
+                                                    if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                        game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                    }
+                                                }
+
                                                 possMove.setIfMove(true);
                                                 possMove.setX(move.getX() + i);
                                                 possMove.setY(move.getY() + j);

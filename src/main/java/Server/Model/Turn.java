@@ -19,8 +19,8 @@ public class Turn {
      *
      * @param p pawn to swap with current player's one
      */
-    public void setEnemyPawn(Pawn p) {
-        enemyPawn = p;
+    public void setEnemyPawn1(Pawn p) {
+        enemyPawn1 = p;
     }
 
     /**
@@ -28,11 +28,27 @@ public class Turn {
      *
      * @return the Pawn to swap with the current player's one
      */
-    public Pawn getEnemyPawn() {
-        return enemyPawn;
+    public Pawn getEnemyPawn1() {
+        return enemyPawn1;
     }
 
-    private Pawn enemyPawn = null;
+    private Pawn enemyPawn1 = null;
+
+    /**
+     *
+     * @param p the second possible pawn to swap with the current player's one
+     */
+    public void setEnemyPawn2(Pawn p){
+        enemyPawn2 = p;
+    }
+
+    /**
+     *
+     * @return the second possible pawn to swap with the current player's one
+     */
+    public Pawn getEnemyPawn2(){ return enemyPawn2; }
+
+    private Pawn enemyPawn2 = null;
 
     /**
      * APOLLO EFFECT
@@ -330,7 +346,8 @@ public class Turn {
         moveB.setY(777);
         setCantBuildOnThisBlock(moveB);
 
-        enemyPawn = null;
+        enemyPawn1 = null;
+        enemyPawn2 = null;
         currDivinity = div;
         setNPossibleMoves(1);
         setNMovesMade(0);

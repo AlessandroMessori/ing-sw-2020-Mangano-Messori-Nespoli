@@ -80,9 +80,9 @@ public class ClientController {
                                     continue;
                                 }
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
-                                if(game.getGameTurn().getEnemyPawn() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
+                                if(game.getGameTurn().getEnemyPawn1() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
                                 {
-                                    game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn());
+                                    game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn1());
                                 }
                                 /*if (move.getToMove().getOwner().getDivinity() == Divinity.ATHENA) {
                                     if(i == 0 && j == 0) {
