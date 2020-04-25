@@ -63,9 +63,6 @@ public class ClientController {
                 game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));
             }
 
-            /*Pawn enemyPawn = game.getNewGrid().getCells(move.getX(),move.getY()).getPawn();*/
-
-
             game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());
             if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {
                 game.setWinner(game.getCurrentPlayer());            //WINNING MOVE

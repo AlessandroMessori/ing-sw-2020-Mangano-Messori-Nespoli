@@ -104,9 +104,6 @@ public class ServerController {
             game.getGameTurn().setCantMoveBackHere(move);
         }
 
-        /*Turn turn = new Turn(p.getDivinity());      //THING TO DO BEFORE CALL A INIZIO GIOCO!
-        turn.startingTurn();   */                     //THING TO DO IMMEDIATELY BEFORE CALL
-
         if (move.getIfMove()) {              //IF MOVEMENT
             movelist = new MoveList();
             /*turn.canItComeUp(grid, move); //TODO: PUT OUTSIDE THIS FUNCTION, WHEN CALCULATENEXTMOVE() IS CALLED
@@ -119,11 +116,6 @@ public class ServerController {
                 }
             }*/
 
-            if (turn.getCanMoveAndSwap())        //MINOTAUR
-            {
-
-            }
-
             if (turn.getNPossibleMoves() > 0) {
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
@@ -134,7 +126,7 @@ public class ServerController {
                                         /*if (game.getCurrentPlayer().getDivinity() != Divinity.ARTEMIS || (game.getGameTurn().getNMovesMade() == 0) || ((move.getX() + i != game.getGameTurn().getCantMoveBackHere().getX()) && move.getY() + j != game.getGameTurn().getCantMoveBackHere().getY())) {*/
                                             if (game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || !turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
                                                 if(i == 0 && j == 0){
-                                                    continue;           //ADDED
+                                                    continue;
                                                 }
                                                 if(game.getGameTurn().getNMovesMade() == 1 && game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS && ((move.getX() + i == game.getGameTurn().getCantMoveBackHere().getX()) && move.getY() + j == game.getGameTurn().getCantMoveBackHere().getY())){
                                                     continue;
