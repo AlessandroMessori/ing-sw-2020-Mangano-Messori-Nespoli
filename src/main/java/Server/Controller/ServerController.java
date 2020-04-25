@@ -172,16 +172,18 @@ public class ServerController {
         } else if (!move.getIfMove()) {             //BUILDING MOVE //TODO: ADD IF(...&& NMADEBUILDINGS == 0)
             movelist = new MoveList();
             if (turn.getCanBuildDomes()) {        //ATLAS EFFECT
-                for (int i = 0; i <= 4; i++) {
-                    for (int j = 0; j <= 4; j++) {
-                        if (grid.getCells(i, j).getPawn() == null && !grid.getCells(i, j).getTower().getIsDome()) {
-                            if (game.getAvailableDomes() > 0) {
-                                Move possMove = new Move(null);
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (0 <= (move.getX() + i) && (move.getX() + i) <= 4 && 0 <= (move.getY() + j) && (move.getY() + j) <= 4) {
+                            if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null && !grid.getCells(move.getX() + i,move.getY() + j).getTower().getIsDome()) {
+                                if (game.getAvailableDomes() > 0) {
+                                    Move possMove = new Move(null);
 
-                                possMove.setIfMove(false);
-                                possMove.setX(i);
-                                possMove.setY(j);
-                                movelist.addMove(possMove);
+                                    possMove.setIfMove(false);
+                                    possMove.setX(i - 2*i - 1);
+                                    possMove.setY(j - 2*j - 1);
+                                    movelist.addMove(possMove);
+                                }
                             }
                         }
                     }
