@@ -69,6 +69,9 @@ public class ServerController {
     }
 
     /**
+     * @param turn the turn where we are
+     * @param move the position of the pawn
+     * @param gameID the ID of the game where to calculate the MoveList
      * @param grid grid on which to calculate the next possible move(s), based on the player's divinity
      * @return the possible MoveList
      */
