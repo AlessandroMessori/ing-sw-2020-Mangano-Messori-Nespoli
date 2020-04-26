@@ -7,10 +7,6 @@ import java.util.Random;
 
 public class ServerController {
 
-
-    private ArrayList<Divinity> inGameDivinities;
-
-
     /**
      * @param length length of wanted random string
      * @return a random string
@@ -73,33 +69,10 @@ public class ServerController {
     }
 
     /**
-     * @param divinity the divinity to add to the inGameDivinities list
-     */
-    public void setInGameDivinities(Divinity divinity) {
-        inGameDivinities.add(divinity);
-    }
-
-    /**
-     * @return the list of Divinities
-     */
-    public ArrayList<Divinity> getInGameDivinities() {
-        return inGameDivinities;
-    }
-
-    /**
-     * deletes a divinity from inGameDivinities
-     *
-     * @param div the divinity to remove
-     */
-    public void deleteDivinity(Divinity div) {
-        inGameDivinities.remove(div);
-    }
-
-    /**
      * @param grid grid on which to calculate the next possible move(s), based on the player's divinity
      * @return the possible MoveList
      */
-    public MoveList calculateNextMove(Grid grid, Player p, String gameID, Move move, Turn turn) {
+    public MoveList calculateNextMove(Grid grid, String gameID, Move move, Turn turn) {
         MoveList movelist = new MoveList();
         Model model = Model.getModel();
         Game game = model.searchID(gameID);
@@ -309,26 +282,6 @@ public class ServerController {
         }*/
 
         return movelist;
-    }
-
-    /**
-     * @param p   player to add the divinity
-     * @param div divinity to add to the player
-     */
-    public void addDivinityToPlayer(Player p, Divinity div) {
-        p.setDivinity(div);
-        deleteDivinity(div);
-    }
-
-    /**
-     * @param grid   new grid after the move
-     * @param gameID the ID of the current game
-     */
-    public void updateModelGrid(Grid grid, String gameID) {
-        Model model = Model.getModel();
-        Game game = model.searchID(gameID);
-        game.setOldGrid(game.getNewGrid());
-        game.setNewGrid(grid);          //TODO: SEND THE NEW GRID TO OTHER PLAYERS?
     }
 
     /**

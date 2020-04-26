@@ -4,24 +4,6 @@ import Server.Model.*;
 
 public class ClientController {
 
-    /*private boolean activeTurn;
-
-    /**
-     * sets the boolean activeTurn
-     * @param activeTurn checks if the current player is the one playing
-     */
-    /*public void setActiveTurn(boolean activeTurn) {
-        this.activeTurn = activeTurn;
-    }
-
-    /**
-     *
-     * @return a boolean which defines if the player is the one playing
-     */
-    /*public boolean getActiveTurn(){
-        return activeTurn;
-    }*/
-
     /**
      * ATHENA EFFECT
      *
