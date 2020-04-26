@@ -33,6 +33,7 @@ public class Client implements Runnable, ServerObserver {
     private boolean checkModel;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
+    boolean loopCheck = true;
     private int lastMoveNumber = -1;
     private int lastMovedturn = 0;
     private Pawn chosenPawn = null;
@@ -49,7 +50,7 @@ public class Client implements Runnable, ServerObserver {
          * WARNING: this method executes IN THE CONTEXT OF THE MAIN THREAD
          */
         Scanner scanner = new Scanner(System.in); //local variables
-        boolean loopCheck = true;
+
         int updateRate = 1;
         String message;
         Instant lastTime;
@@ -325,63 +326,71 @@ public class Client implements Runnable, ServerObserver {
             int nPlayers = game.getThreePlayers() ? 3 : 2;
             cli.setPlayers(nPlayers);
 
-            switch (currentPage) {
-                case LOBBY:
-                    cli.drawLobby(game.getPlayers(), game.getCodGame());
+            if (game.getDisconnected()) {
+                System.out.println("A Player Disconnected,Game Over");
+                loopCheck = false;
+            }
+            else {
 
-                    // check if we have enough players to start the game
-                    if (game.getPlayers().size() == nPlayers) {
-                        if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                            System.out.println("Going To Divinities Choice Page");
-                            currentPage = Pages.DIVINITIESCHOICE;
-                        } else {
-                            System.out.println("Waiting for another player to choose the in game divinities");
-                            currentPage = Pages.LOADINGDIVINITIES;
+                switch (currentPage) {
+                    case LOBBY:
+                        cli.drawLobby(game.getPlayers(), game.getCodGame());
+
+                        // check if we have enough players to start the game
+                        if (game.getPlayers().size() == nPlayers) {
+                            if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                                System.out.println("Going To Divinities Choice Page");
+                                currentPage = Pages.DIVINITIESCHOICE;
+                            } else {
+                                System.out.println("Waiting for another player to choose the in game divinities");
+                                currentPage = Pages.LOADINGDIVINITIES;
+                            }
                         }
-                    }
-                    break;
-                case LOADINGDIVINITIES:
-                    int nPlayersInGame = game.getThreePlayers() ? 3 : 2;
-                    if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
-                        if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        break;
+                    case LOADINGDIVINITIES:
+                        int nPlayersInGame = game.getThreePlayers() ? 3 : 2;
+                        if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
+                            if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                                System.out.println("Going to Divinity Choice Page");
+                                currentPage = Pages.DIVINITYCHOICE;
+                            } else {
+                                System.out.println("Waiting for other players to chose their divinities");
+                                currentPage = Pages.LOADINGDIVINITY;
+                            }
+                        }
+                        break;
+                    case LOADINGDIVINITY:
+                        if (!alreadyChosenDivinity && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                             System.out.println("Going to Divinity Choice Page");
                             currentPage = Pages.DIVINITYCHOICE;
-                        } else {
-                            System.out.println("Waiting for other players to chose their divinities");
-                            currentPage = Pages.LOADINGDIVINITY;
+                        } else if (alreadyChosenDivinity && game.getInGameDivinities().size() == 0) {
+                            System.out.println("Going to Starting Position Choice Page");
+                            currentPage = Pages.LOADINGSTARTINGPOSITION;
                         }
-                    }
-                    break;
-                case LOADINGDIVINITY:
-                    if (!alreadyChosenDivinity && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        System.out.println("Going to Divinity Choice Page");
-                        currentPage = Pages.DIVINITYCHOICE;
-                    } else if (alreadyChosenDivinity && game.getInGameDivinities().size() == 0) {
-                        System.out.println("Going to Starting Position Choice Page");
-                        currentPage = Pages.LOADINGSTARTINGPOSITION;
-                    }
-                    break;
-                case LOADINGSTARTINGPOSITION:
-                    if (!alreadyChosenStartingPosition && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        System.out.println("\nChoose your Starting Position");
-                        currentPage = Pages.STARTINGPOSITIONCHOICE;
-                    } else if (alreadyChosenStartingPosition && game.getNTurns() > 0) {
-                        System.out.println("\nGoing to Game Page");
-                        currentPage = Pages.LOADINGMOVE;
-                    }
+                        break;
+                    case LOADINGSTARTINGPOSITION:
+                        if (!alreadyChosenStartingPosition && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            System.out.println("\nChoose your Starting Position");
+                            currentPage = Pages.STARTINGPOSITIONCHOICE;
+                        } else if (alreadyChosenStartingPosition && game.getNTurns() > 0) {
+                            System.out.println("\nGoing to Game Page");
+                            currentPage = Pages.LOADINGMOVE;
+                        }
 
-                    break;
-                case LOADINGMOVE:
-                    if (game.getWinner() != null) {
-                        currentPage = Pages.ENDGAME;
-                    } else if (lastMoveNumber < game.getnMoves() && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        currentPage = Pages.GAME;
-                    } else {
-                        currentPage = Pages.LOADINGMOVE;
-                    }
+                        break;
+                    case LOADINGMOVE:
+                        if (game.getWinner() != null) {
+                            currentPage = Pages.ENDGAME;
+                        } else if (lastMoveNumber < game.getnMoves() && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            currentPage = Pages.GAME;
+                        } else {
+                            currentPage = Pages.LOADINGMOVE;
+                        }
 
-                    break;
+                        break;
+                }
             }
+
         }
 
         notifyAll();

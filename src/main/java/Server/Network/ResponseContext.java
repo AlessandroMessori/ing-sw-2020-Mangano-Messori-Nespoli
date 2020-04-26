@@ -1,6 +1,8 @@
 package Server.Network;
 
+import Server.Model.Model;
 import Utils.MessageDeserializer;
+import com.sun.source.tree.ArrayAccessTree;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,13 +12,14 @@ import java.net.Socket;
 public class ResponseContext implements Runnable {
 
     private ResponseHandler responseHandler;
-    private String requestContent, requestHeader;
+    private String requestContent, requestHeader, gameID;
     private Socket client;
     private MessageDeserializer messageDeserializer;
 
 
     public ResponseContext(Socket cl) {
         client = cl;
+        gameID = null;
         messageDeserializer = new MessageDeserializer();
     }
 
@@ -26,25 +29,26 @@ public class ResponseContext implements Runnable {
             handleResponse();
         } catch (IOException e) {
             System.out.println("Client " + client.getInetAddress() + " connection dropped");
+            if (gameID != null) Model.getModel().searchID(gameID).setDisconnected();
         }
     }
 
     private void handleResponse() throws IOException {
 
-        System.out.println("started connection with " + client.getInetAddress());
-        ObjectInputStream input = new ObjectInputStream(client.getInputStream());
-        ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
-
 
         //loop to handle all the requests of the connected client
         try {
+            System.out.println("started connection with " + client.getInetAddress());
+            ObjectInputStream input = new ObjectInputStream(client.getInputStream());
+            ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
             while (true) {
                 Object next = input.readObject();
                 requestContent = (String) next;
                 requestHeader = messageDeserializer.deserializeString(requestContent, "header");
 
-
-                //TODO divide requestContent into Header and Body
+                if (requestHeader.equals("CheckModel")) {
+                    gameID = messageDeserializer.deserializeString(requestContent, "gameID");
+                }
 
                 switch (requestHeader) {
                     case "JoinGame":

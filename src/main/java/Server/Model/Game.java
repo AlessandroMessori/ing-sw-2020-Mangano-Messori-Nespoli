@@ -21,6 +21,7 @@ public class Game {
     private DivinityList inGameDivinities;
     private ArrayList<Colour> alreadyChosenColors;
     private Turn gameTurn;
+    private boolean disconnected;
 
 
     /**
@@ -163,6 +164,21 @@ public class Game {
      */
     public void setThreePlayers(boolean y) {
         threePlayers = y;
+    }
+
+    /**
+     * @return a value that is TRUE if a player disconnected from the server
+     */
+    public boolean getDisconnected() {
+        return disconnected;
+    }
+
+    /**
+     * function to call when a player disconnects itself from the server
+     *
+     */
+    public void setDisconnected() {
+        disconnected = true;
     }
 
     /**
@@ -362,6 +378,7 @@ public class Game {
         alreadyChosenColors = new ArrayList<>();
         gameTurn = new Turn(null);
         nMoves = 0;
+        disconnected = false;
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {

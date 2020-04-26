@@ -108,6 +108,14 @@ public class GameTest {
         assertEquals("Player2", game.getWinner().getUsername());
     }
 
+    @Test
+    public void getDisconnectedTest() {
+        assertFalse(game.getDisconnected());
+        game.setDisconnected();
+        assertTrue(game.getDisconnected());
+    }
+
+
     @Test(expected = IllegalArgumentException.class)
     public void setCurrentPlayerExceptionTest() {
         Player p3 = new Player("Player3", Divinity.ATLAS, Colour.BLUE);
