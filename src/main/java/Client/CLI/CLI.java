@@ -70,7 +70,7 @@ public class CLI {
         Scanner input = new Scanner(System.in);
         int val;
         System.out.println("Number of players: 2 or 3?");
-        System.out.println("(The choice will be considered valid only if you are the first player to connect)");
+        //System.out.println("(The choice will be considered valid only if you are the first player to connect)");
         try {
             val = input.nextInt();
             if ((val < 2) || (val > 3)) {
