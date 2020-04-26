@@ -31,41 +31,37 @@ public class ServerController {
      * @param if3 boolean which checks if the player wants to play in a 2 or a 3 players game
      * @return the Game to which the player is added
      */
-    public Game addPlayerToModel(Player p, boolean if3) throws IllegalArgumentException {        //TODO SYNCHRONIZED
+    public Game addPlayerToModel(Player p, boolean if3) {        //TODO SYNCHRONIZED
         String x;
-        int i = 0;
         Model model = Model.getModel();
 
-        //searches for available games
-        while (i < model.getGames().size()) {
-
-            Game currentGame = model.getGames().get(i);
-            int nPlayers = currentGame.getThreePlayers() ? 3 : 2;
-
-            if (currentGame.getPlayers().size() < nPlayers) {
-
-                for (int j = 0;j <currentGame.getPlayers().size();j++){
-                     if (currentGame.getPlayers().getPlayer(j).getUsername().equals(p.getUsername())) {
-                         throw new IllegalArgumentException(); //the username is already taken
-                     }
+        if (model.getGames().size() == 0) {       //starting case
+            model.addGame(new Game(0, x = randomString(10), if3, null, new Grid(), new Grid(), null));
+            model.searchID(x).getPlayers().addPlayer(p);
+            return (model.searchID(x));
+        }
+        for (Game g : model.getGames()) {
+            if (!g.getThreePlayers() && !if3) {           //if 2 players
+                if (g.getPlayers().size() < 2) {
+                    g.getPlayers().addPlayer(p);
+                    return g;
                 }
-
-                currentGame.getPlayers().addPlayer(p);
-                return currentGame;
+            } else if (g.getThreePlayers() && if3) {       //if 3 players
+                if (g.getPlayers().size() < 3) {
+                    g.getPlayers().addPlayer(p);
+                    return g;
+                }
             } else {
-                i++;
+                x = randomString(10);
+                while (model.searchID(x) != null) {
+                    x = randomString(10);
+                }
+                model.addGame(new Game(0, x, if3, null, null, null, null));
+                model.searchID(x).getPlayers().addPlayer(p);
+                return model.searchID(x);
             }
         }
-
-        //creates a new game
-
-        x = randomString(10);
-        while (model.searchID(x) != null) {
-            x = randomString(10);
-        }
-        model.addGame(new Game(0,x, if3, null, new Grid(), new Grid(), null));
-        model.searchID(x).getPlayers().addPlayer(p);
-        return model.searchID(x);
+        return null;
     }
 
     /**

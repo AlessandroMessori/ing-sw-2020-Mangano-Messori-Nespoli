@@ -1,13 +1,10 @@
 package Client;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 import Client.Network.PeriodicUpdater;
@@ -304,6 +301,7 @@ public class Client implements Runnable, ServerObserver {
     }
 
     private boolean rechoosePawn = false;
+
     /**
      * function that gets called when an end game signal is received from the server
      */
@@ -324,13 +322,11 @@ public class Client implements Runnable, ServerObserver {
 
         if (game != null) {
             int nPlayers = game.getThreePlayers() ? 3 : 2;
-            cli.setPlayers(nPlayers);
 
             if (game.getDisconnected()) {
                 System.out.println("A Player Disconnected,Game Over");
                 loopCheck = false;
-            }
-            else {
+            } else {
 
                 switch (currentPage) {
                     case LOBBY:
