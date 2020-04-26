@@ -59,11 +59,12 @@ public class ClientController {
         game.setOldGrid(game.getNewGrid());
         if(move.getIfMove() == true)
         {
+            game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());
+
             if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){
                 game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));
             }
 
-            game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());
             if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {
                 game.setWinner(game.getCurrentPlayer());            //WINNING MOVE
             }
