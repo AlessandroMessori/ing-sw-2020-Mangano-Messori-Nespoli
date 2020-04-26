@@ -63,7 +63,7 @@ public class ListenForChosenPawn extends ResponseHandler {
             System.out.println(new Gson().toJson(move));
 
             game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
-            game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), gameID, move, game.getGameTurn()));
+            game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), gameID, move, game.getGameTurn()));
 
             System.out.println(new Gson().toJson(game.getNextMoves()));
 

@@ -63,7 +63,7 @@ public class ListenForChosenMove extends ResponseHandler {
             System.out.println(new Gson().toJson(chosenMove));
 
 
-            game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCurrentPlayer(), game.getCodGame(), chosenMove, game.getGameTurn()));
+            game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), chosenMove, game.getGameTurn()));
 
 
             output.writeObject("Received Move");
