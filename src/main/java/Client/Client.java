@@ -283,7 +283,14 @@ public class Client implements Runnable, ServerObserver {
      * function that gets called when an pawn signal is received from the server
      */
     public synchronized void receivePawn(String pawn) {
-        System.out.println("");
+        if (pawn.equals("You Lost")) {
+            System.out.println("You don't have any possible move!");
+            currentPage = Pages.LOADINGMOVE;
+        } else if (pawn.equals("This pawn doesn't have any possible moves,choosing the other one")) {
+            System.out.println(pawn + "\n");
+        } else {
+            System.out.println("");
+        }
         notifyAll();
     }
 
@@ -295,6 +302,7 @@ public class Client implements Runnable, ServerObserver {
         notifyAll();
     }
 
+    private boolean rechoosePawn = false;
     /**
      * function that gets called when an end game signal is received from the server
      */

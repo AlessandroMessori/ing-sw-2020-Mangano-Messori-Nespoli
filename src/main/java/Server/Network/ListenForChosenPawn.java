@@ -34,6 +34,7 @@ public class ListenForChosenPawn extends ResponseHandler {
         try {
             ArrayList<String> receivedDivinitiesStr;
             ArrayList<Divinity> receivedDivinities;
+            MoveList moves;
             String gameID;
             Pawn pawn;
             Move move;
@@ -60,14 +61,48 @@ public class ListenForChosenPawn extends ResponseHandler {
                 }
             }
 
-            System.out.println(new Gson().toJson(move));
-
-            game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
+             game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), gameID, move, game.getGameTurn()));
 
-            System.out.println(new Gson().toJson(game.getNextMoves()));
+            if (game.getNextMoves().size() <= 0) {
+                Move otherPawnMove = null;
 
-            output.writeObject("Received Chosen Pawn");
+                for (int x = 0; x < 5; x++) {
+                    for (int y = 0; y < 5; y++) {
+                        if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                            Pawn currentPawn = game.getNewGrid().getCells(x, y).getPawn();
+                            if (currentPawn.getId() != pawn.getId() && currentPawn.getOwner().getUsername().equals(pawn.getOwner().getUsername())) {
+                                otherPawnMove = new Move(currentPawn);
+                                otherPawnMove.setIfMove(true);
+                                otherPawnMove.setX(x);
+                                otherPawnMove.setY(y);
+                            }
+                        }
+                    }
+                }
+
+                game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
+                System.out.println(new Gson().toJson(otherPawnMove));
+                moves = serverController.calculateNextMove(game.getNewGrid(), gameID, otherPawnMove, game.getGameTurn());
+                if (moves.size() == 0) {
+                    //game is over,no possible moves
+
+                    Player winner = game.getPlayers().getRandomPlayer();
+
+                        while (winner.getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                        winner = game.getPlayers().getRandomPlayer();
+                    }
+
+                    model.searchID(gameID).setWinner(winner);
+                    output.writeObject("You Lost");
+                } else {
+                    //this pawn doesn't have any possible moves but the other one does
+                    game.setNextMoves(moves);
+                    output.writeObject("This pawn doesn't have any possible moves,choosing the other one");
+                }
+            } else {
+                output.writeObject("Received Chosen Pawn");
+            }
         } catch (ClassCastException e) {
             e.printStackTrace();
             System.out.println("error while writing the response");
