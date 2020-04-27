@@ -35,40 +35,31 @@ public class ServerController {
         String x;
         Model model = Model.getModel();
 
-        if (model.getGames().size() == 0) {       //starting case
-            model.addGame(new Game(0, x = randomString(10), if3, null, new Grid(), new Grid(), null));
-            model.searchID(x).getPlayers().addPlayer(p);
-            return (model.searchID(x));
-        }
         for (Game g : model.getGames()) {
-            if (!g.getThreePlayers() && !if3) {           //if 2 players
-                if (g.getPlayers().size() < 2) {
+            int nPlayers = if3 ? 3 : 2;
+            if (g.getThreePlayers() == if3) {
+                if (g.getPlayers().size() < nPlayers) {
                     g.getPlayers().addPlayer(p);
                     return g;
                 }
-            } else if (g.getThreePlayers() && if3) {       //if 3 players
-                if (g.getPlayers().size() < 3) {
-                    g.getPlayers().addPlayer(p);
-                    return g;
-                }
-            } else {
-                x = randomString(10);
-                while (model.searchID(x) != null) {
-                    x = randomString(10);
-                }
-                model.addGame(new Game(0, x, if3, null, null, null, null));
-                model.searchID(x).getPlayers().addPlayer(p);
-                return model.searchID(x);
+
             }
         }
-        return null;
+
+        x = randomString(10);
+        while (model.searchID(x) != null) {
+            x = randomString(10);
+        }
+        model.addGame(new Game(0, x = randomString(10), if3, null, new Grid(), new Grid(), null));
+        model.searchID(x).getPlayers().addPlayer(p);
+        return model.searchID(x);
     }
 
     /**
-     * @param turn the turn where we are
-     * @param move the position of the pawn
+     * @param turn   the turn where we are
+     * @param move   the position of the pawn
      * @param gameID the ID of the game where to calculate the MoveList
-     * @param grid grid on which to calculate the next possible move(s), based on the player's divinity
+     * @param grid   grid on which to calculate the next possible move(s), based on the player's divinity
      * @return the possible MoveList
      */
     public MoveList calculateNextMove(Grid grid, String gameID, Move move, Turn turn) {
