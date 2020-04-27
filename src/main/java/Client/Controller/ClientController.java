@@ -4,14 +4,14 @@ import Server.Model.*;
 
 public class ClientController {
 
-    /**
+   /* /**
      * ATHENA EFFECT
      *
      * @param grid grid where to see if Pawn was moved
      * @param move where the pawn is now
      * @return a boolean true if the pawn was moved, false if not
      */
-    public boolean checkIfMoved(Grid grid, Move move){
+    /*public boolean checkIfMoved(Grid grid, Move move){
         int count = 0;
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
@@ -29,7 +29,7 @@ public class ClientController {
         }
         return true;
 
-    }
+    }*/
 
     /**
      *
@@ -38,13 +38,16 @@ public class ClientController {
      * @return the game updated after the move is done
      */
     public Game updateGameByMove(Move move, Game game) throws IllegalArgumentException{
+        int startingLevel = 0;
+        int endingLevel = 0;
         game.setOldGrid(game.getNewGrid());
         if(move.getIfMove() == true)
         {
             game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());
 
             if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){
-                game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));
+                endingLevel = game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel();
+                /*game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));*/
             }
 
             if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {
@@ -59,7 +62,15 @@ public class ClientController {
                                 if(i == 0 && j == 0){
                                     continue;
                                 }
+
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
+
+                                if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){
+                                    startingLevel = game.getNewGrid().getCells(move.getX() + i,move.getY() + j).getTower().getLevel();
+                                    if((endingLevel - startingLevel) > 0){
+                                        game.getGameTurn().setPawnMoved(true);
+                                    }
+                                }
                                 if(game.getGameTurn().getEnemyPawn1() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
                                 {
                                     for(int k = 0; k <= 4; k++){
