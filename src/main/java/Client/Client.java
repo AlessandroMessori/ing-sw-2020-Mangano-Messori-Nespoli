@@ -28,6 +28,7 @@ public class Client implements Runnable, ServerObserver {
     private ClientController clientController;
     private MessageSerializer messageSerializer;
     private String playerUsername;
+    private Colour chosenColor;
     private boolean checkModel;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
@@ -129,7 +130,7 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    Colour chosenColor = cli.choseColor(convertColors(game.getAlreadyChosenColors()));
+                    chosenColor = cli.choseColor(convertColors(game.getAlreadyChosenColors()));
                     game.getCurrentPlayer().setColour(chosenColor);
                     game.setNewGrid(cli.readStartingPosition(game.getCurrentPlayer(), game.getNewGrid()));
                     cli.drawGrid(game.getNewGrid());
@@ -202,7 +203,7 @@ public class Client implements Runnable, ServerObserver {
                 case ENDGAME:
                     System.out.println("GAME OVER!");
                     loopCheck = false;
-                    cli.drawResults(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(playerUsername)), game.getWinner());
+                    cli.drawResults(new Player(playerUsername,null,chosenColor), game.getWinner());
                     break;
                 case LOBBY: //passive states: the user can't do anything,the application is idle until an update from the server is received
                     currentPage = Pages.LOBBY;
