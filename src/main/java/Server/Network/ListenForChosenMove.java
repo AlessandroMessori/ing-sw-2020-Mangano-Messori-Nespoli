@@ -41,11 +41,29 @@ public class ListenForChosenMove extends ResponseHandler {
 
             if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() > 0) {
                 chosenMove.setIfMove(false);
+
+                if (chosenMove.getX() == 6 && chosenMove.getY() == 6 && game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS) {
+
+                    for (int x=0;x<5;x++) {
+                        for (int y=0;y<5;y++) {
+                            if (game.getNewGrid().getCells(x,y).getPawn() != null) {
+                                if (game.getNewGrid().getCells(x,y).getPawn().getId() == chosenMove.getToMove().getId()) {
+                                    chosenMove.setX(x);
+                                    chosenMove.setY(y);
+                                }
+                            }
+                        }
+                    }
+
+                }
+
             }
 
-            if ((chosenMove.getX() == 6 && chosenMove.getY() == 6) || (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0)) {
+            if ((chosenMove.getX() == 6 && chosenMove.getY() == 6 && game.getCurrentPlayer().getDivinity() == Divinity.DEMETER)
+                    || (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0)) {
                 // current turn is over,starting new turn
                 chosenMove.setIfMove(true);
+
                 //selects a new player to play
                 Player randomPlayer = game.getPlayers().getRandomPlayer();
 
