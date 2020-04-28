@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Game {
     private int nTurns;
     private int nMoves;
+    private int currentPlayerIndex;
     private int availableLevel1Buildings;
     private int availableLevel2Buildings;
     private int availableLevel3Buildings;
@@ -23,6 +24,25 @@ public class Game {
     private Turn gameTurn;
     private boolean disconnected;
 
+
+    /**
+     * @return index of the current player
+     */
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    /**
+     * increases the currentPlayer index
+     */
+    public void increaseCurrentPlayerIndex() throws IllegalArgumentException {
+        int nPlayers = getThreePlayers() ? 3 : 2;
+        if (currentPlayerIndex + 1 == nPlayers) {
+            currentPlayerIndex = 0;
+        } else {
+            currentPlayerIndex++;
+        }
+    }
 
     /**
      * @return number of turns played
@@ -175,7 +195,6 @@ public class Game {
 
     /**
      * function to call when a player disconnects itself from the server
-     *
      */
     public void setDisconnected() {
         disconnected = true;
@@ -379,6 +398,7 @@ public class Game {
         gameTurn = new Turn(null);
         nMoves = 0;
         disconnected = false;
+        currentPlayerIndex = -1;
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {

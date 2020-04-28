@@ -41,14 +41,8 @@ public class ListenForChosenDivinity extends ResponseHandler {
             // Add Divinity to Player
             serverController.setSpecificPlayerDiv(gameID, username, chosenDivinity);
 
-            Player randomPlayer = game.getPlayers().getRandomPlayer();
-
-            while (randomPlayer.getUsername().equals(username)) {
-                randomPlayer = game.getPlayers().getRandomPlayer();
-            }
-
-
-            game.setCurrentPlayer(randomPlayer);
+            game.increaseCurrentPlayerIndex();
+            game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
 
             output.writeObject("Received Divinity");
         } catch (ClassCastException e) {

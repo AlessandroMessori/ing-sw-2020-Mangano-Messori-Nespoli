@@ -54,13 +54,12 @@ public class ListenForStartingPosition extends ResponseHandler {
             int nPlayers = game.getThreePlayers() ? 3 : 2;
 
             if (alreadyPlacedPlayers != null && alreadyPlacedPlayers.size() > 0 && alreadyPlacedPlayers.size() < nPlayers) {      //Selects a new player to choose its current position
-                while (alreadyPlacedPlayers.searchPlayerByUsername(randomPlayer.getUsername()) != -1) { //sets the player to choose the divinity
-                    randomPlayer = game.getPlayers().getRandomPlayer();
-                }
-                game.setCurrentPlayer(randomPlayer);
+                game.increaseCurrentPlayerIndex();
+                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
             } else {  //Every player has chosen their starting position,the game can start
 
-                game.setCurrentPlayer(randomPlayer);
+                game.increaseCurrentPlayerIndex();
+                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
                 game.setGameTurn(new Turn(randomPlayer.getDivinity()));     // initializes game Turn
                 game.getGameTurn().startingTurn(randomPlayer.getDivinity()); // starts turn
 

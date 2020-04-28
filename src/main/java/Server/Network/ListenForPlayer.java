@@ -43,7 +43,8 @@ public class ListenForPlayer extends ResponseHandler {
 
             //if the Lobby is full,sets a random player to decide the inGameDivinities
             if (game.getPlayers().size() == nPlayersOnGame) {
-                game.setCurrentPlayer(game.getPlayers().getRandomPlayer());
+                game.increaseCurrentPlayerIndex();
+                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
             }
 
             output.writeObject(response);

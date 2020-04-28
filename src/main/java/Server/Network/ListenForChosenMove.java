@@ -47,13 +47,8 @@ public class ListenForChosenMove extends ResponseHandler {
                 // current turn is over,starting new turn
                 chosenMove.setIfMove(true);
                 //selects a new player to play
-                Player randomPlayer = game.getPlayers().getRandomPlayer();
-
-                while (randomPlayer.getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                    randomPlayer = game.getPlayers().getRandomPlayer();
-                }
-
-                game.setCurrentPlayer(randomPlayer);
+                game.increaseCurrentPlayerIndex();
+                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
                 game.setNTurns(game.getNTurns() + 1);
 
                 //reinizialites turn data

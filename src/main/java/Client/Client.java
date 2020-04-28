@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import Client.Network.PeriodicUpdater;
 import Client.Network.ServerObserver;
@@ -227,6 +228,12 @@ public class Client implements Runnable, ServerObserver {
             }
         }
 
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        }
+        catch (Exception e ){
+            e.printStackTrace();
+        }
 
         serverAdapter.stop();
     }

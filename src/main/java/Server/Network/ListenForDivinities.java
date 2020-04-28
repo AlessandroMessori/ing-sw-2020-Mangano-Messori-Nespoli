@@ -55,13 +55,8 @@ public class ListenForDivinities extends ResponseHandler {
             System.out.println("]");
 
 
-            Player randomPlayer = game.getPlayers().getRandomPlayer();
-
-            while (randomPlayer.getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                randomPlayer = game.getPlayers().getRandomPlayer();
-            }
-
-            game.setCurrentPlayer(randomPlayer);
+            game.increaseCurrentPlayerIndex();
+            game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
 
             output.writeObject("Received Divinities");
         } catch (ClassCastException e) {
