@@ -36,8 +36,7 @@ public class Game {
      * increases the currentPlayer index
      */
     public void increaseCurrentPlayerIndex() throws IllegalArgumentException {
-        int nPlayers = getThreePlayers() ? 3 : 2;
-        if (currentPlayerIndex + 1 == nPlayers) {
+        if (currentPlayerIndex + 1 == getPlayers().size()) {
             currentPlayerIndex = 0;
         } else {
             currentPlayerIndex++;
