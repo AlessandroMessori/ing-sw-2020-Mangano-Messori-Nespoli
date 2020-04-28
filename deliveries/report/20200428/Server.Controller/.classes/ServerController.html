@@ -1,0 +1,408 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ServerController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Server.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ServerController (Server.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 140)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Server.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Server.Model.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;import java.util.Random;
+<i>7</i>&nbsp;
+<b class="nc"><i>8</i>&nbsp;public class ServerController {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * @param length length of wanted random string
+<i>12</i>&nbsp;     * @return a random string
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    public static String randomString(int length) {
+<b class="nc"><i>15</i>&nbsp;        Random rnd = new Random();</b>
+<b class="nc"><i>16</i>&nbsp;        char[] arr = new char[length];</b>
+<i>17</i>&nbsp;
+<b class="nc"><i>18</i>&nbsp;        for (int i = 0; i &lt; length; i++) {</b>
+<b class="nc"><i>19</i>&nbsp;            int n = rnd.nextInt(36);</b>
+<b class="nc"><i>20</i>&nbsp;            arr[i] = (char) (n &lt; 10 ? &#39;0&#39; + n : &#39;a&#39; + n - 10);</b>
+<i>21</i>&nbsp;        }
+<i>22</i>&nbsp;
+<b class="nc"><i>23</i>&nbsp;        return new String(arr);</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * adds the player to the game
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @param p   player to add
+<i>31</i>&nbsp;     * @param if3 boolean which checks if the player wants to play in a 2 or a 3 players game
+<i>32</i>&nbsp;     * @return the Game to which the player is added
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public Game addPlayerToModel(Player p, boolean if3) {        //TODO SYNCHRONIZED
+<i>35</i>&nbsp;        String x;
+<b class="nc"><i>36</i>&nbsp;        Model model = Model.getModel();</b>
+<i>37</i>&nbsp;
+<b class="nc"><i>38</i>&nbsp;        for (Game g : model.getGames()) {</b>
+<b class="nc"><i>39</i>&nbsp;            int nPlayers = if3 ? 3 : 2;</b>
+<b class="nc"><i>40</i>&nbsp;            if (g.getThreePlayers() == if3) {</b>
+<b class="nc"><i>41</i>&nbsp;                if (g.getPlayers().size() &lt; nPlayers) {</b>
+<b class="nc"><i>42</i>&nbsp;                    g.getPlayers().addPlayer(p);</b>
+<b class="nc"><i>43</i>&nbsp;                    return g;</b>
+<i>44</i>&nbsp;                }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;            }
+<b class="nc"><i>47</i>&nbsp;        }</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        x = randomString(10);</b>
+<b class="nc"><i>50</i>&nbsp;        while (model.searchID(x) != null) {</b>
+<b class="nc"><i>51</i>&nbsp;            x = randomString(10);</b>
+<i>52</i>&nbsp;        }
+<b class="nc"><i>53</i>&nbsp;        model.addGame(new Game(0, x = randomString(10), if3, null, new Grid(), new Grid(), null));</b>
+<b class="nc"><i>54</i>&nbsp;        model.searchID(x).getPlayers().addPlayer(p);</b>
+<b class="nc"><i>55</i>&nbsp;        return model.searchID(x);</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * @param turn   the turn where we are
+<i>60</i>&nbsp;     * @param move   the position of the pawn
+<i>61</i>&nbsp;     * @param gameID the ID of the game where to calculate the MoveList
+<i>62</i>&nbsp;     * @param grid   grid on which to calculate the next possible move(s), based on the player&#39;s divinity
+<i>63</i>&nbsp;     * @return the possible MoveList
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    public MoveList calculateNextMove(Grid grid, String gameID, Move move, Turn turn) {
+<b class="nc"><i>66</i>&nbsp;        MoveList movelist = new MoveList();</b>
+<b class="nc"><i>67</i>&nbsp;        Model model = Model.getModel();</b>
+<b class="nc"><i>68</i>&nbsp;        Game game = model.searchID(gameID);</b>
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        if (game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS &amp;&amp; game.getGameTurn().getNMovesMade() == 0) {</b>
+<b class="nc"><i>71</i>&nbsp;            game.getGameTurn().setCantMoveBackHere(move);</b>
+<i>72</i>&nbsp;        }
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;        if (move.getIfMove()) {              //IF MOVEMENT</b>
+<b class="nc"><i>75</i>&nbsp;            movelist = new MoveList();</b>
+<i>76</i>&nbsp;            /*turn.canItComeUp(grid, move); //TODO: PUT OUTSIDE THIS FUNCTION, WHEN CALCULATENEXTMOVE() IS CALLED
+<i>77</i>&nbsp;            if (!turn.getCanComeUp()) {
+<i>78</i>&nbsp;                if (turn.getCanBuildBeforeMove()) {
+<i>79</i>&nbsp;                    move.setIfMove(false);
+<i>80</i>&nbsp;                    calculateNextMove(grid,p,gameID,move,turn);
+<i>81</i>&nbsp;                    move.setIfMove(true);
+<i>82</i>&nbsp;                    //TODO: BUILD BEFORE MOVE
+<i>83</i>&nbsp;                }
+<i>84</i>&nbsp;            }*/
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;            if (turn.getNPossibleMoves() &gt; 0) {</b>
+<b class="nc"><i>87</i>&nbsp;                for (int i = -1; i &lt;= 1; i++) {</b>
+<b class="nc"><i>88</i>&nbsp;                    for (int j = -1; j &lt;= 1; j++) {</b>
+<b class="nc"><i>89</i>&nbsp;                        if (0 &lt;= (move.getX() + i) &amp;&amp; (move.getX() + i) &lt;= 4 &amp;&amp; 0 &lt;= (move.getY() + j) &amp;&amp; (move.getY() + j) &lt;= 4) {</b>
+<b class="nc"><i>90</i>&nbsp;                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() &lt;= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {</b>
+<b class="nc"><i>91</i>&nbsp;                                if (!grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {</b>
+<b class="nc"><i>92</i>&nbsp;                                    if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || ((game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) &amp;&amp; !game.getCurrentPlayer().getUsername().equals(grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername()))) {</b>
+<i>93</i>&nbsp;                                        /*if (game.getCurrentPlayer().getDivinity() != Divinity.ARTEMIS || (game.getGameTurn().getNMovesMade() == 0) || ((move.getX() + i != game.getGameTurn().getCantMoveBackHere().getX()) &amp;&amp; move.getY() + j != game.getGameTurn().getCantMoveBackHere().getY())) {*/
+<b class="nc"><i>94</i>&nbsp;                                        if (game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || !turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() &lt;= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {</b>
+<b class="nc"><i>95</i>&nbsp;                                            if (i == 0 &amp;&amp; j == 0) {</b>
+<b class="nc"><i>96</i>&nbsp;                                                continue;</b>
+<i>97</i>&nbsp;                                            }
+<b class="nc"><i>98</i>&nbsp;                                            if (game.getGameTurn().getNMovesMade() == 1 &amp;&amp; game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS &amp;&amp; ((move.getX() + i == game.getGameTurn().getCantMoveBackHere().getX()) &amp;&amp; move.getY() + j == game.getGameTurn().getCantMoveBackHere().getY())) {</b>
+<b class="nc"><i>99</i>&nbsp;                                                continue;</b>
+<i>100</i>&nbsp;                                            }
+<b class="nc"><i>101</i>&nbsp;                                            Move possMove = new Move(move.getToMove());</b>
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;                                            if (game.getGameTurn().getEnemyPawn1() == null) {        //TODO: ADD ENEMYPLAYER3 FOR APOLLO</b>
+<b class="nc"><i>104</i>&nbsp;                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO &amp;&amp; grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {</b>
+<b class="nc"><i>105</i>&nbsp;                                                    if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {</b>
+<b class="nc"><i>106</i>&nbsp;                                                        game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());</b>
+<i>107</i>&nbsp;                                                    }
+<i>108</i>&nbsp;                                                }
+<i>109</i>&nbsp;                                            }
+<i>110</i>&nbsp;
+<b class="nc"><i>111</i>&nbsp;                                            if (game.getGameTurn().getEnemyPawn1() != null) {</b>
+<b class="nc"><i>112</i>&nbsp;                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO &amp;&amp; grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {</b>
+<b class="nc"><i>113</i>&nbsp;                                                    if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {</b>
+<b class="nc"><i>114</i>&nbsp;                                                        game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());</b>
+<i>115</i>&nbsp;                                                    }
+<i>116</i>&nbsp;                                                }
+<i>117</i>&nbsp;                                            }
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;                                            possMove.setIfMove(true);</b>
+<b class="nc"><i>120</i>&nbsp;                                            possMove.setX(move.getX() + i);</b>
+<b class="nc"><i>121</i>&nbsp;                                            possMove.setY(move.getY() + j);</b>
+<b class="nc"><i>122</i>&nbsp;                                            movelist.addMove(possMove);</b>
+<i>123</i>&nbsp;                                        }
+<i>124</i>&nbsp;                                        //}
+<i>125</i>&nbsp;                                    }
+<i>126</i>&nbsp;                                }
+<i>127</i>&nbsp;                            }
+<i>128</i>&nbsp;                        }
+<i>129</i>&nbsp;                    }
+<i>130</i>&nbsp;                }
+<i>131</i>&nbsp;
+<b class="nc"><i>132</i>&nbsp;                if (game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS &amp;&amp; game.getGameTurn().getNMovesMade() == 1) {</b>
+<b class="nc"><i>133</i>&nbsp;                    Move possMove = new Move(move.getToMove());</b>
+<i>134</i>&nbsp;
+<b class="nc"><i>135</i>&nbsp;                    possMove.setIfMove(true);</b>
+<b class="nc"><i>136</i>&nbsp;                    possMove.setX(6);</b>
+<b class="nc"><i>137</i>&nbsp;                    possMove.setY(6);</b>
+<b class="nc"><i>138</i>&nbsp;                    movelist.addMove(possMove);</b>
+<i>139</i>&nbsp;                }
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;                turn.setNPossibleMoves(turn.getNPossibleMoves() - 1);</b>
+<b class="nc"><i>142</i>&nbsp;                turn.setNMovesMade(turn.getNMovesMade() + 1);</b>
+<i>143</i>&nbsp;            }
+<b class="nc"><i>144</i>&nbsp;        } else if (!move.getIfMove()) {             //BUILDING MOVE //TODO: ADD IF(...&amp;&amp; NMADEBUILDINGS == 0)</b>
+<b class="nc"><i>145</i>&nbsp;            movelist = new MoveList();</b>
+<b class="nc"><i>146</i>&nbsp;            if (game.getCurrentPlayer().getDivinity() == Divinity.ATLAS) {        //ATLAS EFFECT</b>
+<b class="nc"><i>147</i>&nbsp;                for (int i = -1; i &lt;= 1; i++) {</b>
+<b class="nc"><i>148</i>&nbsp;                    for (int j = -1; j &lt;= 1; j++) {</b>
+<b class="nc"><i>149</i>&nbsp;                        if (0 &lt;= (move.getX() + i) &amp;&amp; (move.getX() + i) &lt;= 4 &amp;&amp; 0 &lt;= (move.getY() + j) &amp;&amp; (move.getY() + j) &lt;= 4) {</b>
+<b class="nc"><i>150</i>&nbsp;                            if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null &amp;&amp; !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {</b>
+<b class="nc"><i>151</i>&nbsp;                                if (game.getAvailableDomes() &gt; 0) {</b>
+<b class="nc"><i>152</i>&nbsp;                                    Move possMove = new Move(null);</b>
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;                                    possMove.setIfMove(false);</b>
+<b class="nc"><i>155</i>&nbsp;                                    possMove.setX(-(move.getX() + i) - 1);</b>
+<b class="nc"><i>156</i>&nbsp;                                    possMove.setY(-(move.getY() + j) - 1);</b>
+<b class="nc"><i>157</i>&nbsp;                                    movelist.addMove(possMove);</b>
+<i>158</i>&nbsp;                                }
+<i>159</i>&nbsp;                            }
+<i>160</i>&nbsp;                        }
+<i>161</i>&nbsp;                    }
+<i>162</i>&nbsp;                }
+<i>163</i>&nbsp;            }
+<b class="nc"><i>164</i>&nbsp;            for (int i = -1; i &lt;= 1; i++) {</b>
+<b class="nc"><i>165</i>&nbsp;                for (int j = -1; j &lt;= 1; j++) {</b>
+<b class="nc"><i>166</i>&nbsp;                    if (0 &lt;= move.getX() + i &amp;&amp; move.getX() + i &lt;= 4 &amp;&amp; 0 &lt;= move.getY() + j &amp;&amp; move.getY() + j &lt;= 4) {</b>
+<b class="nc"><i>167</i>&nbsp;                        if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null &amp;&amp; !grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {</b>
+<i>168</i>&nbsp;                            /*if (game.getCurrentPlayer().getDivinity() != Divinity.DEMETER || ((turn.getCantBuildOnThisBlock().getX() != move.getX() + i) &amp;&amp; (turn.getCantBuildOnThisBlock().getY() != move.getY() + j))) {*/
+<b class="nc"><i>169</i>&nbsp;                            if (i == 0 &amp;&amp; j == 0) {</b>
+<b class="nc"><i>170</i>&nbsp;                                continue;               //TO NOT BUILD UNDER THE PAWN; COULD NOT WORK</b>
+<i>171</i>&nbsp;                            }
+<i>172</i>&nbsp;
+<b class="nc"><i>173</i>&nbsp;                            if (game.getGameTurn().getNMadeBuildings() == 1 &amp;&amp; game.getCurrentPlayer().getDivinity() == Divinity.DEMETER &amp;&amp; ((turn.getCantBuildOnThisBlock().getX() == move.getX() + i) &amp;&amp; (turn.getCantBuildOnThisBlock().getY() == move.getY() + j))) {</b>
+<b class="nc"><i>174</i>&nbsp;                                continue;</b>
+<i>175</i>&nbsp;                            }
+<i>176</i>&nbsp;
+<b class="nc"><i>177</i>&nbsp;                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 0) {</b>
+<b class="nc"><i>178</i>&nbsp;                                if (game.getAvailableLevel1Buildings() &gt; 0) {</b>
+<b class="nc"><i>179</i>&nbsp;                                    Move possMove = new Move(null);</b>
+<i>180</i>&nbsp;
+<b class="nc"><i>181</i>&nbsp;                                    possMove.setIfMove(false);</b>
+<b class="nc"><i>182</i>&nbsp;                                    possMove.setX(move.getX() + i);</b>
+<b class="nc"><i>183</i>&nbsp;                                    possMove.setY(move.getY() + j);</b>
+<i>184</i>&nbsp;
+<b class="nc"><i>185</i>&nbsp;                                    movelist.addMove(possMove);</b>
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;                                }
+<i>188</i>&nbsp;                            }
+<b class="nc"><i>189</i>&nbsp;                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 1) {</b>
+<b class="nc"><i>190</i>&nbsp;                                if (game.getAvailableLevel2Buildings() &gt; 0) {</b>
+<b class="nc"><i>191</i>&nbsp;                                    Move possMove = new Move(null);</b>
+<i>192</i>&nbsp;
+<b class="nc"><i>193</i>&nbsp;                                    possMove.setIfMove(false);</b>
+<b class="nc"><i>194</i>&nbsp;                                    possMove.setX(move.getX() + i);</b>
+<b class="nc"><i>195</i>&nbsp;                                    possMove.setY(move.getY() + j);</b>
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;                                    movelist.addMove(possMove);</b>
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;                                }
+<i>200</i>&nbsp;                            }
+<i>201</i>&nbsp;
+<b class="nc"><i>202</i>&nbsp;                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 2) {</b>
+<b class="nc"><i>203</i>&nbsp;                                if (game.getAvailableLevel3Buildings() &gt; 0) {</b>
+<b class="nc"><i>204</i>&nbsp;                                    Move possMove = new Move(null);</b>
+<i>205</i>&nbsp;
+<b class="nc"><i>206</i>&nbsp;                                    possMove.setIfMove(false);</b>
+<b class="nc"><i>207</i>&nbsp;                                    possMove.setX(move.getX() + i);</b>
+<b class="nc"><i>208</i>&nbsp;                                    possMove.setY(move.getY() + j);</b>
+<i>209</i>&nbsp;
+<b class="nc"><i>210</i>&nbsp;                                    movelist.addMove(possMove);</b>
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;                                }
+<i>213</i>&nbsp;                            }
+<i>214</i>&nbsp;
+<b class="nc"><i>215</i>&nbsp;                            if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() == 3) {</b>
+<b class="nc"><i>216</i>&nbsp;                                if (game.getAvailableDomes() &gt; 0) {</b>
+<b class="nc"><i>217</i>&nbsp;                                    Move possMove = new Move(null);</b>
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;                                    possMove.setIfMove(false);</b>
+<b class="nc"><i>220</i>&nbsp;                                    possMove.setX(move.getX() + i);</b>
+<b class="nc"><i>221</i>&nbsp;                                    possMove.setY(move.getY() + j);</b>
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;                                    movelist.addMove(possMove);</b>
+<i>224</i>&nbsp;
+<i>225</i>&nbsp;                                }
+<i>226</i>&nbsp;                                //}
+<i>227</i>&nbsp;                            }
+<i>228</i>&nbsp;                        }
+<i>229</i>&nbsp;                    }
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;                }
+<i>232</i>&nbsp;            }
+<b class="nc"><i>233</i>&nbsp;            if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER &amp;&amp; game.getGameTurn().getNMadeBuildings() == 1) {</b>
+<b class="nc"><i>234</i>&nbsp;                Move possMove = new Move(move.getToMove());</b>
+<i>235</i>&nbsp;
+<b class="nc"><i>236</i>&nbsp;                possMove.setIfMove(false);</b>
+<b class="nc"><i>237</i>&nbsp;                possMove.setX(6);</b>
+<b class="nc"><i>238</i>&nbsp;                possMove.setY(6);</b>
+<b class="nc"><i>239</i>&nbsp;                movelist.addMove(possMove);</b>
+<i>240</i>&nbsp;            }
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;            turn.setNMadeBuildings(turn.getNMadeBuildings() + 1);</b>
+<b class="nc"><i>243</i>&nbsp;            turn.setNPossibleBuildings(turn.getNPossibleBuildings() - 1);</b>
+<i>244</i>&nbsp;        }
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;        //ALTERNATIVE FOR DEMETER
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;        /*else if(move.getIfMove() == false &amp;&amp; game.getCurrentPlayer().getDivinity() == Divinity.DEMETER &amp;&amp; turn.getNMadeBuildings() == 1){
+<i>249</i>&nbsp;            Move moveP = new Move(move.getToMove());
+<i>250</i>&nbsp;            for(int i = 0; i &lt;= 4; i++){
+<i>251</i>&nbsp;                for(int j = 0; j &lt;= 4; j++){
+<i>252</i>&nbsp;                    if(grid.getCells(i,j).getPawn().getId() == move.getToMove().getId()){
+<i>253</i>&nbsp;                        moveP.setX(i);
+<i>254</i>&nbsp;                        moveP.setY(j);
+<i>255</i>&nbsp;                    }
+<i>256</i>&nbsp;                }
+<i>257</i>&nbsp;            }
+<i>258</i>&nbsp;            for(int i = 0; i &lt;= 1; i++){
+<i>259</i>&nbsp;                for(int j = 0; j &lt;= 1; j++){
+<i>260</i>&nbsp;                    if (0 &lt;= moveP.getX() + i &amp;&amp; moveP.getX() + i &lt;= 4 &amp;&amp; 0 &lt;= moveP.getY() + j &amp;&amp; moveP.getY() + j &lt;= 4){
+<i>261</i>&nbsp;                        if(grid.getCells(moveP.getX() + i, moveP.getY() + j).getPawn() == null){
+<i>262</i>&nbsp;                            if(!grid.getCells(moveP.getX() + i,moveP.getY() + j).getTower().getIsDome()){
+<i>263</i>&nbsp;                                if(moveP.getX() + i == move.getX() &amp;&amp; moveP.getY() + j == move.getY()){
+<i>264</i>&nbsp;                                    continue;
+<i>265</i>&nbsp;                                }
+<i>266</i>&nbsp;                                //TODO BUILDING MOVE
+<i>267</i>&nbsp;                            }
+<i>268</i>&nbsp;                        }
+<i>269</i>&nbsp;                    }
+<i>270</i>&nbsp;                }
+<i>271</i>&nbsp;            }
+<i>272</i>&nbsp;        }*/
+<i>273</i>&nbsp;
+<b class="nc"><i>274</i>&nbsp;        return movelist;</b>
+<i>275</i>&nbsp;    }
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    /**
+<i>278</i>&nbsp;     * @param gameID   game ID of the game where to set the player&#39;s divinity
+<i>279</i>&nbsp;     * @param username of the player
+<i>280</i>&nbsp;     * @param div      divinity to assign to the player
+<i>281</i>&nbsp;     */
+<i>282</i>&nbsp;    public void setSpecificPlayerDiv(String gameID, String username, Divinity div) throws IllegalArgumentException {
+<b class="nc"><i>283</i>&nbsp;        Model model = Model.getModel();</b>
+<b class="nc"><i>284</i>&nbsp;        Game game = model.searchID(gameID);</b>
+<b class="nc"><i>285</i>&nbsp;        for (int i = 0; i &lt; game.getPlayers().size(); i++) {</b>
+<b class="nc"><i>286</i>&nbsp;            if (game.getPlayers().getPlayer(i).getUsername().equals(username)) {</b>
+<b class="nc"><i>287</i>&nbsp;                if (game.getPlayers().getPlayer(i).getDivinity() == null) {</b>
+<b class="nc"><i>288</i>&nbsp;                    game.getPlayers().getPlayer(i).setDivinity(div);</b>
+<i>289</i>&nbsp;                    return;
+<i>290</i>&nbsp;                } else {
+<b class="nc"><i>291</i>&nbsp;                    throw new IllegalArgumentException();</b>
+<i>292</i>&nbsp;                }
+<i>293</i>&nbsp;            }
+<i>294</i>&nbsp;        }
+<i>295</i>&nbsp;    }
+<i>296</i>&nbsp;
+<i>297</i>&nbsp;    /**
+<i>298</i>&nbsp;     * @param grid the grid where to see the pawns
+<i>299</i>&nbsp;     * @return a PlayerList of players that already placed pawns
+<i>300</i>&nbsp;     */
+<i>301</i>&nbsp;    public PlayerList getPlayersThatAlreadyPlaced(Grid grid) {
+<b class="nc"><i>302</i>&nbsp;        PlayerList playerList = new PlayerList();</b>
+<b class="nc"><i>303</i>&nbsp;        boolean alreadyContained = false;</b>
+<b class="nc"><i>304</i>&nbsp;        for (int i = 0; i &lt;= 4; i++) {</b>
+<b class="nc"><i>305</i>&nbsp;            for (int j = 0; j &lt;= 4; j++) {</b>
+<b class="nc"><i>306</i>&nbsp;                if (grid.getCells(i, j).getPawn() != null) {</b>
+<b class="nc"><i>307</i>&nbsp;                    if (playerList.size() == 0) {</b>
+<b class="nc"><i>308</i>&nbsp;                        playerList.addPlayer(grid.getCells(i, j).getPawn().getOwner());</b>
+<i>309</i>&nbsp;                    } else {
+<b class="nc"><i>310</i>&nbsp;                        alreadyContained = false;</b>
+<b class="nc"><i>311</i>&nbsp;                        for (int k = 0; k &lt;= playerList.size() - 1; k++) {</b>
+<b class="nc"><i>312</i>&nbsp;                            if (playerList.getPlayer(k).getUsername().equals(grid.getCells(i, j).getPawn().getOwner().getUsername())) {</b>
+<b class="nc"><i>313</i>&nbsp;                                alreadyContained = true;</b>
+<i>314</i>&nbsp;                            }
+<i>315</i>&nbsp;                        }
+<b class="nc"><i>316</i>&nbsp;                        if (!alreadyContained) {</b>
+<b class="nc"><i>317</i>&nbsp;                            playerList.addPlayer(grid.getCells(i, j).getPawn().getOwner());</b>
+<i>318</i>&nbsp;                        }
+<i>319</i>&nbsp;                    }
+<i>320</i>&nbsp;                }
+<i>321</i>&nbsp;            }
+<i>322</i>&nbsp;        }
+<b class="nc"><i>323</i>&nbsp;        return playerList;</b>
+<i>324</i>&nbsp;    }
+<i>325</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-28 12:24</div>
+</div>
+</body>
+</html>

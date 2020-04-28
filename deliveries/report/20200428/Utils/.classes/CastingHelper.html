@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CastingHelper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Utils</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CastingHelper (Utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CastingHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,9%
+  </span>
+  <span class="absValue">
+    (31/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Utils;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Server.Model.Divinity;
+<i>4</i>&nbsp;import Server.Model.DivinityList;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;
+<b class="nc"><i>8</i>&nbsp;public class CastingHelper {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * converts a Divinity from String
+<i>12</i>&nbsp;     *
+<i>13</i>&nbsp;     * @param strDivinity the String Divnity to convert+
+<i>14</i>&nbsp;     *
+<i>15</i>&nbsp;     * @return the converted Divinity
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;    public static Divinity convertDivinity(String strDivinity) {
+<i>18</i>&nbsp;        Divinity currentDiv;
+<b class="fc"><i>19</i>&nbsp;        switch (strDivinity) {</b>
+<i>20</i>&nbsp;            case &quot;APOLLO&quot;:
+<b class="fc"><i>21</i>&nbsp;                currentDiv = Divinity.APOLLO;</b>
+<b class="fc"><i>22</i>&nbsp;                break;</b>
+<i>23</i>&nbsp;            case &quot;ARTEMIS&quot;:
+<b class="fc"><i>24</i>&nbsp;                currentDiv = Divinity.ARTEMIS;</b>
+<b class="fc"><i>25</i>&nbsp;                break;</b>
+<i>26</i>&nbsp;            case &quot;ATLAS&quot;:
+<b class="fc"><i>27</i>&nbsp;                currentDiv = Divinity.ATLAS;</b>
+<b class="fc"><i>28</i>&nbsp;                break;</b>
+<i>29</i>&nbsp;            case &quot;DEMETER&quot;:
+<b class="fc"><i>30</i>&nbsp;                currentDiv = Divinity.DEMETER;</b>
+<b class="fc"><i>31</i>&nbsp;                break;</b>
+<i>32</i>&nbsp;            case &quot;ATHENA&quot;:
+<b class="fc"><i>33</i>&nbsp;                currentDiv = Divinity.ATHENA;</b>
+<b class="fc"><i>34</i>&nbsp;                break;</b>
+<i>35</i>&nbsp;            case &quot;HEPHAESTUS&quot;:
+<b class="fc"><i>36</i>&nbsp;                currentDiv = Divinity.HEPHAESTUS;</b>
+<b class="fc"><i>37</i>&nbsp;                break;</b>
+<i>38</i>&nbsp;            case &quot;MINOTAUR&quot;:
+<b class="fc"><i>39</i>&nbsp;                currentDiv = Divinity.MINOTAUR;</b>
+<b class="fc"><i>40</i>&nbsp;                break;</b>
+<i>41</i>&nbsp;            case &quot;PAN&quot;:
+<b class="fc"><i>42</i>&nbsp;                currentDiv = Divinity.PAN;</b>
+<b class="fc"><i>43</i>&nbsp;                break;</b>
+<i>44</i>&nbsp;            case &quot;PROMETHEUS&quot;:
+<b class="fc"><i>45</i>&nbsp;                currentDiv = Divinity.PROMETHEUS;</b>
+<b class="fc"><i>46</i>&nbsp;                break;</b>
+<i>47</i>&nbsp;            default:
+<b class="fc"><i>48</i>&nbsp;                currentDiv = null;</b>
+<i>49</i>&nbsp;        }
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;        return currentDiv;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * converts an ArrayList of String Divinities to an ArrayList of Divinities
+<i>56</i>&nbsp;     *
+<i>57</i>&nbsp;     * @param strDivinities the ArrayList to Convert
+<i>58</i>&nbsp;     *
+<i>59</i>&nbsp;     * @return the ArrayList of converted divinities
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public static ArrayList&lt;Divinity&gt; convertDivinityList(ArrayList&lt;String&gt; strDivinities) {
+<b class="fc"><i>62</i>&nbsp;        ArrayList&lt;Divinity&gt; divs = new ArrayList&lt;&gt;();</b>
+<i>63</i>&nbsp;
+<b class="fc"><i>64</i>&nbsp;        for (String dv : strDivinities) {</b>
+<i>65</i>&nbsp;            Divinity currentDiv;
+<b class="fc"><i>66</i>&nbsp;            currentDiv = convertDivinity(dv);</b>
+<b class="fc"><i>67</i>&nbsp;            divs.add(currentDiv);</b>
+<b class="fc"><i>68</i>&nbsp;        }</b>
+<i>69</i>&nbsp;
+<b class="fc"><i>70</i>&nbsp;        return divs;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * converts an ArrayList of Divinities to an ArrayList of String Divinities
+<i>75</i>&nbsp;     *
+<i>76</i>&nbsp;     * @param divinities the ArrayList to Convert
+<i>77</i>&nbsp;     *
+<i>78</i>&nbsp;     * @return the ArrayList of converted string divinities
+<i>79</i>&nbsp;     */
+<i>80</i>&nbsp;    public static ArrayList&lt;String&gt; convertDivinityListToString(DivinityList divinities) {
+<b class="fc"><i>81</i>&nbsp;        ArrayList&lt;String&gt; divs = new ArrayList&lt;&gt;();</b>
+<i>82</i>&nbsp;
+<b class="fc"><i>83</i>&nbsp;        for (int i=0;i&lt; divinities.size();i++) {</b>
+<b class="fc"><i>84</i>&nbsp;            divs.add(divinities.getDivinity(i).toString());</b>
+<i>85</i>&nbsp;        }
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;        return divs;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-28 12:24</div>
+</div>
+</body>
+</html>

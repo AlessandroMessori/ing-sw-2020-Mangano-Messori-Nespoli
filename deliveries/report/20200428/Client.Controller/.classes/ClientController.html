@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Client.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientController (Client.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 61)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Client.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Server.Model.*;
+<i>4</i>&nbsp;
+<b class="nc"><i>5</i>&nbsp;public class ClientController {</b>
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;   /* /**
+<i>8</i>&nbsp;     * ATHENA EFFECT
+<i>9</i>&nbsp;     *
+<i>10</i>&nbsp;     * @param grid grid where to see if Pawn was moved
+<i>11</i>&nbsp;     * @param move where the pawn is now
+<i>12</i>&nbsp;     * @return a boolean true if the pawn was moved, false if not
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    /*public boolean checkIfMoved(Grid grid, Move move){
+<i>15</i>&nbsp;        int count = 0;
+<i>16</i>&nbsp;        for(int i = -1; i &lt;= 1; i++){
+<i>17</i>&nbsp;            for(int j = -1; j &lt;= 1; j++){
+<i>18</i>&nbsp;                if (0 &lt;= (move.getX() + i) &amp;&amp; (move.getX() + i) &lt;= 4 &amp;&amp; 0 &lt;= (move.getY() + j) &amp;&amp; (move.getY() + j) &lt;= 4) {
+<i>19</i>&nbsp;                    if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+<i>20</i>&nbsp;                        if (grid.getCells(move.getX() + i, move.getY() + j).getPawn().getId() == move.getToMove().getId()) {
+<i>21</i>&nbsp;                            count++;
+<i>22</i>&nbsp;                        }
+<i>23</i>&nbsp;                    }
+<i>24</i>&nbsp;                }
+<i>25</i>&nbsp;            }
+<i>26</i>&nbsp;        }
+<i>27</i>&nbsp;        if(count == 1){
+<i>28</i>&nbsp;            return false;
+<i>29</i>&nbsp;        }
+<i>30</i>&nbsp;        return true;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    }*/
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     *
+<i>36</i>&nbsp;     * @param move is the move the current player has done
+<i>37</i>&nbsp;     * @param game is the game to be modified
+<i>38</i>&nbsp;     * @return the game updated after the move is done
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public Game updateGameByMove(Move move, Game game) throws IllegalArgumentException{
+<b class="nc"><i>41</i>&nbsp;        int startingLevel = 0;</b>
+<b class="nc"><i>42</i>&nbsp;        int endingLevel = 0;</b>
+<b class="nc"><i>43</i>&nbsp;        game.setOldGrid(game.getNewGrid());</b>
+<b class="nc"><i>44</i>&nbsp;        if(move.getIfMove() == true)</b>
+<i>45</i>&nbsp;        {
+<b class="nc"><i>46</i>&nbsp;            game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());</b>
+<i>47</i>&nbsp;
+<b class="nc"><i>48</i>&nbsp;            if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){</b>
+<b class="nc"><i>49</i>&nbsp;                endingLevel = game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel();</b>
+<i>50</i>&nbsp;                /*game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));*/
+<i>51</i>&nbsp;            }
+<i>52</i>&nbsp;
+<b class="nc"><i>53</i>&nbsp;            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {</b>
+<b class="nc"><i>54</i>&nbsp;                game.setWinner(game.getCurrentPlayer());            //WINNING MOVE</b>
+<i>55</i>&nbsp;            }
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;            for(int i = -1; i &lt;= 1; i++) {</b>
+<b class="nc"><i>58</i>&nbsp;                for (int j = -1; j &lt;= 1; j++) {</b>
+<b class="nc"><i>59</i>&nbsp;                    if(0 &lt;= move.getX() + i &amp;&amp; move.getX() + i &lt;= 4 &amp;&amp; 0 &lt;= move.getY() + j &amp;&amp; move.getY() + j &lt;= 4) {</b>
+<b class="nc"><i>60</i>&nbsp;                        if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn() != null) {</b>
+<b class="nc"><i>61</i>&nbsp;                            if (game.getNewGrid().getCells(move.getX() + i, move.getY() + j).getPawn().getId() == (move.getToMove().getId())) {</b>
+<b class="nc"><i>62</i>&nbsp;                                if(i == 0 &amp;&amp; j == 0){</b>
+<b class="nc"><i>63</i>&nbsp;                                    continue;</b>
+<i>64</i>&nbsp;                                }
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;                                game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;                                if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){</b>
+<b class="nc"><i>69</i>&nbsp;                                    startingLevel = game.getNewGrid().getCells(move.getX() + i,move.getY() + j).getTower().getLevel();</b>
+<b class="nc"><i>70</i>&nbsp;                                    if((endingLevel - startingLevel) &gt; 0){</b>
+<b class="nc"><i>71</i>&nbsp;                                        game.getGameTurn().setPawnMoved(true);</b>
+<i>72</i>&nbsp;                                    }
+<i>73</i>&nbsp;                                }
+<b class="nc"><i>74</i>&nbsp;                                if(game.getGameTurn().getEnemyPawn1() != null &amp;&amp; move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT</b>
+<i>75</i>&nbsp;                                {
+<b class="nc"><i>76</i>&nbsp;                                    for(int k = 0; k &lt;= 4; k++){</b>
+<b class="nc"><i>77</i>&nbsp;                                        for(int l = 0; l &lt;= 4; l++){</b>
+<b class="nc"><i>78</i>&nbsp;                                            if(game.getNewGrid().getCells(k,l).getPawn() != null){</b>
+<b class="nc"><i>79</i>&nbsp;                                                if(game.getGameTurn().getEnemyPawn1() != null) {</b>
+<b class="nc"><i>80</i>&nbsp;                                                    if (game.getNewGrid().getCells(k, l).getPawn().getId() == game.getGameTurn().getEnemyPawn1().getId()) {</b>
+<b class="nc"><i>81</i>&nbsp;                                                        game.getGameTurn().setEnemyPawn1(null);</b>
+<i>82</i>&nbsp;                                                    }
+<i>83</i>&nbsp;                                                }
+<b class="nc"><i>84</i>&nbsp;                                                if(game.getGameTurn().getEnemyPawn2() != null){</b>
+<b class="nc"><i>85</i>&nbsp;                                                    if(game.getNewGrid().getCells(k,l).getPawn().getId() == game.getGameTurn().getEnemyPawn2().getId()){</b>
+<b class="nc"><i>86</i>&nbsp;                                                        game.getGameTurn().setEnemyPawn2(null);</b>
+<i>87</i>&nbsp;                                                    }
+<i>88</i>&nbsp;                                                }
+<i>89</i>&nbsp;                                            }
+<i>90</i>&nbsp;                                        }
+<i>91</i>&nbsp;                                    }
+<b class="nc"><i>92</i>&nbsp;                                    if (game.getGameTurn().getEnemyPawn1() != null) {</b>
+<b class="nc"><i>93</i>&nbsp;                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn1());</b>
+<i>94</i>&nbsp;                                    }
+<b class="nc"><i>95</i>&nbsp;                                    else if(game.getGameTurn().getEnemyPawn2() != null){</b>
+<b class="nc"><i>96</i>&nbsp;                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn2());</b>
+<i>97</i>&nbsp;                                    }
+<i>98</i>&nbsp;                                }
+<i>99</i>&nbsp;                            }
+<i>100</i>&nbsp;                        }
+<i>101</i>&nbsp;                    }
+<i>102</i>&nbsp;                }
+<i>103</i>&nbsp;            }
+<i>104</i>&nbsp;        }
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;        if(!move.getIfMove()){</b>
+<i>107</i>&nbsp;
+<b class="nc"><i>108</i>&nbsp;            if(move.getX() &lt; 0 &amp;&amp; move.getY() &lt; 0){</b>
+<b class="nc"><i>109</i>&nbsp;                int defX = 0, defY = 0;</b>
+<b class="nc"><i>110</i>&nbsp;                game.decreaseAvailableDomes();</b>
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;                for(int i = -1; i &gt;= -5; i--){</b>
+<b class="nc"><i>113</i>&nbsp;                    if(move.getX() == i){</b>
+<b class="nc"><i>114</i>&nbsp;                        defX = Math.abs(i) - 1;</b>
+<i>115</i>&nbsp;                    }
+<i>116</i>&nbsp;                }
+<i>117</i>&nbsp;
+<b class="nc"><i>118</i>&nbsp;                for(int i = -1; i &gt;= -5; i--){</b>
+<b class="nc"><i>119</i>&nbsp;                    if(move.getY() == i){</b>
+<b class="nc"><i>120</i>&nbsp;                        defY = Math.abs(i) - 1;</b>
+<i>121</i>&nbsp;                    }
+<i>122</i>&nbsp;                }
+<b class="nc"><i>123</i>&nbsp;                game.getNewGrid().getCells(defX,defY).getTower().setLevel(game.getNewGrid().getCells(defX,defY).getTower().getLevel() + 1);</b>
+<b class="nc"><i>124</i>&nbsp;                game.getNewGrid().getCells(defX,defY).getTower().setIsDome(true);</b>
+<b class="nc"><i>125</i>&nbsp;                return game;</b>
+<i>126</i>&nbsp;            }
+<i>127</i>&nbsp;
+<b class="nc"><i>128</i>&nbsp;            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 0) {</b>
+<b class="nc"><i>129</i>&nbsp;                game.decreaseAvailableLevel1Buildings();</b>
+<i>130</i>&nbsp;            }
+<b class="nc"><i>131</i>&nbsp;            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 1){</b>
+<b class="nc"><i>132</i>&nbsp;                game.decreaseAvailableLevel2Buildings();</b>
+<i>133</i>&nbsp;            }
+<b class="nc"><i>134</i>&nbsp;            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 2){</b>
+<b class="nc"><i>135</i>&nbsp;                game.decreaseAvailableLevel3Buildings();</b>
+<i>136</i>&nbsp;            }
+<b class="nc"><i>137</i>&nbsp;            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3){</b>
+<b class="nc"><i>138</i>&nbsp;                game.decreaseAvailableDomes();</b>
+<i>139</i>&nbsp;            }
+<b class="nc"><i>140</i>&nbsp;            game.getNewGrid().getCells(move.getX(),move.getY()).getTower().setLevel(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() + 1);</b>
+<b class="nc"><i>141</i>&nbsp;            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 4){</b>
+<b class="nc"><i>142</i>&nbsp;                game.getNewGrid().getCells(move.getX(),move.getY()).getTower().setIsDome(true);</b>
+<i>143</i>&nbsp;            }
+<i>144</i>&nbsp;        }
+<b class="nc"><i>145</i>&nbsp;        return game;</b>
+<i>146</i>&nbsp;    }
+<i>147</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-28 12:24</div>
+</div>
+</body>
+</html>
