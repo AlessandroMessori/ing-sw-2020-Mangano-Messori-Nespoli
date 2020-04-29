@@ -61,7 +61,7 @@ public class ListenForChosenPawn extends ResponseHandler {
                 }
             }
 
-             game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
+            game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), gameID, move, game.getGameTurn()));
 
             if (game.getNextMoves().size() <= 0) {
@@ -82,18 +82,38 @@ public class ListenForChosenPawn extends ResponseHandler {
                 }
 
                 game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
-                System.out.println(new Gson().toJson(otherPawnMove));
+
                 moves = serverController.calculateNextMove(game.getNewGrid(), gameID, otherPawnMove, game.getGameTurn());
                 if (moves.size() == 0) {
                     //game is over,no possible moves
 
-                    Player winner = game.getPlayers().getRandomPlayer();
+                    if (game.getPlayers().size() == 2) {
+                        Player winner = game.getPlayers().getRandomPlayer();
 
                         while (winner.getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                        winner = game.getPlayers().getRandomPlayer();
+                            winner = game.getPlayers().getRandomPlayer();
+                        }
+
+                        model.searchID(gameID).setWinner(winner);
+                    } else { //deletes currentPlayer and starts a new turn
+                        for (int x = 0; x < 5; x++) {
+                            for (int y = 0; y < 5; y++) {
+                                if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                                    if (game.getNewGrid().getCells(x, y).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                                        game.getNewGrid().getCells(x, y).setPawn(null);
+                                    }
+                                }
+                            }
+                        }
+
+                        game.getPlayers().deletePlayer(game.getCurrentPlayer());
+                        game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
+                        game.setNTurns(game.getNTurns() + 1);
+
+                        //reinizialites turn data
+                        game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
                     }
 
-                    model.searchID(gameID).setWinner(winner);
                     output.writeObject("You Lost");
                 } else {
                     //this pawn doesn't have any possible moves but the other one does
