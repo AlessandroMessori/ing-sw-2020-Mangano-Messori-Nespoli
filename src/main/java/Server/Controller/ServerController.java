@@ -89,7 +89,7 @@ public class ServerController {
                         if (0 <= (move.getX() + i) && (move.getX() + i) <= 4 && 0 <= (move.getY() + j) && (move.getY() + j) <= 4) {
                             if (grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel() + 1) {
                                 if (!grid.getCells(move.getX() + i, move.getY() + j).getTower().getIsDome()) {
-                                    if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || ((game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && !game.getCurrentPlayer().getUsername().equals(grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername()))) {
+                                    if ((grid.getCells(move.getX() + i, move.getY() + j).getPawn() == null) || ((game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR) && !game.getCurrentPlayer().getUsername().equals(grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername()))) {
                                         if (game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || !turn.getPawnMoved() || grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() <= grid.getCells(move.getX(), move.getY()).getTower().getLevel()) {
                                             if (i == 0 && j == 0) {
                                                 continue;
@@ -99,10 +99,12 @@ public class ServerController {
                                             }
                                             Move possMove = new Move(move.getToMove());
 
-                                            if (game.getGameTurn().getEnemyPawn1() == null) {        //TODO: ADD ENEMYPLAYER3 FOR APOLLO
-                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                            if (game.getGameTurn().getEnemyPawn1() == null) {        //TODO: COMPLETE MINOTAUR EFFECT (E CONTROLLA CHE FUNZIONI)
+                                                if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
+                                                            game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        }
                                                     }
                                                 }
                                             }
@@ -177,7 +179,7 @@ public class ServerController {
             }
 
             if(game.getCurrentPlayer().getDivinity() == Divinity.HEPHAESTUS && game.getGameTurn().getNMadeBuildings() == 1){
-                if(grid.getCells(game.getGameTurn().getLastPlacedBlock().getX(),game.getGameTurn().getLastPlacedBlock().getY()).getTower().getLevel() == 3){
+                if(grid.getCells(game.getGameTurn().getLastPlacedBlock().getX(),game.getGameTurn().getLastPlacedBlock().getY()).getTower().getIsDome() ||grid.getCells(game.getGameTurn().getLastPlacedBlock().getX(),game.getGameTurn().getLastPlacedBlock().getY()).getTower().getLevel() >= 3){
                     //TODO: RITORNA LISTA VUOTA PERCHE' NON PUO' COSTRUIRE UNA SECONDA VOLTA
                 }
                 Move possMove = new Move(null);
