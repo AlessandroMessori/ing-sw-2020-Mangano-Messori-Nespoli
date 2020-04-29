@@ -45,7 +45,7 @@ public class ClientController {
         {
             game.getNewGrid().getCells(move.getX(),move.getY()).setPawn(move.getToMove());
 
-            if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){
+            if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || game.getCurrentPlayer().getDivinity() == Divinity.PAN){
                 endingLevel = game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel();
                 /*game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));*/
             }
@@ -71,6 +71,13 @@ public class ClientController {
                                         game.getGameTurn().setPawnMoved(true);
                                     }
                                 }
+                                if(game.getCurrentPlayer().getDivinity() == Divinity.PAN){
+                                    startingLevel = game.getNewGrid().getCells(move.getX() + i,move.getY() + j).getTower().getLevel();
+                                    if((startingLevel - endingLevel) >= 2){
+                                        game.setWinner(game.getCurrentPlayer());
+                                    }
+                                }
+
                                 if(game.getGameTurn().getEnemyPawn1() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
                                 {
                                     for(int k = 0; k <= 4; k++){

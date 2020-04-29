@@ -271,6 +271,22 @@ public class Turn {
     /**
      * HEPHAESTUS EFFECT
      *
+     * @param m the last placed block by Hephaestus
+     */
+    public void setLastPlacedBlock(Move m) {lastPlacedBlock = m; }
+
+    /**
+     * HEPHAESTUS EFFECT
+     *
+     * @return the last placed block by Hephaestus
+     */
+    public Move getLastPlacedBlock() {return lastPlacedBlock;}
+
+    private Move lastPlacedBlock = null;
+
+    /**
+     * HEPHAESTUS EFFECT
+     *
      * @return a boolean which indicates if the player can build on the last placed first level block
      */
     public boolean getCanBuildOnLastBlock() {
@@ -374,17 +390,23 @@ public class Turn {
      * function called when the turn is starting to set variables
      */
     public void startingTurn(Divinity div) throws IllegalArgumentException {
-        Move moveM = new Move(null);
+        Move moveM = new Move(null);        //ARTEMIS EFFECT
         moveM.setIfMove(true);
         moveM.setX(777);
         moveM.setY(777);
         setCantMoveBackHere(moveM);
 
-        Move moveB = new Move(null);
+        Move moveB = new Move(null);        //DEMETER EFFECT
         moveB.setIfMove(false);
         moveB.setX(777);
         moveB.setY(777);
         setCantBuildOnThisBlock(moveB);
+
+        Move moveBB = new Move(null);       //HEPHAESTUS EFFECT
+        moveBB.setIfMove(false);
+        moveBB.setX(777);
+        moveBB.setY(777);
+        setLastPlacedBlock(moveBB);
 
         enemyPawn1 = null;
         enemyPawn2 = null;
