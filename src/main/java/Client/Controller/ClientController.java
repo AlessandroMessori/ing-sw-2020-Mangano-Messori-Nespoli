@@ -86,6 +86,16 @@ public class ClientController {
                                                         game.getGameTurn().setEnemyPawn2(null);
                                                     }
                                                 }
+                                                if(game.getGameTurn().getEnemyPawn3() != null){
+                                                    if(game.getNewGrid().getCells(k,l).getPawn().getId() == game.getGameTurn().getEnemyPawn3().getId()){
+                                                        game.getGameTurn().setEnemyPawn3(null);
+                                                    }
+                                                }
+                                                if(game.getGameTurn().getEnemyPawn4() != null){
+                                                    if(game.getNewGrid().getCells(k,l).getPawn().getId() == game.getGameTurn().getEnemyPawn4().getId()){
+                                                        game.getGameTurn().setEnemyPawn4(null);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -94,6 +104,12 @@ public class ClientController {
                                     }
                                     else if(game.getGameTurn().getEnemyPawn2() != null){
                                         game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn2());
+                                    }
+                                    else if(game.getGameTurn().getEnemyPawn3() != null){
+                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn3());
+                                    }
+                                    else if(game.getGameTurn().getEnemyPawn4() != null){
+                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn4());
                                     }
                                 }
                             }

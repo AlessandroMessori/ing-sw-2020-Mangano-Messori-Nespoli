@@ -116,6 +116,22 @@ public class ServerController {
                                                 }
                                             }
 
+                                            if (game.getGameTurn().getEnemyPawn2() != null) {
+                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                    if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                                                        game.getGameTurn().setEnemyPawn3(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                    }
+                                                }
+                                            }
+
+                                            if (game.getGameTurn().getEnemyPawn3() != null) {
+                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                    if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                                                        game.getGameTurn().setEnemyPawn4(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                    }
+                                                }
+                                            }
+
                                             possMove.setIfMove(true);
                                             possMove.setX(move.getX() + i);
                                             possMove.setY(move.getY() + j);

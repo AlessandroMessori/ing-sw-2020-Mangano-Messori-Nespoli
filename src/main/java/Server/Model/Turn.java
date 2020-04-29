@@ -53,6 +53,46 @@ public class Turn {
     /**
      * APOLLO EFFECT
      *
+     * @param p pawn to swap with current player's one
+     */
+    public void setEnemyPawn3(Pawn p) {
+        enemyPawn1 = p;
+    }
+
+    /**
+     * APOLLO EFFECT
+     *
+     * @return the Pawn to swap with the current player's one
+     */
+    public Pawn getEnemyPawn3() {
+        return enemyPawn1;
+    }
+
+    private Pawn enemyPawn3 = null;
+
+    /**
+     * APOLLO EFFECT
+     *
+     * @param p pawn to swap with current player's one
+     */
+    public void setEnemyPawn4(Pawn p) {
+        enemyPawn1 = p;
+    }
+
+    /**
+     * APOLLO EFFECT
+     *
+     * @return the Pawn to swap with the current player's one
+     */
+    public Pawn getEnemyPawn4() {
+        return enemyPawn1;
+    }
+
+    private Pawn enemyPawn4 = null;
+
+    /**
+     * APOLLO EFFECT
+     *
      * @return a boolean which indicates if the Pawn can be swapped
      */
     public boolean getCanSwap() {
@@ -348,6 +388,8 @@ public class Turn {
 
         enemyPawn1 = null;
         enemyPawn2 = null;
+        enemyPawn3 = null;
+        enemyPawn4 = null;
         currDivinity = div;
         setNPossibleMoves(1);
         setNMovesMade(0);
