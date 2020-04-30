@@ -350,8 +350,8 @@ public class Turn {
      *
      * @return if the player can come up a level
      */
-    public boolean getCanComeUp() {
-        return canComeUp;
+    public boolean getDecidesToComeUp() {
+        return decidesToComeUp;
     }
 
     /**
@@ -360,11 +360,11 @@ public class Turn {
      *
      * @param canComeUp if the player can come up a level
      */
-    public void setCanComeUp(boolean canComeUp) {
-        this.canComeUp = canComeUp;
+    public void setDecidesToComeUp(boolean canComeUp) {
+        this.decidesToComeUp = canComeUp;
     }
 
-    private boolean canComeUp;
+    private boolean decidesToComeUp;
 
     /**
      * PROMETHEUS EFFECT
@@ -443,7 +443,7 @@ public class Turn {
                 setVictoryAfterDescent(true);
                 break;
             case PROMETHEUS:
-                if (!getCanComeUp()) {
+                if (!getDecidesToComeUp()) {
                     setCanBuildBeforeMove(true);
                 }
                 break;

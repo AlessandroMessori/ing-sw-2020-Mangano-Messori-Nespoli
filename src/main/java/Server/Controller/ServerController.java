@@ -99,6 +99,10 @@ public class ServerController {
                                             }
                                             Move possMove = new Move(move.getToMove());
 
+                                            if(!game.getGameTurn().getDecidesToComeUp() && grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() > grid.getCells(move.getX(),move.getY()).getTower().getLevel()){
+                                                continue;
+                                            }
+
                                             if (game.getGameTurn().getEnemyPawn1() == null) {        //TODO: COMPLETE MINOTAUR EFFECT (E CONTROLLA CHE FUNZIONI)
                                                 if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {

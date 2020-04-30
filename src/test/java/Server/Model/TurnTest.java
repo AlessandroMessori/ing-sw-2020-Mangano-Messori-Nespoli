@@ -68,9 +68,9 @@ public class TurnTest {
     }
 
     @Test
-    public void getCanComeUpTest() {
-        turn.setCanComeUp(false);
-        assertSame(false, turn.getCanComeUp());
+    public void getDecidesToComeUpTest() {
+        turn.setDecidesToComeUp(false);
+        assertSame(false, turn.getDecidesToComeUp());
     }
 
     @Test
@@ -161,7 +161,7 @@ public class TurnTest {
         turn.startingTurn(Divinity.PAN);
         assertSame(true,turn.getVictoryAfterDescent());
         turn.startingTurn(Divinity.PROMETHEUS);
-        turn.setCanComeUp(false);
+        turn.setDecidesToComeUp(false);
         assertSame(true,turn.getCanBuildBeforeMove());
     }
 
