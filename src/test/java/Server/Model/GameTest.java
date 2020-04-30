@@ -369,8 +369,25 @@ public class GameTest {
         Grid g2 = new Grid();
         game = new Game(3, "0dd1", false, null, g1, g2, null);
         game.setGameTurn(new Turn(Divinity.ATHENA));
-        assertEquals("{\"currDivinity\":\"ATHENA\",\"canSwap\":false,\"cantMoveBackHere\":{\"x\":0,\"y\":0,\"ifMove\":false},\"nPossibleMoves\":1,\"nMovesMade\":0,\"pawnMoved\":false,\"canBuildDomes\":false,\"cantBuildOnThisBlock\":{\"x\":0,\"y\":0,\"ifMove\":false},\"nPossibleBuildings\":1,\"nMadeBuildings\":0,\"canBuildOnLastPlacedBlock\":false,\"canMoveAndSwap\":false,\"victoryAfterDescent\":false,\"canComeUp\":false,\"canBuildBeforeMove\":false}",
+        assertEquals("{\"currDivinity\":\"ATHENA\",\"canSwap\":false,\"cantMoveBackHere\":{\"x\":0,\"y\":0,\"ifMove\":false},\"nPossibleMoves\":1,\"nMovesMade\":0,\"pawnMoved\":false,\"canBuildDomes\":false,\"cantBuildOnThisBlock\":{\"x\":0,\"y\":0,\"ifMove\":false},\"nPossibleBuildings\":1,\"nMadeBuildings\":0,\"canBuildOnLastPlacedBlock\":false,\"canMoveAndSwap\":false,\"victoryAfterDescent\":false,\"decidesToComeUp\":false,\"canBuildBeforeMove\":false}",
                 new Gson().toJson(game.getGameTurn()));
+    }
+
+    @Test
+    public void getCurrentPlayerIndexTest() {
+        assertSame(-1,game.getCurrentPlayerIndex());
+        game.increaseCurrentPlayerIndex();
+        assertSame(0,game.getCurrentPlayerIndex());
+
+        game.getPlayers().addPlayer(new Player("G1",null,null));
+        game.getPlayers().addPlayer(new Player("G2",null,null));
+
+        game.increaseCurrentPlayerIndex();
+        game.increaseCurrentPlayerIndex();
+        game.increaseCurrentPlayerIndex();
+        game.increaseCurrentPlayerIndex();
+
+        assertSame(0,game.getCurrentPlayerIndex());
     }
 
 }

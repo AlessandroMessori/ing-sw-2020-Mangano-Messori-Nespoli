@@ -2,7 +2,6 @@ package Server.Controller;
 
 import Server.Model.*;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class ServerController {
