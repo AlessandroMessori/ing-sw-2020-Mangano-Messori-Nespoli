@@ -181,6 +181,13 @@ public class ServerController {
             if(game.getCurrentPlayer().getDivinity() == Divinity.HEPHAESTUS && game.getGameTurn().getNMadeBuildings() == 1){
                 if(grid.getCells(game.getGameTurn().getLastPlacedBlock().getX(),game.getGameTurn().getLastPlacedBlock().getY()).getTower().getIsDome() ||grid.getCells(game.getGameTurn().getLastPlacedBlock().getX(),game.getGameTurn().getLastPlacedBlock().getY()).getTower().getLevel() >= 3){
                     //TODO: RITORNA LISTA VUOTA PERCHE' NON PUO' COSTRUIRE UNA SECONDA VOLTA
+                    Move possMove = new Move(null);
+
+                    possMove.setIfMove(false);
+                    possMove.setX(6);
+                    possMove.setY(6);
+                    movelist.addMove(possMove);
+                    return movelist;
                 }
                 Move possMove = new Move(null);
 
