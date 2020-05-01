@@ -347,6 +347,7 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveModelUpdate(Game g) {
+        boolean gridChanged = !(new Gson().toJson(game.getNewGrid()).toString().equals(new Gson().toJson(g.getNewGrid()).toString()));
         game = g;
 
         if (game != null) {
@@ -394,6 +395,10 @@ public class Client implements Runnable, ServerObserver {
                         }
                         break;
                     case LOADINGSTARTINGPOSITION:
+                        if (gridChanged) {
+                            cli.drawGrid(game.getNewGrid());
+                        }
+
                         if (!alreadyChosenStartingPosition && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                             System.out.println("\nChoose your Starting Position");
                             currentPage = Pages.STARTINGPOSITIONCHOICE;
@@ -412,6 +417,9 @@ public class Client implements Runnable, ServerObserver {
                             }
                             currentPage = Pages.GAME;
                         } else {
+                            if (gridChanged) {
+                                cli.drawGrid(game.getNewGrid());
+                            }
                             currentPage = Pages.LOADINGMOVE;
                         }
 
