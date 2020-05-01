@@ -80,7 +80,7 @@ public class ClientController {
                                     }
                                 }
 
-                                if(game.getGameTurn().getEnemyPawn1() != null && move.getToMove().getOwner().getDivinity() == Divinity.APOLLO) //APOLLO EFFECT
+                                if(game.getGameTurn().getEnemyPawn1() != null && (move.getToMove().getOwner().getDivinity() == Divinity.APOLLO || move.getToMove().getOwner().getDivinity() == Divinity.MINOTAUR)) //APOLLO EFFECT
                                 {
                                     for(int k = 0; k <= 4; k++){
                                         for(int l = 0; l <= 4; l++){
