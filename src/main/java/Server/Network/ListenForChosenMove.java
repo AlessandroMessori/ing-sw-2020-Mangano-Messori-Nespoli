@@ -39,6 +39,21 @@ public class ListenForChosenMove extends ResponseHandler {
             game.copyGame(gameToCopy);
             game.setnMoves(game.getnMoves() + 1);
 
+
+            if ((chosenMove.getX() == 6 && chosenMove.getY() == 6 && (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER || game.getCurrentPlayer().getDivinity() == Divinity.HEPHAESTUS))
+                    || (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0)) {
+                // current turn is over,starting new turn
+                chosenMove.setIfMove(true);
+
+                //selects a new player to play
+                game.increaseCurrentPlayerIndex();
+                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
+                game.setNTurns(game.getNTurns() + 1);
+
+                //reinizialites turn data
+                game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
+            }
+
             //PROMETHEUS Power
             System.out.println("Condition");
             System.out.println(game.getGameTurn().getDecidesToComeUp());
@@ -65,6 +80,11 @@ public class ListenForChosenMove extends ResponseHandler {
             } else if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() > 0) {
                 chosenMove.setIfMove(false);
 
+                if (game.getGameTurn().getNPossibleBuildings() == 1 && game.getCurrentPlayer().getDivinity() == Divinity.HEPHAESTUS) {
+                    game.getGameTurn().setLastPlacedBlock(chosenMove);
+                    game.getGameTurn().setNPossibleBuildings(game.getGameTurn().getNPossibleBuildings() - 1);
+                }
+
                 if (chosenMove.getX() == 6 && chosenMove.getY() == 6 && game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS) {
 
                     for (int x = 0; x < 5; x++) {
@@ -82,19 +102,6 @@ public class ListenForChosenMove extends ResponseHandler {
 
             }
 
-            if ((chosenMove.getX() == 6 && chosenMove.getY() == 6 && game.getCurrentPlayer().getDivinity() == Divinity.DEMETER)
-                    || (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0)) {
-                // current turn is over,starting new turn
-                chosenMove.setIfMove(true);
-
-                //selects a new player to play
-                game.increaseCurrentPlayerIndex();
-                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));
-                game.setNTurns(game.getNTurns() + 1);
-
-                //reinizialites turn data
-                game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
-            }
 
             //calculates and sets the next possible moves for the player
             System.out.println(new Gson().toJson(chosenMove));

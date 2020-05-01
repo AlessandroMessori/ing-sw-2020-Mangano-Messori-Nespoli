@@ -443,6 +443,7 @@ public class Turn {
                 break;
             case HEPHAESTUS:
                 setCanBuildOnLastPlacedBlock(true);
+                setNPossibleBuildings(2);
                 break;
             case MINOTAUR:
                 setCanMoveAndSwap(true);
