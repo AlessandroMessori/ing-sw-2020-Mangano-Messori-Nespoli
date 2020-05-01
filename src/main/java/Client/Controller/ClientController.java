@@ -50,10 +50,6 @@ public class ClientController {
                 /*game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));*/
             }
 
-            if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3) {
-                game.setWinner(game.getCurrentPlayer());            //WINNING MOVE
-            }
-
             for(int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if(0 <= move.getX() + i && move.getX() + i <= 4 && 0 <= move.getY() + j && move.getY() + j <= 4) {
@@ -63,7 +59,13 @@ public class ClientController {
                                     continue;
                                 }
 
+                                startingLevel = game.getNewGrid().getCells(move.getX() + i,move.getY() + j).getTower().getLevel();
+
                                 game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(null);
+
+                                if(game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel() == 3 && startingLevel != 3) {
+                                    game.setWinner(game.getCurrentPlayer());            //WINNING MOVE
+                                }
 
                                 if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA){
                                     startingLevel = game.getNewGrid().getCells(move.getX() + i,move.getY() + j).getTower().getLevel();
@@ -107,16 +109,36 @@ public class ClientController {
                                         }
                                     }
                                     if (game.getGameTurn().getEnemyPawn1() != null) {
-                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn1());
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
+                                            game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn1());
+                                        }
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR) {
+                                            game.getNewGrid().getCells(move.getX() - i, move.getY() - j).setPawn(game.getGameTurn().getEnemyPawn1());
+                                        }
                                     }
                                     else if(game.getGameTurn().getEnemyPawn2() != null){
-                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn2());
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
+                                            game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn2());
+                                        }
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR) {
+                                            game.getNewGrid().getCells(move.getX() - i, move.getY() - j).setPawn(game.getGameTurn().getEnemyPawn2());
+                                        }
                                     }
                                     else if(game.getGameTurn().getEnemyPawn3() != null){
-                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn3());
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
+                                            game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn3());
+                                        }
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR) {
+                                            game.getNewGrid().getCells(move.getX() - i, move.getY() - j).setPawn(game.getGameTurn().getEnemyPawn3());
+                                        }
                                     }
                                     else if(game.getGameTurn().getEnemyPawn4() != null){
-                                        game.getNewGrid().getCells(move.getX() + i,move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn4());
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) {
+                                            game.getNewGrid().getCells(move.getX() + i, move.getY() + j).setPawn(game.getGameTurn().getEnemyPawn4());
+                                        }
+                                        if(game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR) {
+                                            game.getNewGrid().getCells(move.getX() - i, move.getY() - j).setPawn(game.getGameTurn().getEnemyPawn4());
+                                        }
                                     }
                                 }
                             }

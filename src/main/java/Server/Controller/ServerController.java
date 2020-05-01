@@ -113,25 +113,31 @@ public class ServerController {
                                             }
 
                                             if (game.getGameTurn().getEnemyPawn1() != null) {
-                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
+                                                            game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        }
                                                     }
                                                 }
                                             }
 
                                             if (game.getGameTurn().getEnemyPawn2() != null) {
-                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        game.getGameTurn().setEnemyPawn3(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
+                                                            game.getGameTurn().setEnemyPawn3(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        }
                                                     }
                                                 }
                                             }
 
                                             if (game.getGameTurn().getEnemyPawn3() != null) {
-                                                if (game.getCurrentPlayer().getDivinity() == Divinity.APOLLO && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
+                                                if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        game.getGameTurn().setEnemyPawn4(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
+                                                            game.getGameTurn().setEnemyPawn4(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
+                                                        }
                                                     }
                                                 }
                                             }
