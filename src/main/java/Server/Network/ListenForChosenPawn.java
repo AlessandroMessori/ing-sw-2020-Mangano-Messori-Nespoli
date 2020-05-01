@@ -53,7 +53,8 @@ public class ListenForChosenPawn extends ResponseHandler {
                 for (int y = 0; y < 5; y++) {
                     if (game.getNewGrid().getCells(x, y).getPawn() != null) {
                         if (game.getNewGrid().getCells(x, y).getPawn().getId() == pawn.getId()) {
-                            move.setIfMove(true);
+                            boolean ifMove = game.getCurrentPlayer().getDivinity() != Divinity.PROMETHEUS || game.getGameTurn().getDecidesToComeUp();
+                            move.setIfMove(ifMove);
                             move.setX(x);
                             move.setY(y);
                         }

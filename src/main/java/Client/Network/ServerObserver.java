@@ -12,6 +12,8 @@ public interface ServerObserver {
 
     void receivePossibleDivinities(String response);
 
+    void receiveCanComeUp(String canComeUp);
+
     void receivePawn(String pawn);
 
     void receiveMoves(String moves);

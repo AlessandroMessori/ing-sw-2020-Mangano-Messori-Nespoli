@@ -39,15 +39,38 @@ public class ListenForChosenMove extends ResponseHandler {
             game.copyGame(gameToCopy);
             game.setnMoves(game.getnMoves() + 1);
 
-            if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() > 0) {
+            //PROMETHEUS Power
+            System.out.println("Condition");
+            System.out.println(game.getGameTurn().getDecidesToComeUp());
+            if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !game.getGameTurn().getDecidesToComeUp()) {
+
+                for (int x = 0; x < 5; x++) {
+                    for (int y = 0; y < 5; y++) {
+                        if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                            if (game.getNewGrid().getCells(x, y).getPawn().getId() == game.getCurrentPlayer().getCurrentPawn().getId()) {
+                                chosenMove.setX(x);
+                                chosenMove.setY(y);
+                                chosenMove.setToMove(game.getCurrentPlayer().getCurrentPawn());
+                            }
+                        }
+                    }
+                }
+
+                chosenMove.setIfMove(game.getGameTurn().getNPossibleMoves() > 0);
+
+
+                System.out.println("Chosen Move With Prometheus");
+                System.out.println(new Gson().toJson(chosenMove));
+
+            } else if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() > 0) {
                 chosenMove.setIfMove(false);
 
                 if (chosenMove.getX() == 6 && chosenMove.getY() == 6 && game.getCurrentPlayer().getDivinity() == Divinity.ARTEMIS) {
 
-                    for (int x=0;x<5;x++) {
-                        for (int y=0;y<5;y++) {
-                            if (game.getNewGrid().getCells(x,y).getPawn() != null) {
-                                if (game.getNewGrid().getCells(x,y).getPawn().getId() == chosenMove.getToMove().getId()) {
+                    for (int x = 0; x < 5; x++) {
+                        for (int y = 0; y < 5; y++) {
+                            if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                                if (game.getNewGrid().getCells(x, y).getPawn().getId() == chosenMove.getToMove().getId()) {
                                     chosenMove.setX(x);
                                     chosenMove.setY(y);
                                 }
@@ -72,12 +95,11 @@ public class ListenForChosenMove extends ResponseHandler {
                 //reinizialites turn data
                 game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
             }
+
             //calculates and sets the next possible moves for the player
             System.out.println(new Gson().toJson(chosenMove));
 
-
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), chosenMove, game.getGameTurn()));
-
 
             output.writeObject("Received Move");
         } catch (ClassCastException e) {

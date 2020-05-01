@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class MessageSerializer {
 
-    private Gson gson;
+    private final Gson gson;
     // CLIENT Serializers
 
     /**
@@ -107,6 +107,25 @@ public class MessageSerializer {
         result.add("username", new JsonPrimitive(username));
         result.add("gameID", new JsonPrimitive(gameID));
         result.add("colour", new JsonPrimitive(gson.toJson(color)));
+
+        return result;
+    }
+
+
+    /**
+     * serializes in JSON a Decides Can Come Up Message
+     *
+     * @param canComeUp boolean who represents the choice of having the possibility of moving up this turn
+     * @param gameID       identifier of the game
+     * @return the JSON serialized Join Game Message
+     */
+    public JsonElement serializeDecideCanComeUp(boolean canComeUp, String gameID) {
+        JsonObject result = new JsonObject();
+
+        result.add("header", new JsonPrimitive("SendCanComeUp"));
+        result.add("canComeUp", new JsonPrimitive(canComeUp));
+
+        result.add("gameID", new JsonPrimitive(Objects.requireNonNullElse(gameID, "NULL")));
 
         return result;
     }

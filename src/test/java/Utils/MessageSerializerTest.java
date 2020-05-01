@@ -55,6 +55,12 @@ public class MessageSerializerTest {
     }
 
     @Test
+    public void serializeCanComeUpTest() {
+        assertEquals("{\"header\":\"SendCanComeUp\",\"canComeUp\":true,\"gameID\":\"gameID\"}",
+                messageSerializer.serializeDecideCanComeUp(true,"gameID").toString());
+    }
+
+    @Test
     public void serializeChosenPawnTest() {
         Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         Pawn pawn = new Pawn(testPlayer);

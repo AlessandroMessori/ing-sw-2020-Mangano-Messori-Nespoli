@@ -183,7 +183,7 @@ public class TurnTest {
         assertSame(true,turn.getVictoryAfterDescent());
         turn.startingTurn(Divinity.PROMETHEUS);
         turn.setDecidesToComeUp(false);
-        assertSame(true,turn.getCanBuildBeforeMove());
+        assertSame(false,turn.getCanBuildBeforeMove());
     }
 
     @Test(expected = NullPointerException.class)

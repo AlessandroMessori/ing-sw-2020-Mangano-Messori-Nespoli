@@ -80,6 +80,12 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestSendDecidesToComeUp(String input) {
+        nextCommand = Commands.SEND_DECIDES_TO_COME_UP;
+        requestContent = input;
+        notifyAll();
+    }
+
     public synchronized void requestSendChosenPawn(String input) {
         nextCommand = Commands.SEND_CHOSEN_PAWN;
         requestContent = input;
@@ -135,6 +141,9 @@ public class ServerAdapter implements Runnable {
                     break;
                 case SEND_STARTING_POSITION:
                     doSendStartingPosition();
+                    break;
+                case SEND_DECIDES_TO_COME_UP:
+                    doSendDecidesToComeUp();
                     break;
                 case SEND_CHOSEN_PAWN:
                     doSendChosenPawn();
@@ -237,6 +246,24 @@ public class ServerAdapter implements Runnable {
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
             observer.receiveDivinities(responseContent);
+        }
+    }
+
+    private synchronized void doSendDecidesToComeUp() throws IOException, ClassNotFoundException {
+        System.out.println("Sending Starting Can Come Up hoice to Server");
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receiveCanComeUp(responseContent);
         }
     }
 

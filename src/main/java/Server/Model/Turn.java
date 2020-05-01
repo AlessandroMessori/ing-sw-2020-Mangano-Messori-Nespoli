@@ -35,18 +35,18 @@ public class Turn {
     private Pawn enemyPawn1 = null;
 
     /**
-     *
      * @param p the second possible pawn to swap with the current player's one
      */
-    public void setEnemyPawn2(Pawn p){
+    public void setEnemyPawn2(Pawn p) {
         enemyPawn2 = p;
     }
 
     /**
-     *
      * @return the second possible pawn to swap with the current player's one
      */
-    public Pawn getEnemyPawn2(){ return enemyPawn2; }
+    public Pawn getEnemyPawn2() {
+        return enemyPawn2;
+    }
 
     private Pawn enemyPawn2 = null;
 
@@ -273,14 +273,18 @@ public class Turn {
      *
      * @param m the last placed block by Hephaestus
      */
-    public void setLastPlacedBlock(Move m) {lastPlacedBlock = m; }
+    public void setLastPlacedBlock(Move m) {
+        lastPlacedBlock = m;
+    }
 
     /**
      * HEPHAESTUS EFFECT
      *
      * @return the last placed block by Hephaestus
      */
-    public Move getLastPlacedBlock() {return lastPlacedBlock;}
+    public Move getLastPlacedBlock() {
+        return lastPlacedBlock;
+    }
 
     private Move lastPlacedBlock = null;
 
@@ -408,6 +412,10 @@ public class Turn {
         moveBB.setY(777);
         setLastPlacedBlock(moveBB);
 
+        if (div != Divinity.PROMETHEUS) {
+            setDecidesToComeUp(true);
+        }
+
         enemyPawn1 = null;
         enemyPawn2 = null;
         enemyPawn3 = null;
@@ -445,6 +453,7 @@ public class Turn {
             case PROMETHEUS:
                 if (!getDecidesToComeUp()) {
                     setCanBuildBeforeMove(true);
+                    setNPossibleBuildings(2);
                 }
                 break;
 

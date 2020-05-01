@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +33,7 @@ public class Client implements Runnable, ServerObserver {
     private boolean checkModel;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
+    private boolean alreadyChosenCanComeUp = false;
     boolean loopCheck = true;
     private int lastMoveNumber = -1;
     private int lastMovedturn = 0;
@@ -142,7 +144,16 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendStartingPosition(message);
                     break;
                 case GAME:
-                    if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
+                    if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadyChosenCanComeUp) {
+                        boolean canComeUp = new Random().nextBoolean();
+                        System.out.println("Selecting a Random Value for Can Come Up");
+                        System.out.println("Selected " + (canComeUp ? "True" : "False"));
+                        //canComeUp = cli.getCanComeUp()
+                        message = messageSerializer.serializeDecideCanComeUp(canComeUp, game.getCodGame()).toString();
+                        serverAdapter.requestSendDecidesToComeUp(message);
+                        alreadyChosenCanComeUp = true;
+                        currentPage = Pages.LOADINGCANCOMEUP;
+                    } else if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
                         System.out.println("Turn: " + game.getNTurns());
                         cli.drawPlayers(game.getPlayers());
                         cli.drawGrid(game.getNewGrid());
@@ -203,7 +214,7 @@ public class Client implements Runnable, ServerObserver {
                 case ENDGAME:
                     System.out.println("GAME OVER!");
                     loopCheck = false;
-                    cli.drawResults(new Player(playerUsername,null,chosenColor), game.getWinner());
+                    cli.drawResults(new Player(playerUsername, null, chosenColor), game.getWinner());
                     break;
                 case LOBBY: //passive states: the user can't do anything,the application is idle until an update from the server is received
                     currentPage = Pages.LOBBY;
@@ -223,6 +234,8 @@ public class Client implements Runnable, ServerObserver {
                 case LOADINGMOVE:
                     currentPage = Pages.LOADINGMOVE;
                     break;
+                case LOADINGCANCOMEUP:
+                    currentPage = Pages.LOADINGCANCOMEUP;
                 default:
                     //System.out.println(response);
                     break;
@@ -231,8 +244,7 @@ public class Client implements Runnable, ServerObserver {
 
         try {
             TimeUnit.SECONDS.sleep(3);
-        }
-        catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -297,6 +309,15 @@ public class Client implements Runnable, ServerObserver {
         } else {
             System.out.println("");
         }
+        notifyAll();
+    }
+
+    /**
+     * function that gets called when an canComeUp signal is received from the server
+     */
+    public synchronized void receiveCanComeUp(String canComeUp) {
+        System.out.println("");
+        currentPage = Pages.GAME;
         notifyAll();
     }
 
@@ -386,6 +407,9 @@ public class Client implements Runnable, ServerObserver {
                         if (game.getWinner() != null) {
                             currentPage = Pages.ENDGAME;
                         } else if (lastMoveNumber < game.getnMoves() && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            if (lastMovedturn < game.getNTurns()) {
+                                alreadyChosenCanComeUp = false;
+                            }
                             currentPage = Pages.GAME;
                         } else {
                             currentPage = Pages.LOADINGMOVE;
