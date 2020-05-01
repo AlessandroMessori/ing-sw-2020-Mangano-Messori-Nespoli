@@ -29,18 +29,39 @@ public class TurnTest {
     @Test
     public void getEnemyPawnTest() {
         Player owner = new Player("uName",Divinity.ATHENA,Colour.RED);
+        Player owner2 = new Player("uName2",Divinity.PROMETHEUS,Colour.BLUE);
+
         Pawn p = new Pawn(owner);
         turn.setEnemyPawn1(p);
         assertEquals(p,turn.getEnemyPawn1());
         Pawn p2 = new Pawn(owner);
         turn.setEnemyPawn2(p2);
         assertEquals(p2,turn.getEnemyPawn2());
+        Pawn p3 = new Pawn(owner2);
+        turn.setEnemyPawn3(p3);
+        assertEquals(p3,turn.getEnemyPawn3());
+        Pawn p4 = new Pawn(owner2);
+        turn.setEnemyPawn4(p4);
+        assertEquals(p4,turn.getEnemyPawn4());
     }
 
     @Test
     public void getCanSwapTest() {
         turn.setCanSwap(true);
         assertSame(true, turn.getCanSwap());
+    }
+
+
+    @Test
+    public void getLastPlacedBlock() {
+        Move move = new Move(null);
+        move.setX(0);
+        move.setY(0);
+        move.setIfMove(false);
+        turn.setLastPlacedBlock(move);
+        assertSame(0, turn.getLastPlacedBlock().getX());
+        assertSame(0, turn.getLastPlacedBlock().getY());
+        assertFalse(turn.getLastPlacedBlock().getIfMove());
     }
 
     @Test
