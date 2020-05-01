@@ -98,7 +98,7 @@ public class ServerController {
                                             }
                                             Move possMove = new Move(move.getToMove());
 
-                                            if(!game.getGameTurn().getDecidesToComeUp() && grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() > grid.getCells(move.getX(),move.getY()).getTower().getLevel()){
+                                            if(game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !game.getGameTurn().getDecidesToComeUp() && grid.getCells(move.getX() + i, move.getY() + j).getTower().getLevel() > grid.getCells(move.getX(),move.getY()).getTower().getLevel()){
                                                 continue;
                                             }
 
