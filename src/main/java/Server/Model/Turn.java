@@ -503,15 +503,6 @@ public class Turn {
     }*/
 
     /**
-     * PAN EFFECT
-     *
-     * @result true if the game can be won by the player with Pan as a divinity
-     */
-    public boolean checkIfWin() {
-        return getCurrDivinity() == Divinity.PAN;
-    }
-
-    /**
      * CONSTRUCTOR
      *
      * @param div indicates the Divinity owned by the player in this Turn
