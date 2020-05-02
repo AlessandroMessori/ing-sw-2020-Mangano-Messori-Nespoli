@@ -144,10 +144,10 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case GAME:
                     if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadyChosenCanComeUp) {
-                        boolean canComeUp = new Random().nextBoolean();
-                        System.out.println("Selecting a Random Value for Can Come Up");
-                        System.out.println("Selected " + (canComeUp ? "True" : "False"));
-                        //canComeUp = cli.getCanComeUp()
+                        //boolean canComeUp = new Random().nextBoolean();
+                        //System.out.println("Selecting a Random Value for Can Come Up");
+                        //System.out.println("Selected " + (canComeUp ? "True" : "False"));
+                        boolean canComeUp = cli.wantToGoUp();
                         message = messageSerializer.serializeDecideCanComeUp(canComeUp, game.getCodGame()).toString();
                         serverAdapter.requestSendDecidesToComeUp(message);
                         alreadyChosenCanComeUp = true;
