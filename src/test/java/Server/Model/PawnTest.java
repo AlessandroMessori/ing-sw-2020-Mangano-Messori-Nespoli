@@ -1,5 +1,9 @@
 package Server.Model;
 
+import it.polimi.ingsw.PSP19.Server.Model.Colour;
+import it.polimi.ingsw.PSP19.Server.Model.Divinity;
+import it.polimi.ingsw.PSP19.Server.Model.Pawn;
+import it.polimi.ingsw.PSP19.Server.Model.Player;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,5 +1,6 @@
 package Server.Model;
 
+import it.polimi.ingsw.PSP19.Server.Model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class TurnTest {
 
     @Test
     public void getEnemyPawnTest() {
-        Player owner = new Player("uName",Divinity.ATHENA,Colour.RED);
+        Player owner = new Player("uName",Divinity.ATHENA, Colour.RED);
         Player owner2 = new Player("uName2",Divinity.PROMETHEUS,Colour.BLUE);
 
         Pawn p = new Pawn(owner);

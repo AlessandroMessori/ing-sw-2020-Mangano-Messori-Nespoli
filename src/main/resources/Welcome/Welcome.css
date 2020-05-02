@@ -1,0 +1,9 @@
+.root {
+    -fx-text-alignment: center;
+    -fx-padding: 50 0 0 600;
+}
+
+.root .header {
+    -fx-font-size: 25px;
+    -fx-text-alignment: center;
+}

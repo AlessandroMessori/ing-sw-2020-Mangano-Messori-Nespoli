@@ -1,7 +1,9 @@
 package Utils;
 
-import Server.Model.*;
 import com.google.gson.Gson;
+import it.polimi.ingsw.PSP19.Server.Model.*;
+import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
+import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

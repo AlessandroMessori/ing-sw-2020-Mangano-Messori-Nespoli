@@ -1,7 +1,7 @@
 package Server.Controller;
 
-import Server.Model.*;
-
+import it.polimi.ingsw.PSP19.Server.Controller.ServerController;
+import it.polimi.ingsw.PSP19.Server.Model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,5 +1,7 @@
 package Server.Model;
 
+import it.polimi.ingsw.PSP19.Server.Model.Divinity;
+import it.polimi.ingsw.PSP19.Server.Model.DivinityList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,8 +1,8 @@
 package Utils;
 
-import Server.Model.Divinity;
-import Server.Model.DivinityList;
-import com.google.gson.Gson;
+import it.polimi.ingsw.PSP19.Server.Model.Divinity;
+import it.polimi.ingsw.PSP19.Server.Model.DivinityList;
+import it.polimi.ingsw.PSP19.Utils.CastingHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

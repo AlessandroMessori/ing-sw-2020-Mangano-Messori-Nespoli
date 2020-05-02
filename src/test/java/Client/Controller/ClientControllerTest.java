@@ -1,7 +1,8 @@
 package Client.Controller;
 
-import Client.Client;
-import Server.Model.*;
+import it.polimi.ingsw.PSP19.Server.Model.Game;
+import it.polimi.ingsw.PSP19.Server.Model.Grid;
+import it.polimi.ingsw.PSP19.Server.Model.Move;
 import org.junit.After;
 import org.junit.Before;
 
