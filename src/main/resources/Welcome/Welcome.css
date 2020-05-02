@@ -1,9 +1,9 @@
-.root {
-    -fx-text-alignment: center;
-    -fx-padding: 50 0 0 600;
+Text {
+    -fx-font-size: 25px;
+    -fx-alignment: center;
 }
 
-.root .header {
-    -fx-font-size: 25px;
-    -fx-text-alignment: center;
+.main {
+    -fx-background-image: url("/SantoriniBoard.png");
+    -fx-background-size: cover;
 }
