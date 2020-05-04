@@ -356,8 +356,8 @@ public class CLI {
         StringColor color;
         String top = "  _______________________________________";
         String mid = "__  |_______|_______|_______|_______|_______|";
-        String bot = "__  |       |       |       |       |       |" + "\n" +
-                "     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
+        String bot = "__  |_______|_______|_______|_______|_______|"; //+ "\n" +
+                     //"     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
 
         System.out.println("\\ Y |   1   |   2   |   3   |   4   |   5   |");
         System.out.println("X \\" + top);
@@ -826,4 +826,11 @@ public class CLI {
         lobby = false;
     }
 
+    public static void main(String[] args) {
+        CLI cli = new CLI();
+        Grid grid = new Grid();
+
+        cli.drawGrid(grid);
+
+    }
 }
