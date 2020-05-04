@@ -1,4 +1,11 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
-public class Welcome {
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
+public class Welcome{
+
+    public Welcome() {
+    }
+
 }

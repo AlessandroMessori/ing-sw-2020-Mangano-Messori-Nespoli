@@ -1,18 +1,17 @@
-package it.polimi.ingsw.PSP19.Client;
+package it.polimi.ingsw.PSP19.Client.CLI;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import it.polimi.ingsw.PSP19.Client.CLI.CLI;
 import it.polimi.ingsw.PSP19.Client.Network.PeriodicUpdater;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
+import it.polimi.ingsw.PSP19.Client.Pages;
 import  it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Server;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;

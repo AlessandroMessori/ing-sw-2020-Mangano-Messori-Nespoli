@@ -6,14 +6,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Welcome"
-            styleClass="main">
-    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-               AnchorPane.rightAnchor="0.0">
-        <Text>WELCOME TO SANTORINI</Text>
-    </StackPane>
-</AnchorPane>
+<Pane fx:id="welcomeContainer"
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Welcome"
+        styleClass="welcomeContainer">
+    <ImageView fx:id="header">
+        <Image url="/Images/logo.png"/>
+    </ImageView>
+    <Text fx:id="text1" styleClass="labelText">SERVER IP ADDRESS</Text>
+    <TextField fx:id="textField1"/>
+    <Text fx:id="text2" styleClass="labelText">NICKNAME</Text>
+    <TextField fx:id="textField2"/>
+    <Text fx:id="text3" styleClass="labelText">3 PLAYERS</Text>
+    <CheckBox fx:id="3PlayersCheckBox"/>
+    <Button fx:id="playBtn">PLAY</Button>
+</Pane>

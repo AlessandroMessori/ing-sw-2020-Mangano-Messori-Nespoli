@@ -1,9 +1,21 @@
-Text {
-    -fx-font-size: 25px;
-    -fx-alignment: center;
+#welcomeContainer {
+    -fx-background-color: #0254D0;
+    -fx-min-width: 100%;
 }
 
-.main {
-    -fx-background-image: url("/SantoriniBoard.png");
+.labelText {
+    -fx-fill: white;
+    -fx-font-size: 25px;
+    -fx-stroke: white;
+}
+
+#playBtn {
+    -fx-alignment: center;
     -fx-background-size: cover;
+    -fx-background-color: #0254D0;
+    -fx-font-size: 50px;
+    -fx-text-fill: white;
+    -fx-stroke:white;
+    -fx-border-color: white;
+    -fx-border-width: 3px;
 }
