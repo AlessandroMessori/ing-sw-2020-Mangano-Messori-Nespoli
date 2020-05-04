@@ -563,6 +563,11 @@ public class CLI {
         return gameGrid;
     }
 
+    /**
+     * To activate the effect of Prometheus the player have to chose if he want to move up by one level or not
+     *
+     * @return the valuer of goUp: false if the player don't want to move up, true if the player want to move up in this turn
+     */
     public boolean wantToGoUp (){
         boolean goUp;
         Scanner input = new Scanner(System.in);
