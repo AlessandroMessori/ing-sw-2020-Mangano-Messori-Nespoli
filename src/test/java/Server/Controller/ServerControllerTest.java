@@ -193,9 +193,48 @@ public class ServerControllerTest {
         move.setY(1);
         move.setIfMove(true);
 
-        game.getNewGrid().getCells(0,2).getTower().setLevel(1);
+        game.getNewGrid().getCells(0, 2).getTower().setLevel(1);
 
         moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
+        game.getCurrentPlayer().setDivinity(Divinity.DEMETER); //Testing Demeter
+        game.getGameTurn().startingTurn(Divinity.DEMETER);
+        game.getGameTurn().setNMadeBuildings(1);
+
+        move = new Move(pawn1);
+        move.setX(0);
+        move.setY(1);
+        move.setIfMove(false);
+
+        game.getNewGrid().getCells(0, 2).getTower().setLevel(1);
+
+        moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
+        game.getCurrentPlayer().setDivinity(Divinity.APOLLO);
+        game.getGameTurn().startingTurn(Divinity.APOLLO);
+
+        game.getNewGrid().getCells(0, 2).getTower().setLevel(2);
+
+        moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
+        game.getNewGrid().getCells(0, 2).getTower().setLevel(3);
+
+        moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
+        game.getCurrentPlayer().setDivinity(Divinity.APOLLO);
+        game.getGameTurn().startingTurn(Divinity.APOLLO);
+        game.getGameTurn().setNPossibleMoves(2);
+        game.getGameTurn().setNPossibleBuildings(2);
+        game.getGameTurn().setNMadeBuildings(0);
+        game.getGameTurn().setNMovesMade(0);
+
+        move = new Move(pawn1);
+        move.setX(0);
+        move.setY(1);
+        move.setIfMove(false);
+
+        moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
     }
 
 

@@ -185,6 +185,9 @@ public class TurnTest {
         turn.startingTurn(Divinity.PROMETHEUS);
         turn.setDecidesToComeUp(false);
         assertSame(false,turn.getCanBuildBeforeMove());
+        turn.startingTurn(Divinity.PROMETHEUS);
+        turn.setDecidesToComeUp(true);
+        assertSame(true,turn.getCanBuildBeforeMove());
     }
 
     @Test(expected = NullPointerException.class)
