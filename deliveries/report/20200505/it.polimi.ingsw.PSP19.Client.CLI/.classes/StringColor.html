@@ -1,0 +1,116 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: StringColor</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: StringColor (it.polimi.ingsw.PSP19.Client.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StringColor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.CLI;
+<i>2</i>&nbsp;
+<b class="nc"><i>3</i>&nbsp;public enum StringColor {</b>
+<b class="nc"><i>4</i>&nbsp;    ANSI_BLUE (&quot;\u001B[34m&quot;),</b>
+<b class="nc"><i>5</i>&nbsp;    ANSI_RED(&quot;\u001B[31m&quot;),</b>
+<b class="nc"><i>6</i>&nbsp;    ANSI_GREEN (&quot;\u001B[32m&quot;),</b>
+<b class="nc"><i>7</i>&nbsp;    ANSI_YELLOW (&quot;\u001B[93m&quot;),</b>
+<b class="nc"><i>8</i>&nbsp;    ANSI_WHITE (&quot;\u001B[30m&quot;),</b>
+<b class="nc"><i>9</i>&nbsp;    ANSI_PINK (&quot;\u001B[95m&quot;),</b>
+<b class="nc"><i>10</i>&nbsp;    BACKGROUND_BLUE (&quot;\u001B[44m&quot; + &quot;\u001B[1m&quot;),</b>
+<b class="nc"><i>11</i>&nbsp;    BACKGROUND_RED(&quot;\u001B[41m&quot; + &quot;\u001B[1m&quot;),</b>
+<b class="nc"><i>12</i>&nbsp;    BACKGROUND_GREEN (&quot;\u001B[42m&quot; + &quot;\u001B[1m&quot;),</b>
+<b class="nc"><i>13</i>&nbsp;    BACKGROUND_YELLOW (&quot;\u001B[103m&quot; + &quot;\u001B[1m&quot;),</b>
+<b class="nc"><i>14</i>&nbsp;    BACKGROUND_WHITE (&quot;\u001B[40m&quot; + &quot;\u001B[37m&quot; + &quot;\u001B[1m&quot;),</b>
+<b class="nc"><i>15</i>&nbsp;    BACKGROUND_PINK (&quot;\u001B[105m&quot; + &quot;\u001B[1m&quot;);</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    static final String RESET = &quot;\u001B[0m&quot;;
+<i>19</i>&nbsp;    private String escape;
+<i>20</i>&nbsp;    StringColor(String escape)
+<b class="nc"><i>21</i>&nbsp;    {</b>
+<b class="nc"><i>22</i>&nbsp;        this.escape = escape;</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;    public String getEscape()
+<i>25</i>&nbsp;    {
+<b class="nc"><i>26</i>&nbsp;        return escape;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;    @Override
+<i>29</i>&nbsp;    public String toString()
+<i>30</i>&nbsp;    {
+<b class="nc"><i>31</i>&nbsp;        return escape;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-05 12:32</div>
+</div>
+</body>
+</html>

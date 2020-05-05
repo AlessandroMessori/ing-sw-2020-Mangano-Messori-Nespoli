@@ -23,5 +23,5 @@
     <TextField fx:id="textField2"/>
     <Text fx:id="text3" styleClass="labelText">3 PLAYERS</Text>
     <CheckBox fx:id="3PlayersCheckBox"/>
-    <Button fx:id="playBtn">PLAY</Button>
+    <Button fx:id="playBtn" onMouseClicked="#playBtnClick">PLAY</Button>
 </Pane>

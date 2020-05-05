@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ListenForPlayer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Server.Network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ListenForPlayer (it.polimi.ingsw.PSP19.Server.Network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListenForPlayer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Server.Network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.IOException;
+<i>4</i>&nbsp;import java.io.ObjectOutputStream;
+<i>5</i>&nbsp;import java.net.Socket;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Game;
+<i>8</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Player;
+<i>9</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
+<i>10</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
+<i>11</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Controller.ServerController;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;public class ListenForPlayer extends ResponseHandler {
+<i>15</i>&nbsp;    private Socket client;
+<i>16</i>&nbsp;    private ObjectOutputStream output;
+<i>17</i>&nbsp;    private MessageSerializer messageSerializer;
+<i>18</i>&nbsp;    private MessageDeserializer messageDeserializer;
+<i>19</i>&nbsp;    private ServerController controller;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public ListenForPlayer(Socket cl, ObjectOutputStream out) {
+<b class="nc"><i>22</i>&nbsp;        super(cl, out);</b>
+<b class="nc"><i>23</i>&nbsp;        client = cl;</b>
+<b class="nc"><i>24</i>&nbsp;        output = out;</b>
+<b class="nc"><i>25</i>&nbsp;        controller = new ServerController();</b>
+<b class="nc"><i>26</i>&nbsp;        messageSerializer = new MessageSerializer();</b>
+<b class="nc"><i>27</i>&nbsp;        messageDeserializer = new MessageDeserializer();</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    public void handleResponse(String requestContent) throws IOException {
+<i>32</i>&nbsp;        try {
+<b class="nc"><i>33</i>&nbsp;            String username = messageDeserializer.deserializeString(requestContent, &quot;username&quot;);</b>
+<b class="nc"><i>34</i>&nbsp;            boolean nPlayers = messageDeserializer.deserializeBoolean(requestContent, &quot;3players&quot;);</b>
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;            Player player = new Player(username, null, null);</b>
+<b class="nc"><i>37</i>&nbsp;            Game game = controller.addPlayerToModel(player, nPlayers);</b>
+<b class="nc"><i>38</i>&nbsp;            String gameID = game.getCodGame();</b>
+<b class="nc"><i>39</i>&nbsp;            System.out.println(&quot;Added player &quot; + username + &quot; to game &quot; + gameID);</b>
+<b class="nc"><i>40</i>&nbsp;            String response = messageSerializer.serializeJoinGame(username, nPlayers, gameID).toString();</b>
+<b class="nc"><i>41</i>&nbsp;            int nPlayersOnGame = game.getThreePlayers() ? 3 : 2;</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;            //if the Lobby is full,sets a random player to decide the inGameDivinities
+<b class="nc"><i>44</i>&nbsp;            if (game.getPlayers().size() == nPlayersOnGame) {</b>
+<b class="nc"><i>45</i>&nbsp;                game.increaseCurrentPlayerIndex();</b>
+<b class="nc"><i>46</i>&nbsp;                game.setCurrentPlayer(game.getPlayers().getPlayer(game.getCurrentPlayerIndex()));</b>
+<i>47</i>&nbsp;            }
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;            output.writeObject(response);</b>
+<b class="nc"><i>50</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>51</i>&nbsp;            output.writeObject(&quot;The username you selected was already taken,try again with a different username&quot;);</b>
+<b class="nc"><i>52</i>&nbsp;        }</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-05 12:32</div>
+</div>
+</body>
+</html>
