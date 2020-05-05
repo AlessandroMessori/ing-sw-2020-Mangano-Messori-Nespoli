@@ -53,7 +53,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 20)
+    (0/ 21)
   </span>
 </td>
 <td class="coverageStat">
@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 374)
+    (0/ 377)
   </span>
 </td>
 </tr>
@@ -430,8 +430,8 @@
 <i>356</i>&nbsp;        StringColor color;
 <b class="nc"><i>357</i>&nbsp;        String top = &quot;  _______________________________________&quot;;</b>
 <b class="nc"><i>358</i>&nbsp;        String mid = &quot;__  |_______|_______|_______|_______|_______|&quot;;</b>
-<b class="nc"><i>359</i>&nbsp;        String bot = &quot;__  |       |       |       |       |       |&quot; + &quot;\n&quot; +</b>
-<i>360</i>&nbsp;                &quot;     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾&quot;;
+<b class="nc"><i>359</i>&nbsp;        String bot = &quot;__  |_______|_______|_______|_______|_______|&quot;; //+ &quot;\n&quot; +</b>
+<i>360</i>&nbsp;                     //&quot;     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾&quot;;
 <i>361</i>&nbsp;
 <b class="nc"><i>362</i>&nbsp;        System.out.println(&quot;\\ Y |   1   |   2   |   3   |   4   |   5   |&quot;);</b>
 <b class="nc"><i>363</i>&nbsp;        System.out.println(&quot;X \\&quot; + top);</b>
@@ -637,271 +637,283 @@
 <b class="nc"><i>563</i>&nbsp;        return gameGrid;</b>
 <i>564</i>&nbsp;    }
 <i>565</i>&nbsp;
-<i>566</i>&nbsp;    public boolean wantToGoUp (){
-<i>567</i>&nbsp;        boolean goUp;
-<b class="nc"><i>568</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
-<i>569</i>&nbsp;        String decision;
-<i>570</i>&nbsp;
-<i>571</i>&nbsp;        do {
-<b class="nc"><i>572</i>&nbsp;            System.out.println(&quot;Due to you divinity power you can BUILD before and after your move BUT you will not be able to MOVE UP &quot; +</b>
-<i>573</i>&nbsp;                    &quot;\n You want to MOVE UP in this turn? (you will be able to build only one time after your move)&quot; +
-<i>574</i>&nbsp;                    &quot;\n           y: yes           n: no&quot;);
-<b class="nc"><i>575</i>&nbsp;            decision = input.next();</b>
-<b class="nc"><i>576</i>&nbsp;        } while (!(decision.equals(&quot;y&quot;)) &amp;&amp; !(decision.equals(&quot;n&quot;)));</b>
-<i>577</i>&nbsp;
-<b class="nc"><i>578</i>&nbsp;        goUp = decision.equals(&quot;y&quot;);</b>
-<i>579</i>&nbsp;
-<b class="nc"><i>580</i>&nbsp;        return goUp;</b>
-<i>581</i>&nbsp;    }
+<i>566</i>&nbsp;    /**
+<i>567</i>&nbsp;     * To activate the effect of Prometheus the player have to chose if he want to move up by one level or not
+<i>568</i>&nbsp;     *
+<i>569</i>&nbsp;     * @return the valuer of goUp: false if the player don&#39;t want to move up, true if the player want to move up in this turn
+<i>570</i>&nbsp;     */
+<i>571</i>&nbsp;    public boolean wantToGoUp (){
+<i>572</i>&nbsp;        boolean goUp;
+<b class="nc"><i>573</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
+<i>574</i>&nbsp;        String decision;
+<i>575</i>&nbsp;
+<i>576</i>&nbsp;        do {
+<b class="nc"><i>577</i>&nbsp;            System.out.println(&quot;Due to you divinity power you can BUILD before and after your move BUT you will not be able to MOVE UP &quot; +</b>
+<i>578</i>&nbsp;                    &quot;\n You want to MOVE UP in this turn? (you will be able to build only one time after your move)&quot; +
+<i>579</i>&nbsp;                    &quot;\n           y: yes           n: no&quot;);
+<b class="nc"><i>580</i>&nbsp;            decision = input.next();</b>
+<b class="nc"><i>581</i>&nbsp;        } while (!(decision.equals(&quot;y&quot;)) &amp;&amp; !(decision.equals(&quot;n&quot;)));</b>
 <i>582</i>&nbsp;
-<i>583</i>&nbsp;    /**
-<i>584</i>&nbsp;     * Chose the pawn to move
-<i>585</i>&nbsp;     *
-<i>586</i>&nbsp;     * @param currentPlayer player that have to chose
-<i>587</i>&nbsp;     * @param gameGrid      grid of the game
-<i>588</i>&nbsp;     * @return the Pawn that the player want to move
-<i>589</i>&nbsp;     */
-<i>590</i>&nbsp;    public Pawn choseToMove(Player currentPlayer, Grid gameGrid) {
-<b class="nc"><i>591</i>&nbsp;        Pawn pawnToMove = null;</b>
-<i>592</i>&nbsp;        int val;
-<i>593</i>&nbsp;        String word;
-<b class="nc"><i>594</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
-<b class="nc"><i>595</i>&nbsp;        Pawn[] playerPawns = new Pawn[2];</b>
-<b class="nc"><i>596</i>&nbsp;        StringColor color = colorString(currentPlayer, false);</b>
-<b class="nc"><i>597</i>&nbsp;        int[] coordinates = new int[4];</b>
-<b class="nc"><i>598</i>&nbsp;        boolean chosen = false;</b>
-<i>599</i>&nbsp;
-<b class="nc"><i>600</i>&nbsp;        for (int x = 0; x &lt; 5; x++) {</b>
-<b class="nc"><i>601</i>&nbsp;            for (int y = 0; y &lt; 5; y++) {</b>
-<b class="nc"><i>602</i>&nbsp;                if (gameGrid.getCells(x, y).getPawn() != null) {</b>
-<b class="nc"><i>603</i>&nbsp;                    if (gameGrid.getCells(x, y).getPawn().getOwner().getUsername().equals(currentPlayer.getUsername())) {</b>
-<b class="nc"><i>604</i>&nbsp;                        if (gameGrid.getCells(x, y).getPawn().getId() % 2 == 1) {</b>
-<b class="nc"><i>605</i>&nbsp;                            playerPawns[0] = gameGrid.getCells(x, y).getPawn();</b>
-<b class="nc"><i>606</i>&nbsp;                            coordinates[0] = x + 1;</b>
-<b class="nc"><i>607</i>&nbsp;                            coordinates[1] = y + 1;</b>
-<i>608</i>&nbsp;                        } else {
-<b class="nc"><i>609</i>&nbsp;                            playerPawns[1] = gameGrid.getCells(x, y).getPawn();</b>
-<b class="nc"><i>610</i>&nbsp;                            coordinates[2] = x + 1;</b>
-<b class="nc"><i>611</i>&nbsp;                            coordinates[3] = y + 1;</b>
-<i>612</i>&nbsp;                        }
-<i>613</i>&nbsp;                    }
-<i>614</i>&nbsp;                }
-<i>615</i>&nbsp;            }
-<i>616</i>&nbsp;        }
-<i>617</i>&nbsp;
-<i>618</i>&nbsp;        //print
-<b class="nc"><i>619</i>&nbsp;        for (int i = 0; i &lt; playerPawns.length; i++) {</b>
-<b class="nc"><i>620</i>&nbsp;            System.out.println((i + 1) + &quot;. &quot; + color + &quot;Worker&quot; + (i + 1) + StringColor.RESET + &quot; at (&quot; + coordinates[(i * 2)] + &quot;,&quot; + coordinates[((i * 2) + 1)] + &quot;)&quot;);</b>
+<b class="nc"><i>583</i>&nbsp;        goUp = decision.equals(&quot;y&quot;);</b>
+<i>584</i>&nbsp;
+<b class="nc"><i>585</i>&nbsp;        return goUp;</b>
+<i>586</i>&nbsp;    }
+<i>587</i>&nbsp;
+<i>588</i>&nbsp;    /**
+<i>589</i>&nbsp;     * Chose the pawn to move
+<i>590</i>&nbsp;     *
+<i>591</i>&nbsp;     * @param currentPlayer player that have to chose
+<i>592</i>&nbsp;     * @param gameGrid      grid of the game
+<i>593</i>&nbsp;     * @return the Pawn that the player want to move
+<i>594</i>&nbsp;     */
+<i>595</i>&nbsp;    public Pawn choseToMove(Player currentPlayer, Grid gameGrid) {
+<b class="nc"><i>596</i>&nbsp;        Pawn pawnToMove = null;</b>
+<i>597</i>&nbsp;        int val;
+<i>598</i>&nbsp;        String word;
+<b class="nc"><i>599</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
+<b class="nc"><i>600</i>&nbsp;        Pawn[] playerPawns = new Pawn[2];</b>
+<b class="nc"><i>601</i>&nbsp;        StringColor color = colorString(currentPlayer, false);</b>
+<b class="nc"><i>602</i>&nbsp;        int[] coordinates = new int[4];</b>
+<b class="nc"><i>603</i>&nbsp;        boolean chosen = false;</b>
+<i>604</i>&nbsp;
+<b class="nc"><i>605</i>&nbsp;        for (int x = 0; x &lt; 5; x++) {</b>
+<b class="nc"><i>606</i>&nbsp;            for (int y = 0; y &lt; 5; y++) {</b>
+<b class="nc"><i>607</i>&nbsp;                if (gameGrid.getCells(x, y).getPawn() != null) {</b>
+<b class="nc"><i>608</i>&nbsp;                    if (gameGrid.getCells(x, y).getPawn().getOwner().getUsername().equals(currentPlayer.getUsername())) {</b>
+<b class="nc"><i>609</i>&nbsp;                        if (gameGrid.getCells(x, y).getPawn().getId() % 2 == 1) {</b>
+<b class="nc"><i>610</i>&nbsp;                            playerPawns[0] = gameGrid.getCells(x, y).getPawn();</b>
+<b class="nc"><i>611</i>&nbsp;                            coordinates[0] = x + 1;</b>
+<b class="nc"><i>612</i>&nbsp;                            coordinates[1] = y + 1;</b>
+<i>613</i>&nbsp;                        } else {
+<b class="nc"><i>614</i>&nbsp;                            playerPawns[1] = gameGrid.getCells(x, y).getPawn();</b>
+<b class="nc"><i>615</i>&nbsp;                            coordinates[2] = x + 1;</b>
+<b class="nc"><i>616</i>&nbsp;                            coordinates[3] = y + 1;</b>
+<i>617</i>&nbsp;                        }
+<i>618</i>&nbsp;                    }
+<i>619</i>&nbsp;                }
+<i>620</i>&nbsp;            }
 <i>621</i>&nbsp;        }
 <i>622</i>&nbsp;
-<b class="nc"><i>623</i>&nbsp;        System.out.println(&quot;Which worker do you want to use?&quot;);</b>
-<i>624</i>&nbsp;
-<i>625</i>&nbsp;        //choice
-<b class="nc"><i>626</i>&nbsp;        while (!chosen) {</b>
-<b class="nc"><i>627</i>&nbsp;            word = input.next();</b>
-<b class="nc"><i>628</i>&nbsp;            if (word.matches(&quot;^-?\\d+$&quot;)) {</b>
-<b class="nc"><i>629</i>&nbsp;                val = Integer.parseInt(word);</b>
-<b class="nc"><i>630</i>&nbsp;                if ((val &gt; 0) &amp;&amp; (val &lt; playerPawns.length + 1)) {</b>
-<b class="nc"><i>631</i>&nbsp;                    pawnToMove = playerPawns[val - 1];</b>
-<b class="nc"><i>632</i>&nbsp;                    System.out.println(&quot;\nYou chose: &quot; + val + &quot;. &quot; + color + &quot; Worker&quot; + val + StringColor.RESET + &quot; at (&quot; + coordinates[((val - 1) * 2)] + &quot;,&quot; + coordinates[((val - 1) * 2) + 1] + &quot;)&quot;);</b>
-<b class="nc"><i>633</i>&nbsp;                    chosen = true;</b>
-<i>634</i>&nbsp;                } else {
-<b class="nc"><i>635</i>&nbsp;                    System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + val + &quot;\&quot;&quot; + &quot; is not a valid input, input must be 1 or 2. Retry &quot;);</b>
-<i>636</i>&nbsp;                }
-<i>637</i>&nbsp;            } else {
-<b class="nc"><i>638</i>&nbsp;                System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + word + &quot;\&quot;&quot; + &quot; is not a valid input, input must be 1 or 2. Retry&quot;);</b>
-<i>639</i>&nbsp;            }
-<i>640</i>&nbsp;        }
-<i>641</i>&nbsp;
-<b class="nc"><i>642</i>&nbsp;        return pawnToMove;</b>
-<i>643</i>&nbsp;    }
-<i>644</i>&nbsp;
-<i>645</i>&nbsp;    /**
-<i>646</i>&nbsp;     * Chose the move that the player wants to do
-<i>647</i>&nbsp;     *
-<i>648</i>&nbsp;     * @param possibleAction list of possible action from which the player has to chose
-<i>649</i>&nbsp;     * @return the action that the player choose
-<i>650</i>&nbsp;     */
-<i>651</i>&nbsp;    public Move choseMove(MoveList possibleAction) { //move ifmove dice se è mossa di movimento (true) o costruzione (false)
-<b class="nc"><i>652</i>&nbsp;        Move chosenMove = null;</b>
-<i>653</i>&nbsp;        //Move jumpAction;
-<b class="nc"><i>654</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
-<i>655</i>&nbsp;        String word;
-<i>656</i>&nbsp;        String action;
-<b class="nc"><i>657</i>&nbsp;        StringBuilder list = new StringBuilder();</b>
-<i>658</i>&nbsp;        StringBuilder[] row;
-<i>659</i>&nbsp;        int val;
-<i>660</i>&nbsp;        int line;
-<i>661</i>&nbsp;        int nRow;
-<b class="nc"><i>662</i>&nbsp;        boolean chosen = false;</b>
-<i>663</i>&nbsp;
-<b class="nc"><i>664</i>&nbsp;        if (possibleAction.getMove(0).getIfMove()) {</b>
-<b class="nc"><i>665</i>&nbsp;            action = &quot;Move&quot;;</b>
-<i>666</i>&nbsp;        } else {
-<b class="nc"><i>667</i>&nbsp;            action = &quot;Build&quot;;</b>
-<i>668</i>&nbsp;        }
-<i>669</i>&nbsp;
-<b class="nc"><i>670</i>&nbsp;        if ((possibleAction.size() &gt; 16)){</b>
-<b class="nc"><i>671</i>&nbsp;            nRow = 6;</b>
-<b class="nc"><i>672</i>&nbsp;        }else if ((possibleAction.size() == 15) || (possibleAction.size() == 14) || (possibleAction.size() == 13) || (possibleAction.size() == 10)) {</b>
-<b class="nc"><i>673</i>&nbsp;            nRow = 5;</b>
-<b class="nc"><i>674</i>&nbsp;        } else if ((possibleAction.size() == 16) || (possibleAction.size() == 12) || (possibleAction.size() == 11) || (possibleAction.size() == 8) || (possibleAction.size() == 7)) {</b>
-<b class="nc"><i>675</i>&nbsp;            nRow = 4; //1+3=4%4=0 2+3=5%4=1 3+3=6%4=2 4+3=7%4=3</b>
-<b class="nc"><i>676</i>&nbsp;        }else if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {</b>
-<b class="nc"><i>677</i>&nbsp;            nRow = 3;</b>
-<b class="nc"><i>678</i>&nbsp;        } else if (possibleAction.size() == 4) {</b>
-<b class="nc"><i>679</i>&nbsp;            nRow = 2;</b>
-<i>680</i>&nbsp;        } else {    //3 2 e 1 rispettive row 1 col
-<b class="nc"><i>681</i>&nbsp;            nRow = possibleAction.size(); //1+2=3%3=0 2+2=4%3=1 3+2=5%3=2| 1+1=2%2=0 2+1=3%2=1 | 1+0=1%1=0</b>
-<i>682</i>&nbsp;        }
-<i>683</i>&nbsp;
-<b class="nc"><i>684</i>&nbsp;        row = new StringBuilder[nRow];</b>
-<b class="nc"><i>685</i>&nbsp;        for (int i = 0; i &lt; nRow; i++) {</b>
-<b class="nc"><i>686</i>&nbsp;            row[i] = new StringBuilder();</b>
+<i>623</i>&nbsp;        //print
+<b class="nc"><i>624</i>&nbsp;        for (int i = 0; i &lt; playerPawns.length; i++) {</b>
+<b class="nc"><i>625</i>&nbsp;            System.out.println((i + 1) + &quot;. &quot; + color + &quot;Worker&quot; + (i + 1) + StringColor.RESET + &quot; at (&quot; + coordinates[(i * 2)] + &quot;,&quot; + coordinates[((i * 2) + 1)] + &quot;)&quot;);</b>
+<i>626</i>&nbsp;        }
+<i>627</i>&nbsp;
+<b class="nc"><i>628</i>&nbsp;        System.out.println(&quot;Which worker do you want to use?&quot;);</b>
+<i>629</i>&nbsp;
+<i>630</i>&nbsp;        //choice
+<b class="nc"><i>631</i>&nbsp;        while (!chosen) {</b>
+<b class="nc"><i>632</i>&nbsp;            word = input.next();</b>
+<b class="nc"><i>633</i>&nbsp;            if (word.matches(&quot;^-?\\d+$&quot;)) {</b>
+<b class="nc"><i>634</i>&nbsp;                val = Integer.parseInt(word);</b>
+<b class="nc"><i>635</i>&nbsp;                if ((val &gt; 0) &amp;&amp; (val &lt; playerPawns.length + 1)) {</b>
+<b class="nc"><i>636</i>&nbsp;                    pawnToMove = playerPawns[val - 1];</b>
+<b class="nc"><i>637</i>&nbsp;                    System.out.println(&quot;\nYou chose: &quot; + val + &quot;. &quot; + color + &quot; Worker&quot; + val + StringColor.RESET + &quot; at (&quot; + coordinates[((val - 1) * 2)] + &quot;,&quot; + coordinates[((val - 1) * 2) + 1] + &quot;)&quot;);</b>
+<b class="nc"><i>638</i>&nbsp;                    chosen = true;</b>
+<i>639</i>&nbsp;                } else {
+<b class="nc"><i>640</i>&nbsp;                    System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + val + &quot;\&quot;&quot; + &quot; is not a valid input, input must be 1 or 2. Retry &quot;);</b>
+<i>641</i>&nbsp;                }
+<i>642</i>&nbsp;            } else {
+<b class="nc"><i>643</i>&nbsp;                System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + word + &quot;\&quot;&quot; + &quot; is not a valid input, input must be 1 or 2. Retry&quot;);</b>
+<i>644</i>&nbsp;            }
+<i>645</i>&nbsp;        }
+<i>646</i>&nbsp;
+<b class="nc"><i>647</i>&nbsp;        return pawnToMove;</b>
+<i>648</i>&nbsp;    }
+<i>649</i>&nbsp;
+<i>650</i>&nbsp;    /**
+<i>651</i>&nbsp;     * Chose the move that the player wants to do
+<i>652</i>&nbsp;     *
+<i>653</i>&nbsp;     * @param possibleAction list of possible action from which the player has to chose
+<i>654</i>&nbsp;     * @return the action that the player choose
+<i>655</i>&nbsp;     */
+<i>656</i>&nbsp;    public Move choseMove(MoveList possibleAction) { //move ifmove dice se è mossa di movimento (true) o costruzione (false)
+<b class="nc"><i>657</i>&nbsp;        Move chosenMove = null;</b>
+<i>658</i>&nbsp;        //Move jumpAction;
+<b class="nc"><i>659</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
+<i>660</i>&nbsp;        String word;
+<i>661</i>&nbsp;        String action;
+<b class="nc"><i>662</i>&nbsp;        StringBuilder list = new StringBuilder();</b>
+<i>663</i>&nbsp;        StringBuilder[] row;
+<i>664</i>&nbsp;        int val;
+<i>665</i>&nbsp;        int line;
+<i>666</i>&nbsp;        int nRow;
+<b class="nc"><i>667</i>&nbsp;        boolean chosen = false;</b>
+<i>668</i>&nbsp;
+<b class="nc"><i>669</i>&nbsp;        if (possibleAction.getMove(0).getIfMove()) {</b>
+<b class="nc"><i>670</i>&nbsp;            action = &quot;Move&quot;;</b>
+<i>671</i>&nbsp;        } else {
+<b class="nc"><i>672</i>&nbsp;            action = &quot;Build&quot;;</b>
+<i>673</i>&nbsp;        }
+<i>674</i>&nbsp;
+<b class="nc"><i>675</i>&nbsp;        if ((possibleAction.size() &gt; 16)){</b>
+<b class="nc"><i>676</i>&nbsp;            nRow = 6;</b>
+<b class="nc"><i>677</i>&nbsp;        }else if ((possibleAction.size() == 15) || (possibleAction.size() == 14) || (possibleAction.size() == 13) || (possibleAction.size() == 10)) {</b>
+<b class="nc"><i>678</i>&nbsp;            nRow = 5;</b>
+<b class="nc"><i>679</i>&nbsp;        } else if ((possibleAction.size() == 16) || (possibleAction.size() == 12) || (possibleAction.size() == 11) || (possibleAction.size() == 8) || (possibleAction.size() == 7)) {</b>
+<b class="nc"><i>680</i>&nbsp;            nRow = 4; //1+3=4%4=0 2+3=5%4=1 3+3=6%4=2 4+3=7%4=3</b>
+<b class="nc"><i>681</i>&nbsp;        }else if ((possibleAction.size() == 9) || (possibleAction.size() == 6) || (possibleAction.size() == 5)) {</b>
+<b class="nc"><i>682</i>&nbsp;            nRow = 3;</b>
+<b class="nc"><i>683</i>&nbsp;        } else if (possibleAction.size() == 4) {</b>
+<b class="nc"><i>684</i>&nbsp;            nRow = 2;</b>
+<i>685</i>&nbsp;        } else {    //3 2 e 1 rispettive row 1 col
+<b class="nc"><i>686</i>&nbsp;            nRow = possibleAction.size(); //1+2=3%3=0 2+2=4%3=1 3+2=5%3=2| 1+1=2%2=0 2+1=3%2=1 | 1+0=1%1=0</b>
 <i>687</i>&nbsp;        }
-<b class="nc"><i>688</i>&nbsp;        for (int i = 1; i &lt; possibleAction.size() + 1; i++) {</b>
-<b class="nc"><i>689</i>&nbsp;            line = (i + nRow - 1) % nRow;</b>
-<b class="nc"><i>690</i>&nbsp;            if(possibleAction.getMove(i-1).getX() &gt; 5){</b>
-<i>691</i>&nbsp;                //jumpAction = possibleAction.getMove(i-1);
-<b class="nc"><i>692</i>&nbsp;                row[(i + nRow) % nRow].append(&quot;   &quot; + i + &quot;. SKIP&quot; + action.toUpperCase() + &quot;                          &quot;);</b>
-<i>693</i>&nbsp;            }else {
-<b class="nc"><i>694</i>&nbsp;                if (possibleAction.getMove(i - 1).getX() &lt; 0) {</b>
-<b class="nc"><i>695</i>&nbsp;                    row[line].append(&quot;   &quot; + i + &quot;. &quot; + action + &quot; a Dome to (x: &quot; + (-possibleAction.getMove(i - 1).getX()) + &quot;, y: &quot; + (-possibleAction.getMove(i - 1).getY()) + &quot;)    &quot;);</b>
-<i>696</i>&nbsp;                } else {
-<b class="nc"><i>697</i>&nbsp;                    row[line].append(&quot;   &quot; + i + &quot;. &quot; + action + &quot; to (x: &quot; + (possibleAction.getMove(i - 1).getX() + 1) + &quot;, y: &quot; + (possibleAction.getMove(i - 1).getY() + 1) + &quot;)           &quot;);</b>
-<i>698</i>&nbsp;                }
-<i>699</i>&nbsp;            }
-<i>700</i>&nbsp;        }
-<i>701</i>&nbsp;
-<b class="nc"><i>702</i>&nbsp;        for(int i = 0; i &lt; nRow; i++){</b>
-<b class="nc"><i>703</i>&nbsp;            list.append(row[i] + &quot;\n&quot;);</b>
-<i>704</i>&nbsp;        }
-<i>705</i>&nbsp;
-<b class="nc"><i>706</i>&nbsp;        System.out.println(list);</b>
-<i>707</i>&nbsp;
-<i>708</i>&nbsp;        //choice
-<b class="nc"><i>709</i>&nbsp;        while (!chosen) {</b>
+<i>688</i>&nbsp;
+<b class="nc"><i>689</i>&nbsp;        row = new StringBuilder[nRow];</b>
+<b class="nc"><i>690</i>&nbsp;        for (int i = 0; i &lt; nRow; i++) {</b>
+<b class="nc"><i>691</i>&nbsp;            row[i] = new StringBuilder();</b>
+<i>692</i>&nbsp;        }
+<b class="nc"><i>693</i>&nbsp;        for (int i = 1; i &lt; possibleAction.size() + 1; i++) {</b>
+<b class="nc"><i>694</i>&nbsp;            line = (i + nRow - 1) % nRow;</b>
+<b class="nc"><i>695</i>&nbsp;            if(possibleAction.getMove(i-1).getX() &gt; 5){</b>
+<i>696</i>&nbsp;                //jumpAction = possibleAction.getMove(i-1);
+<b class="nc"><i>697</i>&nbsp;                row[(i + nRow) % nRow].append(&quot;   &quot; + i + &quot;. SKIP&quot; + action.toUpperCase() + &quot;                          &quot;);</b>
+<i>698</i>&nbsp;            }else {
+<b class="nc"><i>699</i>&nbsp;                if (possibleAction.getMove(i - 1).getX() &lt; 0) {</b>
+<b class="nc"><i>700</i>&nbsp;                    row[line].append(&quot;   &quot; + i + &quot;. &quot; + action + &quot; a Dome to (x: &quot; + (-possibleAction.getMove(i - 1).getX()) + &quot;, y: &quot; + (-possibleAction.getMove(i - 1).getY()) + &quot;)    &quot;);</b>
+<i>701</i>&nbsp;                } else {
+<b class="nc"><i>702</i>&nbsp;                    row[line].append(&quot;   &quot; + i + &quot;. &quot; + action + &quot; to (x: &quot; + (possibleAction.getMove(i - 1).getX() + 1) + &quot;, y: &quot; + (possibleAction.getMove(i - 1).getY() + 1) + &quot;)           &quot;);</b>
+<i>703</i>&nbsp;                }
+<i>704</i>&nbsp;            }
+<i>705</i>&nbsp;        }
+<i>706</i>&nbsp;
+<b class="nc"><i>707</i>&nbsp;        for(int i = 0; i &lt; nRow; i++){</b>
+<b class="nc"><i>708</i>&nbsp;            list.append(row[i] + &quot;\n&quot;);</b>
+<i>709</i>&nbsp;        }
 <i>710</i>&nbsp;
-<b class="nc"><i>711</i>&nbsp;            System.out.println(&quot;(indicate the number corresponding to the chosen action)\nChosen Action: &quot;);</b>
-<b class="nc"><i>712</i>&nbsp;            word = input.next();</b>
-<b class="nc"><i>713</i>&nbsp;            if (word.matches(&quot;^-?\\d+$&quot;)) {</b>
-<b class="nc"><i>714</i>&nbsp;                val = Integer.parseInt(word);</b>
-<b class="nc"><i>715</i>&nbsp;                if ((val &gt; 0) &amp;&amp; (val &lt; possibleAction.size() + 1)) {</b>
-<b class="nc"><i>716</i>&nbsp;                    chosenMove = possibleAction.getMove(val - 1);</b>
-<b class="nc"><i>717</i>&nbsp;                    if(chosenMove.getX() &lt; 0){</b>
-<b class="nc"><i>718</i>&nbsp;                        System.out.println(&quot; Your choice: &quot; + val + &quot;. &quot; + action + &quot; a Dome to (x: &quot; + (-chosenMove.getX()) + &quot;, y: &quot; + (-chosenMove.getY()) + &quot;)&quot;);</b>
-<b class="nc"><i>719</i>&nbsp;                    }else if (chosenMove.getX() &gt; 5){</b>
-<b class="nc"><i>720</i>&nbsp;                        System.out.println(&quot; Your choice: Skip &quot; + action + &quot; a second time&quot;);</b>
-<i>721</i>&nbsp;                    } else {
-<b class="nc"><i>722</i>&nbsp;                        System.out.println(&quot; Your choice: &quot; + val + &quot;. &quot; + action + &quot; to (x: &quot; + (chosenMove.getX() + 1) + &quot;, y: &quot; + (chosenMove.getY() + 1) + &quot;)&quot;);</b>
-<i>723</i>&nbsp;                    }
-<b class="nc"><i>724</i>&nbsp;                    chosen = true;</b>
-<i>725</i>&nbsp;                } else {
-<b class="nc"><i>726</i>&nbsp;                    System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + val + &quot;\&quot;&quot; + &quot; is not a valid input, input must be a number between 1 and &quot; + possibleAction.size() + &quot;. Retry&quot;);</b>
-<i>727</i>&nbsp;                }
-<i>728</i>&nbsp;            } else {
-<b class="nc"><i>729</i>&nbsp;                System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + word + &quot;\&quot;&quot; + &quot; is not a valid input, input must be a number between 1 and &quot; + possibleAction.size() + &quot;. Retry&quot;);</b>
-<i>730</i>&nbsp;            }
-<i>731</i>&nbsp;        }
-<i>732</i>&nbsp;
-<b class="nc"><i>733</i>&nbsp;        return chosenMove;</b>
-<i>734</i>&nbsp;    }
-<i>735</i>&nbsp;
-<i>736</i>&nbsp;    /**
-<i>737</i>&nbsp;     * Draw the results of the game
-<i>738</i>&nbsp;     *
-<i>739</i>&nbsp;     * @param currentPlayer player that is playing
-<i>740</i>&nbsp;     * @param winnerPlayer winner player
-<i>741</i>&nbsp;     */
-<i>742</i>&nbsp;    public void drawResults(Player currentPlayer, Player winnerPlayer) {
-<i>743</i>&nbsp;        /*
-<i>744</i>&nbsp;
-<i>745</i>&nbsp;          /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
-<i>746</i>&nbsp;         /                                                                                  \
-<i>747</i>&nbsp;        |      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |
-<i>748</i>&nbsp;        |      \  ██ /██/| ██  \ ██| ██  | ██      | ██ /███| ██| ██  \ ██| ████| ██         |
-<i>749</i>&nbsp;        |       \  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |
-<i>750</i>&nbsp;        |        \  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |
-<i>751</i>&nbsp;        |         | ██   |  ██████/|  ██████/      | ██/   \  ██|  ██████/| ██ \  ██         |
-<i>752</i>&nbsp;        |         |__/    \______/  \______/       |__/     \__/ \______/ |__/  \__/         |
-<i>753</i>&nbsp;         \                                                                                  /
-<i>754</i>&nbsp;          \________________________________________________________________________________/
-<i>755</i>&nbsp;
-<i>756</i>&nbsp;            |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
-<i>757</i>&nbsp;            |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |
-<i>758</i>&nbsp;            |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |
-<i>759</i>&nbsp;            |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |
-<i>760</i>&nbsp;            |___________________________________________|
-<i>761</i>&nbsp;         */
-<b class="nc"><i>762</i>&nbsp;        StringColor color = colorString(currentPlayer, false);</b>
-<b class="nc"><i>763</i>&nbsp;        StringBuilder results = new StringBuilder();</b>
-<b class="nc"><i>764</i>&nbsp;        if(currentPlayer.getUsername().equals(winnerPlayer.getUsername())){</b>
-<b class="nc"><i>765</i>&nbsp;            results.append(&quot; \n&quot; +</b>
-<i>766</i>&nbsp;                    color + &quot;  /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>767</i>&nbsp;                    color + &quot; /                                                                                  \\&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>768</i>&nbsp;                    color + &quot;|      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>769</i>&nbsp;                    color + &quot;|      \\  ██ /██/| ██  \\ ██| ██  | ██      | ██ /███| ██| ██  \\ ██| ████| ██         |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>770</i>&nbsp;                    color + &quot;|       \\  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>771</i>&nbsp;                    color + &quot;|        \\  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>772</i>&nbsp;                    color + &quot;|         | ██   |  ██████/|  ██████/      | ██/   \\  ██|  ██████/| ██ \\  ██         |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>773</i>&nbsp;                    color + &quot;|         |__/    \\______/  \\______/       |__/     \\__/ \\______/ |__/  \\__/         |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>774</i>&nbsp;                    color + &quot; \\                                                                                  /&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>775</i>&nbsp;                    color + &quot;  \\________________________________________________________________________________/&quot; + StringColor.RESET);
-<i>776</i>&nbsp;
-<i>777</i>&nbsp;        } else {
-<b class="nc"><i>778</i>&nbsp;            results.append(&quot;\n&quot; +</b>
-<i>779</i>&nbsp;                    color + &quot; |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>780</i>&nbsp;                    color + &quot; |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>781</i>&nbsp;                    color + &quot; |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>782</i>&nbsp;                    color + &quot; |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |&quot; + StringColor.RESET + &quot;\n&quot; +
-<i>783</i>&nbsp;                    color + &quot; |___________________________________________|&quot; + StringColor.RESET + &quot;\n\n&quot;);
-<i>784</i>&nbsp;
-<b class="nc"><i>785</i>&nbsp;            color = colorString(winnerPlayer, true);</b>
-<b class="nc"><i>786</i>&nbsp;            results.append((color + &quot; &quot; + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));</b>
-<b class="nc"><i>787</i>&nbsp;            results.append(&quot;\n&quot;);</b>
-<b class="nc"><i>788</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
-<b class="nc"><i>789</i>&nbsp;            results.append(&quot; &quot;.repeat(Math.max(0, winnerPlayer.getUsername().length() + 24)));</b>
-<b class="nc"><i>790</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
-<b class="nc"><i>791</i>&nbsp;            results.append(&quot;\n&quot;);</b>
-<b class="nc"><i>792</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
-<b class="nc"><i>793</i>&nbsp;            color = colorString(winnerPlayer, false);</b>
-<b class="nc"><i>794</i>&nbsp;            results.append(color + &quot;     &quot; + winnerPlayer.getUsername() + StringColor.RESET + &quot; IS THE WINNER     &quot;);</b>
-<b class="nc"><i>795</i>&nbsp;            color = colorString(winnerPlayer, true);</b>
-<b class="nc"><i>796</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
-<b class="nc"><i>797</i>&nbsp;            results.append(&quot;\n&quot;);</b>
-<b class="nc"><i>798</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
-<b class="nc"><i>799</i>&nbsp;            results.append(&quot; &quot;.repeat(Math.max(0, winnerPlayer.getUsername().length() + 24)));</b>
-<b class="nc"><i>800</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
-<b class="nc"><i>801</i>&nbsp;            results.append(&quot;\n&quot;);</b>
-<b class="nc"><i>802</i>&nbsp;            results.append((color + &quot; &quot; + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));</b>
-<i>803</i>&nbsp;        }
-<b class="nc"><i>804</i>&nbsp;        System.out.println(results);</b>
-<i>805</i>&nbsp;    }
-<i>806</i>&nbsp;
-<i>807</i>&nbsp;    /**
-<i>808</i>&nbsp;     * Set ArrayList&lt;String&gt; chosenDivinities
-<i>809</i>&nbsp;     *
-<i>810</i>&nbsp;     * @param chosenDivinities list of chosen divinities
-<i>811</i>&nbsp;     */
-<i>812</i>&nbsp;    public void setChosenDivinities(ArrayList&lt;String&gt; chosenDivinities) {
-<b class="nc"><i>813</i>&nbsp;        this.chosenDivinities = chosenDivinities;</b>
-<i>814</i>&nbsp;    }
-<i>815</i>&nbsp;
-<i>816</i>&nbsp;    /**
-<i>817</i>&nbsp;     * Constructor
-<i>818</i>&nbsp;     */
-<b class="nc"><i>819</i>&nbsp;    public CLI() {</b>
-<b class="nc"><i>820</i>&nbsp;        chosenDivinities = new ArrayList&lt;String&gt;();</b>
-<b class="nc"><i>821</i>&nbsp;        lobby = false;</b>
-<i>822</i>&nbsp;    }
-<i>823</i>&nbsp;
-<i>824</i>&nbsp;}
+<b class="nc"><i>711</i>&nbsp;        System.out.println(list);</b>
+<i>712</i>&nbsp;
+<i>713</i>&nbsp;        //choice
+<b class="nc"><i>714</i>&nbsp;        while (!chosen) {</b>
+<i>715</i>&nbsp;
+<b class="nc"><i>716</i>&nbsp;            System.out.println(&quot;(indicate the number corresponding to the chosen action)\nChosen Action: &quot;);</b>
+<b class="nc"><i>717</i>&nbsp;            word = input.next();</b>
+<b class="nc"><i>718</i>&nbsp;            if (word.matches(&quot;^-?\\d+$&quot;)) {</b>
+<b class="nc"><i>719</i>&nbsp;                val = Integer.parseInt(word);</b>
+<b class="nc"><i>720</i>&nbsp;                if ((val &gt; 0) &amp;&amp; (val &lt; possibleAction.size() + 1)) {</b>
+<b class="nc"><i>721</i>&nbsp;                    chosenMove = possibleAction.getMove(val - 1);</b>
+<b class="nc"><i>722</i>&nbsp;                    if(chosenMove.getX() &lt; 0){</b>
+<b class="nc"><i>723</i>&nbsp;                        System.out.println(&quot; Your choice: &quot; + val + &quot;. &quot; + action + &quot; a Dome to (x: &quot; + (-chosenMove.getX()) + &quot;, y: &quot; + (-chosenMove.getY()) + &quot;)&quot;);</b>
+<b class="nc"><i>724</i>&nbsp;                    }else if (chosenMove.getX() &gt; 5){</b>
+<b class="nc"><i>725</i>&nbsp;                        System.out.println(&quot; Your choice: Skip &quot; + action + &quot; a second time&quot;);</b>
+<i>726</i>&nbsp;                    } else {
+<b class="nc"><i>727</i>&nbsp;                        System.out.println(&quot; Your choice: &quot; + val + &quot;. &quot; + action + &quot; to (x: &quot; + (chosenMove.getX() + 1) + &quot;, y: &quot; + (chosenMove.getY() + 1) + &quot;)&quot;);</b>
+<i>728</i>&nbsp;                    }
+<b class="nc"><i>729</i>&nbsp;                    chosen = true;</b>
+<i>730</i>&nbsp;                } else {
+<b class="nc"><i>731</i>&nbsp;                    System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + val + &quot;\&quot;&quot; + &quot; is not a valid input, input must be a number between 1 and &quot; + possibleAction.size() + &quot;. Retry&quot;);</b>
+<i>732</i>&nbsp;                }
+<i>733</i>&nbsp;            } else {
+<b class="nc"><i>734</i>&nbsp;                System.out.println(StringColor.ANSI_RED + &quot; ⚠ &quot; + StringColor.RESET + &quot; \&quot;&quot; + word + &quot;\&quot;&quot; + &quot; is not a valid input, input must be a number between 1 and &quot; + possibleAction.size() + &quot;. Retry&quot;);</b>
+<i>735</i>&nbsp;            }
+<i>736</i>&nbsp;        }
+<i>737</i>&nbsp;
+<b class="nc"><i>738</i>&nbsp;        return chosenMove;</b>
+<i>739</i>&nbsp;    }
+<i>740</i>&nbsp;
+<i>741</i>&nbsp;    /**
+<i>742</i>&nbsp;     * Draw the results of the game
+<i>743</i>&nbsp;     *
+<i>744</i>&nbsp;     * @param currentPlayer player that is playing
+<i>745</i>&nbsp;     * @param winnerPlayer winner player
+<i>746</i>&nbsp;     */
+<i>747</i>&nbsp;    public void drawResults(Player currentPlayer, Player winnerPlayer) {
+<i>748</i>&nbsp;        /*
+<i>749</i>&nbsp;
+<i>750</i>&nbsp;          /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
+<i>751</i>&nbsp;         /                                                                                  \
+<i>752</i>&nbsp;        |      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |
+<i>753</i>&nbsp;        |      \  ██ /██/| ██  \ ██| ██  | ██      | ██ /███| ██| ██  \ ██| ████| ██         |
+<i>754</i>&nbsp;        |       \  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |
+<i>755</i>&nbsp;        |        \  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |
+<i>756</i>&nbsp;        |         | ██   |  ██████/|  ██████/      | ██/   \  ██|  ██████/| ██ \  ██         |
+<i>757</i>&nbsp;        |         |__/    \______/  \______/       |__/     \__/ \______/ |__/  \__/         |
+<i>758</i>&nbsp;         \                                                                                  /
+<i>759</i>&nbsp;          \________________________________________________________________________________/
+<i>760</i>&nbsp;
+<i>761</i>&nbsp;            |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+<i>762</i>&nbsp;            |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |
+<i>763</i>&nbsp;            |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |
+<i>764</i>&nbsp;            |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |
+<i>765</i>&nbsp;            |___________________________________________|
+<i>766</i>&nbsp;         */
+<b class="nc"><i>767</i>&nbsp;        StringColor color = colorString(currentPlayer, false);</b>
+<b class="nc"><i>768</i>&nbsp;        StringBuilder results = new StringBuilder();</b>
+<b class="nc"><i>769</i>&nbsp;        if(currentPlayer.getUsername().equals(winnerPlayer.getUsername())){</b>
+<b class="nc"><i>770</i>&nbsp;            results.append(&quot; \n&quot; +</b>
+<i>771</i>&nbsp;                    color + &quot;  /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>772</i>&nbsp;                    color + &quot; /                                                                                  \\&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>773</i>&nbsp;                    color + &quot;|      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>774</i>&nbsp;                    color + &quot;|      \\  ██ /██/| ██  \\ ██| ██  | ██      | ██ /███| ██| ██  \\ ██| ████| ██         |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>775</i>&nbsp;                    color + &quot;|       \\  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>776</i>&nbsp;                    color + &quot;|        \\  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>777</i>&nbsp;                    color + &quot;|         | ██   |  ██████/|  ██████/      | ██/   \\  ██|  ██████/| ██ \\  ██         |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>778</i>&nbsp;                    color + &quot;|         |__/    \\______/  \\______/       |__/     \\__/ \\______/ |__/  \\__/         |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>779</i>&nbsp;                    color + &quot; \\                                                                                  /&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>780</i>&nbsp;                    color + &quot;  \\________________________________________________________________________________/&quot; + StringColor.RESET);
+<i>781</i>&nbsp;
+<i>782</i>&nbsp;        } else {
+<b class="nc"><i>783</i>&nbsp;            results.append(&quot;\n&quot; +</b>
+<i>784</i>&nbsp;                    color + &quot; |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>785</i>&nbsp;                    color + &quot; |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>786</i>&nbsp;                    color + &quot; |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>787</i>&nbsp;                    color + &quot; |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |&quot; + StringColor.RESET + &quot;\n&quot; +
+<i>788</i>&nbsp;                    color + &quot; |___________________________________________|&quot; + StringColor.RESET + &quot;\n\n&quot;);
+<i>789</i>&nbsp;
+<b class="nc"><i>790</i>&nbsp;            color = colorString(winnerPlayer, true);</b>
+<b class="nc"><i>791</i>&nbsp;            results.append((color + &quot; &quot; + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));</b>
+<b class="nc"><i>792</i>&nbsp;            results.append(&quot;\n&quot;);</b>
+<b class="nc"><i>793</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
+<b class="nc"><i>794</i>&nbsp;            results.append(&quot; &quot;.repeat(Math.max(0, winnerPlayer.getUsername().length() + 24)));</b>
+<b class="nc"><i>795</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
+<b class="nc"><i>796</i>&nbsp;            results.append(&quot;\n&quot;);</b>
+<b class="nc"><i>797</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
+<b class="nc"><i>798</i>&nbsp;            color = colorString(winnerPlayer, false);</b>
+<b class="nc"><i>799</i>&nbsp;            results.append(color + &quot;     &quot; + winnerPlayer.getUsername() + StringColor.RESET + &quot; IS THE WINNER     &quot;);</b>
+<b class="nc"><i>800</i>&nbsp;            color = colorString(winnerPlayer, true);</b>
+<b class="nc"><i>801</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
+<b class="nc"><i>802</i>&nbsp;            results.append(&quot;\n&quot;);</b>
+<b class="nc"><i>803</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
+<b class="nc"><i>804</i>&nbsp;            results.append(&quot; &quot;.repeat(Math.max(0, winnerPlayer.getUsername().length() + 24)));</b>
+<b class="nc"><i>805</i>&nbsp;            results.append(color + &quot;   &quot; + StringColor.RESET);</b>
+<b class="nc"><i>806</i>&nbsp;            results.append(&quot;\n&quot;);</b>
+<b class="nc"><i>807</i>&nbsp;            results.append((color + &quot; &quot; + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));</b>
+<i>808</i>&nbsp;        }
+<b class="nc"><i>809</i>&nbsp;        System.out.println(results);</b>
+<i>810</i>&nbsp;    }
+<i>811</i>&nbsp;
+<i>812</i>&nbsp;    /**
+<i>813</i>&nbsp;     * Set ArrayList&lt;String&gt; chosenDivinities
+<i>814</i>&nbsp;     *
+<i>815</i>&nbsp;     * @param chosenDivinities list of chosen divinities
+<i>816</i>&nbsp;     */
+<i>817</i>&nbsp;    public void setChosenDivinities(ArrayList&lt;String&gt; chosenDivinities) {
+<b class="nc"><i>818</i>&nbsp;        this.chosenDivinities = chosenDivinities;</b>
+<i>819</i>&nbsp;    }
+<i>820</i>&nbsp;
+<i>821</i>&nbsp;    /**
+<i>822</i>&nbsp;     * Constructor
+<i>823</i>&nbsp;     */
+<b class="nc"><i>824</i>&nbsp;    public CLI() {</b>
+<b class="nc"><i>825</i>&nbsp;        chosenDivinities = new ArrayList&lt;String&gt;();</b>
+<b class="nc"><i>826</i>&nbsp;        lobby = false;</b>
+<i>827</i>&nbsp;    }
+<i>828</i>&nbsp;
+<i>829</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>830</i>&nbsp;        CLI cli = new CLI();</b>
+<b class="nc"><i>831</i>&nbsp;        Grid grid = new Grid();</b>
+<i>832</i>&nbsp;
+<b class="nc"><i>833</i>&nbsp;        cli.drawGrid(grid);</b>
+<i>834</i>&nbsp;
+<i>835</i>&nbsp;    }
+<i>836</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-05-05 12:32</div>
+    <div style="float:right;">generated on 2020-05-05 12:52</div>
 </div>
 </body>
 </html>

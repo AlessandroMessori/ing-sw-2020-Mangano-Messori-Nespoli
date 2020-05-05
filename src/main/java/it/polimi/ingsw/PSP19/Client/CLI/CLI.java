@@ -356,8 +356,8 @@ public class CLI {
         StringColor color;
         String top = "  _______________________________________";
         String mid = "__  |_______|_______|_______|_______|_______|";
-        String bot = "__  |       |       |       |       |       |" + "\n" +
-                "     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
+        String bot = "__  |_______|_______|_______|_______|_______|"; //+ "\n" +
+                     //"     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
 
         System.out.println("\\ Y |   1   |   2   |   3   |   4   |   5   |");
         System.out.println("X \\" + top);
@@ -563,6 +563,11 @@ public class CLI {
         return gameGrid;
     }
 
+    /**
+     * To activate the effect of Prometheus the player have to chose if he want to move up by one level or not
+     *
+     * @return the valuer of goUp: false if the player don't want to move up, true if the player want to move up in this turn
+     */
     public boolean wantToGoUp (){
         boolean goUp;
         Scanner input = new Scanner(System.in);
@@ -821,4 +826,11 @@ public class CLI {
         lobby = false;
     }
 
+    public static void main(String[] args) {
+        CLI cli = new CLI();
+        Grid grid = new Grid();
+
+        cli.drawGrid(grid);
+
+    }
 }
