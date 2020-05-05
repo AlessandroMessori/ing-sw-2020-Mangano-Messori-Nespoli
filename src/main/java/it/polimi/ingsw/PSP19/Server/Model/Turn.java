@@ -54,7 +54,7 @@ public class Turn {
      * @param p pawn to swap with current player's one
      */
     public void setEnemyPawn3(Pawn p) {
-        enemyPawn1 = p;
+        enemyPawn3 = p;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Turn {
      * @return the Pawn to swap with the current player's one
      */
     public Pawn getEnemyPawn3() {
-        return enemyPawn1;
+        return enemyPawn3;
     }
 
     private Pawn enemyPawn3 = null;
@@ -74,7 +74,7 @@ public class Turn {
      * @param p pawn to swap with current player's one
      */
     public void setEnemyPawn4(Pawn p) {
-        enemyPawn1 = p;
+        enemyPawn4 = p;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Turn {
      * @return the Pawn to swap with the current player's one
      */
     public Pawn getEnemyPawn4() {
-        return enemyPawn1;
+        return enemyPawn4;
     }
 
     private Pawn enemyPawn4 = null;
