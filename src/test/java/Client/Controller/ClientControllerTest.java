@@ -158,12 +158,12 @@ public class ClientControllerTest {
         assertSame(pawn12, game.getNewGrid().getCells(2,2).getPawn());
         assertSame(player1, game.getWinner());
 
-        /* Apollo e Minotauro da finire
         game.setCurrentPlayer(player1);
         game.getCurrentPlayer().setDivinity(Divinity.MINOTAUR);
         game.setCurrentPlayer(player2);
         game.getCurrentPlayer().setDivinity(Divinity.APOLLO);
         Player player3 = new Player("player3", Divinity.DEMETER, Colour.RED);
+        game.setThreePlayers(true);
         game.setPlayers(player3);
         Pawn pawn31 = new Pawn(player3);
         pawn31.setId(729);
@@ -177,12 +177,18 @@ public class ClientControllerTest {
         game.getNewGrid().getCells(2,3).setPawn(pawn21);
         game.getNewGrid().getCells(3,4).setPawn(pawn12);
         game.getNewGrid().getCells(0,0).setPawn(pawn22);
-
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
         game.setCurrentPlayer(player1);
         move = new Move(pawn11);
         move.setX(1);
         move.setY(1);
         move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn31);
+        game.getGameTurn().setEnemyPawn2(pawn21);
+
         game = clientController.updateGameByMove(move,game);
         assertSame(pawn31, game.getNewGrid().getCells(1,0).getPawn());
 
@@ -191,12 +197,165 @@ public class ClientControllerTest {
         move.setX(1);
         move.setY(0);
         move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn31);
         game = clientController.updateGameByMove(move,game);
 
         assertSame(pawn31, game.getNewGrid().getCells(0,0).getPawn());
         assertSame(pawn22, game.getNewGrid().getCells(1,0).getPawn());
         assertSame(pawn11, game.getNewGrid().getCells(1,1).getPawn());
-        */
+
+        grid = new Grid();
+        game.setNewGrid(grid);
+        game.getNewGrid().getCells(1,1).setPawn(pawn31);
+        game.getNewGrid().getCells(3,1).setPawn(pawn32);
+        game.getNewGrid().getCells(1,2).setPawn(pawn11);
+        game.getNewGrid().getCells(2,2).setPawn(pawn21);
+        game.getNewGrid().getCells(3,4).setPawn(pawn12);
+        game.getNewGrid().getCells(0,0).setPawn(pawn22);
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
+        game.setCurrentPlayer(player1);
+        move = new Move(pawn11);
+        move.setX(2);
+        move.setY(2);
+        move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn31);
+        game.getGameTurn().setEnemyPawn2(pawn21);
+
+        game = clientController.updateGameByMove(move,game);
+        assertSame(pawn21, game.getNewGrid().getCells(3,2).getPawn());
+
+
+        grid = new Grid();
+        game.setNewGrid(grid);
+        game.getNewGrid().getCells(1,1).setPawn(pawn31);
+        game.getNewGrid().getCells(3,1).setPawn(pawn32);
+        game.getNewGrid().getCells(1,2).setPawn(pawn21);
+        game.getNewGrid().getCells(2,2).setPawn(pawn11);
+        game.getNewGrid().getCells(3,4).setPawn(pawn12);
+        game.getNewGrid().getCells(0,0).setPawn(pawn22);
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
+        game.setCurrentPlayer(player2);
+        move = new Move(pawn21);
+        move.setX(2);
+        move.setY(2);
+        move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn31);
+        game.getGameTurn().setEnemyPawn2(pawn11);
+
+        game = clientController.updateGameByMove(move,game);
+        assertSame(pawn11, game.getNewGrid().getCells(1,2).getPawn());
+        assertSame(pawn21, game.getNewGrid().getCells(2,2).getPawn());
+
+        grid = new Grid();
+        game.setNewGrid(grid);
+        game.getNewGrid().getCells(1,2).setPawn(pawn31);
+        game.getNewGrid().getCells(3,2).setPawn(pawn32);
+        game.getNewGrid().getCells(2,2).setPawn(pawn21);
+        game.getNewGrid().getCells(2,1).setPawn(pawn11);
+        game.getNewGrid().getCells(2,3).setPawn(pawn12);
+        game.getNewGrid().getCells(0,0).setPawn(pawn22);
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
+        game.setCurrentPlayer(player2);
+        move = new Move(pawn21);
+        move.setX(1);
+        move.setY(2);
+        move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn32);
+        game.getGameTurn().setEnemyPawn2(pawn11);
+        game.getGameTurn().setEnemyPawn3(pawn31);
+        game.getGameTurn().setEnemyPawn4(pawn12);
+
+        game = clientController.updateGameByMove(move,game);
+        assertSame(pawn31, game.getNewGrid().getCells(2,2).getPawn());
+        assertSame(pawn21, game.getNewGrid().getCells(1,2).getPawn());
+
+        grid = new Grid();
+        game.setNewGrid(grid);
+        game.getNewGrid().getCells(1,2).setPawn(pawn31);
+        game.getNewGrid().getCells(3,2).setPawn(pawn32);
+        game.getNewGrid().getCells(2,2).setPawn(pawn21);
+        game.getNewGrid().getCells(2,1).setPawn(pawn11);
+        game.getNewGrid().getCells(2,3).setPawn(pawn12);
+        game.getNewGrid().getCells(0,0).setPawn(pawn22);
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
+        game.setCurrentPlayer(player2);
+        move = new Move(pawn21);
+        move.setX(2);
+        move.setY(3);
+        move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn32);
+        game.getGameTurn().setEnemyPawn2(pawn11);
+        game.getGameTurn().setEnemyPawn3(pawn31);
+        game.getGameTurn().setEnemyPawn4(pawn12);
+
+        game = clientController.updateGameByMove(move,game);
+        assertSame(pawn12, game.getNewGrid().getCells(2,2).getPawn());
+        assertSame(pawn21, game.getNewGrid().getCells(2,3).getPawn());
+
+        grid = new Grid();
+        game.setNewGrid(grid);
+        game.getNewGrid().getCells(1,2).setPawn(pawn31);
+        game.getNewGrid().getCells(3,2).setPawn(pawn32);
+        game.getNewGrid().getCells(2,2).setPawn(pawn11);
+        game.getNewGrid().getCells(2,1).setPawn(pawn22);
+        game.getNewGrid().getCells(2,3).setPawn(pawn21);
+        game.getNewGrid().getCells(0,0).setPawn(pawn12);
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
+        game.setCurrentPlayer(player1);
+        move = new Move(pawn11);
+        move.setX(1);
+        move.setY(2);
+        move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn32);
+        game.getGameTurn().setEnemyPawn2(pawn21);
+        game.getGameTurn().setEnemyPawn3(pawn31);
+        game.getGameTurn().setEnemyPawn4(pawn22);
+
+        game = clientController.updateGameByMove(move,game);
+        assertSame(pawn31, game.getNewGrid().getCells(0,2).getPawn());
+        assertSame(pawn11, game.getNewGrid().getCells(1,2).getPawn());
+
+        grid = new Grid();
+        game.setNewGrid(grid);
+        game.getNewGrid().getCells(1,2).setPawn(pawn31);
+        game.getNewGrid().getCells(3,2).setPawn(pawn32);
+        game.getNewGrid().getCells(2,2).setPawn(pawn11);
+        game.getNewGrid().getCells(2,1).setPawn(pawn22);
+        game.getNewGrid().getCells(2,3).setPawn(pawn21);
+        game.getNewGrid().getCells(0,0).setPawn(pawn12);
+        game.getGameTurn().setEnemyPawn1(null);
+        game.getGameTurn().setEnemyPawn2(null);
+        game.getGameTurn().setEnemyPawn3(null);
+        game.getGameTurn().setEnemyPawn4(null);
+        game.setCurrentPlayer(player1);
+        move = new Move(pawn11);
+        move.setX(2);
+        move.setY(3);
+        move.setIfMove(true);
+        game.getGameTurn().setEnemyPawn1(pawn32);
+        game.getGameTurn().setEnemyPawn2(pawn22);
+        game.getGameTurn().setEnemyPawn3(pawn31);
+        game.getGameTurn().setEnemyPawn4(pawn21);
+
+        game = clientController.updateGameByMove(move,game);
+        assertSame(pawn21, game.getNewGrid().getCells(2,4).getPawn());
+        assertSame(pawn11, game.getNewGrid().getCells(2,3).getPawn());
 
     }
+
 }
