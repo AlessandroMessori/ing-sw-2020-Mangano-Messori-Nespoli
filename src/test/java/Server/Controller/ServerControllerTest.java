@@ -235,6 +235,36 @@ public class ServerControllerTest {
 
         moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
 
+        Move lastPlacedBlock = new Move(pawn1);
+        lastPlacedBlock.setX(1);
+        lastPlacedBlock.setY(1);
+
+        game.getNewGrid().getCells(1, 1).getTower().setIsDome(true);
+
+        game.getCurrentPlayer().setDivinity(Divinity.HEPHAESTUS);
+        game.getGameTurn().startingTurn(Divinity.HEPHAESTUS);
+        game.getGameTurn().setNPossibleBuildings(1);
+        game.getGameTurn().setNMadeBuildings(1);
+        game.getGameTurn().setLastPlacedBlock(lastPlacedBlock);
+
+        move = new Move(pawn1);
+        move.setX(0);
+        move.setY(1);
+        move.setIfMove(false);
+
+        moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
+        game.getNewGrid().getCells(1, 1).getTower().setIsDome(false);
+
+        game.getCurrentPlayer().setDivinity(Divinity.HEPHAESTUS);
+        game.getGameTurn().startingTurn(Divinity.HEPHAESTUS);
+        game.getGameTurn().setNPossibleBuildings(1);
+        game.getGameTurn().setNMadeBuildings(1);
+        game.getGameTurn().setLastPlacedBlock(lastPlacedBlock);
+
+        moves = serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), move, game.getGameTurn());
+
+
     }
 
 
