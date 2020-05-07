@@ -825,7 +825,7 @@ public class CLI {
         chosenDivinities = new ArrayList<String>();
         lobby = false;
     }
-
+/*
     public static void main(String[] args) {
         CLI cli = new CLI();
         Grid grid = new Grid();
@@ -833,4 +833,6 @@ public class CLI {
         cli.drawGrid(grid);
 
     }
+    */
+ 
 }
