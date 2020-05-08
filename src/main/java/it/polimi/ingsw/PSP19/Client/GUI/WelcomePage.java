@@ -35,6 +35,8 @@ public class WelcomePage extends Page implements Initializable {
         RequestHandler.getRequestHandler().updateRequest(Commands.JOIN_GAME, message);
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

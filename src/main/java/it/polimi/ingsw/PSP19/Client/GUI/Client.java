@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
@@ -36,7 +37,23 @@ public class Client extends Application implements ServerObserver {
     @Override
     public void start(Stage primaryStage) throws Exception {
         mainStage = primaryStage;
-        setCurrentPage(new WelcomePage());
+        currentPage = new WelcomePage();
+        String currentPageName = currentPage.getPageName();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
+        Parent root = loader.load();
+        root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
+
+        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
+
+        currentPage = loader.<WelcomePage>getController();
+
+        currentPage.setGame(game);
+
+        Scene scene = new Scene(root, width, height);
+
+        primaryStage.setTitle("SANTORINI");
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
         // initializes the singleton used to handle  sending requests to server
         requestHandler = RequestHandler.getRequestHandler();
@@ -59,9 +76,7 @@ public class Client extends Application implements ServerObserver {
         Thread serverAdapterThread = new Thread(serverAdapter);
         serverAdapterThread.start();
 
-        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
-
-        currentPage.setGame(null);
+        currentPage.setGame(game);
         currentPage.setServerAdapter(serverAdapter);
 
     }
@@ -109,16 +124,19 @@ public class Client extends Application implements ServerObserver {
     public void setCurrentPage(Page page) throws IOException {
         currentPage = page;
         String currentPageName = currentPage.getPageName();
-        root = FXMLLoader.load(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
+        Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
 
-        Scene scene = new Scene(root, width, height);
+        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
+
+        currentPage = loader.<LobbyPage>getController();
+
 
         Platform.runLater(
                 () -> {
-                    mainStage.setScene(scene);
-                    mainStage.setTitle("SANTORINI");
-                    mainStage.show();
+                    mainStage.getScene().setRoot(root);
+                    currentPage.setGame(game);
                 }
         );
 
@@ -141,7 +159,7 @@ public class Client extends Application implements ServerObserver {
      * @param player the player who joined the game
      */
     @Override
-    public synchronized void receiveNewPlayerConnected(Player player, String gameID)  {
+    public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
         System.out.println("Received Response From Server,Going to Lobby Page");
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
@@ -154,8 +172,7 @@ public class Client extends Application implements ServerObserver {
 
         try {
             setCurrentPage(new LobbyPage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

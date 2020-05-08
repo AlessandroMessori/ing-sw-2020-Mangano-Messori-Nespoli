@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage"
-            prefHeight="400.0" prefWidth="600.0">
 
-    <Text>Lobby Page</Text>
 
-</AnchorPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0"
+      prefWidth="1500.0" style="-fx-background-color: #0254D0;"
+      fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage"
+      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+>
+    <ListView layoutX="388.0" layoutY="315.0" prefHeight="485.0" prefWidth="724.0" fx:id="lobbyList"/>
+    <Text fill="WHITE" layoutX="599.0" layoutY="75.0" stroke="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="LOBBY PAGE" textAlignment="CENTER" wrappingWidth="302.7294921875">
+        <font>
+            <Font size="45.0"/>
+        </font>
+    </Text>
+    <Text fill="WHITE" layoutX="388.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME ID :"
+          textAlignment="CENTER" wrappingWidth="197.7294921875" fx:id="codGameText">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Text>
+</Pane>
