@@ -123,7 +123,7 @@ public class ServerAdapter implements Runnable {
             nextCommand = null;
             try {
                 wait();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
 
             if (nextCommand == null)

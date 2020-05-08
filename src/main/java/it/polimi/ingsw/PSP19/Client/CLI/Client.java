@@ -12,7 +12,7 @@ import it.polimi.ingsw.PSP19.Client.Network.PeriodicUpdater;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Pages;
-import  it.polimi.ingsw.PSP19.Server.Model.*;
+import it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Server;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Utils.CastingHelper;
@@ -326,8 +326,6 @@ public class Client implements Runnable, ServerObserver {
         System.out.println("");
         notifyAll();
     }
-
-    private boolean rechoosePawn = false;
 
     /**
      * function that gets called when an end game signal is received from the server

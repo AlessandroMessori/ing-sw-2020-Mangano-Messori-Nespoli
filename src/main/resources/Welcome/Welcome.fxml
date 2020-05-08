@@ -1,27 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.text.Text?>
-<Pane fx:id="welcomeContainer"
-        xmlns="http://javafx.com/javafx"
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Welcome"
-        styleClass="welcomeContainer">
-    <ImageView fx:id="header">
-        <Image url="/Images/logo.png"/>
-    </ImageView>
-    <Text fx:id="text1" styleClass="labelText">SERVER IP ADDRESS</Text>
-    <TextField fx:id="textField1"/>
-    <Text fx:id="text2" styleClass="labelText">NICKNAME</Text>
-    <TextField fx:id="textField2"/>
-    <Text fx:id="text3" styleClass="labelText">3 PLAYERS</Text>
-    <CheckBox fx:id="3PlayersCheckBox"/>
-    <Button fx:id="playBtn" onMouseClicked="#playBtnClick">PLAY</Button>
-</Pane>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="900.0" maxWidth="1500.0" minHeight="900.0" minWidth="1500.0" prefHeight="900.0"
+            prefWidth="1500.0" style="-fx-background-color: #0254D0;" xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="it.polimi.ingsw.PSP19.Client.GUI.WelcomePage"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <bottom>
+        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="240.0"
+                onMouseClicked="#playBtnClick"
+                style="-fx-background-color: #0254D0; -fx-border-color: white; -fx-border-width: 3px; -fx-translate-y: -20px;"
+                text="PLAY" textAlignment="CENTER" textFill="#f2e9e9" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="31.0"/>
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </Button>
+    </bottom>
+    <top>
+        <ImageView fitHeight="356.0" fitWidth="589.0" pickOnBounds="true" preserveRatio="true"
+                   BorderPane.alignment="CENTER">
+            <image>
+                <Image url="/Images/logo.png"/>
+            </image>
+        </ImageView>
+    </top>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-max-width: 500px;" BorderPane.alignment="CENTER">
+            <children>
+                <Label prefHeight="45.0" prefWidth="370.0" style="-fx-translate-y: 100px; -fx-text-fill: white;"
+                       text="SERVER IP ADDRESS">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Label>
+                <TextField style="-fx-translate-y: 120px;" fx:id="ipField"/>
+                <Label prefHeight="45.0" prefWidth="214.0" style="-fx-translate-y: 170px; -fx-text-fill: white;"
+                       text="NICKNAME">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Label>
+                <TextField style="-fx-translate-y: 190px;" fx:id="nickField"/>
+                <Label prefHeight="45.0" prefWidth="214.0" style="-fx-translate-y: 250px; -fx-text-fill: white;"
+                       text="3 PLAYERS">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Label>
+                <CheckBox mnemonicParsing="false" style="-fx-translate-x: 200px; -fx-translate-y: 220px;" fx:id="nPlayersCheck"/>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
