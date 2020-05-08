@@ -20,7 +20,6 @@ import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 import com.google.gson.Gson;
 
 public class Client implements Runnable, ServerObserver {
-    private String response = null;
     private Game game;
     private Pages currentPage;
     private CLI cli;

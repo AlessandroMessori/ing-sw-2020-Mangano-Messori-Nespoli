@@ -15,7 +15,7 @@ public class LobbyPage extends Page implements Initializable {
 
 
     public String getPageName() {
-        return "ChooseDivinities";
+        return "Lobby";
     }
 
     public void drawPage(Parent root, double w, double h) {

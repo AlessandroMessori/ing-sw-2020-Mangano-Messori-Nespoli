@@ -1,11 +1,11 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
-import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Server;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,31 +18,27 @@ import java.net.Socket;
 public class Client extends Application implements ServerObserver {
     private RequestHandler requestHandler;
     private ServerAdapter serverAdapter;
-    private String response = null;
     private Game game;
     private Page currentPage;
-    private ClientController clientController;
     private String playerUsername;
     private Colour chosenColor;
-    private boolean checkModel;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
     private boolean alreadyChosenCanComeUp = false;
-    boolean loopCheck = true;
     private int lastMoveNumber = -1;
     private int lastMovedturn = 0;
     private Pawn chosenPawn = null;
+    private Stage mainStage;
     double width = 1500;
     double height = 900;
     Parent root;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        currentPage = new WelcomePage();
-        String currentPageName = currentPage.getPageName();
-        root = FXMLLoader.load(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
-        root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
+        mainStage = primaryStage;
+        setCurrentPage(new WelcomePage());
 
+        // initializes the singleton used to handle  sending requests to server
         requestHandler = RequestHandler.getRequestHandler();
         requestHandler.setClient(this);
 
@@ -63,22 +59,20 @@ public class Client extends Application implements ServerObserver {
         Thread serverAdapterThread = new Thread(serverAdapter);
         serverAdapterThread.start();
 
-        Scene scene = new Scene(root, width, height);
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("SANTORINI");
-        primaryStage.show();
-
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
 
         currentPage.setGame(null);
         currentPage.setServerAdapter(serverAdapter);
+
     }
 
     public static void main(String[] args) {
         Application.launch(args);
     }
 
+    /***
+     * makes requests to the server based on the data of requestHandler
+     */
     public void makeRequest() {
         String reqContent = requestHandler.getCurrentRequest();
         switch (requestHandler.getCurrentCommand()) {
@@ -109,6 +103,28 @@ public class Client extends Application implements ServerObserver {
         }
     }
 
+    /***
+     * Sets the current Scene
+     */
+    public void setCurrentPage(Page page) throws IOException {
+        currentPage = page;
+        String currentPageName = currentPage.getPageName();
+        root = FXMLLoader.load(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
+        root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
+
+        Scene scene = new Scene(root, width, height);
+
+        Platform.runLater(
+                () -> {
+                    mainStage.setScene(scene);
+                    mainStage.setTitle("SANTORINI");
+                    mainStage.show();
+                }
+        );
+
+    }
+
+
     /**
      * function that gets called when a username taken signal is received from the server
      *
@@ -125,12 +141,24 @@ public class Client extends Application implements ServerObserver {
      * @param player the player who joined the game
      */
     @Override
-    public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
+    public synchronized void receiveNewPlayerConnected(Player player, String gameID)  {
         System.out.println("Received Response From Server,Going to Lobby Page");
-        //game.getPlayers().addPlayer(player);
-        //game.setCodGame(gameID);
-        checkModel = true;
-        //currentPage = Pages.LOBBY;
+        game.getPlayers().addPlayer(player);
+        game.setCodGame(gameID);
+
+        ModelUpdaterThread modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
+        Thread modelUpdaterThread = new Thread(modelUpdater);
+
+        modelUpdater.setModelCheck(true);
+        modelUpdaterThread.start();
+
+        try {
+            setCurrentPage(new LobbyPage());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         notifyAll();
     }
 
@@ -196,6 +224,7 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receiveModelUpdate(Game g) {
+        System.out.println("Received Model Update");
         game = g;
         currentPage.setGame(g);
     }
