@@ -36,18 +36,11 @@ public class Client extends Application implements ServerObserver {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        mainStage = primaryStage;
-        currentPage = new WelcomePage();
-        String currentPageName = currentPage.getPageName();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
-        Parent root = loader.load();
-        root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
+        mainStage = primaryStage;
 
-        currentPage = loader.<WelcomePage>getController();
-
-        currentPage.setGame(game);
+        root = setCurrentPage(new WelcomePage());
 
         Scene scene = new Scene(root, width, height);
 
@@ -121,16 +114,14 @@ public class Client extends Application implements ServerObserver {
     /***
      * Sets the current Scene
      */
-    public void setCurrentPage(Page page) throws IOException {
+    public Parent setCurrentPage(Page page) throws IOException {
         currentPage = page;
         String currentPageName = currentPage.getPageName();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
         Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
 
-        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
-
-        currentPage = loader.<LobbyPage>getController();
+        currentPage = loader.getController();
 
 
         Platform.runLater(
@@ -139,6 +130,8 @@ public class Client extends Application implements ServerObserver {
                     currentPage.setGame(game);
                 }
         );
+
+        return root;
 
     }
 

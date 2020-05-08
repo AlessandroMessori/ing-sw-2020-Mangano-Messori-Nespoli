@@ -42,6 +42,8 @@ public class LobbyPage extends Page implements Initializable {
 
         lobbyList.setItems(lobbyItems);
 
+        codGameText.setText("GAME ID:" + game.getCodGame());
+
     }
 
     @Override
