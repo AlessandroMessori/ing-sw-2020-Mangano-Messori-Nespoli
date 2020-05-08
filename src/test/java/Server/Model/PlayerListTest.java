@@ -15,12 +15,12 @@ public class PlayerListTest {
     static PlayerList playerList;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         playerList = new PlayerList();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         playerList = null;
     }
 
@@ -31,7 +31,7 @@ public class PlayerListTest {
         playerList.addPlayer(new Player("Player1", Divinity.ATHENA, Colour.RED));
         playerList.addPlayer(new Player("Player2", Divinity.ATLAS, Colour.BLUE));
 
-        assertTrue(playerList.size() == 2);
+        assertEquals(2, playerList.size());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class PlayerListTest {
         playerList.addPlayer(new Player("Player1", Divinity.ATHENA, Colour.RED));
         playerList.addPlayer(new Player("Player2", Divinity.ATLAS, Colour.BLUE));
 
-        Player toDeletePlayer = new Player("Player3", Divinity.APOLLO, Colour.GREEN);
+        Player toDeletePlayer = new Player("Player3", Divinity.APOLLO, Colour.PINK);
         playerList.deletePlayer(toDeletePlayer);
     }
 

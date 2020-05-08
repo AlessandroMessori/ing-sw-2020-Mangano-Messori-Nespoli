@@ -27,19 +27,19 @@ public class PlayerTest {
     @Test
     public void getUsernameTest() {
         player = new Player("Player2", Divinity.ATHENA, Colour.RED);
-        assertTrue("Player2".equals(player.getUsername()));
+        assertEquals("Player2", player.getUsername());
     }
 
     @Test
     public void getDivinityTest() {
         player = new Player("Player1", Divinity.MINOTAUR, Colour.RED);
-        assertTrue(player.getDivinity() == Divinity.MINOTAUR);
+        assertSame(player.getDivinity(), Divinity.MINOTAUR);
     }
 
     @Test
     public void getColourTest() {
-        player = new Player("Player1", Divinity.ATHENA, Colour.GREEN);
-        assertTrue(player.getColour() == Colour.GREEN);
+        player = new Player("Player1", Divinity.ATHENA, Colour.PINK);
+        assertSame(player.getColour(), Colour.PINK);
     }
 
     @Test

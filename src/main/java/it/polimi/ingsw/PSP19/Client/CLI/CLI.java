@@ -394,6 +394,7 @@ public class CLI {
                 } else {
                     rowTwo.append("       ");
                 }
+
                 if (y == 4) {
                     rowOne.append("|");
                     rowTwo.append("|");
@@ -411,6 +412,216 @@ public class CLI {
         }
 
         System.out.println(bot);
+
+    }
+
+    /**
+     * Higlight the cells where is possible to act
+     *
+     * @param grid Grid of the game
+     * @param possibleMoves list of possible action
+     */
+    public void drawPossibleMovesOnGrid(Grid grid, MoveList possibleMoves) {
+        StringBuilder rowOne = new StringBuilder();
+        StringBuilder rowTwo = new StringBuilder();
+        StringBuilder top = new StringBuilder();
+        StringBuilder mid = new StringBuilder();
+        StringBuilder bot = new StringBuilder();
+        StringColor color = StringColor.ANSI_GREEN;
+        StringColor colorPawn;
+        int[][] posCoord = new int[5][5];
+        for(int i = 0; i < possibleMoves.size(); i++) {
+        for(int x = 0; x < 5; x++){
+            for(int y = 0; y < 5; y++){
+
+                    if ((possibleMoves.getMove(i).getX() == x) && (possibleMoves.getMove(i).getY() == y)) {
+                        posCoord[x][y] = 1;
+                    }
+                }
+            }
+        }
+
+        System.out.println("\\ Y |   1   |   2   |   3   |   4   |   5   |");
+        top.append("X \\");
+        bot.append("__  ");
+        for (int x = 0; x < 5; x++) {
+
+            top.append("  ");
+
+            rowOne.append("    ");
+            rowTwo.append((x + 1) + "   ");
+            mid.append("__  ");
+
+            for (int y = 0; y < 5; y++) {
+
+                if (x == 0) {
+                    if (posCoord[x][y] == 1) {
+                        top.append(color + "_______" + StringColor.RESET);
+                        rowOne.append(color + "|" + StringColor.RESET);
+                        rowTwo.append(color + "|" + StringColor.RESET);
+                    } else {
+
+                        top.append("_______");
+
+                        if (y > 0) {
+                            if (posCoord[x][y - 1] == 1) {
+                                rowOne.append(color + "|" + StringColor.RESET);
+                                rowTwo.append(color + "|" + StringColor.RESET);
+                            } else {
+                                rowOne.append("|");
+                                rowTwo.append("|");
+                            }
+                        } else {
+                            rowOne.append("|");
+                            rowTwo.append("|");
+                        }
+
+                    }
+
+                } else {
+                    if (posCoord[x - 1][y] == 1) {
+                        mid.append(color + "|" + StringColor.RESET);
+                    } else if (y > 0) {
+                        if (posCoord[x - 1][y - 1] == 1) {
+                            mid.append(color + "|" + StringColor.RESET);
+                        } else {
+                            mid.append("|");
+                        }
+                    } else {
+                        mid.append("|");
+                    }
+
+                    if (posCoord[x][y] == 1) {
+                        mid.append(color + "_______" + StringColor.RESET);
+                        rowOne.append(color + "|" + StringColor.RESET);
+                        rowTwo.append(color + "|" + StringColor.RESET);
+                    } else {
+                        if (posCoord[x - 1][y] == 1) {
+                            mid.append(color + "_______" + StringColor.RESET);
+                        } else {
+                            mid.append("_______");
+                        }
+                        if (y > 0) {
+                            if (posCoord[x][y - 1] == 1) {
+                                rowOne.append(color + "|" + StringColor.RESET);
+                                rowTwo.append(color + "|" + StringColor.RESET);
+                            } else {
+                                rowOne.append("|");
+                                rowTwo.append("|");
+                            }
+                        } else {
+                            rowOne.append("|");
+                            rowTwo.append("|");
+                        }
+
+                    }
+                }
+
+
+                if (grid.getCells(x, y).getPawn() != null) {
+                    colorPawn = colorString(grid.getCells(x, y).getPawn().getOwner(), false);
+                    rowOne.append(colorPawn + " W");
+                    if (grid.getCells(x, y).getPawn().getId() % 2 == 1) {
+                        rowOne.append("1");
+                    } else {
+                        rowOne.append("2");
+                    }
+                    rowOne.append("    " + StringColor.RESET);
+                } else {
+                    rowOne.append("       ");
+                }
+
+                if (grid.getCells(x, y).getTower().getLevel() != 0) {
+                    int lvl = grid.getCells(x, y).getTower().getLevel();
+                    if ((lvl == 4) || (grid.getCells(x, y).getTower().getIsDome())) {
+                        rowTwo.append("    X  ");
+                    } else {
+                        rowTwo.append("    T" + lvl + " ");
+                    }
+                } else {
+                    rowTwo.append("       ");
+                }
+
+                if (y == 4) {
+                    if (x == 0) {
+                        if (posCoord[x][y] == 1) {
+                            rowOne.append(color + "|" + StringColor.RESET);
+                            rowTwo.append(color + "|" + StringColor.RESET);
+                        } else {
+                            rowOne.append("|");
+                            rowTwo.append("|");
+                        }
+                    } else {
+                        if (posCoord[x - 1][y] == 1) {
+                            mid.append(color + "|" + StringColor.RESET);
+                        } else {
+
+                                mid.append("|");
+
+                        }
+                        if (posCoord[x][y - 1] == 1) {
+                            rowOne.append(color + "|" + StringColor.RESET);
+                            rowTwo.append(color + "|" + StringColor.RESET);
+                        } else {
+                            rowOne.append("|");
+                            rowTwo.append("|");
+                        }
+                    }
+                }else{
+                    top.append("_");
+                }
+
+                if (x == 4) {
+                    if (posCoord[x][y] == 1) {
+                        bot.append(color + "|" + StringColor.RESET);
+                    } else if (y > 0) {
+                        if (posCoord[x][y - 1] == 1) {
+                            bot.append(color + "|" + StringColor.RESET);
+                        } else {
+                            bot.append("|");
+                        }
+                    } else {
+                        bot.append("|");
+                    }
+
+                    if (posCoord[x][y] == 1) {
+                        bot.append(color + "_______" + StringColor.RESET);
+
+                    } else {
+                        bot.append("_______");
+                    }
+
+                    if (y == 4) {
+                        if (posCoord[x - 1][y] == 1) {
+                            bot.append(color + "|" + StringColor.RESET);
+                        } else {
+                            if (posCoord[x - 1][y - 1] == 1) {
+                                bot.append(color + "|" + StringColor.RESET);
+                            } else {
+                                bot.append("|");
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+            if(x == 0) System.out.println(top);
+            else System.out.println(mid);
+
+            System.out.println(rowOne);
+            System.out.println(rowTwo);
+
+            top.delete(0, top.length());
+            rowOne.delete(0, rowOne.length());
+            rowTwo.delete(0, rowTwo.length());
+            mid.delete(0, mid.length());
+
+
+        }
+        System.out.println(bot);
+        bot.delete(0, bot.length());
 
     }
 
@@ -442,14 +653,14 @@ public class CLI {
         if(!background) {
             if (pl.getColour() == Colour.BLUE) color = StringColor.ANSI_BLUE;
             if (pl.getColour() == Colour.RED) color = StringColor.ANSI_RED;
-            if (pl.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
+            //if (pl.getColour() == Colour.GREEN) color = StringColor.ANSI_GREEN;
             if (pl.getColour() == Colour.YELLOW) color = StringColor.ANSI_YELLOW;
             if (pl.getColour() == Colour.WHITE) color = StringColor.ANSI_WHITE;
             if (pl.getColour() == Colour.PINK) color = StringColor.ANSI_PINK;
         }else{
             if (pl.getColour() == Colour.BLUE) color = StringColor.BACKGROUND_BLUE;
             if (pl.getColour() == Colour.RED) color = StringColor.BACKGROUND_RED;
-            if (pl.getColour() == Colour.GREEN) color = StringColor.BACKGROUND_GREEN;
+            //if (pl.getColour() == Colour.GREEN) color = StringColor.BACKGROUND_GREEN;
             if (pl.getColour() == Colour.YELLOW) color = StringColor.BACKGROUND_YELLOW;
             if (pl.getColour() == Colour.WHITE) color = StringColor.BACKGROUND_WHITE;
             if (pl.getColour() == Colour.PINK) color = StringColor.BACKGROUND_PINK;
@@ -653,7 +864,7 @@ public class CLI {
      * @param possibleAction list of possible action from which the player has to chose
      * @return the action that the player choose
      */
-    public Move choseMove(MoveList possibleAction) { //move ifmove dice se è mossa di movimento (true) o costruzione (false)
+    public Move choseMove(MoveList possibleAction, Grid movesGrid) { //move ifmove dice se è mossa di movimento (true) o costruzione (false)
         Move chosenMove = null;
         //Move jumpAction;
         Scanner input = new Scanner(System.in);
@@ -708,6 +919,7 @@ public class CLI {
             list.append(row[i] + "\n");
         }
 
+        drawPossibleMovesOnGrid(movesGrid, possibleAction);
         System.out.println(list);
 
         //choice
@@ -829,10 +1041,40 @@ public class CLI {
     public static void main(String[] args) {
         CLI cli = new CLI();
         Grid grid = new Grid();
+        Player player = new Player("ciao", Divinity.DEMETER, Colour.RED);
+        Pawn pawn = new Pawn(player);
+        pawn.setId(32);
+        grid.getCells(3,1).setPawn(pawn);
+        MoveList moveList = new MoveList();
 
-        cli.drawGrid(grid);
+        Move move = new Move(pawn);
+        move.setX(0);
+        move.setY(0);
+        moveList.addMove(move);
+
+        Move move2 = new Move(pawn);
+        move2.setX(0);
+        move2.setY(1);
+        moveList.addMove(move2);
+
+        Move move3 = new Move(pawn);
+        move3.setX(0);
+        move3.setY(2);
+        moveList.addMove(move3);
+
+        Move move4 = new Move(pawn);
+        move4.setX(0);
+        move4.setY(3);
+        moveList.addMove(move4);
+
+        Move move5 = new Move(pawn);
+        move5.setX(0);
+        move5.setY(4);
+        moveList.addMove(move5);
+
+        cli.drawPossibleMovesOnGrid(grid,moveList);
 
     }
-    */
+*/
  
 }
