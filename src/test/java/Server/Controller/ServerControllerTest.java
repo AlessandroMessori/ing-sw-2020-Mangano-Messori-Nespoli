@@ -31,14 +31,14 @@ public class ServerControllerTest {
         String str = ServerController.randomString(10);
         String st2 = ServerController.randomString(10);
         assertSame(10, str.length());
-        assertFalse(str.equals(st2));
+        assertNotEquals(str, st2);
     }
 
     @Test
     public void addPlayerToModelTest() {
         serverController.addPlayerToModel(new Player("G1", Divinity.ATHENA, Colour.RED), true);
         serverController.addPlayerToModel(new Player("G2", Divinity.ATLAS, Colour.BLUE), true);
-        serverController.addPlayerToModel(new Player("G3", Divinity.ARTEMIS, Colour.GREEN), true);
+        //serverController.addPlayerToModel(new Player("G3", Divinity.ARTEMIS, Colour.GREEN), true);
         serverController.addPlayerToModel(new Player("G4", Divinity.ATHENA, Colour.RED), false);
         serverController.addPlayerToModel(new Player("G5", Divinity.PAN, Colour.PINK), false);
 

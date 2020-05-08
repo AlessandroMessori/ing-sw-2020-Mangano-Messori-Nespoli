@@ -169,7 +169,7 @@ public class Client implements Runnable, ServerObserver {
                         boolean endTurn = false;
 
                         if (game.getNextMoves().size() > 0) {
-                            chosenMove = (game.getNextMoves().size() == 1 && game.getNextMoves().getMove(0).getX() == 6) ? game.getNextMoves().getMove(0) : cli.choseMove(game.getNextMoves());
+                            chosenMove = (game.getNextMoves().size() == 1 && game.getNextMoves().getMove(0).getX() == 6) ? game.getNextMoves().getMove(0) : cli.choseMove(game.getNextMoves(), game.getNewGrid());
                             String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
                             System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
                             endTurn = chosenMove.getX() == 6 && chosenMove.getY() == 6;
