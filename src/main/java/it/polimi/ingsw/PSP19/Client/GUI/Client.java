@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
@@ -46,6 +45,7 @@ public class Client extends Application implements ServerObserver {
 
         primaryStage.setTitle("SANTORINI");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         // initializes the singleton used to handle  sending requests to server

@@ -1,0 +1,4 @@
+#gamePage {
+    -fx-background-image: url(/Images/SantoriniBoard.png);
+    -fx-background-size: stretch;
+}
