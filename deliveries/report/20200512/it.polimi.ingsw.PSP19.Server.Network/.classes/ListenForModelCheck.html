@@ -1,0 +1,124 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ListenForModelCheck</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Server.Network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ListenForModelCheck (it.polimi.ingsw.PSP19.Server.Network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListenForModelCheck</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Server.Network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Game;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Model;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.io.ObjectOutputStream;
+<i>10</i>&nbsp;import java.net.Socket;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class ListenForModelCheck extends ResponseHandler {
+<i>13</i>&nbsp;    private Socket client;
+<i>14</i>&nbsp;    private ObjectOutputStream output;
+<i>15</i>&nbsp;    private MessageSerializer messageSerializer;
+<i>16</i>&nbsp;    private MessageDeserializer messageDeserializer;
+<i>17</i>&nbsp;    private Model model;
+<i>18</i>&nbsp;    private Game game;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public ListenForModelCheck(Socket cl, ObjectOutputStream out) {
+<b class="nc"><i>21</i>&nbsp;        super(cl, out);</b>
+<b class="nc"><i>22</i>&nbsp;        client = cl;</b>
+<b class="nc"><i>23</i>&nbsp;        output = out;</b>
+<b class="nc"><i>24</i>&nbsp;        messageSerializer = new MessageSerializer();</b>
+<b class="nc"><i>25</i>&nbsp;        messageDeserializer = new MessageDeserializer();</b>
+<b class="nc"><i>26</i>&nbsp;        model = Model.getModel();</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @Override
+<i>30</i>&nbsp;    public void handleResponse(String requestContent) throws IOException {
+<i>31</i>&nbsp;        try {
+<i>32</i>&nbsp;            String response, gameID;
+<b class="nc"><i>33</i>&nbsp;            gameID = messageDeserializer.deserializeString(requestContent, &quot;gameID&quot;);</b>
+<b class="nc"><i>34</i>&nbsp;            game = model.searchID(gameID);</b>
+<b class="nc"><i>35</i>&nbsp;            response = messageSerializer.serializeGame(game).toString();</b>
+<b class="nc"><i>36</i>&nbsp;            output.writeObject(response);</b>
+<b class="nc"><i>37</i>&nbsp;        } catch (ClassCastException e) {</b>
+<b class="nc"><i>38</i>&nbsp;            System.out.println(&quot;error while writing the response&quot;);</b>
+<b class="nc"><i>39</i>&nbsp;        }</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-11 22:43</div>
+</div>
+</body>
+</html>
