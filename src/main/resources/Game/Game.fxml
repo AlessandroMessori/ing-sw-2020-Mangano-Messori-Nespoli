@@ -18,7 +18,7 @@
     <center>
         <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane fx:id="gameGrid" layoutX="200.0" layoutY="172.0" onMouseClicked="#printCell" prefHeight="606.0" prefWidth="605.0">
+                <GridPane fx:id="gameGrid" layoutX="200.0" layoutY="172.0" prefHeight="606.0" prefWidth="605.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -59,6 +59,31 @@
                   <ImageView id="towerImg42" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ImageView id="towerImg43" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                   <ImageView id="towerImg44" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <ImageView id="pawnImg00" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="pawnImg01" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView id="pawnImg02" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                  <ImageView id="pawnImg03" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                  <ImageView id="pawnImg04" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                  <ImageView id="pawnImg10" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                  <ImageView id="pawnImg11" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView id="pawnImg12" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ImageView id="pawnImg13" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ImageView id="pawnImg14" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <ImageView id="pawnImg20" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                  <ImageView id="pawnImg21" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ImageView id="pawnImg22" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ImageView id="pawnImg23" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <ImageView id="pawnImg24" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <ImageView id="pawnImg30" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+                  <ImageView id="pawnImg31" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ImageView id="pawnImg32" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <ImageView id="pawnImg33" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <ImageView id="pawnImg34" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <ImageView id="pawnImg40" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+                  <ImageView id="pawnImg41" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <ImageView id="pawnImg42" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <ImageView id="pawnImg43" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <ImageView id="pawnImg44" fitHeight="129.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                </children>
                 </GridPane>
             </children>
