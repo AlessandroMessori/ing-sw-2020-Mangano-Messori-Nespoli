@@ -7,7 +7,7 @@
 
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0"
-      prefWidth="1500.0" style="-fx-background-color: #0254D0;"
+      prefWidth="1440.0" style="-fx-background-color: #0254D0;"
       fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage"
       xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
 >
