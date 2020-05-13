@@ -29,7 +29,7 @@ public class Client extends Application implements ServerObserver {
     private int lastMovedturn = 0;
     private Pawn chosenPawn = null;
     private Stage mainStage;
-    double width = 1500;
+    double width = 1440;
     double height = 900;
     Parent root;
 

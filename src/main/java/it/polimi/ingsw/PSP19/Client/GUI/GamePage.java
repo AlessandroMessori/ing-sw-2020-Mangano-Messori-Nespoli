@@ -84,8 +84,7 @@ public class GamePage extends Page implements Initializable {
                     currentPawnImage.setImage(new Image("/Images/logo.png"));
                 }
 
-            }
-        }
+            }        }
     }
 }
 

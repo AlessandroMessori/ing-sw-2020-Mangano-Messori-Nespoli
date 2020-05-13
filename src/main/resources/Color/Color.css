@@ -1,0 +1,7 @@
+#colorPageContainer {
+    -fx-background-image: url("/Images/ColorChoice/pawnchoiceBackground.png");
+}
+
+.chooseColorBtn {
+    -fx-cursor: hand;
+}

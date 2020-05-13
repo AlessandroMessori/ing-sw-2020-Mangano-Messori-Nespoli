@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="colorPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="900.0" prefWidth="1400.0" stylesheets="@Color.css" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.ColorPage">
+    <ImageView fx:id="pawnTaken1" fitHeight="287.0" fitWidth="236.0" layoutX="132.0" layoutY="177.0" pickOnBounds="true"
+               preserveRatio="true">
+    </ImageView>
+    <ImageView fx:id="pawnTaken2" fitHeight="287.0" fitWidth="236.0" layoutX="624.0" layoutY="177.0" pickOnBounds="true"
+               preserveRatio="true">
+
+    </ImageView>
+    <ImageView fx:id="pawnTaken3" fitHeight="287.0" fitWidth="236.0" layoutX="1071.0" layoutY="177.0"
+               pickOnBounds="true" preserveRatio="true">
+
+    </ImageView>
+    <ImageView fx:id="pawnTaken4" fitHeight="287.0" fitWidth="236.0" layoutX="368.0" layoutY="477.0" pickOnBounds="true"
+               preserveRatio="true">
+
+    </ImageView>
+    <ImageView fx:id="pawnTaken5" fitHeight="287.0" fitWidth="236.0" layoutX="835.0" layoutY="477.0" pickOnBounds="true"
+               preserveRatio="true">
+
+    </ImageView>
+    <ImageView fx:id="chooseColorBtn1" styleClass="chooseColorBtn" fitHeight="108.0" fitWidth="236.0" layoutX="121.0"
+               layoutY="409.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/ColorChoice/btn_blue.png"/>
+    </ImageView>
+    <ImageView fx:id="chooseColorBtn2" styleClass="chooseColorBtn" fitHeight="97.0" fitWidth="236.0" layoutX="604.0"
+               layoutY="409.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/ColorChoice/btn_coral.png"/>
+    </ImageView>
+    <ImageView fx:id="chooseColorBtn3" styleClass="chooseColorBtn" fitHeight="95.0" fitWidth="236.0" layoutX="1065.0"
+               layoutY="409.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/ColorChoice/btn_white.png"/>
+    </ImageView>
+    <ImageView fx:id="chooseColorBtn4" styleClass="chooseColorBtn" fitHeight="109.0" fitWidth="236.0" layoutX="357.0"
+               layoutY="718.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/ColorChoice/btn_yellow.png"/>
+    </ImageView>
+    <ImageView fx:id="chooseColorBtn5" styleClass="chooseColorBtn" fitHeight="109.0" fitWidth="236.0" layoutX="840.0"
+               layoutY="718.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/ColorChoice/btn_purple.png"/>
+    </ImageView>
+</Pane>
