@@ -543,29 +543,21 @@ public class CLI {
                 }
 
                 if (y == 4) {
-                    if (x == 0) {
-                        if (posCoord[x][y] == 1) {
-                            rowOne.append(color + "|" + StringColor.RESET);
-                            rowTwo.append(color + "|" + StringColor.RESET);
-                        } else {
-                            rowOne.append("|");
-                            rowTwo.append("|");
-                        }
-                    } else {
+                    if (x != 0) {
                         if (posCoord[x - 1][y] == 1) {
                             mid.append(color + "|" + StringColor.RESET);
                         } else {
 
-                                mid.append("|");
+                            mid.append("|");
 
                         }
-                        if (posCoord[x][y - 1] == 1) {
-                            rowOne.append(color + "|" + StringColor.RESET);
-                            rowTwo.append(color + "|" + StringColor.RESET);
-                        } else {
-                            rowOne.append("|");
-                            rowTwo.append("|");
-                        }
+                    }
+                    if (posCoord[x][y] == 1) {
+                        rowOne.append(color + "|" + StringColor.RESET);
+                        rowTwo.append(color + "|" + StringColor.RESET);
+                    } else {
+                        rowOne.append("|");
+                        rowTwo.append("|");
                     }
                 }else{
                     top.append("_");
@@ -595,11 +587,11 @@ public class CLI {
                         if (posCoord[x - 1][y] == 1) {
                             bot.append(color + "|" + StringColor.RESET);
                         } else {
-                            if (posCoord[x - 1][y - 1] == 1) {
+                            /*if (posCoord[x - 1][y - 1] == 1) {
                                 bot.append(color + "|" + StringColor.RESET);
-                            } else {
+                            } else {*/
                                 bot.append("|");
-                            }
+                            //}
                         }
                     }
                 }
@@ -1044,32 +1036,32 @@ public class CLI {
         Player player = new Player("ciao", Divinity.DEMETER, Colour.RED);
         Pawn pawn = new Pawn(player);
         pawn.setId(32);
-        grid.getCells(3,1).setPawn(pawn);
+        grid.getCells(1,2).setPawn(pawn);
         MoveList moveList = new MoveList();
 
         Move move = new Move(pawn);
         move.setX(0);
-        move.setY(0);
+        move.setY(4);
         moveList.addMove(move);
 
         Move move2 = new Move(pawn);
-        move2.setX(0);
-        move2.setY(1);
+        move2.setX(1);
+        move2.setY(3);
         moveList.addMove(move2);
 
         Move move3 = new Move(pawn);
-        move3.setX(0);
-        move3.setY(2);
+        move3.setX(2);
+        move3.setY(1);
         moveList.addMove(move3);
 
         Move move4 = new Move(pawn);
-        move4.setX(0);
+        move4.setX(3);
         move4.setY(3);
         moveList.addMove(move4);
 
         Move move5 = new Move(pawn);
-        move5.setX(0);
-        move5.setY(4);
+        move5.setX(4);
+        move5.setY(3);
         moveList.addMove(move5);
 
         cli.drawPossibleMovesOnGrid(grid,moveList);
