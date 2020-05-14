@@ -39,7 +39,7 @@ public class Client extends Application implements ServerObserver {
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         mainStage = primaryStage;
 
-        root = setCurrentPage(new WelcomePage());
+        root = setCurrentPage(new ColorPage());
 
         Scene scene = new Scene(root, width, height);
 
@@ -127,12 +127,18 @@ public class Client extends Application implements ServerObserver {
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
+                    currentPage.setClient(this);
                     currentPage.setGame(game);
                 }
         );
 
         return root;
 
+    }
+
+
+    public void setChosenColor(Colour cColor) {
+        chosenColor = cColor;
     }
 
 

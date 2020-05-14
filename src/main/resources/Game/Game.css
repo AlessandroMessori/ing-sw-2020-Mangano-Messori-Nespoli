@@ -1,4 +1,9 @@
 #gamePage {
-    -fx-background-image: url(/Images/SantoriniBoard.png);
+    -fx-background-image: url(../Images/Game/SantoriniBoard_flat_2players.png);
     -fx-background-size: stretch;
+}
+
+.pawnImg {
+    -fx-translate-x: 30px;
+    -fx-translate-y: -2px;
 }
