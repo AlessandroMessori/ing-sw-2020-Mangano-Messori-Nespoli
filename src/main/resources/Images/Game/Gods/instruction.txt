@@ -1,0 +1,4 @@
+TAVOLA 2 GIOCATORI --> entrambe divinità BIGGER + rispettivo POWER
+
+TAVOLA 3 GIOCATORI --> player proprietario del client ha Divinità da BIGGER + rispettivo POWER,
+                       i due giocatori avversari hanno divinità da SMALLER (potere già nel png)
