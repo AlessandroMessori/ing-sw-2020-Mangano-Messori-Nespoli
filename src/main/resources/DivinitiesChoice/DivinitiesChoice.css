@@ -1,0 +1,10 @@
+#divinitiesPageContainer {
+    -fx-background-image: url("/Images/DivChoice/DivChoiceBackgrond.png");
+}
+
+.divinityBtn {
+    -fx-cursor: hand;
+}
+.goBtn {
+    -fx-cursor: hand;
+}
