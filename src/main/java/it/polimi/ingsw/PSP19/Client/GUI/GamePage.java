@@ -40,7 +40,13 @@ public class GamePage extends Page implements Initializable {
         game.getPlayers().addPlayer(g1);
         game.getPlayers().addPlayer(g2);
         game.getNewGrid().getCells(0, 3).getTower().setLevel(1);
+        game.getNewGrid().getCells(0, 2).getTower().setLevel(2);
+        game.getNewGrid().getCells(0, 1).getTower().setLevel(3);
+        game.getNewGrid().getCells(0, 0).getTower().setLevel(4);
         game.getNewGrid().getCells(2, 1).getTower().setLevel(1);
+        game.getNewGrid().getCells(1, 2).getTower().setLevel(2);
+        game.getNewGrid().getCells(2, 1).getTower().setLevel(3);
+        game.getNewGrid().getCells(4, 0).getTower().setLevel(4);
         game.getNewGrid().getCells(3, 4).setPawn(new Pawn(g1));
         game.getNewGrid().getCells(2, 1).setPawn(new Pawn(g1));
 
@@ -56,7 +62,7 @@ public class GamePage extends Page implements Initializable {
                 currentPawnImage.setOnMouseClicked(e -> {
                     System.out.printf("Clicked at Cell %d,%d\n", finalI, finalJ);
 
-                    if  (currentCell.getPawn() != null) {
+                    if (currentCell.getPawn() != null) {
                         System.out.println(currentCell.getPawn().getOwner().getUsername());
                         System.out.println(game.getCurrentPlayer());
                     }
@@ -76,15 +82,31 @@ public class GamePage extends Page implements Initializable {
 
                 // draws Tower
                 if (currentCell.getTower().getLevel() > 0) {
-                    currentTowerImage.setImage(new Image("/Images/button-play-normal.png"));
+                    currentTowerImage.setImage(new Image(getBuildingImagePath(currentCell.getTower().getLevel())));
                 }
 
                 // draws Pawn
                 if (currentCell.getPawn() != null) {
-                    currentPawnImage.setImage(new Image("/Images/logo.png"));
+                    currentPawnImage.setImage(new Image("/Images/Game/Pawns/MaleBuilder_red.png"));
                 }
 
-            }        }
+            }
+        }
+    }
+
+    public String getBuildingImagePath(int level) {
+        switch (level) {
+            case 1:
+                return "/Images/Game/Buildings/Building1levels.png";
+            case 2:
+                return "/Images/Game/Buildings/Building2levels.png";
+            case 3:
+                return "/Images/Game/Buildings/Building3levels.png";
+            case 4:
+                return "/Images/Game/Buildings/Building4levels.png";
+            default:
+                return null;
+        }
     }
 }
 

@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
@@ -89,6 +90,12 @@ public class ColorPage extends Page implements Initializable {
             } else {
                 chooseButtonsArray[i].setOnMouseClicked(e -> {
                     System.out.println("Clicked " + getColorStringByIndex(finalI) + " Button");
+                    client.setChosenColor(getColorByIndex(finalI));
+                    try {
+                        client.setCurrentPage(new GamePage());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 });
             }
 

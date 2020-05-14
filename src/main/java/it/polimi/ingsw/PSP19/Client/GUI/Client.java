@@ -127,12 +127,18 @@ public class Client extends Application implements ServerObserver {
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
+                    currentPage.setClient(this);
                     currentPage.setGame(game);
                 }
         );
 
         return root;
 
+    }
+
+
+    public void setChosenColor(Colour cColor) {
+        chosenColor = cColor;
     }
 
 
