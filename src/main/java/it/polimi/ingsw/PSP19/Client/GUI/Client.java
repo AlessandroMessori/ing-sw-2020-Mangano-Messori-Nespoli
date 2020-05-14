@@ -39,7 +39,7 @@ public class Client extends Application implements ServerObserver {
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         mainStage = primaryStage;
 
-        root = setCurrentPage(new ColorPage());
+        root = setCurrentPage(new GamePage());
 
         Scene scene = new Scene(root, width, height);
 

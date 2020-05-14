@@ -3,6 +3,12 @@
     -fx-background-size: stretch;
 }
 
+.TowerImg {
+    -fx-translate-x: 13px;
+    -fx-pref-width: 114px;
+    -fx-pref-height: 116px;
+}
+
 .pawnImg {
     -fx-translate-x: 30px;
     -fx-translate-y: -2px;

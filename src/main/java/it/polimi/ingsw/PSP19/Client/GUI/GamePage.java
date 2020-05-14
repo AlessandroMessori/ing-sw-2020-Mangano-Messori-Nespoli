@@ -44,6 +44,9 @@ public class GamePage extends Page implements Initializable {
         game.getNewGrid().getCells(0, 1).getTower().setLevel(3);
         game.getNewGrid().getCells(0, 0).getTower().setLevel(4);
         game.getNewGrid().getCells(2, 1).getTower().setLevel(1);
+        game.getNewGrid().getCells(1, 2).getTower().setLevel(2);
+        game.getNewGrid().getCells(2, 1).getTower().setLevel(3);
+        game.getNewGrid().getCells(4, 0).getTower().setLevel(4);
         game.getNewGrid().getCells(3, 4).setPawn(new Pawn(g1));
         game.getNewGrid().getCells(2, 1).setPawn(new Pawn(g1));
 
@@ -94,13 +97,13 @@ public class GamePage extends Page implements Initializable {
     public String getBuildingImagePath(int level) {
         switch (level) {
             case 1:
-                return "/Images/Game/Buildings/BuildingBlock01.png";
+                return "/Images/Game/Buildings/Building1levels.png";
             case 2:
-                return "/Images/Game/Buildings/BuildingBlock02.png";
+                return "/Images/Game/Buildings/Building2levels.png";
             case 3:
-                return "/Images/Game/Buildings/BuildingBlock03.png";
+                return "/Images/Game/Buildings/Building3levels.png";
             case 4:
-                return "/Images/Game/Buildings/Dome.png";
+                return "/Images/Game/Buildings/Building4levels.png";
             default:
                 return null;
         }
