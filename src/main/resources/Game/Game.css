@@ -5,8 +5,13 @@
 
 .TowerImg {
     -fx-translate-x: 13px;
-    -fx-pref-width: 114px;
-    -fx-pref-height: 116px;
+    -fx-pref-width: 110px;
+    -fx-pref-height: 110px;
+    -fx-max-width: 110px;
+    -fx-max-height: 110px;
+    -fx-min-width: 110px;
+    -fx-min-height: 110px;
+
 }
 
 .pawnImg {

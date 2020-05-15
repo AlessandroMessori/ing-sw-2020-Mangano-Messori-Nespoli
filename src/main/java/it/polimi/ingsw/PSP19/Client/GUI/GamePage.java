@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +18,9 @@ public class GamePage extends Page implements Initializable {
 
     @FXML
     private GridPane gameGrid;
+
+    @FXML
+    private Text turnText;
 
     private boolean alreadyChosenPawn = false;
 
@@ -35,6 +40,8 @@ public class GamePage extends Page implements Initializable {
 
         g1 = new Player("G1", Divinity.ARTEMIS, Colour.RED);
         g2 = new Player("G2", Divinity.DEMETER, Colour.BLUE);
+
+        //turnText.setFont(Font.loadFont("/Images/Font/LillyBelle.ttf",120.0));
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         game.getPlayers().addPlayer(g1);
@@ -59,8 +66,9 @@ public class GamePage extends Page implements Initializable {
                 Cell currentCell = game.getNewGrid().getCells(i, j);
                 game.setCurrentPlayer(g1);
 
-                currentPawnImage.setOnMouseClicked(e -> {
+                currentTowerImage.setOnMouseClicked(e -> {
                     System.out.printf("Clicked at Cell %d,%d\n", finalI, finalJ);
+                    currentPawnImage.setImage(new Image("/Images/Game/Pawns/MaleBuilder_red.png"));
 
                     if (currentCell.getPawn() != null) {
                         System.out.println(currentCell.getPawn().getOwner().getUsername());
