@@ -39,7 +39,7 @@ public class Client extends Application implements ServerObserver {
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         mainStage = primaryStage;
 
-        root = setCurrentPage(new DivinitiesChoichePage());
+        root = setCurrentPage(new ColorPage());
 
         Scene scene = new Scene(root, width, height);
 
@@ -122,23 +122,34 @@ public class Client extends Application implements ServerObserver {
         root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
 
         currentPage = loader.getController();
+        currentPage.setClient(this);
+        currentPage.setGame(game);
 
 
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
-                    currentPage.setClient(this);
-                    currentPage.setGame(game);
                 }
         );
 
         return root;
-
     }
 
 
+    public Colour getChosenColor() {
+        return chosenColor;
+    }
+
     public void setChosenColor(Colour cColor) {
         chosenColor = cColor;
+    }
+
+    public String getPlayerUsername() {
+        return playerUsername;
+    }
+
+    public void setPlayerUsername(String uName) {
+        playerUsername = uName;
     }
 
 

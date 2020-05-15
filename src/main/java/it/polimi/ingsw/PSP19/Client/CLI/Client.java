@@ -185,7 +185,6 @@ public class Client implements Runnable, ServerObserver {
                                 for (int x = 0; x < 5; x++) { //sending data for Demeter second building
                                     for (int y = 0; y < 5; y++) {
                                         if (game.getNewGrid().getCells(x, y).getPawn() != null) {
-                                            //System.out.println(new Gson().toJson(chosenPawn));
                                             if (chosenPawn.getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {
                                                 chosenMove.setX(x);
                                                 chosenMove.setY(y);
@@ -342,7 +341,7 @@ public class Client implements Runnable, ServerObserver {
      */
     @Override
     public synchronized void receiveModelUpdate(Game g) {
-        boolean gridChanged = !(new Gson().toJson(game.getNewGrid()).toString().equals(new Gson().toJson(g.getNewGrid()).toString()));
+        boolean gridChanged = !(new Gson().toJson(game.getNewGrid()).equals(new Gson().toJson(g.getNewGrid())));
         game = g;
 
         if (game != null) {
