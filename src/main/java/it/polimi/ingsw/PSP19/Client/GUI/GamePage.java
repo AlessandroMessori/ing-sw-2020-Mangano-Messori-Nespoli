@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
+import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,13 +17,14 @@ import java.util.ResourceBundle;
 
 public class GamePage extends Page implements Initializable {
 
+    private boolean startingPosition = true;
+    private boolean alreadySelectedPawn = false;
+
     @FXML
     private GridPane gameGrid;
 
     @FXML
     private Text turnText;
-
-    private boolean alreadyChosenPawn = false;
 
     public String getPageName() {
         return "Game";
@@ -31,6 +33,31 @@ public class GamePage extends Page implements Initializable {
     private ImageView getGameGridCell(int x, int y, boolean pawn) {
         int offset = pawn ? 25 : 0;
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
+    }
+
+    public void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage) {
+
+        if (currentCell.getPawn() == null) {
+            currentPawnImage.setImage(new Image(getPawnImagePath()));
+            currentCell.setPawn(new Pawn(game.getCurrentPlayer()));
+            //String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
+            //RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
+        } else {
+            currentPawnImage.getImage().cancel();
+        }
+
+    }
+
+    public void onGameCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
+        /*if (currentCell.getPawn() != null) {
+            System.out.println(currentCell.getPawn().getOwner().getUsername());
+            System.out.println(game.getCurrentPlayer());
+        }
+
+        if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+            game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
+            System.out.println("Selecting Pawn");
+        }*/
     }
 
     @Override
@@ -46,7 +73,7 @@ public class GamePage extends Page implements Initializable {
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         game.getPlayers().addPlayer(g1);
         game.getPlayers().addPlayer(g2);
-        game.getNewGrid().getCells(0, 3).getTower().setLevel(1);
+        /*game.getNewGrid().getCells(0, 3).getTower().setLevel(1);
         game.getNewGrid().getCells(0, 2).getTower().setLevel(2);
         game.getNewGrid().getCells(0, 1).getTower().setLevel(3);
         game.getNewGrid().getCells(0, 0).getTower().setLevel(4);
@@ -55,7 +82,7 @@ public class GamePage extends Page implements Initializable {
         game.getNewGrid().getCells(2, 1).getTower().setLevel(3);
         game.getNewGrid().getCells(4, 0).getTower().setLevel(4);
         game.getNewGrid().getCells(3, 4).setPawn(new Pawn(g1));
-        game.getNewGrid().getCells(2, 1).setPawn(new Pawn(g1));
+        game.getNewGrid().getCells(2, 1).setPawn(new Pawn(g1));*/
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -66,39 +93,40 @@ public class GamePage extends Page implements Initializable {
                 Cell currentCell = game.getNewGrid().getCells(i, j);
                 game.setCurrentPlayer(g1);
 
-                currentTowerImage.setOnMouseClicked(e -> {
-                    System.out.printf("Clicked at Cell %d,%d\n", finalI, finalJ);
-                    currentPawnImage.setImage(new Image("/Images/Game/Pawns/MaleBuilder_red.png"));
+                if (startingPosition) {
+                    currentPawnImage.setOnMouseClicked(e -> {
+                        onStartingPositionCellClick(currentCell, currentPawnImage);
+                    });
 
-                    if (currentCell.getPawn() != null) {
-                        System.out.println(currentCell.getPawn().getOwner().getUsername());
-                        System.out.println(game.getCurrentPlayer());
-                    }
+                    currentTowerImage.setOnMouseClicked(e -> {
+                        onStartingPositionCellClick(currentCell, currentPawnImage);
+                    });
+                } else {
+                    currentPawnImage.setOnMouseClicked(e -> {
+                        onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
+                    });
 
-                    if (alreadyChosenPawn) {
-                        System.out.println("Already Chosen Pawn");
-                    } else {
-                        // Selecting The Pawn for this Turn
-                        if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                            alreadyChosenPawn = true;
-                            game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
-                            System.out.println("Selecting Pawn");
-                        }
-                    }
-
-                });
-
-                // draws Tower
-                if (currentCell.getTower().getLevel() > 0) {
-                    currentTowerImage.setImage(new Image(getBuildingImagePath(currentCell.getTower().getLevel())));
+                    currentTowerImage.setOnMouseClicked(e -> {
+                        onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
+                    });
                 }
 
-                // draws Pawn
-                if (currentCell.getPawn() != null) {
-                    currentPawnImage.setImage(new Image("/Images/Game/Pawns/MaleBuilder_red.png"));
-                }
+                drawCell(currentCell, currentTowerImage, currentPawnImage);
 
             }
+        }
+    }
+
+
+    public void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage) {
+        // draws Tower
+        if (currentCell.getTower().getLevel() > 0) {
+            currentTowerImage.setImage(new Image(getBuildingImagePath(currentCell.getTower().getLevel())));
+        }
+
+        // draws Pawn
+        if (currentCell.getPawn() != null) {
+            currentPawnImage.setImage(new Image(getPawnImagePath()));
         }
     }
 
@@ -112,6 +140,28 @@ public class GamePage extends Page implements Initializable {
                 return "/Images/Game/Buildings/Building3levels.png";
             case 4:
                 return "/Images/Game/Buildings/Building4levels.png";
+            default:
+                return null;
+        }
+    }
+
+    public String getPawnImagePath() {
+
+        if (client == null) {
+            return "/Images/Game/Pawns/MaleBuilder_blu.png";
+        }
+
+        switch (client.getChosenColor()) {
+            case RED:
+                return "/Images/Game/Pawns/MaleBuilder_red.png";
+            case BLUE:
+                return "/Images/Game/Pawns/MaleBuilder_blu.png";
+            case YELLOW:
+                return "/Images/Game/Pawns/MaleBuilder_yellow.png";
+            case WHITE:
+                return "/Images/Game/Pawns/MaleBuilder_white.png";
+            case PINK:
+                return "/Images/Game/Pawns/MaleBuilder_purple.png";
             default:
                 return null;
         }
