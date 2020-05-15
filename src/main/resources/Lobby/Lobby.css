@@ -1,0 +1,12 @@
+#lobbyPageContainer {
+    -fx-background-image: url(../Images/Lobby/Lobby2Pbackground.png);
+    -fx-background-size: stretch;
+}
+
+.playButton{
+    -fx-graphic: url(../Images/Lobby/LobbyPlayButtonActive.png);
+}
+
+playButton {
+    -fx-background-image: url(../Images/Lobby/LobbyPlayButtonActive.png);
+}

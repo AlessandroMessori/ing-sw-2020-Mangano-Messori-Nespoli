@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0"
-      prefWidth="1440.0" style="-fx-background-color: #0254D0;"
-      fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage"
-      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
->
-    <ListView layoutX="388.0" layoutY="315.0" prefHeight="485.0" prefWidth="724.0" fx:id="lobbyList"/>
-    <Text fill="WHITE" layoutX="599.0" layoutY="75.0" stroke="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="LOBBY PAGE" textAlignment="CENTER" wrappingWidth="302.7294921875">
-        <font>
-            <Font size="45.0"/>
-        </font>
-    </Text>
-    <Text fill="WHITE" layoutX="388.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME ID :"
-          textAlignment="CENTER" wrappingWidth="197.7294921875" fx:id="codGameText">
-        <font>
-            <Font size="19.0"/>
-        </font>
-    </Text>
+<Pane fx:id="lobbyPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Lobby.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage">
+   <children>
+      <TextFlow fx:id="firstPlayerLobbySpace" layoutX="376.0" layoutY="326.0" prefHeight="54.0" prefWidth="594.0" />
+      <TextFlow fx:id="secondPlayerLobbySpace" layoutX="368.0" layoutY="463.0" prefHeight="60.0" prefWidth="601.0" />
+      <TextFlow fx:id="playersNumberSpace" layoutX="98.0" layoutY="238.0" prefHeight="54.0" prefWidth="190.0" />
+      <TextFlow fx:id="gameIDSpace" layoutX="1164.0" layoutY="241.0" prefHeight="54.0" prefWidth="190.0" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="playButton" fitHeight="280.0" fitWidth="251.0" layoutX="1083.0" layoutY="417.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/Lobby/LobbyPlayButtonActive.png" />
+         </image>
+      </ImageView>
+   </children>
 </Pane>
