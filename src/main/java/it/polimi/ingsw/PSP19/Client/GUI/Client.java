@@ -141,6 +141,13 @@ public class Client extends Application implements ServerObserver {
         chosenColor = cColor;
     }
 
+    public void setPlayerUsername(String username){
+        playerUsername = username;
+    }
+
+    public String getPlayerUsername(){
+        return playerUsername;
+    }
 
     /**
      * function that gets called when a username taken signal is received from the server

@@ -64,6 +64,7 @@ public class DivinitiesChoicePage extends Page implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         game = new Game(0, null, true, null, new Grid(), new Grid(), null);
 
+
         ImageView[] divButtonsArray = {div1, div2, div3, div4, div5, div6, div7, div8, div9};
         ArrayList<String> divinitiesChoice = new ArrayList<String>();
         int players;
@@ -100,11 +101,11 @@ public class DivinitiesChoicePage extends Page implements Initializable {
                             System.out.println(divinitiesChoice);
                             String message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(divinitiesChoice), "SendDivinities", game.getCodGame()).toString();
                             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITIES, message);
-                            try {
-                                client.setCurrentPage(new SingleDivinityChoicePage());
+                            /*try {
+                                client.setCurrentPage(new LoadingPage());
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
-                            }
+                            }*/
                         });
 
                         goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
