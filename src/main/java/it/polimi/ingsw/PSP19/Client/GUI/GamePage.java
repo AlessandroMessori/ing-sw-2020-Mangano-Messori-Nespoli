@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
 import it.polimi.ingsw.PSP19.Client.Commands;
+import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +18,10 @@ import java.util.ResourceBundle;
 
 public class GamePage extends Page implements Initializable {
 
+    private final ClientController clientController = new ClientController();
     private boolean startingPosition = true;
     private boolean alreadySelectedPawn = false;
+    private boolean gridActive = true;
 
     @FXML
     private GridPane gameGrid;
@@ -35,29 +38,58 @@ public class GamePage extends Page implements Initializable {
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
     }
 
+    public void setGame(Game g) {
+        game = g;
+
+        // boolean to decide whether it's the client's turn to move
+        gridActive = g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+    }
+
     public void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage) {
 
-        if (currentCell.getPawn() == null) {
+        if (currentCell.getPawn() == null && gridActive) {
+            gridActive = false;
             currentPawnImage.setImage(new Image(getPawnImagePath()));
             currentCell.setPawn(new Pawn(game.getCurrentPlayer()));
-            //String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
-            //RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
-        } else {
-            currentPawnImage.getImage().cancel();
+            String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
+            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
         }
 
     }
 
     public void onGameCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
-        /*if (currentCell.getPawn() != null) {
-            System.out.println(currentCell.getPawn().getOwner().getUsername());
-            System.out.println(game.getCurrentPlayer());
+
+        if (gridActive) {
+            if (alreadySelectedPawn) {
+                int selectedMove = -1;
+
+                for (int k = 0; k < game.getNextMoves().size(); k++) {
+                    if (game.getNextMoves().getMove(k).getX() == finalI && game.getNextMoves().getMove(k).getY() == finalJ) {
+                        selectedMove = k;
+                    }
+                }
+
+                if (selectedMove >= 0) {
+                    Move nextMove = game.getNextMoves().getMove(selectedMove);
+                    gridActive = false;
+                    game = clientController.updateGameByMove(nextMove, game);
+                    //TODO update grid graphics
+                    String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
+                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+                }
+
+            }
+
+        } else {
+            // Selecting the Pawn to use in this turn
+            if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
+                gridActive = false;
+                String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
+                RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
+            }
         }
-        if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-            game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
-            System.out.println("Selecting Pawn");
-        }*/
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
