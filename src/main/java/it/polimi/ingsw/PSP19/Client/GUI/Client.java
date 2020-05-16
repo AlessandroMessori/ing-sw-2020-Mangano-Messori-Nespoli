@@ -28,6 +28,7 @@ public class Client extends Application implements ServerObserver {
     private int lastMoveNumber = -1;
     private int lastMovedturn = 0;
     private Pawn chosenPawn = null;
+    private Socket server = null;
     private Stage mainStage;
     double width = 1440;
     double height = 900;
@@ -51,23 +52,6 @@ public class Client extends Application implements ServerObserver {
         // initializes the singleton used to handle  sending requests to server
         requestHandler = RequestHandler.getRequestHandler();
         requestHandler.setClient(this);
-
-        /* open a connection to the server */
-        Socket server;
-        try {
-            server = new Socket("192.168.1.33", Server.SOCKET_PORT);
-        } catch (IOException e) {
-            System.out.println("server unreachable");
-            return;
-        }
-        System.out.println("Connected to the server");
-
-        /* Create the adapter that will allow communication with the server
-         * in background, and start running its thread */
-        serverAdapter = new ServerAdapter(server);
-        serverAdapter.addObserver(this);
-        Thread serverAdapterThread = new Thread(serverAdapter);
-        serverAdapterThread.start();
 
         currentPage.setGame(game);
         currentPage.setServerAdapter(serverAdapter);
@@ -109,6 +93,19 @@ public class Client extends Application implements ServerObserver {
                 serverAdapter.requestCheckModel(reqContent);
                 break;
         }
+    }
+
+
+    public void setServer(String ip) throws IOException {
+        /* open a connection to the server */
+        server = new Socket(ip, Server.SOCKET_PORT);
+
+        /* Create the adapter that will allow communication with the server
+         * in background, and start running its thread */
+        serverAdapter = new ServerAdapter(server);
+        serverAdapter.addObserver(this);
+        Thread serverAdapterThread = new Thread(serverAdapter);
+        serverAdapterThread.start();
     }
 
     /***
