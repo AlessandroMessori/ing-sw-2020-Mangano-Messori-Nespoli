@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <Pane fx:id="welcomePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Welcome.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.WelcomePage">
    <children>
       <TextField fx:id="anotherServerTextBox" layoutX="916.0" layoutY="739.0" prefHeight="38.0" prefWidth="295.0" />
       <TextField fx:id="usernameTextBox" layoutX="898.0" layoutY="307.0" prefHeight="38.0" prefWidth="331.0" />
-      <RadioButton fx:id="twoPlayersButton" styleClass="twoPlayersButton" layoutX="805.0" layoutY="376.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0">
+      <RadioButton fx:id="twoPlayersButton" layoutX="805.0" layoutY="376.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" styleClass="twoPlayersButton">
          <toggleGroup>
             <ToggleGroup fx:id="selectPlayers" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="threePlayersButton" styleClass="threePlayersButton" layoutX="805.0" layoutY="427.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" toggleGroup="$selectPlayers" />
-      <CheckBox fx:id="musicCheckBox" styleClass="musicCheckBox" layoutX="1229.0" layoutY="368.0" mnemonicParsing="false" />
-      <CheckBox fx:id="effectsCheckBox" styleClass="effectsCheckBox" layoutX="1229.0" layoutY="435.0" mnemonicParsing="false" />
-      <Button fx:id="localServerButton" styleClass="localServerButton" layoutX="914.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#playBtnClick" opacity="0.0" prefHeight="55.0" prefWidth="295.0" text="Button" />
+      <RadioButton fx:id="threePlayersButton" layoutX="805.0" layoutY="427.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" styleClass="threePlayersButton" toggleGroup="$selectPlayers" />
+      <CheckBox fx:id="musicCheckBox" layoutX="1229.0" layoutY="368.0" mnemonicParsing="false" styleClass="musicCheckBox" />
+      <CheckBox fx:id="effectsCheckBox" layoutX="1229.0" layoutY="435.0" mnemonicParsing="false" styleClass="effectsCheckBox" />
+      <Button fx:id="localServerButton" layoutX="914.0" layoutY="616.0" mnemonicParsing="false" opacity="0.0" prefHeight="55.0" prefWidth="295.0" styleClass="localServerButton">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></Button>
+      <ImageView fx:id="connectButton" fitHeight="70.0" fitWidth="243.0" layoutX="940.0" layoutY="481.0" onMouseClicked="#playBtnClick" pickOnBounds="true" preserveRatio="true" styleClass="connectButton">
+         <image>
+            <Image url="@../Images/Login/Connect_Button.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
