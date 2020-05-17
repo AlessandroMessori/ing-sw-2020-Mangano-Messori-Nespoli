@@ -55,12 +55,12 @@ public class WaitingSingleDivinityChoicePage extends Page implements Initializab
         ImageView[] divButtonsArray;
 
         //-- put in comment this to try the page
-        //ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
-        //ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
+        ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
+        ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
 
 
         //-- to try the page de-comment this
-
+        /*
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
 
         ArrayList<String> possibleDivinities = new ArrayList<>(); //add divinities, num of divinities ==players
@@ -69,7 +69,7 @@ public class WaitingSingleDivinityChoicePage extends Page implements Initializab
         //possibleDivinities.add("Pan");
         ArrayList<String> inGameDivinities = new ArrayList<>();
         //inGameDivinities.add("Minotaur");
-
+        */
 
         if (game.getThreePlayers()) {
             players = 3;
