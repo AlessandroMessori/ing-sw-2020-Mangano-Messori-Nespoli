@@ -19,6 +19,8 @@ public interface ServerObserver {
 
     void receivePawn(String pawn);
 
+    void receiveStartingPosition(String position);
+
     void receiveMoves(String moves);
 
     void receiveEndGame(String endGame);

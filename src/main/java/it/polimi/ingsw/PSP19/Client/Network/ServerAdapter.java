@@ -245,7 +245,7 @@ public class ServerAdapter implements Runnable {
 
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
-            observer.receiveDivinities(responseContent);
+            observer.receiveStartingPosition(responseContent);
         }
     }
 

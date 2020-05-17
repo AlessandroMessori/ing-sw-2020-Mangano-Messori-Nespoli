@@ -235,6 +235,11 @@ public class Client extends Application implements ServerObserver {
         notifyAll();
     }
 
+    @Override
+    public void receiveStartingPosition(String position) {
+        //notifyAll();
+    }
+
     /**
      * function that gets called when an canComeUp signal is received from the server
      */
@@ -268,7 +273,7 @@ public class Client extends Application implements ServerObserver {
         //System.out.println("Received Model Update");
         game = g;
         currentPage.setGame(g);
-        int nPlayersInGame = getThreePlayers() ? 3 : 2;
+        //int nPlayersInGame = getThreePlayers() ? 3 : 2;
 
         switch (currentPage.getPageName()) {
 

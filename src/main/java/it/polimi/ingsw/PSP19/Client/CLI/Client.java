@@ -294,6 +294,15 @@ public class Client implements Runnable, ServerObserver {
     }
 
     /**
+     * function that gets called when a starting position signal is received from the server
+     */
+    @Override
+    public synchronized void receiveStartingPosition(String position) {
+        System.out.println("");
+        notifyAll();
+    }
+
+    /**
      * function that gets called when an pawn signal is received from the server
      */
     public synchronized void receivePawn(String pawn) {
