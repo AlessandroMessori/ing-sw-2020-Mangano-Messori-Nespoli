@@ -5,16 +5,16 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class WelcomePage extends Page implements Initializable {
 
@@ -35,22 +35,30 @@ public class WelcomePage extends Page implements Initializable {
     @FXML
     TextField anotherServerTextBox;
 
+    @FXML
+    ImageView connectButton;
+
+    @FXML
+    Button localServerButton;
+
     public String getPageName() {
         return "Welcome";
     }
 
-    public void playBtnClick() throws IOException {
+    public void playBtnClick() throws IOException, InterruptedException {
+        connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
         client.setThreePlayers(!twoPlayersButton.isSelected());
         String username = usernameTextBox.getText();
         boolean nPlayers = !twoPlayersButton.isSelected();
         if(username.equals("")){
             //System.out.println("Insert a valid username");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("INVALID USERNAME");
             alert.setHeaderText("Please insert a valid username.");
             alert.setContentText("You can't leave the username space blank.");
 
             alert.showAndWait();
+            connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
         }
         else{
             try {
@@ -73,6 +81,7 @@ public class WelcomePage extends Page implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        localServerButton.setDefaultButton(true);
         twoPlayersButton.setSelected(true);
         musicCheckBox.setSelected(true);
         effectsCheckBox.setSelected(true);
