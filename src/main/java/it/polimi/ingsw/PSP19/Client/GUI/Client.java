@@ -177,6 +177,7 @@ public class Client extends Application implements ServerObserver {
         modelUpdaterThread.start();
 
         try {
+            System.out.println("Ciao");
             setCurrentPage(new LobbyPage());
         } catch (Exception e) {
             e.printStackTrace();

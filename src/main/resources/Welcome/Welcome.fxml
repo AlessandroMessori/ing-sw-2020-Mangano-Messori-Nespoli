@@ -14,5 +14,6 @@
       <RadioButton fx:id="threePlayersButton" layoutX="805.0" layoutY="427.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" toggleGroup="$selectPlayers" />
       <CheckBox fx:id="musicCheckBox" layoutX="1229.0" layoutY="368.0" mnemonicParsing="false" />
       <CheckBox fx:id="effectsCheckBox" layoutX="1229.0" layoutY="435.0" mnemonicParsing="false" />
+      <Button onMouseClicked="#playBtnClick" layoutX="914.0" layoutY="616.0" mnemonicParsing="false" opacity="0.0" prefHeight="55.0" prefWidth="295.0" text="Button" />
    </children>
 </Pane>
