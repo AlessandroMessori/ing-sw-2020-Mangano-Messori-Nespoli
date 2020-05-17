@@ -3,13 +3,15 @@ package it.polimi.ingsw.PSP19.Client.Network;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Server.Model.Player;
 
+import java.io.IOException;
+
 public interface ServerObserver {
 
     void receiveUsernameTaken(String Response);
 
     void receiveNewPlayerConnected(Player player, String gameID);
 
-    void receiveDivinities(String divinities);
+    void receiveDivinities(String divinities) throws IOException;
 
     void receivePossibleDivinities(String response);
 
@@ -21,5 +23,5 @@ public interface ServerObserver {
 
     void receiveEndGame(String endGame);
 
-    void receiveModelUpdate(Game game);
+    void receiveModelUpdate(Game game) throws IOException;
 }

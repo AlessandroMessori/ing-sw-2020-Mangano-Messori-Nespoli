@@ -122,7 +122,6 @@ public class Client extends Application implements ServerObserver {
         currentPage.setClient(this);
         currentPage.setGame(game);
 
-
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
@@ -193,7 +192,8 @@ public class Client extends Application implements ServerObserver {
      * @param divinities the list of all divinities in the game
      */
     @Override
-    public synchronized void receiveDivinities(String divinities) {
+    public synchronized void receiveDivinities(String divinities) throws IOException {
+        setCurrentPage(new WaitingDivinitiesChoicePage());
         notifyAll();
     }
 
@@ -247,10 +247,31 @@ public class Client extends Application implements ServerObserver {
      * @param g update value of game
      */
     @Override
-    public synchronized void receiveModelUpdate(Game g) {
+    public synchronized void receiveModelUpdate(Game g) throws IOException {
         System.out.println("Received Model Update");
         game = g;
         currentPage.setGame(g);
+        int nPlayersInGame = game.getThreePlayers() ? 3 : 2;
+
+        switch (currentPage.getPageName()) {
+
+            case "WaitingDivinitiesChoice":
+                if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
+                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        setCurrentPage(new DivinitiesChoicePage());
+                    } else {
+                        setCurrentPage(new WaitingSingleDivinityChoicePage());
+                    }
+                }
+                break;
+            case "WaitingSingleDivinityChoice":
+                if (game.getInGameDivinities().size() == 0) {
+                    setCurrentPage(new GamePage());
+                } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                    setCurrentPage(new SingleDivinityChoicePage());
+                }
+                break;
+        }
     }
 
 }
