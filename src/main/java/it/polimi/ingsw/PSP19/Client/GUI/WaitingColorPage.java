@@ -61,12 +61,6 @@ public class WaitingColorPage extends Page implements Initializable {
 
     public void setGame(Game g) {
         game = g;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
 
         ImageView[] chooseButtonsArray = {chooseColorBtn1, chooseColorBtn2, chooseColorBtn3, chooseColorBtn4, chooseColorBtn5};
         ImageView[] pawnTakenArray = {pawnTaken1, pawnTaken2, pawnTaken3, pawnTaken4, pawnTaken5};
@@ -81,6 +75,11 @@ public class WaitingColorPage extends Page implements Initializable {
             chooseButtonsArray[i].setDisable(true);
 
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
 
 
     }

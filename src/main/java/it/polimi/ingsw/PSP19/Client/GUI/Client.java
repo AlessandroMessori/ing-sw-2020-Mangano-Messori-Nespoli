@@ -202,7 +202,14 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receiveDivinities(String divinities) throws IOException {
-        setCurrentPage(new WaitingDivinitiesChoicePage());
+
+        if (game.getInGameDivinities().size() == 1) {
+            setCurrentPage(new WaitingColorPage());
+        } else {
+            setCurrentPage(new WaitingSingleDivinityChoicePage());
+        }
+
+
         notifyAll();
     }
 
@@ -210,7 +217,8 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when a possible divinities signal is received from the server
      */
     @Override
-    public synchronized void receivePossibleDivinities(String response) {
+    public synchronized void receivePossibleDivinities(String response) throws IOException {
+        setCurrentPage(new WaitingDivinitiesChoicePage());
         notifyAll();
     }
 
@@ -281,13 +289,18 @@ public class Client extends Application implements ServerObserver {
                 break;
             case "WaitingSingleDivinityChoice":
                 if (game.getInGameDivinities().size() == 0) {
-                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        setCurrentPage(new ColorPage());
-                    }
+                    setCurrentPage(new WaitingColorPage());
                 } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                     setCurrentPage(new SingleDivinityChoicePage());
                 }
                 break;
+            case "WaitingColor":
+                if (game.getAlreadyChosenColors().size() < game.getPlayers().size()) {
+                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        setCurrentPage(new ColorPage());
+                    }
+                    break;
+                }
         }
     }
 

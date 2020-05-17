@@ -13,7 +13,7 @@ public interface ServerObserver {
 
     void receiveDivinities(String divinities) throws IOException;
 
-    void receivePossibleDivinities(String response);
+    void receivePossibleDivinities(String response) throws IOException;
 
     void receiveCanComeUp(String canComeUp);
 
