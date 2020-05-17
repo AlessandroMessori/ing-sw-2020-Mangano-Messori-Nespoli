@@ -19,6 +19,13 @@ public class DivinitiesChoicePage extends Page implements Initializable {
 
     private URL layoutURL;
 
+    private ArrayList<String> divinitiesChoice = new ArrayList<String>();
+    private ImageView[] divButtonsArray;
+    int players;
+    final boolean[] active = {false};
+    final int[] divChosed = {0};
+    final boolean[] clicked = {false, false, false, false, false, false, false, false, false};
+
     @FXML
     private ImageView goBtn;
 
@@ -49,7 +56,7 @@ public class DivinitiesChoicePage extends Page implements Initializable {
     @FXML
     private ImageView div9;
 
-    public DivinitiesChoicePage(){
+    public DivinitiesChoicePage() {
 
     }
 
@@ -59,58 +66,32 @@ public class DivinitiesChoicePage extends Page implements Initializable {
 
     public void setGame(Game g) {
         game = g;
-    }
 
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        game = new Game(0, null, true, null, new Grid(), new Grid(), null);
-
-
-        ImageView[] divButtonsArray = {div1, div2, div3, div4, div5, div6, div7, div8, div9};
-        ArrayList<String> divinitiesChoice = new ArrayList<String>();
-        int players;
-        final boolean[] active = {false};
-        final int[] divChosed = {0};
-        final boolean[] clicked = {false, false, false, false, false, false, false, false, false};
-
-        if(game.getThreePlayers()){
+        if (client.getThreePlayers()) {
             players = 3;
-        }else{
+        } else {
             players = 2;
         }
 
-        goBtn.setDisable(true);
-        for(int i = 0; i < 9; i++){
+
+        for (int i = 0; i < 9; i++) {
             int finalI = i;
 
             divButtonsArray[i].setOnMouseClicked(event -> {
-                if((!clicked[finalI])&&(divChosed[0] < players)){
+                if ((!clicked[finalI]) && (divChosed[0] < players)) {
                     divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + getDivinityStringByIndex(finalI) + "_chosen.png"));
-                    divinitiesChoice.add(getDivinityStringByIndex(finalI));
+                    divinitiesChoice.add(getDivinityStringByIndex(finalI).toUpperCase());
                     divChosed[0]++;
                     clicked[finalI] = true;
-                    if(divChosed[0] == players){
+                    if (divChosed[0] == players) {
                         active[0] = true;
 
                         goBtn.setImage(new Image("/Images/DivChoice/Go_button.png"));
 
                         goBtn.setDisable(false);
 
-                        goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed.png")));
-
-                        goBtn.setOnMouseClicked(e -> {
-                            System.out.println(divinitiesChoice);
-                            String message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(divinitiesChoice), "SendDivinities", game.getCodGame()).toString();
-                            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITIES, message);
-                            /*try {
-                                client.setCurrentPage(new LoadingPage());
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }*/
-                        });
-
-                        goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
                     }
-                } else if((clicked[finalI])&&(divChosed[0] <= players)){
+                } else if ((clicked[finalI]) && (divChosed[0] <= players)) {
                     divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + getDivinityStringByIndex(finalI) + ".png"));
                     divinitiesChoice.remove(getDivinityStringByIndex(finalI));
                     divChosed[0]--;
@@ -127,6 +108,18 @@ public class DivinitiesChoicePage extends Page implements Initializable {
             });
 
         }
+
+    }
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        divButtonsArray = new ImageView[]{div1, div2, div3, div4, div5, div6, div7, div8, div9};
+
+        goBtn.setDisable(true);
+
+        goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed.png")));
+
+        goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
 
     }
 
@@ -151,8 +144,16 @@ public class DivinitiesChoicePage extends Page implements Initializable {
             case 8:
                 return "Prometheus";
             default:
-                return null;
+                return "null";
         }
+    }
+
+    public void goBtnClick() {
+        goBtn.setOnMouseClicked(e -> {
+            System.out.println(divinitiesChoice);
+            String message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(divinitiesChoice), "SendDivinities", game.getCodGame()).toString();
+            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITIES, message);
+        });
     }
 
 }

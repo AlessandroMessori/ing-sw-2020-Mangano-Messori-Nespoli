@@ -9,7 +9,7 @@
       prefHeight="900.0" prefWidth="1440.0" stylesheets="@DivinitiesChoice.css" xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.DivinitiesChoicePage">
 
-    <ImageView fx:id="goBtn" styleClass="goBtn" fitHeight="86.0" fitWidth="235.0" layoutX="1132.0"
+    <ImageView fx:id="goBtn" onMouseClicked="#goBtnClick" styleClass="goBtn" fitHeight="86.0" fitWidth="235.0" layoutX="1132.0"
                layoutY="57.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../Images/DivChoice/Go_button_NONactive.png"/>
     </ImageView>

@@ -19,6 +19,13 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
 
     private URL layoutURL;
 
+    private boolean alreadySetGame = false;
+
+    private ImageView[] divButtonsArray;
+    private boolean[] clicked;
+
+    private int players;
+
     @FXML
     private ImageView goBtn;
 
@@ -46,108 +53,106 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
 
     public void setGame(Game g) {
         game = g;
-    }
 
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (!alreadySetGame) {
 
-        int players;
-        boolean chosen;
-        final int[] finalDiv = {0};
-        final String[] divinityChoice = new String[1];
-        ImageView[] divButtonsArray;
-        boolean[] clicked;
+            boolean chosen;
+            final int[] finalDiv = {0};
+            final String[] divinityChoice = new String[1];
 
-        //-- put in comment this to try the page
-        ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
-        ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
+            //-- put in comment this to try the page
+            ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
+            ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
 
-        /*
-        //-- to try the page de-comment this
+            System.out.println("possibleDivinities: " + possibleDivinities);
+            System.out.println("inGameDivinities: " + inGameDivinities);
 
-        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
+            if (client.getThreePlayers()) {
+                players = 3;
+                clicked = new boolean[]{false, false, false};
+                divButtonsArray = new ImageView[]{div31, div32, div33};
+                div21.setDisable(true);
+                div22.setDisable(true);
 
-        ArrayList<String> possibleDivinities = new ArrayList<>(); //add divinities, num of divinities ==players
-        possibleDivinities.add("Apollo");
-        possibleDivinities.add("Minotaur");
-        //possibleDivinities.add("Pan");
-        ArrayList<String> inGameDivinities = new ArrayList<>();
-        //inGameDivinities.add("Minotaur");
-         */
-
-        if (game.getThreePlayers()) {
-            players = 3;
-            clicked = new boolean[]{false, false, false};
-            divButtonsArray = new ImageView[]{div31, div32, div33};
-            div21.setDisable(true);
-            div22.setDisable(true);
-
-        } else {
-            players = 2;
-            clicked = new boolean[]{false, false};
-            divButtonsArray = new ImageView[]{div21, div22};
-            div31.setDisable(true);
-            div32.setDisable(true);
-            div33.setDisable(true);
-            //TwoPlayersScenario(possibleDivinities, inGameDivinities);
-        }
-
-        for (int i = 0; i < players; i++) {
-            chosen = false;
-            int finalI = i;
-
-            for (String inGameDivinity : inGameDivinities) {
-                if (possibleDivinities.get(i).equals(inGameDivinity)) {
-                    chosen = true;
-                    break;
-                }
-            }
-            if (!chosen) {
-                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(i) +".png"));
             } else {
-                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(i) +"_chosen.png"));
-                divButtonsArray[i].setDisable(true);
+                players = 2;
+                clicked = new boolean[]{false, false};
+                divButtonsArray = new ImageView[]{div21, div22};
+                div31.setDisable(true);
+                div32.setDisable(true);
+                div33.setDisable(true);
+                //TwoPlayersScenario(possibleDivinities, inGameDivinities);
             }
 
-            divButtonsArray[i].setOnMouseClicked(event -> {
-                if((!clicked[finalI])&&(finalDiv[0] < 1)){
-                    divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(finalI) + "_chosen.png"));
-                    divinityChoice[0] = possibleDivinities.get(finalI);
-                    finalDiv[0]++;
-                    clicked[finalI] = true;
-                    if(finalDiv[0] == 1){
 
-                        goBtn.setImage(new Image("/Images/DivChoice/Go_button.png"));
+            for (int i = 0; i < players; i++) {
+                chosen = false;
+                int finalI = i;
 
-                        goBtn.setDisable(false);
+                if (!inGameDivinities.contains(possibleDivinities.get(i))) {
+                    chosen = true;
+                }
 
-                        goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed.png")));
 
-                        goBtn.setOnMouseClicked(e -> {
-                            System.out.println(divinityChoice[0]);
-                            String message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(divinityChoice[0]), client.getPlayerUsername(), game.getCodGame()).toString();
-                            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITY, message);
+                String divName = possibleDivinities.get(i).substring(0, 1) + possibleDivinities.get(i).toLowerCase().substring(1);
+
+
+                if (!chosen) {
+                    divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + ".png"));
+                    divButtonsArray[i].setDisable(false);
+                } else {
+                    divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + "_chosen.png"));
+                    divButtonsArray[i].setDisable(true);
+                }
+
+                divButtonsArray[i].setOnMouseClicked(event -> {
+                    if ((!clicked[finalI]) && (finalDiv[0] < 1)) {
+
+                        divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + divName + "_chosen.png"));
+                        divinityChoice[0] = possibleDivinities.get(finalI);
+                        finalDiv[0]++;
+                        clicked[finalI] = true;
+                        if (finalDiv[0] == 1) {
+
+                            goBtn.setImage(new Image("/Images/DivChoice/Go_button.png"));
+
+                            goBtn.setDisable(false);
+
+                            goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed.png")));
+
+                            goBtn.setOnMouseClicked(e -> {
+                                System.out.println(divinityChoice[0]);
+                                String message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(divinityChoice[0]), client.getPlayerUsername(), game.getCodGame()).toString();
+                                RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITY, message);
 
                             /*try {
                                -- client.setCurrentPage(new LoadingPage());
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }*/
-                        });
+                            });
 
-                        goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
+                            goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
+                        }
+                    } else if ((clicked[finalI]) && (finalDiv[0] <= 1)) {
+                        divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(finalI) + ".png"));
+                        divinityChoice[0] = "";
+                        finalDiv[0]--;
+                        clicked[finalI] = false;
+                        goBtn.setImage(new Image("/Images/DivChoice/Go_button_NONactive.png"));
+                        goBtn.setDisable(true);
+
                     }
-                } else if((clicked[finalI])&&(finalDiv[0] <= 1)){
-                    divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(finalI) + ".png"));
-                    divinityChoice[0] = "";
-                    finalDiv[0]--;
-                    clicked[finalI] = false;
-                    goBtn.setImage(new Image("/Images/DivChoice/Go_button_NONactive.png"));
-                    goBtn.setDisable(true);
+                });
 
-                }
-            });
-
+            }
+            alreadySetGame = true;
         }
+
+
+    }
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 

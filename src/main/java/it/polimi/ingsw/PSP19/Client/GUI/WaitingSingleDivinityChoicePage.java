@@ -46,9 +46,6 @@ public class WaitingSingleDivinityChoicePage extends Page implements Initializab
 
     public void setGame(Game g) {
         game = g;
-    }
-
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
         int players;
         boolean chosen;
@@ -58,20 +55,7 @@ public class WaitingSingleDivinityChoicePage extends Page implements Initializab
         ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
         ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
 
-
-        //-- to try the page de-comment this
-        /*
-        game = new Game(0, null, false, null, new Grid(), new Grid(), null);
-
-        ArrayList<String> possibleDivinities = new ArrayList<>(); //add divinities, num of divinities ==players
-        possibleDivinities.add("Apollo");
-        possibleDivinities.add("Minotaur");
-        //possibleDivinities.add("Pan");
-        ArrayList<String> inGameDivinities = new ArrayList<>();
-        //inGameDivinities.add("Minotaur");
-        */
-
-        if (game.getThreePlayers()) {
+        if (client.getThreePlayers()) {
             players = 3;
             divButtonsArray = new ImageView[]{div31, div32, div33};
             div21.setDisable(true);
@@ -96,14 +80,21 @@ public class WaitingSingleDivinityChoicePage extends Page implements Initializab
                     break;
                 }
             }
+
+            String divName = possibleDivinities.get(i).substring(0, 1) + possibleDivinities.get(i).toLowerCase().substring(1);
+
             if (!chosen) {
-                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(i) + ".png"));
+                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + ".png"));
             } else {
-                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + possibleDivinities.get(i) + "_chosen.png"));
+                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + "_chosen.png"));
             }
             divButtonsArray[i].setDisable(true);
 
         }
+
+    }
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
 

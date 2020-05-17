@@ -23,7 +23,7 @@ public class Client extends Application implements ServerObserver {
     private String playerUsername;
     private Colour chosenColor;
     private boolean threePlayers;
-    private boolean alreadyChosenDivinity;
+    private boolean alreadyChosenDivinity = false;
     private boolean alreadyChosenStartingPosition;
     private boolean alreadyChosenCanComeUp = false;
     private int lastMoveNumber = -1;
@@ -257,7 +257,7 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receiveModelUpdate(Game g) throws IOException {
-        System.out.println("Received Model Update");
+        //System.out.println("Received Model Update");
         game = g;
         currentPage.setGame(g);
         int nPlayersInGame = getThreePlayers() ? 3 : 2;
@@ -265,24 +265,25 @@ public class Client extends Application implements ServerObserver {
         switch (currentPage.getPageName()) {
 
             case "WaitingDivinitiesChoice":
-
-                if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == 0) {
-                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        setCurrentPage(new DivinitiesChoicePage());
-                    }
+                if (game.getCurrentPlayer().getUsername().equals(playerUsername) && game.getInGameDivinities().size() == 0) {
+                    System.out.println("Going to Divinities Page");
+                    alreadyChosenDivinity = true;
+                    setCurrentPage(new DivinitiesChoicePage());
+                } else if (game.getInGameDivinities().size() > 0) {
+                    setCurrentPage(new WaitingSingleDivinityChoicePage());
                 }
 
-                if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
-                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        setCurrentPage(new SingleDivinityChoicePage());
-                    } else {
-                        setCurrentPage(new WaitingSingleDivinityChoicePage());
-                    }
+                break;
+            case "DivinitiesChoice":
+                if (game.getInGameDivinities().size() > 0) {
+                    setCurrentPage(new WaitingSingleDivinityChoicePage());
                 }
                 break;
             case "WaitingSingleDivinityChoice":
                 if (game.getInGameDivinities().size() == 0) {
-                    setCurrentPage(new ColorPage());
+                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        setCurrentPage(new ColorPage());
+                    }
                 } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                     setCurrentPage(new SingleDivinityChoicePage());
                 }
