@@ -22,6 +22,7 @@ public class Client extends Application implements ServerObserver {
     private Page currentPage;
     private String playerUsername;
     private Colour chosenColor;
+    private boolean threePlayers;
     private boolean alreadyChosenDivinity;
     private boolean alreadyChosenStartingPosition;
     private boolean alreadyChosenCanComeUp = false;
@@ -149,6 +150,14 @@ public class Client extends Application implements ServerObserver {
     }
 
 
+    public boolean getThreePlayers() {
+        return threePlayers;
+    }
+
+    public void setThreePlayers(boolean threeP) {
+        threePlayers = threeP;
+    }
+
     /**
      * function that gets called when a username taken signal is received from the server
      *
@@ -251,14 +260,21 @@ public class Client extends Application implements ServerObserver {
         System.out.println("Received Model Update");
         game = g;
         currentPage.setGame(g);
-        int nPlayersInGame = game.getThreePlayers() ? 3 : 2;
+        int nPlayersInGame = getThreePlayers() ? 3 : 2;
 
         switch (currentPage.getPageName()) {
 
             case "WaitingDivinitiesChoice":
-                if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
+
+                if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == 0) {
                     if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                         setCurrentPage(new DivinitiesChoicePage());
+                    }
+                }
+
+                if (game.getPlayers().size() == nPlayersInGame && game.getInGameDivinities().size() == nPlayersInGame) {
+                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        setCurrentPage(new SingleDivinityChoicePage());
                     } else {
                         setCurrentPage(new WaitingSingleDivinityChoicePage());
                     }
@@ -266,7 +282,7 @@ public class Client extends Application implements ServerObserver {
                 break;
             case "WaitingSingleDivinityChoice":
                 if (game.getInGameDivinities().size() == 0) {
-                    setCurrentPage(new GamePage());
+                    setCurrentPage(new ColorPage());
                 } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
                     setCurrentPage(new SingleDivinityChoicePage());
                 }
