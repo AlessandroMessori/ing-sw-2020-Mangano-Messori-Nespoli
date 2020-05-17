@@ -11,7 +11,7 @@
             <Image url="@../Images/Lobby/LobbyPlayButtonActive.png" />
          </image>
       </ImageView>
-      <Text fx:id="nPlayersTextBox" layoutX="170.0" layoutY="273.0" scaleX="4.0" scaleY="4.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nPlayersTextBox" text="2/2">
+      <Text fx:id="nPlayersTextBox" layoutX="170.0" layoutY="273.0" scaleX="4.0" scaleY="4.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nPlayersTextBox" text="">
          <font>
             <Font name="LillyBelle" size="12.0" />
          </font></Text>
