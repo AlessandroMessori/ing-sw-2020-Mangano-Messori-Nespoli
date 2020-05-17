@@ -65,9 +65,6 @@ public class ColorPage extends Page implements Initializable {
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
 
-        game.addChosenColour(Colour.PINK);
-        game.addChosenColour(Colour.RED);
-
         ImageView[] chooseButtonsArray = {chooseColorBtn1, chooseColorBtn2, chooseColorBtn3, chooseColorBtn4, chooseColorBtn5};
         ImageView[] pawnTakenArray = {pawnTaken1, pawnTaken2, pawnTaken3, pawnTaken4, pawnTaken5};
 

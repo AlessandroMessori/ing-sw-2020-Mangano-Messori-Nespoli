@@ -121,6 +121,12 @@ public class DivinitiesChoicePage extends Page implements Initializable {
 
         goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
 
+
+        goBtn.setOnMouseClicked(e -> {
+            System.out.println(divinitiesChoice);
+            String message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(divinitiesChoice), "SendDivinities", game.getCodGame()).toString();
+            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITIES, message);
+        });
     }
 
     private String getDivinityStringByIndex(int i) {
@@ -146,14 +152,6 @@ public class DivinitiesChoicePage extends Page implements Initializable {
             default:
                 return "null";
         }
-    }
-
-    public void goBtnClick() {
-        goBtn.setOnMouseClicked(e -> {
-            System.out.println(divinitiesChoice);
-            String message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(divinitiesChoice), "SendDivinities", game.getCodGame()).toString();
-            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITIES, message);
-        });
     }
 
 }
