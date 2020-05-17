@@ -6,7 +6,10 @@
 .playButton{
     -fx-graphic: url(../Images/Lobby/LobbyPlayButtonActive.png);
 }
+@font-face {
+    src: url(Images/Font/LillyBelle.ttf);
+}
 
-playButton {
-    -fx-background-image: url(../Images/Lobby/LobbyPlayButtonActive.png);
+.nPlayersTextBox {
+    -fx-font-family: LillyBelle;
 }

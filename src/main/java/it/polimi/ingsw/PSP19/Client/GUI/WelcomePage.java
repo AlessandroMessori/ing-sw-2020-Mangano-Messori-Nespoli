@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 public class WelcomePage extends Page implements Initializable {
 
     public Pane welcomePageContainer;
+
     @FXML
     private TextField nickField;
 

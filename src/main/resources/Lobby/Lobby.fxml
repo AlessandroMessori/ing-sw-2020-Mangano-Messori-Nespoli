@@ -6,15 +6,18 @@
 
 <Pane fx:id="lobbyPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Lobby.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage">
    <children>
-      <TextFlow fx:id="firstPlayerLobbySpace" layoutX="376.0" layoutY="326.0" prefHeight="54.0" prefWidth="594.0" />
-      <TextFlow fx:id="secondPlayerLobbySpace" layoutX="368.0" layoutY="463.0" prefHeight="60.0" prefWidth="601.0" />
-      <TextFlow fx:id="playersNumberSpace" layoutX="98.0" layoutY="238.0" prefHeight="54.0" prefWidth="190.0" />
-      <TextFlow fx:id="gameIDSpace" layoutX="1164.0" layoutY="241.0" prefHeight="54.0" prefWidth="190.0" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="playButton" fitHeight="280.0" fitWidth="251.0" layoutX="1083.0" layoutY="417.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Images/Lobby/LobbyPlayButtonActive.png" />
          </image>
       </ImageView>
+      <Text fx:id="nPlayersTextBox" layoutX="170.0" layoutY="273.0" scaleX="4.0" scaleY="4.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font: LillyBelle;" styleClass="nPlayersTextBox" text="2/3">
+         <font>
+            <Font name="LillyBelle"  size="12.0" />
+         </font></Text>
+      <Text layoutX="396.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text layoutX="1245.0" layoutY="256.0" scaleX="8.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="22.13672161102295" />
+      <Text layoutX="396.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text layoutX="1245.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
    </children>
 </Pane>

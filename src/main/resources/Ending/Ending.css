@@ -1,0 +1,4 @@
+#endingPageContainer {
+    -fx-background-image: url(../Images/Ending/EndWin.png);
+    -fx-background-size: stretch;
+}
