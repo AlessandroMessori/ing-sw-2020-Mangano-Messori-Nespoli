@@ -5,10 +5,12 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,10 +40,17 @@ public class WelcomePage extends Page implements Initializable {
     }
 
     public void playBtnClick() throws IOException {
+        client.setThreePlayers(!twoPlayersButton.isSelected());
         String username = usernameTextBox.getText();
         boolean nPlayers = !twoPlayersButton.isSelected();
         if(username.equals("")){
-            System.out.println("Insert a valid username");
+            //System.out.println("Insert a valid username");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID USERNAME");
+            alert.setHeaderText("Please insert a valid username.");
+            alert.setContentText("You can't leave the username space blank.");
+
+            alert.showAndWait();
         }
         else{
             try {
@@ -51,7 +60,11 @@ public class WelcomePage extends Page implements Initializable {
                 String message = messageSerializer.serializeJoinGame(username, nPlayers, null).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.JOIN_GAME, message);
             }catch(IOException | InterruptedException IO){
-                System.out.println("Not able to connect to local server");
+                //System.out.println("Not able to connect to local server");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("UNABLE TO ACCESS LOCAL SERVER");
+                alert.setHeaderText("Unluckily, it looks like it's impossible to reach local server.");
+                alert.setContentText("This error is really rare, you're lucky!");
             }
         }
     }
@@ -61,6 +74,8 @@ public class WelcomePage extends Page implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         twoPlayersButton.setSelected(true);
+        musicCheckBox.setSelected(true);
+        effectsCheckBox.setSelected(true);
     }
 
 }

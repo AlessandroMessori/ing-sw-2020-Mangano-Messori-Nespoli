@@ -3,4 +3,32 @@
     -fx-background-size: stretch;
 }
 
+.localServerButton{
+    -fx-cursor: hand;
+}
+
+.twoPlayersButton{
+    -fx-cursor: hand;
+}
+
+.threePlayersButton{
+    -fx-cursor: hand;
+}
+
+.usernameTextBox{
+    -fx-cursor: text;
+}
+
+.anotherServerTextBox{
+    -fx-cursor: text;
+}
+
+.musicCheckBox{
+    -fx-cursor: hand;
+}
+
+.effectsCheckBox{
+    -fx-cursor: hand;
+}
+
 

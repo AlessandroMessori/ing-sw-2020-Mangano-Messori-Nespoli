@@ -70,10 +70,11 @@ public class LobbyPage extends Page implements Initializable {
     public void drawInitialLobbyPage(){
         lobbyPageContainer.getStyleClass().clear();
         firstPlayerText.setText(client.getPlayerUsername());
-        if (game.getThreePlayers()) {
+        if (client.getThreePlayers()) {
             nPlayersTextBox.setText("1/3");
             lobbyPageContainer.getStyleClass().add("threePlayersBackground");
         } else {
+            thirdPlayerText.setOpacity(0);
             nPlayersTextBox.setText("1/2");
             lobbyPageContainer.getStyleClass().add("twoPlayersBackground");
         }

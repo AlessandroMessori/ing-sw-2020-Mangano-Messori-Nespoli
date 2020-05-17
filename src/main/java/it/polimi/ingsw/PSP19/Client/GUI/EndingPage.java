@@ -20,6 +20,11 @@ public class EndingPage extends Page implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        if(game.getWinner().getUsername().equals(client.getPlayerUsername())){
+            endingPageContainer.getStyleClass().add("winnerBackground");
+        }
+        else{
+            endingPageContainer.getStyleClass().add("loserBackground");
+        }
     }
 }
