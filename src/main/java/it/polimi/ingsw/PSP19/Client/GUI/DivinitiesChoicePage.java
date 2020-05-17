@@ -93,7 +93,7 @@ public class DivinitiesChoicePage extends Page implements Initializable {
                     }
                 } else if ((clicked[finalI]) && (divChosed[0] <= players)) {
                     divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + getDivinityStringByIndex(finalI) + ".png"));
-                    divinitiesChoice.remove(getDivinityStringByIndex(finalI));
+                    divinitiesChoice.remove(getDivinityStringByIndex(finalI).toUpperCase());
                     divChosed[0]--;
                     clicked[finalI] = false;
                     active[0] = false;

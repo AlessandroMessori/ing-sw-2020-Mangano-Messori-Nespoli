@@ -4,9 +4,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="colorPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="900.0" prefWidth="1440.0" stylesheets="@Color.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.ColorPage">
+<Pane fx:id="waitingColorPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="900.0" prefWidth="1440.0" stylesheets="@WaitingColor.css" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.WaitingColorPage">
 
     <ImageView fx:id="pawnTaken1" fitHeight="243.0" fitWidth="276.0" layoutX="97.0" layoutY="172.0" pickOnBounds="true"
                preserveRatio="true">
@@ -46,5 +46,10 @@
     <ImageView fx:id="chooseColorBtn5" styleClass="chooseColorBtn" fitHeight="69.0" fitWidth="273.0" layoutX="821.0"
                layoutY="721.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../Images/ColorChoice/btn_purple.png"/>
+    </ImageView>
+
+    <ImageView fx:id="waiting" fitHeight="-Infinity" fitWidth="-Infinity" layoutX="31.0"
+               layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/ColorChoice/anot_Play_Ch.png"/>
     </ImageView>
 </Pane>

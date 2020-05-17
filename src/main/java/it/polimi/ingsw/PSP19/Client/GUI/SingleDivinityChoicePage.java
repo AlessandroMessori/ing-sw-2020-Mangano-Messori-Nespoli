@@ -109,7 +109,7 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
                     if ((!clicked[finalI]) && (finalDiv[0] < 1)) {
 
                         divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + divName + "_chosen.png"));
-                        divinityChoice[0] = possibleDivinities.get(finalI);
+                        divinityChoice[0] = possibleDivinities.get(finalI).toUpperCase();
                         finalDiv[0]++;
                         clicked[finalI] = true;
                         if (finalDiv[0] == 1) {
