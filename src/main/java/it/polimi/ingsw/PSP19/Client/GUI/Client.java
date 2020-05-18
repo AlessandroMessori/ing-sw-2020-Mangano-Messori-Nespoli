@@ -160,7 +160,12 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receiveUsernameTaken(String response) {
-        currentPage.showAlert();
+
+        Platform.runLater(
+                () -> {
+                    currentPage.showAlert();
+                }
+        );
         System.out.println(response);
     }
 
