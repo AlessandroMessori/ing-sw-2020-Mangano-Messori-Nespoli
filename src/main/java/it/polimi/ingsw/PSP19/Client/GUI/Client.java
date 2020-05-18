@@ -309,37 +309,5 @@ public class Client extends Application implements ServerObserver {
         }
     }
 
-    public int getNewPawnId() {
-        int randInt;
-        boolean idNotValid;
-
-        newPawn = new Pawn(game.getCurrentPlayer());
-        if ( == 0) {
-            //first pawn have an odd id
-            do {
-                randInt = (int) (Math.random() * (max - min + 1) + min);
-                idNotValid = false;
-                for(int idInExam : takenPawnId){
-                    if(idInExam == randInt){
-                        idNotValid = true;
-                        break;
-                    }
-                }
-            } while ((randInt % 2 != 1)&&(!idNotValid));
-        } else {
-            //second pawn have an even id
-            do {
-                randInt = (int) (Math.random() * (max - min + 1) + min);
-                idNotValid = false;
-                for(int idInExam : takenPawnId){
-                    if(idInExam == randInt){
-                        idNotValid = true;
-                        break;
-                    }
-                }
-            } while ((randInt % 2 != 0)&&(!idNotValid));
-        }
-        newPawn.setId(randInt);
-    }
 
 }
