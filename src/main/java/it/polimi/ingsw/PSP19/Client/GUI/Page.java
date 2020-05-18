@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 
+import java.io.IOException;
+
 public abstract class Page {
     protected Game game;
 
@@ -15,7 +17,7 @@ public abstract class Page {
 
     public abstract String getPageName();
 
-    public void setGame(Game g) {
+    public void setGame(Game g) throws IOException {
         game = g;
     }
 

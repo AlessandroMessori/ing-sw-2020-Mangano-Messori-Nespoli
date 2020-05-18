@@ -16,15 +16,20 @@ public class EndingPage extends Page implements Initializable {
 
     public Pane endingPageContainer;
 
-    public String getPageName(){return "Ending";}
+    public String getPageName() {
+        return "Ending";
+    }
+
+    public void setGame(Game g) {
+        game = g;
+        if (game.getWinner().getUsername().equals(client.getPlayerUsername())) {
+            endingPageContainer.getStyleClass().add("winnerBackground");
+        } else {
+            endingPageContainer.getStyleClass().add("loserBackground");
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(game.getWinner().getUsername().equals(client.getPlayerUsername())){
-            endingPageContainer.getStyleClass().add("winnerBackground");
-        }
-        else{
-            endingPageContainer.getStyleClass().add("loserBackground");
-        }
     }
 }

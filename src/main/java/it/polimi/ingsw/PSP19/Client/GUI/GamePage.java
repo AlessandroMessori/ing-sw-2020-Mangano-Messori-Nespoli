@@ -14,7 +14,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GamePage extends Page implements Initializable {
@@ -64,7 +66,7 @@ public class GamePage extends Page implements Initializable {
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
     }
 
-    public void setGame(Game g) {
+    public void setGame(Game g) throws IOException {
 
         if (game == null || (!localChanges)) {
 
@@ -78,6 +80,10 @@ public class GamePage extends Page implements Initializable {
         if (game != null && g != null) {
 
             String actionTextContent = "POSITION";
+
+            if (game.getWinner() != null) {
+                client.setCurrentPage(new EndingPage());
+            }
 
             // boolean to decide whether it's the client's turn to move
             //System.out.println(g.getCurrentPlayer());
@@ -145,11 +151,19 @@ public class GamePage extends Page implements Initializable {
                         });
                     } else {
                         currentPawnImage.setOnMouseClicked(e -> {
-                            onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
+                            try {
+                                onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
                         });
 
                         currentTowerImage.setOnMouseClicked(e -> {
-                            onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
+                            try {
+                                onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
                         });
                     }
 
@@ -167,7 +181,7 @@ public class GamePage extends Page implements Initializable {
             pawnCounter++;
             currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor())));
             Pawn newPawn = new Pawn(game.getCurrentPlayer());
-            newPawn.setId(pawnCounter);
+            newPawn.setId(getNewPawnId());
             currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
             localChanges = true;
@@ -184,7 +198,7 @@ public class GamePage extends Page implements Initializable {
 
     }
 
-    public void onGameCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
+    public void onGameCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) throws IOException {
 
         if (gridActive) {
             if (alreadySelectedPawn) {
@@ -213,6 +227,10 @@ public class GamePage extends Page implements Initializable {
 
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+
+                    if (game.getWinner() != null) {
+                        client.setCurrentPage(new EndingPage());
+                    }
                 }
 
             } else {
@@ -291,5 +309,50 @@ public class GamePage extends Page implements Initializable {
             default:
                 return null;
         }
+    }
+
+
+    public int getNewPawnId() {
+        int randInt;
+        boolean idNotValid;
+        int max = (int) Math.pow(10, 5);
+        int min = (int) Math.pow(10, 4);
+        ArrayList<Integer> takenPawnId = new ArrayList<Integer>();
+
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                    takenPawnId.add(game.getNewGrid().getCells(x, y).getPawn().getId());
+                }
+            }
+        }
+
+        if (pawnCounter == 0) {
+            //first pawn have an odd id
+            do {
+                randInt = (int) (Math.random() * (max - min + 1) + min);
+                idNotValid = false;
+                for (int idInExam : takenPawnId) {
+                    if (idInExam == randInt) {
+                        idNotValid = true;
+                        break;
+                    }
+                }
+            } while ((randInt % 2 != 1) && (!idNotValid));
+        } else {
+            //second pawn have an even id
+            do {
+                randInt = (int) (Math.random() * (max - min + 1) + min);
+                idNotValid = false;
+                for (int idInExam : takenPawnId) {
+                    if (idInExam == randInt) {
+                        idNotValid = true;
+                        break;
+                    }
+                }
+            } while ((randInt % 2 != 0) && (!idNotValid));
+        }
+
+        return randInt;
     }
 }
