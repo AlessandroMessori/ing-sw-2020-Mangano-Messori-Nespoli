@@ -3,6 +3,7 @@ package it.polimi.ingsw.PSP19.Client.GUI;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
@@ -29,4 +30,12 @@ public abstract class Page {
         client = cl;
     }
 
+    public void showAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("USERNAME ALREADY TAKEN");
+        alert.setHeaderText("Change your username");
+        alert.setContentText("A player with the same username is already present in the lobby");
+
+        alert.showAndWait();
+    }
 }
