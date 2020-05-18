@@ -94,6 +94,9 @@ public class WelcomePage extends Page implements Initializable {
         if(localServerIsSelected == false) {
             localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
             localServerIsSelected = true;
+            if(!anotherServerTextBox.getText().equals("")) {
+                anotherServerTextBox.setText("");
+            }
         }
         else{
             localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
