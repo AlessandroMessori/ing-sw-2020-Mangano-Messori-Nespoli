@@ -15,10 +15,9 @@
          <font>
             <Font name="LillyBelle" size="12.0" />
          </font></Text>
-      <Text fx:id="firstPlayerText" layoutX="410.0" layoutY="363.0" scaleX="4.0" scaleY="4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gianluigi" />
-      <Text layoutX="1245.0" layoutY="256.0" scaleX="8.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="22.13672161102295" />
-      <Text fx:id="secondPlayerText" layoutX="396.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="firstPlayerText" layoutX="650.0" layoutY="363.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+      <Text fx:id="secondPlayerText" layoutX="650.0" layoutY="495.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text fx:id="codGameText" layoutX="1220.0" layoutY="268.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="thirdPlayerText" layoutX="396.0" layoutY="630.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="thirdPlayerText" layoutX="650.0" layoutY="630.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </Pane>

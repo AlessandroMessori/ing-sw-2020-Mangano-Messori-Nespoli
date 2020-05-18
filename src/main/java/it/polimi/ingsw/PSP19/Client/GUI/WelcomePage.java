@@ -8,17 +8,26 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.Pane;
 import javafx.scene.*;
+import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.String.valueOf;
+
 public class WelcomePage extends Page implements Initializable {
 
+    private boolean connectBtnIsSelected = true;
+
     private boolean localServerIsSelected = false;
+
+    private boolean localServerKeepsPressed = true;
 
     public Pane welcomePageContainer;
 
@@ -47,9 +56,49 @@ public class WelcomePage extends Page implements Initializable {
         return "Welcome";
     }
 
-    public void pressLocal(){
+    public void localPressed(){
         localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
-        localServerIsSelected = true;
+        localServerKeepsPressed = true;
+    }
+
+    public void mouseEnteredLocal(){
+        if(localServerKeepsPressed == true){
+            localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
+        }
+    }
+
+    public void mouseExitedLocal(){
+        if(localServerKeepsPressed == true && localServerIsSelected == false){
+            localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
+        }
+    }
+
+    public void mouseEntered(){
+        if(connectBtnIsSelected == true){
+            connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
+        }
+    }
+
+    public void mouseExited(){
+        if(connectBtnIsSelected == true){
+            connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
+        }
+    }
+
+    public void pressBtn(){
+        connectBtnIsSelected = true;
+        connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
+    }
+
+    public void clickLocal(){
+        if(localServerIsSelected == false) {
+            localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
+            localServerIsSelected = true;
+        }
+        else{
+            localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
+            localServerIsSelected = false;
+        }
     }
 
     public void anotherServer(){
