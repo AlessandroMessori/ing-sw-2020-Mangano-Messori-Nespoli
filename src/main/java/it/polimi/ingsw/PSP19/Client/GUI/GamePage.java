@@ -51,7 +51,25 @@ public class GamePage extends Page implements Initializable {
     private Text opponentUsernameText;
 
     @FXML
+    private Text opponent1UsernameText;
+
+    @FXML
+    private Text opponent2UsernameText;
+
+    @FXML
+    private ImageView opponent1DivImage;
+
+    @FXML
+    private ImageView opponent2DivImage;
+
+    @FXML
     private ImageView opponentTurn;
+
+    @FXML
+    private ImageView opponent1Turn;
+
+    @FXML
+    private ImageView opponent2Turn;
 
     @FXML
     private GridPane gameGrid;
@@ -92,18 +110,83 @@ public class GamePage extends Page implements Initializable {
             }
 
             // boolean to decide whether it's the client's turn to move
-            //System.out.println(g.getCurrentPlayer());
-            //System.out.println(client.getPlayerUsername());
             gridActive = g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
             turnText.setText("Turn " + game.getNTurns());
 
+            boolean alreadySetFirstOpponentImage = false;
+
+
             if (gridActive) {
                 playerTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
                 opponentTurn.setImage(null);
+                opponent1Turn.setImage(null);
+                opponent2Turn.setImage(null);
             } else {
-                opponentTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
                 playerTurn.setImage(null);
+            }
+            //Updates the divinity images
+            for (int index = 0; index < game.getPlayers().size(); index++) {
+                Player pl = game.getPlayers().getPlayer(index);
+                String divName = pl.getDivinity().toString().substring(0, 1) + pl.getDivinity().toString().toLowerCase().substring(1);
+
+                if (pl.getUsername().equals(client.getPlayerUsername())) {
+                    //Sets The Player Image
+                    playerDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
+                    playerUsernameText.setText(pl.getUsername());
+                    //playerUsernameText.setTranslateX((225 - playerUsernameText.getWrappingWidth()) / 2 - 20);
+                    playerPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
+                } else {
+
+                    if (game.getThreePlayers()) {
+                        opponentDivImage.setImage(null);
+                        opponentTurn.setImage(null);
+                        opponentUsernameText.setText("");
+
+                        if (alreadySetFirstOpponentImage) {
+                            opponent2DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
+                            opponent2UsernameText.setText(pl.getUsername());
+
+                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername())) {
+                                opponent1Turn.setImage(null);
+                                opponent2Turn.setImage(new Image("/Images/Game/Gods/Smaller/currentPlayerSmall.png"));
+                            }
+
+
+                        } else {
+                            opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
+                            opponent1UsernameText.setText(pl.getUsername());
+
+                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()))  {
+                                opponent2Turn.setImage(null);
+                                opponent1Turn.setImage(new Image("/Images/Game/Gods/Smaller/currentPlayerSmall.png"));
+                            }
+                            alreadySetFirstOpponentImage = true;
+                        }
+
+                    } else {
+
+                        opponent1DivImage.setImage(null);
+                        opponent2DivImage.setImage(null);
+                        opponent1UsernameText.setText("");
+                        opponent2UsernameText.setText("");
+
+                        if (!gridActive) {
+                            opponent1Turn.setImage(null);
+                            opponent2Turn.setImage(null);
+                            opponentTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
+                        }
+
+                        // Sets Opponent Image for a 2 Players Game
+                        opponentDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
+                        opponentUsernameText.setText(pl.getUsername());
+                        //opponentUsernameText.setTranslateX((225 - opponentUsernameText.getWrappingWidth()) / 2 - 20);
+                        opponentPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
+                    }
+
+
+                }
+
             }
 
 
@@ -125,27 +208,6 @@ public class GamePage extends Page implements Initializable {
             }
 
             actionText.setText(actionTextContent);
-
-
-            //Updates the divinity images
-            for (int index = 0; index < game.getPlayers().size(); index++) {
-                Player pl = game.getPlayers().getPlayer(index);
-                String divName = pl.getDivinity().toString().substring(0, 1) + pl.getDivinity().toString().toLowerCase().substring(1);
-
-                if (pl.getUsername().equals(client.getPlayerUsername())) {
-                    playerDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
-                    playerUsernameText.setText(pl.getUsername());
-                    //playerUsernameText.setTranslateX((225 - playerUsernameText.getWrappingWidth()) / 2 - 20);
-                    playerPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
-                } else {
-                    opponentDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
-                    opponentUsernameText.setText(pl.getUsername());
-                    //opponentUsernameText.setTranslateX((225 - opponentUsernameText.getWrappingWidth()) / 2 - 20);
-                    opponentPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
-
-                }
-            }
-
 
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {

@@ -27,7 +27,7 @@
                 </Text>
                 <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 196px; -fx-translate-x: -1px;">
                 </ImageView>
-            <Text fx:id="playerUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 138; -fx-translate-x: 55;">
+            <Text fx:id="playerUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 141; -fx-translate-x: 55;">
                <font>
                   <Font size="25.0" />
                </font>
@@ -40,11 +40,10 @@
     <right>
         <VBox prefHeight="900.0" prefWidth="250.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 266px; -fx-translate-x: 43px;">
-                </ImageView>
+                <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 266px; -fx-translate-x: 43px;" />
                 <ImageView fx:id="opponentPowerImage" fitHeight="90.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 266px; -fx-translate-x: 43px;">
                 </ImageView>
-            <Text fx:id="opponentUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 113; -fx-translate-x: 100;">
+            <Text fx:id="opponentUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 121; -fx-translate-x: 100;">
                <font>
                   <Font size="25.0" />
                </font>
@@ -133,6 +132,20 @@
                         <ImageView id="pawnImg44" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 30px;" styleClass="pawnImg" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                     </children>
                 </GridPane>
+            <ImageView fx:id="opponent1DivImage" fitHeight="443.0" fitWidth="208.0" layoutX="732.0" pickOnBounds="true" style="-fx-translate-x: 250px;" />
+            <ImageView fx:id="opponent2DivImage" fitHeight="458.0" fitWidth="208.0" layoutX="733.0" layoutY="443.0" pickOnBounds="true" style="-fx-translate-x: 250px;" />
+            <ImageView fx:id="opponent1Turn" fitHeight="360.0" fitWidth="212.0" layoutX="729.0" layoutY="10.0" pickOnBounds="true" style="-fx-translate-x: 250px;" />
+            <ImageView fx:id="opponent2Turn" fitHeight="326.0" fitWidth="208.0" layoutX="732.0" layoutY="453.0" pickOnBounds="true" style="-fx-translate-x: 250px;" />
+            <Text fx:id="opponent1UsernameText" fill="#786060" layoutX="838.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 298; -fx-translate-x: 230;">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="opponent2UsernameText" fill="#786060" layoutX="848.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 742; -fx-translate-x: 225;">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
             </children>
         </Pane>
     </center>
