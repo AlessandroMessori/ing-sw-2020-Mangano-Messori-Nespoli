@@ -14,24 +14,24 @@
     <left>
         <VBox prefHeight="900.0" prefWidth="250.0" BorderPane.alignment="CENTER">
             <children>
-                <Text fx:id="turnText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 135px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
+                <Text fx:id="turnText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 132px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
                     <font>
                         <Font size="26.0" />
                     </font>
                 </Text>
-                <Text fx:id="actionText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 163px; -fx-translate-x: 45px;" text="POSITION" wrappingWidth="152.7294921875">
+                <Text fx:id="actionText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 155px; -fx-translate-x: 45px;" text="POSITION" wrappingWidth="152.7294921875">
                     <font>
                         <Font size="26.0" />
                     </font>
                 </Text>
-                <ImageView fx:id="playerDivImage" fitHeight="393.0" fitWidth="209.0" pickOnBounds="true" style="-fx-translate-y: 200px;">
+                <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 197px; -fx-translate-x: -1px;">
                 </ImageView>
-            <Text fx:id="playerUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 150; -fx-translate-x: 70;">
+            <Text fx:id="playerUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 138; -fx-translate-x: 55;">
                <font>
                   <Font size="25.0" />
                </font>
             </Text>
-                <ImageView fx:id="playerPowerImage" fitHeight="132.0" fitWidth="209.0" pickOnBounds="true" style="-fx-translate-y: 200px;">
+                <ImageView fx:id="playerPowerImage" fitHeight="90.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 158; -fx-translate-x: -2;">
                 </ImageView>
             </children>
         </VBox>
@@ -39,11 +39,11 @@
     <right>
         <VBox prefHeight="900.0" prefWidth="250.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fx:id="opponentDivImage" fitHeight="393.0" fitWidth="209.0" pickOnBounds="true" style="-fx-translate-y: 258px; -fx-translate-x: 40px;">
+                <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 266px; -fx-translate-x: 43px;">
                 </ImageView>
-                <ImageView fx:id="opponentPowerImage" fitHeight="131.0" fitWidth="210.0" pickOnBounds="true" style="-fx-translate-y: 258px; -fx-translate-x: 40px;">
+                <ImageView fx:id="opponentPowerImage" fitHeight="90.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 266px; -fx-translate-x: 43px;">
                 </ImageView>
-            <Text fx:id="opponentUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 77; -fx-translate-x: 110;">
+            <Text fx:id="opponentUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 113; -fx-translate-x: 100;">
                <font>
                   <Font size="25.0" />
                </font>
