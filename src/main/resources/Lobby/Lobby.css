@@ -12,11 +12,12 @@
     -fx-graphic: url(../Images/Lobby/LobbyPlayButtonActive.png);
     -fx-cursor: hand;
 }
+
 @font-face {
     src: url(Images/Font/LillyBelle.ttf);
 }
 
 .nPlayersTextBox {
-    fx-font-size: 12px;
+    -fx-font-size: 12px;
     -fx-font-family: LillyBelle;
 }
