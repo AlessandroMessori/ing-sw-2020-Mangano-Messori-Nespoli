@@ -39,6 +39,9 @@ public class GamePage extends Page implements Initializable {
     private Text playerUsernameText;
 
     @FXML
+    private ImageView playerTurn;
+
+    @FXML
     private ImageView opponentDivImage;
 
     @FXML
@@ -46,6 +49,9 @@ public class GamePage extends Page implements Initializable {
 
     @FXML
     private Text opponentUsernameText;
+
+    @FXML
+    private ImageView opponentTurn;
 
     @FXML
     private GridPane gameGrid;
@@ -91,6 +97,14 @@ public class GamePage extends Page implements Initializable {
             gridActive = g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
             turnText.setText("Turn " + game.getNTurns());
+
+            if (gridActive) {
+                playerTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
+                opponentTurn.setImage(null);
+            } else {
+                opponentTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
+                playerTurn.setImage(null);
+            }
 
 
             if (pawnCounter == 2) {
@@ -180,7 +194,8 @@ public class GamePage extends Page implements Initializable {
         if (currentCell.getPawn() == null && gridActive) {
             pawnCounter++;
             currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor())));
-            Pawn newPawn = new Pawn(game.getCurrentPlayer());
+            System.out.println(new Gson().toJson(game.getPlayers()));
+            Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));
             newPawn.setId(getNewPawnId());
             currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
@@ -224,6 +239,27 @@ public class GamePage extends Page implements Initializable {
                             drawCell(cell, towerImage, pawnImage);
                         }
                     }
+
+                    if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
+                        Move cantBuildMove = new Move(game.getCurrentPlayer().getCurrentPawn());
+                        cantBuildMove.setX(nextMove.getX());
+                        cantBuildMove.setY(nextMove.getY());
+                        cantBuildMove.setIfMove(false);
+                        game.getGameTurn().setCantBuildOnThisBlock(cantBuildMove);
+
+                        for (int x = 0; x < 5; x++) { //sending data for Demeter second building
+                            for (int y = 0; y < 5; y++) {
+                                if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                                    if (game.getCurrentPlayer().getCurrentPawn().getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {
+                                        nextMove.setX(x);
+                                        nextMove.setY(y);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
 
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);

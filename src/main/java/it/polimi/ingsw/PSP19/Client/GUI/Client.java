@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,12 +24,6 @@ public class Client extends Application implements ServerObserver {
     private String playerUsername;
     private Colour chosenColor;
     private boolean threePlayers;
-    private boolean alreadyChosenDivinity = false;
-    private boolean alreadyChosenStartingPosition;
-    private boolean alreadyChosenCanComeUp = false;
-    private int lastMoveNumber = -1;
-    private int lastMovedturn = 0;
-    private Pawn chosenPawn = null;
     private Socket server = null;
     private Stage mainStage;
     double width = 1440;
@@ -165,6 +160,7 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receiveUsernameTaken(String response) {
+        currentPage.showAlert();
         System.out.println(response);
     }
 
@@ -280,7 +276,6 @@ public class Client extends Application implements ServerObserver {
             case "WaitingDivinitiesChoice":
                 if (game.getCurrentPlayer().getUsername().equals(playerUsername) && game.getInGameDivinities().size() == 0) {
                     System.out.println("Going to Divinities Page");
-                    alreadyChosenDivinity = true;
                     setCurrentPage(new DivinitiesChoicePage());
                 } else if (game.getInGameDivinities().size() > 0) {
                     setCurrentPage(new WaitingSingleDivinityChoicePage());
