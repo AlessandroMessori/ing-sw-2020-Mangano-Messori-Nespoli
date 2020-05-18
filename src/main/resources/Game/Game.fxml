@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -24,7 +25,7 @@
                         <Font size="26.0" />
                     </font>
                 </Text>
-                <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 197px; -fx-translate-x: -1px;">
+                <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" pickOnBounds="true" style="-fx-translate-y: 196px; -fx-translate-x: -1px;">
                 </ImageView>
             <Text fx:id="playerUsernameText" fill="#ab6f6f" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 138; -fx-translate-x: 55;">
                <font>
@@ -54,6 +55,16 @@
     <center>
         <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
+            <ImageView fx:id="playerTurn" fitHeight="432.0" fitWidth="208.0" layoutX="-249.0" layoutY="261.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../Images/Game/Gods/Bigger/currentPlayer.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="opponentTurn" fitHeight="432.0" fitWidth="208.0" layoutX="983.0" layoutY="261.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../Images/Game/Gods/Bigger/currentPlayer.png" />
+               </image>
+            </ImageView>
                 <GridPane fx:id="gameGrid" layoutX="140.0" layoutY="125.0" prefHeight="650.0" prefWidth="661.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
