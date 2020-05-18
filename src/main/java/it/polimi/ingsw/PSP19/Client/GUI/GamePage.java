@@ -28,10 +28,32 @@ public class GamePage extends Page implements Initializable {
     int pawnCounter = 0;
 
     @FXML
+    private ImageView playerDivImage;
+
+    @FXML
+    private ImageView playerPowerImage;
+
+    @FXML
+    private Text playerUsernameText;
+
+    @FXML
+    private ImageView opponentDivImage;
+
+    @FXML
+    private ImageView opponentPowerImage;
+
+    @FXML
+    private Text opponentUsernameText;
+
+    @FXML
     private GridPane gameGrid;
 
     @FXML
     private Text turnText;
+
+    @FXML
+    private Text actionText;
+
 
     public String getPageName() {
         return "Game";
@@ -45,17 +67,64 @@ public class GamePage extends Page implements Initializable {
     public void setGame(Game g) {
 
         if (game == null || (!localChanges)) {
+
+            if (game != null && game.getNTurns() != g.getNTurns()) {
+                alreadySelectedPawn = false;
+            }
+
             game = g;
         }
 
-        if (game != null) {
+        if (game != null && g != null) {
+
+            String actionTextContent = "POSITION";
 
             // boolean to decide whether it's the client's turn to move
+            //System.out.println(g.getCurrentPlayer());
+            //System.out.println(client.getPlayerUsername());
             gridActive = g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+
             turnText.setText("Turn " + game.getNTurns());
 
 
-            game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())).getDivinity();
+            if (pawnCounter == 2) {
+
+                if (!alreadySelectedPawn) {
+                    actionTextContent = "SELECT";
+                } else if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
+
+                    for (int ind = 0; ind < game.getNextMoves().size(); ind++) {
+                        Move mv = game.getNextMoves().getMove(ind);
+                        System.out.print("(" + mv.getX() + "," + mv.getY() + ") ");
+                    }
+                    System.out.println("");
+
+                    actionTextContent = game.getNextMoves().getMove(0).getIfMove() ? "MOVE" : "BUILD";
+                }
+
+            }
+
+            actionText.setText(actionTextContent);
+
+
+            //Updates the divinity images
+            for (int index = 0; index < game.getPlayers().size(); index++) {
+                Player pl = game.getPlayers().getPlayer(index);
+                String divName = pl.getDivinity().toString().substring(0, 1) + pl.getDivinity().toString().toLowerCase().substring(1);
+
+                if (pl.getUsername().equals(client.getPlayerUsername())) {
+                    playerDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
+                    playerUsernameText.setText(pl.getUsername());
+                    //playerUsernameText.setTranslateX((225 - playerUsernameText.getWrappingWidth()) / 2 - 20);
+                    playerPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
+                } else {
+                    opponentDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
+                    opponentUsernameText.setText(pl.getUsername());
+                    //opponentUsernameText.setTranslateX((225 - opponentUsernameText.getWrappingWidth()) / 2 - 20);
+                    opponentPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
+
+                }
+            }
 
 
             for (int i = 0; i < 5; i++) {
@@ -97,12 +166,15 @@ public class GamePage extends Page implements Initializable {
         if (currentCell.getPawn() == null && gridActive) {
             pawnCounter++;
             currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor())));
-            currentCell.setPawn(new Pawn(game.getCurrentPlayer()));
+            Pawn newPawn = new Pawn(game.getCurrentPlayer());
+            newPawn.setId(pawnCounter);
+            currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
             localChanges = true;
 
             if (pawnCounter == 2) {
                 gridActive = false;
+                startingPosition = false;
                 System.out.println(client.getChosenColor());
                 String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
@@ -126,22 +198,33 @@ public class GamePage extends Page implements Initializable {
 
                 if (selectedMove >= 0) {
                     Move nextMove = game.getNextMoves().getMove(selectedMove);
+                    //nextMove.setToMove(game.getCurrentPlayer().getCurrentPawn());
                     gridActive = false;
                     game = clientController.updateGameByMove(nextMove, game);
-                    //TODO update grid graphics
+
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            ImageView towerImage = getGameGridCell(i, j, false);
+                            ImageView pawnImage = getGameGridCell(i, j, true);
+                            Cell cell = game.getNewGrid().getCells(i, j);
+                            drawCell(cell, towerImage, pawnImage);
+                        }
+                    }
+
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
                 }
 
+            } else {
+                // Selecting the Pawn to use in this turn
+                if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(client.getPlayerUsername())) {
+                    gridActive = false;
+                    String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
+                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
+                    alreadySelectedPawn = true;
+                }
             }
 
-        } else {
-            // Selecting the Pawn to use in this turn
-            if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                gridActive = false;
-                String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
-                RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
-            }
         }
     }
 
@@ -156,6 +239,8 @@ public class GamePage extends Page implements Initializable {
         // draws Tower
         if (currentCell.getTower().getLevel() > 0) {
             currentTowerImage.setImage(new Image(getBuildingImagePath(currentCell.getTower().getLevel())));
+        } else {
+            currentTowerImage.setImage(null);
         }
 
         // draws Pawn
@@ -170,6 +255,8 @@ public class GamePage extends Page implements Initializable {
             }
 
             currentPawnImage.setImage(new Image(getPawnImagePath(currentCellPawnColour)));
+        } else {
+            currentPawnImage.setImage(null);
         }
     }
 
