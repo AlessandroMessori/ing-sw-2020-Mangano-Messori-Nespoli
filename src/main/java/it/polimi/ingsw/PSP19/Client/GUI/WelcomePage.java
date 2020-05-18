@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WelcomePage extends Page implements Initializable {
 
+    private boolean localServerIsSelected = false;
+
     public Pane welcomePageContainer;
 
     @FXML
@@ -39,10 +41,20 @@ public class WelcomePage extends Page implements Initializable {
     ImageView connectButton;
 
     @FXML
-    Button localServerButton;
+    ImageView localServerBtn;
 
     public String getPageName() {
         return "Welcome";
+    }
+
+    public void pressLocal(){
+        localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
+        localServerIsSelected = true;
+    }
+
+    public void anotherServer(){
+        localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
+        localServerIsSelected = false;
     }
 
     public void playBtnClick() throws IOException, InterruptedException {
@@ -50,7 +62,16 @@ public class WelcomePage extends Page implements Initializable {
         client.setThreePlayers(!twoPlayersButton.isSelected());
         String username = usernameTextBox.getText();
         boolean nPlayers = !twoPlayersButton.isSelected();
-        if(username.equals("")){
+        if(username.length() > 12){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("INVALID USERNAME");
+            alert.setHeaderText("Please insert a valid username.");
+            alert.setContentText("You can't use a username with more than 12 characters.");
+
+            alert.showAndWait();
+            connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
+        }
+        else if(username.equals("")){
             //System.out.println("Insert a valid username");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("INVALID USERNAME");
@@ -60,10 +81,29 @@ public class WelcomePage extends Page implements Initializable {
             alert.showAndWait();
             connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
         }
+        else if(localServerIsSelected == false && anotherServerTextBox.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("SELECT A SERVER");
+            alert.setHeaderText("Please select local server or write an IP for another one.");
+            alert.setContentText("You can't play without a server.");
+
+            alert.showAndWait();
+            connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
+        }
         else{
             try {
                 client.setPlayerUsername(username);
-                client.setServer("");
+                if(localServerIsSelected == true) {
+                    client.setServer("");
+                }
+                else{
+                    try{ client.setServer(anotherServerTextBox.getText()); } catch (IllegalArgumentException | IOException IO){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("UNABLE TO ACCESS SERVER INSERTED");
+                        alert.setHeaderText("Unluckily, it's impossible to reach the server.");
+                        alert.setContentText("The server could be unreachable, or you could have failed to write it correctly.");
+                    }
+                }
                 Thread.sleep(100);
                 String message = messageSerializer.serializeJoinGame(username, nPlayers, null).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.JOIN_GAME, message);
@@ -81,7 +121,6 @@ public class WelcomePage extends Page implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        localServerButton.setDefaultButton(true);
         twoPlayersButton.setSelected(true);
         musicCheckBox.setSelected(true);
         effectsCheckBox.setSelected(true);
