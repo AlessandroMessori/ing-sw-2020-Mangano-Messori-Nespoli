@@ -1,25 +1,18 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
 import it.polimi.ingsw.PSP19.Client.Commands;
-import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
-import it.polimi.ingsw.PSP19.Server.Model.Game;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.Pane;
-import javafx.scene.*;
-import javafx.scene.paint.Paint;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
-
-import static java.lang.String.valueOf;
 
 public class WelcomePage extends Page implements Initializable {
 
