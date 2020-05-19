@@ -61,9 +61,10 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
             final String[] divinityChoice = new String[1];
 
             //-- put in comment this to try the page
-            //ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
-            //ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
+            ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
+            ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
 
+            /*
             ArrayList<String> possibleDivinities = new ArrayList<>();
             ArrayList<String> inGameDivinities = new ArrayList<>();
 
@@ -71,6 +72,8 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
             possibleDivinities.add("PAN");
             inGameDivinities.add("APOLLO");
             inGameDivinities.add("PAN");
+            
+             */
             System.out.println("possibleDivinities: " + possibleDivinities);
             System.out.println("inGameDivinities: " + inGameDivinities);
 
