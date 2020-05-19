@@ -77,6 +77,27 @@ public class DivinitiesChoicePage extends Page implements Initializable {
         for (int i = 0; i < 9; i++) {
             int finalI = i;
 
+            divButtonsArray[i].setOnMouseEntered(event -> {
+                divButtonsArray[finalI].setLayoutX(divButtonsArray[finalI].getLayoutX()-5.0);
+                divButtonsArray[finalI].setLayoutY(divButtonsArray[finalI].getLayoutY()-10.0);
+                divButtonsArray[finalI].setFitHeight(divButtonsArray[finalI].getFitHeight()+20);
+                divButtonsArray[finalI].setFitWidth(divButtonsArray[finalI].getFitWidth()+20);
+            });
+
+            divButtonsArray[i].setOnMouseExited(event -> {
+                divButtonsArray[finalI].setLayoutX(divButtonsArray[finalI].getLayoutX()+5.0);
+                divButtonsArray[finalI].setLayoutY(divButtonsArray[finalI].getLayoutY()+10.0);
+                divButtonsArray[finalI].setFitHeight(300.0);
+                divButtonsArray[finalI].setFitWidth(167.0);
+            });
+
+            goBtn.setOnMouseEntered(event -> {
+                goBtn.setImage(new Image("/Images/DivChoice/Go_button_over.png"));
+            });
+            goBtn.setOnMouseExited(event -> {
+                goBtn.setImage(new Image("/Images/DivChoice/Go_button.png"));
+            });
+
             divButtonsArray[i].setOnMouseClicked(event -> {
                 if ((!clicked[finalI]) && (divChosed[0] < players)) {
                     divButtonsArray[finalI].setImage(new Image("/Images/DivChoice/" + getDivinityStringByIndex(finalI) + "_chosen.png"));
@@ -99,11 +120,6 @@ public class DivinitiesChoicePage extends Page implements Initializable {
                     active[0] = false;
                     goBtn.setImage(new Image("/Images/DivChoice/Go_button_NONactive.png"));
                     goBtn.setDisable(true);
-                    /*
-                    goBtn.setOnMousePressed(null);
-                    goBtn.setOnMouseClicked(null);
-                    goBtn.setOnMouseReleased(null);
-                     */
                 }
             });
 
@@ -117,7 +133,7 @@ public class DivinitiesChoicePage extends Page implements Initializable {
 
         goBtn.setDisable(true);
 
-        goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed.png")));
+        goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed_over.png")));
 
         goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));
 
