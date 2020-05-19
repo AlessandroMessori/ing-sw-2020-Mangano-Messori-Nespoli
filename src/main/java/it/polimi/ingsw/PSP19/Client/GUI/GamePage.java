@@ -80,6 +80,12 @@ public class GamePage extends Page implements Initializable {
     @FXML
     private Text actionText;
 
+    @FXML
+    private ImageView twoPlayersPanel;
+
+    @FXML
+    private ImageView threePlayersPanel;
+
 
     public String getPageName() {
         return "Game";
@@ -103,9 +109,15 @@ public class GamePage extends Page implements Initializable {
 
         if (game != null && g != null) {
 
-            if (game.getCurrentPlayer().getColour() == null)
-            {
-                game.getCurrentPlayer().setColour(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(game.getCurrentPlayer().getUsername())).getColour());
+            if (game.getThreePlayers()) {
+                if (twoPlayersPanel != null) {
+                    twoPlayersPanel.setImage(null);
+                }
+
+            } else {
+                if (threePlayersPanel != null) {
+                    threePlayersPanel.setImage(null);
+                }
             }
 
             String actionTextContent = "POSITION";
