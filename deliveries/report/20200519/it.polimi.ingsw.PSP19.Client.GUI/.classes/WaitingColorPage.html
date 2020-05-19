@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WaitingColorPage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WaitingColorPage (it.polimi.ingsw.PSP19.Client.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WaitingColorPage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Colour;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Game;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Grid;
+<i>6</i>&nbsp;import javafx.fxml.FXML;
+<i>7</i>&nbsp;import javafx.fxml.Initializable;
+<i>8</i>&nbsp;import javafx.scene.image.Image;
+<i>9</i>&nbsp;import javafx.scene.image.ImageView;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.io.IOException;
+<i>12</i>&nbsp;import java.lang.reflect.Array;
+<i>13</i>&nbsp;import java.net.URL;
+<i>14</i>&nbsp;import java.util.ArrayList;
+<i>15</i>&nbsp;import java.util.Arrays;
+<i>16</i>&nbsp;import java.util.ResourceBundle;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;public class WaitingColorPage extends Page implements Initializable {
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    private URL layoutURL;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @FXML
+<i>23</i>&nbsp;    private ImageView pawnTaken1;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @FXML
+<i>26</i>&nbsp;    private ImageView pawnTaken2;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    private ImageView pawnTaken3;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    @FXML
+<i>32</i>&nbsp;    private ImageView pawnTaken4;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    private ImageView pawnTaken5;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    @FXML
+<i>38</i>&nbsp;    private ImageView chooseColorBtn1;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    private ImageView chooseColorBtn2;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @FXML
+<i>44</i>&nbsp;    private ImageView chooseColorBtn3;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    private ImageView chooseColorBtn4;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    @FXML
+<i>50</i>&nbsp;    private ImageView chooseColorBtn5;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    private ImageView waiting;
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;    public WaitingColorPage() {</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    public String getPageName() {
+<b class="nc"><i>59</i>&nbsp;        return &quot;WaitingColor&quot;;</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    public void setGame(Game g) {
+<b class="nc"><i>63</i>&nbsp;        game = g;</b>
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;        ImageView[] chooseButtonsArray = {chooseColorBtn1, chooseColorBtn2, chooseColorBtn3, chooseColorBtn4, chooseColorBtn5};</b>
+<b class="nc"><i>66</i>&nbsp;        ImageView[] pawnTakenArray = {pawnTaken1, pawnTaken2, pawnTaken3, pawnTaken4, pawnTaken5};</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="nc"><i>69</i>&nbsp;            Colour currentColor = getColorByIndex(i);</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;            if (game.getAlreadyChosenColors().contains(currentColor)) {</b>
+<b class="nc"><i>72</i>&nbsp;                pawnTakenArray[i].setImage(new Image(&quot;/Images/ColorChoice/already_taken.png&quot;));</b>
+<i>73</i>&nbsp;            }
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;            chooseButtonsArray[i].setDisable(true);</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;        }
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @Override
+<i>81</i>&nbsp;    public void initialize(URL url, ResourceBundle resourceBundle) {
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    private Colour getColorByIndex(int i) {
+<b class="nc"><i>88</i>&nbsp;        switch (i) {</b>
+<i>89</i>&nbsp;            case 0:
+<b class="nc"><i>90</i>&nbsp;                return Colour.BLUE;</b>
+<i>91</i>&nbsp;            case 1:
+<b class="nc"><i>92</i>&nbsp;                return Colour.RED;</b>
+<i>93</i>&nbsp;            case 2:
+<b class="nc"><i>94</i>&nbsp;                return Colour.WHITE;</b>
+<i>95</i>&nbsp;            case 3:
+<b class="nc"><i>96</i>&nbsp;                return Colour.YELLOW;</b>
+<i>97</i>&nbsp;            case 4:
+<b class="nc"><i>98</i>&nbsp;                return Colour.PINK;</b>
+<i>99</i>&nbsp;            default:
+<b class="nc"><i>100</i>&nbsp;                return null;</b>
+<i>101</i>&nbsp;        }
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;}
+<i>104</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-19 12:04</div>
+</div>
+</body>
+</html>

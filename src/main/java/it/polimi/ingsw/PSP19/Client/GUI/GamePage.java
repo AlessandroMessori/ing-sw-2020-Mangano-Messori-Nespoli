@@ -254,17 +254,18 @@ public class GamePage extends Page implements Initializable {
     public void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
         if (currentCell.getPawn() == null && gridActive) {
-            pawnCounter++;
-            currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor())));
             System.out.println(new Gson().toJson(game.getPlayers()));
             Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));
             newPawn.setId(getNewPawnId());
             currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
+            currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor(),newPawn.getId())));
             localChanges = true;
+            pawnCounter++;
 
             if (pawnCounter == 2) {
                 gridActive = false;
+                actionText.setText("LOADING");
                 startingPosition = false;
                 System.out.println(client.getChosenColor());
                 String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
@@ -291,6 +292,7 @@ public class GamePage extends Page implements Initializable {
                     Move nextMove = game.getNextMoves().getMove(selectedMove);
                     //nextMove.setToMove(game.getCurrentPlayer().getCurrentPawn());
                     gridActive = false;
+                    actionText.setText("LOADING");
                     game = clientController.updateGameByMove(nextMove, game);
 
                     for (int i = 0; i < 5; i++) {
@@ -335,6 +337,7 @@ public class GamePage extends Page implements Initializable {
                 // Selecting the Pawn to use in this turn
                 if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(client.getPlayerUsername())) {
                     gridActive = false;
+                    actionText.setText("LOADING");
                     String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
                     alreadySelectedPawn = true;
@@ -370,7 +373,7 @@ public class GamePage extends Page implements Initializable {
                 currentCellPawnColour = game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(currentCell.getPawn().getOwner().getUsername())).getColour();
             }
 
-            currentPawnImage.setImage(new Image(getPawnImagePath(currentCellPawnColour)));
+            currentPawnImage.setImage(new Image(getPawnImagePath(currentCellPawnColour,currentCell.getPawn().getId())));
         } else {
             currentPawnImage.setImage(null);
         }
@@ -391,19 +394,21 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-    public String getPawnImagePath(Colour colour) {
+    public String getPawnImagePath(Colour colour,int pawnID) {
+        
+        String gender = (pawnID % 2 == 0) ? "Female" : "Male";
 
         switch (colour) {
             case RED:
-                return "/Images/Game/Pawns/MaleBuilder_red.png";
+                return "/Images/Game/Pawns/"+gender+"Builder_red.png";
             case BLUE:
-                return "/Images/Game/Pawns/MaleBuilder_blu.png";
+                return "/Images/Game/Pawns/"+gender+"Builder_blu.png";
             case YELLOW:
-                return "/Images/Game/Pawns/MaleBuilder_yellow.png";
+                return "/Images/Game/Pawns/"+gender+"Builder_yellow.png";
             case WHITE:
-                return "/Images/Game/Pawns/MaleBuilder_white.png";
+                return "/Images/Game/Pawns/"+gender+"Builder_white.png";
             case PINK:
-                return "/Images/Game/Pawns/MaleBuilder_purple.png";
+                return "/Images/Game/Pawns/"+gender+"Builder_purple.png";
             default:
                 return null;
         }
