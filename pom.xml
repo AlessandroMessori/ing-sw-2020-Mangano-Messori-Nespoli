@@ -34,6 +34,12 @@
         <artifactId>javafx-fxml</artifactId>
         <version>13.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>13.0.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -53,6 +59,7 @@
                     <mainClass>it.polimi.ingsw.PSP19.Gui</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
