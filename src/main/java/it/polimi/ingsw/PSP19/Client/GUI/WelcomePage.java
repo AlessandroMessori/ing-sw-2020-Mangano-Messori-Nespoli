@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.Pane;
 import javafx.scene.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.media.*;
 
 import java.io.IOException;
 import java.net.URL;
