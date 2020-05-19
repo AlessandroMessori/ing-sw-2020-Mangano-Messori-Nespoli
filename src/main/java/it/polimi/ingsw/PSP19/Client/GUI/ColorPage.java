@@ -84,7 +84,7 @@ public class ColorPage extends Page implements Initializable {
                     System.out.println("Clicked " + getColorStringByIndex(finalI) + " Button");
                     client.setChosenColor(getColorByIndex(finalI));
                     try {
-                        client.setCurrentPage(new GamePage(),"/Music/Game/GameMusic.mp3");
+                        client.setCurrentPage(new GamePage(),"Music/Game/GameMusic.mp3");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }

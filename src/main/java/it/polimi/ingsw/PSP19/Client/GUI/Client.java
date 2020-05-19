@@ -124,9 +124,7 @@ public class Client extends Application implements ServerObserver {
             // Locate the media content in the CLASSPATH
             URL mediaUrl = getClass().getResource(musicPath);
             String mediaStringUrl = mediaUrl.toExternalForm();
-            // Create a Media
             media = new Media(mediaStringUrl);
-            // Create a Media Player
             playermp3 = new MediaPlayer(media);
             playermp3.setCycleCount(MediaPlayer.INDEFINITE);
             mp3View = new MediaView(playermp3);
