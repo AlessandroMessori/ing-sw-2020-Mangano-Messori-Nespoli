@@ -103,6 +103,11 @@ public class GamePage extends Page implements Initializable {
 
         if (game != null && g != null) {
 
+            if (game.getCurrentPlayer().getColour() == null)
+            {
+                game.getCurrentPlayer().setColour(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(game.getCurrentPlayer().getUsername())).getColour());
+            }
+
             String actionTextContent = "POSITION";
 
             if (game.getWinner() != null) {
@@ -117,7 +122,7 @@ public class GamePage extends Page implements Initializable {
             boolean alreadySetFirstOpponentImage = false;
 
 
-            if (gridActive) {
+            if (gridActive && game.getCurrentPlayer().getColour() != null) {
                 playerTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
                 opponentTurn.setImage(null);
                 opponent1Turn.setImage(null);
@@ -147,7 +152,7 @@ public class GamePage extends Page implements Initializable {
                             opponent2DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
                             opponent2UsernameText.setText(pl.getUsername());
 
-                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername())) {
+                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()) && game.getCurrentPlayer().getColour() != null) {
                                 opponent1Turn.setImage(null);
                                 opponent2Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
                             }
@@ -157,7 +162,7 @@ public class GamePage extends Page implements Initializable {
                             opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
                             opponent1UsernameText.setText(pl.getUsername());
 
-                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername())) {
+                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()) && game.getCurrentPlayer().getColour() != null) {
                                 opponent2Turn.setImage(null);
                                 opponent1Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
                             }
@@ -171,7 +176,7 @@ public class GamePage extends Page implements Initializable {
                         opponent1UsernameText.setText("");
                         opponent2UsernameText.setText("");
 
-                        if (!gridActive) {
+                        if (!gridActive && game.getCurrentPlayer().getColour() != null) {
                             opponent1Turn.setImage(null);
                             opponent2Turn.setImage(null);
                             opponentTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
@@ -416,7 +421,9 @@ public class GamePage extends Page implements Initializable {
 
     public String getContourImagePath(Colour colour, boolean big) {
         String bigImage = big ? "" : "Small";
-        return "/Images/Game/Gods/Bigger/currentPlayer" + big + "_" + colour.toString().toLowerCase() + ".png";
+        String bigPath = big ? "Bigger" : "Smaller";
+
+        return "/Images/Game/Gods/" + bigPath + "/currentPlayer" + bigImage + "_" + colour.toString().toLowerCase() + ".png";
     }
 
     public int getNewPawnId() {

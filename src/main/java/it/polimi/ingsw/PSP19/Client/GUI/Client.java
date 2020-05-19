@@ -145,14 +145,19 @@ public class Client extends Application implements ServerObserver {
             }
         }
         else {
-            if (hasMusic == true) {
-                playermp3 = currentPage.getMediaPlayer();
-                mp3View = currentPage.getMediaView();
+
+            if (currentPage.getMediaView() != null) {
+                if (hasMusic) {
+                    playermp3 = currentPage.getMediaPlayer();
+                    mp3View = currentPage.getMediaView();
+                }
+                else{
+                    currentPage.getMediaView().setDisable(true);
+                    currentPage.getMediaPlayer().stop();
+                }
             }
-            else{
-                currentPage.getMediaView().setDisable(true);
-                currentPage.getMediaPlayer().stop();
-            }
+
+
         }
 
         currentPage = page;
