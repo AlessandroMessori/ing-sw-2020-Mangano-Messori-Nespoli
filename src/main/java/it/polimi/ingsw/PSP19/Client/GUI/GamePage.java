@@ -106,7 +106,7 @@ public class GamePage extends Page implements Initializable {
             String actionTextContent = "POSITION";
 
             if (game.getWinner() != null) {
-                client.setCurrentPage(new EndingPage(),null);
+                client.setCurrentPage(new EndingPage(), null);
             }
 
             // boolean to decide whether it's the client's turn to move
@@ -118,7 +118,7 @@ public class GamePage extends Page implements Initializable {
 
 
             if (gridActive) {
-                playerTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
+                playerTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
                 opponentTurn.setImage(null);
                 opponent1Turn.setImage(null);
                 opponent2Turn.setImage(null);
@@ -149,7 +149,7 @@ public class GamePage extends Page implements Initializable {
 
                             if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername())) {
                                 opponent1Turn.setImage(null);
-                                opponent2Turn.setImage(new Image("/Images/Game/Gods/Smaller/currentPlayerSmall.png"));
+                                opponent2Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
                             }
 
 
@@ -157,9 +157,9 @@ public class GamePage extends Page implements Initializable {
                             opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
                             opponent1UsernameText.setText(pl.getUsername());
 
-                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()))  {
+                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername())) {
                                 opponent2Turn.setImage(null);
-                                opponent1Turn.setImage(new Image("/Images/Game/Gods/Smaller/currentPlayerSmall.png"));
+                                opponent1Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
                             }
                             alreadySetFirstOpponentImage = true;
                         }
@@ -174,7 +174,7 @@ public class GamePage extends Page implements Initializable {
                         if (!gridActive) {
                             opponent1Turn.setImage(null);
                             opponent2Turn.setImage(null);
-                            opponentTurn.setImage(new Image("/Images/Game/Gods/Bigger/currentPlayer.png"));
+                            opponentTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
                         }
 
                         // Sets Opponent Image for a 2 Players Game
@@ -259,7 +259,7 @@ public class GamePage extends Page implements Initializable {
             newPawn.setId(getNewPawnId());
             currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
-            currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor(),newPawn.getId())));
+            currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor(), newPawn.getId())));
             localChanges = true;
             pawnCounter++;
 
@@ -329,7 +329,7 @@ public class GamePage extends Page implements Initializable {
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
 
                     if (game.getWinner() != null) {
-                        client.setCurrentPage(new EndingPage(),null);
+                        client.setCurrentPage(new EndingPage(), null);
                     }
                 }
 
@@ -373,7 +373,7 @@ public class GamePage extends Page implements Initializable {
                 currentCellPawnColour = game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(currentCell.getPawn().getOwner().getUsername())).getColour();
             }
 
-            currentPawnImage.setImage(new Image(getPawnImagePath(currentCellPawnColour,currentCell.getPawn().getId())));
+            currentPawnImage.setImage(new Image(getPawnImagePath(currentCellPawnColour, currentCell.getPawn().getId())));
         } else {
             currentPawnImage.setImage(null);
         }
@@ -394,26 +394,30 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-    public String getPawnImagePath(Colour colour,int pawnID) {
-        
+    public String getPawnImagePath(Colour colour, int pawnID) {
+
         String gender = (pawnID % 2 == 0) ? "Female" : "Male";
 
         switch (colour) {
             case RED:
-                return "/Images/Game/Pawns/"+gender+"Builder_red.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_red.png";
             case BLUE:
-                return "/Images/Game/Pawns/"+gender+"Builder_blu.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_blu.png";
             case YELLOW:
-                return "/Images/Game/Pawns/"+gender+"Builder_yellow.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_yellow.png";
             case WHITE:
-                return "/Images/Game/Pawns/"+gender+"Builder_white.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_white.png";
             case PINK:
-                return "/Images/Game/Pawns/"+gender+"Builder_purple.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_purple.png";
             default:
                 return null;
         }
     }
 
+    public String getContourImagePath(Colour colour, boolean big) {
+        String bigImage = big ? "" : "Small";
+        return "/Images/Game/Gods/Bigger/currentPlayer" + big + "_" + colour.toString().toLowerCase() + ".png";
+    }
 
     public int getNewPawnId() {
         int randInt;
