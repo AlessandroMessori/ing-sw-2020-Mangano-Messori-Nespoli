@@ -10,8 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -111,20 +114,24 @@ public class Client extends Application implements ServerObserver {
      * Sets the current Scene
      */
     public Parent setCurrentPage(Page page, String musicPath) throws IOException {
-        Media media = null;
+
+        Media media = null;                     //MUSIC
         // Create a Media Player
         MediaPlayer playermp3 = null;
+        // Create a Media View
+        MediaView mp3View = null;
         if(musicPath != null){
             // Locate the media content in the CLASSPATH
             URL mediaUrl = getClass().getResource(musicPath);
             String mediaStringUrl = mediaUrl.toExternalForm();
-
             // Create a Media
             media = new Media(mediaStringUrl);
             // Create a Media Player
             playermp3 = new MediaPlayer(media);
             playermp3.setCycleCount(MediaPlayer.INDEFINITE);
+            mp3View = new MediaView(playermp3);
         }
+
         currentPage = page;
         String currentPageName = currentPage.getPageName();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
@@ -136,10 +143,18 @@ public class Client extends Application implements ServerObserver {
         currentPage.setGame(game);
 
         MediaPlayer finalPlayermp = playermp3;
+        MediaView finalMp3View = mp3View;
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
+
                     if(finalPlayermp != null){
+                        if(currentPageName.equals("GamePage")){
+                            ((BorderPane) mainStage.getScene().getRoot()).getChildren().add(finalMp3View);
+                        }
+                        else {
+                            ((Pane) mainStage.getScene().getRoot()).getChildren().add(finalMp3View);
+                        }
                         finalPlayermp.play();
                         finalPlayermp.setAutoPlay(true);
                     }
