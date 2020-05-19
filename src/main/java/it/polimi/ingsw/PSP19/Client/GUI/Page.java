@@ -4,6 +4,9 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 import javafx.scene.control.Alert;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.IOException;
 
@@ -15,6 +18,10 @@ public abstract class Page {
     protected Client client;
 
     protected final MessageSerializer messageSerializer = new MessageSerializer();
+
+    protected MediaView mediaView = null;
+
+    protected MediaPlayer mediaPlayer = null;
 
     public abstract String getPageName();
 
@@ -38,4 +45,22 @@ public abstract class Page {
 
         alert.showAndWait();
     }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public MediaView getMediaView() {
+        return mediaView;
+    }
+
+    public void setMediaPlayer(MediaPlayer m) {
+        mediaPlayer = m;
+    }
+
+    public void setMediaView(MediaView mv) {
+        mediaView = mv;
+    }
+
+
 }

@@ -42,7 +42,7 @@ public class Client extends Application implements ServerObserver {
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         mainStage = primaryStage;
 
-        root = setCurrentPage(new WelcomePage(),"/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
+        root = setCurrentPage(new WelcomePage(), "/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
         Scene scene = new Scene(root, width, height);
 
@@ -120,7 +120,7 @@ public class Client extends Application implements ServerObserver {
         MediaPlayer playermp3 = null;
         // Create a Media View
         MediaView mp3View = null;
-        if(musicPath != null){
+        if (musicPath != null) {
             // Locate the media content in the CLASSPATH
             URL mediaUrl = getClass().getResource(musicPath);
             String mediaStringUrl = mediaUrl.toExternalForm();
@@ -128,6 +128,17 @@ public class Client extends Application implements ServerObserver {
             playermp3 = new MediaPlayer(media);
             playermp3.setCycleCount(MediaPlayer.INDEFINITE);
             mp3View = new MediaView(playermp3);
+
+            // if there is another song playing it gets stopped
+            if (currentPage != null && currentPage.getMediaPlayer() != null) {
+                currentPage.getMediaView().setDisable(true);
+                currentPage.getMediaPlayer().stop();
+                System.out.println("I'm Here");
+            }
+        }
+        else {
+            playermp3 = currentPage.getMediaPlayer();
+            mp3View = currentPage.getMediaView();
         }
 
         currentPage = page;
@@ -140,21 +151,16 @@ public class Client extends Application implements ServerObserver {
         currentPage.setClient(this);
         currentPage.setGame(game);
 
-        MediaPlayer finalPlayermp = playermp3;
-        MediaView finalMp3View = mp3View;
+        currentPage.setMediaPlayer(playermp3);
+        currentPage.setMediaView(mp3View);
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
 
-                    if(finalPlayermp != null){
-                        if(currentPageName.equals("GamePage")){
-                            ((BorderPane) mainStage.getScene().getRoot()).getChildren().add(finalMp3View);
-                        }
-                        else {
-                            ((Pane) mainStage.getScene().getRoot()).getChildren().add(finalMp3View);
-                        }
-                        finalPlayermp.play();
-                        finalPlayermp.setAutoPlay(true);
+                    if (currentPage.getMediaPlayer() != null) {
+                        ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
+                        currentPage.getMediaPlayer().play();
+                        currentPage.getMediaPlayer().setAutoPlay(true);
                     }
                 }
         );
@@ -222,7 +228,7 @@ public class Client extends Application implements ServerObserver {
         modelUpdaterThread.start();
 
         try {
-            setCurrentPage(new LobbyPage(),null);
+            setCurrentPage(new LobbyPage(), null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -240,9 +246,9 @@ public class Client extends Application implements ServerObserver {
     public synchronized void receiveDivinities(String divinities) throws IOException {
 
         if (game.getInGameDivinities().size() == 1) {
-            setCurrentPage(new WaitingColorPage(),null);
+            setCurrentPage(new WaitingColorPage(), null);
         } else {
-            setCurrentPage(new WaitingSingleDivinityChoicePage(),null);
+            setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
         }
 
 
@@ -254,7 +260,7 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receivePossibleDivinities(String response) throws IOException {
-        setCurrentPage(new WaitingDivinitiesChoicePage(),null);
+        setCurrentPage(new WaitingDivinitiesChoicePage(), null);
         notifyAll();
     }
 
@@ -316,28 +322,28 @@ public class Client extends Application implements ServerObserver {
             case "WaitingDivinitiesChoice":
                 if (game.getCurrentPlayer().getUsername().equals(playerUsername) && game.getInGameDivinities().size() == 0) {
                     System.out.println("Going to Divinities Page");
-                    setCurrentPage(new DivinitiesChoicePage(),null);
+                    setCurrentPage(new DivinitiesChoicePage(), null);
                 } else if (game.getInGameDivinities().size() > 0) {
-                    setCurrentPage(new WaitingSingleDivinityChoicePage(),null);
+                    setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
                 }
 
                 break;
             case "DivinitiesChoice":
                 if (game.getInGameDivinities().size() > 0) {
-                    setCurrentPage(new WaitingSingleDivinityChoicePage(),null);
+                    setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
                 }
                 break;
             case "WaitingSingleDivinityChoice":
                 if (game.getInGameDivinities().size() == 0) {
-                    setCurrentPage(new WaitingColorPage(),null);
+                    setCurrentPage(new WaitingColorPage(), null);
                 } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                    setCurrentPage(new SingleDivinityChoicePage(),null);
+                    setCurrentPage(new SingleDivinityChoicePage(), null);
                 }
                 break;
             case "WaitingColor":
                 if (game.getAlreadyChosenColors().size() < game.getPlayers().size()) {
                     if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        setCurrentPage(new ColorPage(),null);
+                        setCurrentPage(new ColorPage(), null);
                     }
                     break;
                 }
