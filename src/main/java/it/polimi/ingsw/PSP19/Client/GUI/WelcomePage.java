@@ -4,6 +4,8 @@ import it.polimi.ingsw.PSP19.Client.Commands;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
@@ -11,12 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaErrorEvent;
-import javafx.scene.media.MediaException;
+import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,14 +52,6 @@ public class WelcomePage extends Page implements Initializable {
 
     @FXML
     ImageView localServerBtn;
-
-    // Locate the media content in the CLASSPATH
-    URL mediaUrl = getClass().getResource("/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
-    String mediaStringUrl = mediaUrl.toExternalForm();
-    // Create a Media
-    Media media = new Media(mediaStringUrl);
-    // Create a Media Player
-    MediaPlayer playermp3 = new MediaPlayer(media);
 
     public String getPageName() {
         return "Welcome";

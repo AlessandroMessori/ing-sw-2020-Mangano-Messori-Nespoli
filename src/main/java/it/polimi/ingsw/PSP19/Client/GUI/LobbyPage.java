@@ -100,7 +100,7 @@ public class LobbyPage extends Page implements Initializable {
     }
 
     public void playBtnClicked(MouseEvent mouseEvent) throws IOException {
-        client.setCurrentPage(new WaitingDivinitiesChoicePage());
+        client.setCurrentPage(new WaitingDivinitiesChoicePage(),null);
     }
 }
 

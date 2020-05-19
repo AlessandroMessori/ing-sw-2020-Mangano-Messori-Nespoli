@@ -106,7 +106,7 @@ public class GamePage extends Page implements Initializable {
             String actionTextContent = "POSITION";
 
             if (game.getWinner() != null) {
-                client.setCurrentPage(new EndingPage());
+                client.setCurrentPage(new EndingPage(),null);
             }
 
             // boolean to decide whether it's the client's turn to move
@@ -329,7 +329,7 @@ public class GamePage extends Page implements Initializable {
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
 
                     if (game.getWinner() != null) {
-                        client.setCurrentPage(new EndingPage());
+                        client.setCurrentPage(new EndingPage(),null);
                     }
                 }
 

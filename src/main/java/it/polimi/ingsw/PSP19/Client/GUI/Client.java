@@ -10,10 +10,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 
 
 public class Client extends Application implements ServerObserver {
@@ -36,7 +39,7 @@ public class Client extends Application implements ServerObserver {
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         mainStage = primaryStage;
 
-        root = setCurrentPage(new WelcomePage());
+        root = setCurrentPage(new WelcomePage(),"/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
         Scene scene = new Scene(root, width, height);
 
@@ -107,7 +110,21 @@ public class Client extends Application implements ServerObserver {
     /***
      * Sets the current Scene
      */
-    public Parent setCurrentPage(Page page) throws IOException {
+    public Parent setCurrentPage(Page page, String musicPath) throws IOException {
+        Media media = null;
+        // Create a Media Player
+        MediaPlayer playermp3 = null;
+        if(musicPath != null){
+            // Locate the media content in the CLASSPATH
+            URL mediaUrl = getClass().getResource(musicPath);
+            String mediaStringUrl = mediaUrl.toExternalForm();
+
+            // Create a Media
+            media = new Media(mediaStringUrl);
+            // Create a Media Player
+            playermp3 = new MediaPlayer(media);
+            playermp3.setCycleCount(MediaPlayer.INDEFINITE);
+        }
         currentPage = page;
         String currentPageName = currentPage.getPageName();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
@@ -118,9 +135,14 @@ public class Client extends Application implements ServerObserver {
         currentPage.setClient(this);
         currentPage.setGame(game);
 
+        MediaPlayer finalPlayermp = playermp3;
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
+                    if(finalPlayermp != null){
+                        finalPlayermp.play();
+                        finalPlayermp.setAutoPlay(true);
+                    }
                 }
         );
 
@@ -187,7 +209,7 @@ public class Client extends Application implements ServerObserver {
         modelUpdaterThread.start();
 
         try {
-            setCurrentPage(new LobbyPage());
+            setCurrentPage(new LobbyPage(),null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -205,9 +227,9 @@ public class Client extends Application implements ServerObserver {
     public synchronized void receiveDivinities(String divinities) throws IOException {
 
         if (game.getInGameDivinities().size() == 1) {
-            setCurrentPage(new WaitingColorPage());
+            setCurrentPage(new WaitingColorPage(),null);
         } else {
-            setCurrentPage(new WaitingSingleDivinityChoicePage());
+            setCurrentPage(new WaitingSingleDivinityChoicePage(),null);
         }
 
 
@@ -219,7 +241,7 @@ public class Client extends Application implements ServerObserver {
      */
     @Override
     public synchronized void receivePossibleDivinities(String response) throws IOException {
-        setCurrentPage(new WaitingDivinitiesChoicePage());
+        setCurrentPage(new WaitingDivinitiesChoicePage(),null);
         notifyAll();
     }
 
@@ -281,28 +303,28 @@ public class Client extends Application implements ServerObserver {
             case "WaitingDivinitiesChoice":
                 if (game.getCurrentPlayer().getUsername().equals(playerUsername) && game.getInGameDivinities().size() == 0) {
                     System.out.println("Going to Divinities Page");
-                    setCurrentPage(new DivinitiesChoicePage());
+                    setCurrentPage(new DivinitiesChoicePage(),null);
                 } else if (game.getInGameDivinities().size() > 0) {
-                    setCurrentPage(new WaitingSingleDivinityChoicePage());
+                    setCurrentPage(new WaitingSingleDivinityChoicePage(),null);
                 }
 
                 break;
             case "DivinitiesChoice":
                 if (game.getInGameDivinities().size() > 0) {
-                    setCurrentPage(new WaitingSingleDivinityChoicePage());
+                    setCurrentPage(new WaitingSingleDivinityChoicePage(),null);
                 }
                 break;
             case "WaitingSingleDivinityChoice":
                 if (game.getInGameDivinities().size() == 0) {
-                    setCurrentPage(new WaitingColorPage());
+                    setCurrentPage(new WaitingColorPage(),null);
                 } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                    setCurrentPage(new SingleDivinityChoicePage());
+                    setCurrentPage(new SingleDivinityChoicePage(),null);
                 }
                 break;
             case "WaitingColor":
                 if (game.getAlreadyChosenColors().size() < game.getPlayers().size()) {
                     if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                        setCurrentPage(new ColorPage());
+                        setCurrentPage(new ColorPage(),null);
                     }
                     break;
                 }
