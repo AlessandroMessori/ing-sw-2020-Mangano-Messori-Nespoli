@@ -271,8 +271,8 @@ public class GamePage extends Page implements Initializable {
     public void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
         if (currentCell.getPawn() == null && gridActive) {
-            System.out.println(new Gson().toJson(game.getPlayers()));
             Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));
+            newPawn.getOwner().setColour(client.getChosenColor());
             newPawn.setId(getNewPawnId());
             currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
