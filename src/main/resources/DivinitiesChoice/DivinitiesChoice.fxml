@@ -41,22 +41,22 @@
     </ImageView>
 
     <ImageView fx:id="div6" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="232.0"
-               layoutY="493.0" pickOnBounds="true" preserveRatio="true">
+               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../Images/DivChoice/Hephaestus.png"/>
     </ImageView>
 
     <ImageView fx:id="div7" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="505.0"
-               layoutY="493.0" pickOnBounds="true" preserveRatio="true">
+               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../Images/DivChoice/Minotaur.png"/>
     </ImageView>
 
     <ImageView fx:id="div8" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="774.0"
-               layoutY="493.0" pickOnBounds="true" preserveRatio="true">
+               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../Images/DivChoice/Pan.png"/>
     </ImageView>
 
     <ImageView fx:id="div9" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="1045.0"
-               layoutY="493.0" pickOnBounds="true" preserveRatio="true">
+               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../Images/DivChoice/Prometheus.png"/>
     </ImageView>
 

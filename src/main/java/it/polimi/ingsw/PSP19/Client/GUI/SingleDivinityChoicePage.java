@@ -64,6 +64,16 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
             ArrayList<String> possibleDivinities = CastingHelper.convertDivinityListToString(game.getPossibleDivinities());
             ArrayList<String> inGameDivinities = CastingHelper.convertDivinityListToString(game.getInGameDivinities());
 
+            /*
+            ArrayList<String> possibleDivinities = new ArrayList<>();
+            ArrayList<String> inGameDivinities = new ArrayList<>();
+
+            possibleDivinities.add("APOLLO");
+            possibleDivinities.add("PAN");
+            inGameDivinities.add("APOLLO");
+            inGameDivinities.add("PAN");
+            
+             */
             System.out.println("possibleDivinities: " + possibleDivinities);
             System.out.println("inGameDivinities: " + inGameDivinities);
 
@@ -96,6 +106,7 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
 
                 String divName = possibleDivinities.get(i).substring(0, 1) + possibleDivinities.get(i).toLowerCase().substring(1);
 
+                goBtn.setDisable(true);
 
                 if (!chosen) {
                     divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + ".png"));
@@ -104,6 +115,27 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
                     divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + "_chosen.png"));
                     divButtonsArray[i].setDisable(true);
                 }
+
+                divButtonsArray[i].setOnMouseEntered(event -> {
+                    divButtonsArray[finalI].setLayoutX(divButtonsArray[finalI].getLayoutX()-8.0);
+                    divButtonsArray[finalI].setLayoutY(divButtonsArray[finalI].getLayoutY()-14.0);
+                    divButtonsArray[finalI].setFitHeight(divButtonsArray[finalI].getFitHeight()+30);
+                    divButtonsArray[finalI].setFitWidth(divButtonsArray[finalI].getFitWidth()+30);
+                });
+
+                divButtonsArray[i].setOnMouseExited(event -> {
+                    divButtonsArray[finalI].setLayoutX(divButtonsArray[finalI].getLayoutX()+8.0);
+                    divButtonsArray[finalI].setLayoutY(divButtonsArray[finalI].getLayoutY()+14.0);
+                    divButtonsArray[finalI].setFitHeight(566.0);
+                    divButtonsArray[finalI].setFitWidth(315.0);
+                });
+
+                goBtn.setOnMouseEntered(event -> {
+                    goBtn.setImage(new Image("/Images/DivChoice/Go_button_over.png"));
+                });
+                goBtn.setOnMouseExited(event -> {
+                    goBtn.setImage(new Image("/Images/DivChoice/Go_button.png"));
+                });
 
                 divButtonsArray[i].setOnMouseClicked(event -> {
                     if ((!clicked[finalI]) && (finalDiv[0] < 1)) {
@@ -118,18 +150,13 @@ public class SingleDivinityChoicePage extends Page implements Initializable {
 
                             goBtn.setDisable(false);
 
-                            goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed.png")));
+                            goBtn.setOnMousePressed(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button_Pressed_over.png")));
 
                             goBtn.setOnMouseClicked(e -> {
                                 System.out.println(divinityChoice[0]);
                                 String message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(divinityChoice[0]), client.getPlayerUsername(), game.getCodGame()).toString();
                                 RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DIVINITY, message);
 
-                            /*try {
-                               -- client.setCurrentPage(new LoadingPage());
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }*/
                             });
 
                             goBtn.setOnMouseReleased(e -> goBtn.setImage(new Image("/Images/DivChoice/Go_button.png")));

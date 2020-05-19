@@ -1029,45 +1029,5 @@ public class CLI {
         chosenDivinities = new ArrayList<String>();
         lobby = false;
     }
-
-    /*
-    public static void main(String[] args) {
-        CLI cli = new CLI();
-        Grid grid = new Grid();
-        Player player = new Player("ciao", Divinity.DEMETER, Colour.RED);
-        Pawn pawn = new Pawn(player);
-        pawn.setId(32);
-        grid.getCells(1,2).setPawn(pawn);
-        MoveList moveList = new MoveList();
-
-        Move move = new Move(pawn);
-        move.setX(0);
-        move.setY(4);
-        moveList.addMove(move);
-
-        Move move2 = new Move(pawn);
-        move2.setX(1);
-        move2.setY(3);
-        moveList.addMove(move2);
-
-        Move move3 = new Move(pawn);
-        move3.setX(2);
-        move3.setY(1);
-        moveList.addMove(move3);
-
-        Move move4 = new Move(pawn);
-        move4.setX(3);
-        move4.setY(3);
-        moveList.addMove(move4);
-
-        Move move5 = new Move(pawn);
-        move5.setX(4);
-        move5.setY(3);
-        moveList.addMove(move5);
-
-        cli.drawPossibleMovesOnGrid(grid,moveList);
-
-    }
-*/
  
 }
