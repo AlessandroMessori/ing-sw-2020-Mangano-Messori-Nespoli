@@ -96,6 +96,10 @@ public class GamePage extends Page implements Initializable {
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
     }
 
+    private ImageView getGameGridButton(int x,int y) {
+        return (ImageView) gameGrid.getChildren().get(50 + x * 5 + y);
+    }
+
     public void setGame(Game g) throws IOException {
 
         if (game == null || (!localChanges)) {
@@ -232,26 +236,15 @@ public class GamePage extends Page implements Initializable {
                     int finalJ = j;
                     ImageView currentTowerImage = getGameGridCell(i, j, false);
                     ImageView currentPawnImage = getGameGridCell(i, j, true);
+                    ImageView currentButton = getGameGridButton(i,j);
                     Cell currentCell = game.getNewGrid().getCells(i, j);
 
                     if (startingPosition) {
-                        currentPawnImage.setOnMouseClicked(e -> {
-                            onStartingPositionCellClick(currentCell, currentPawnImage, finalI, finalJ);
-                        });
-
-                        currentTowerImage.setOnMouseClicked(e -> {
+                        currentButton.setOnMouseClicked(e -> {
                             onStartingPositionCellClick(currentCell, currentPawnImage, finalI, finalJ);
                         });
                     } else {
-                        currentPawnImage.setOnMouseClicked(e -> {
-                            try {
-                                onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }
-                        });
-
-                        currentTowerImage.setOnMouseClicked(e -> {
+                        currentButton.setOnMouseClicked(e -> {
                             try {
                                 onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
                             } catch (IOException ioException) {
