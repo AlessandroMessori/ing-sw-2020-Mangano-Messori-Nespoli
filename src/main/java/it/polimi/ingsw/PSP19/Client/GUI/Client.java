@@ -23,6 +23,7 @@ import java.net.URL;
 
 
 public class Client extends Application implements ServerObserver {
+    private boolean hasMusic = true;
     private RequestHandler requestHandler;
     private ServerAdapter serverAdapter;
     private Game game;
@@ -35,6 +36,14 @@ public class Client extends Application implements ServerObserver {
     double width = 1440;
     double height = 900;
     Parent root;
+
+    public boolean getHasMusic() {
+        return hasMusic;
+    }
+
+    public void setHasMusic(boolean hasMusic) {
+        this.hasMusic = hasMusic;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -133,12 +142,17 @@ public class Client extends Application implements ServerObserver {
             if (currentPage != null && currentPage.getMediaPlayer() != null) {
                 currentPage.getMediaView().setDisable(true);
                 currentPage.getMediaPlayer().stop();
-                System.out.println("I'm Here");
             }
         }
         else {
-            playermp3 = currentPage.getMediaPlayer();
-            mp3View = currentPage.getMediaView();
+            if (hasMusic == true) {
+                playermp3 = currentPage.getMediaPlayer();
+                mp3View = currentPage.getMediaView();
+            }
+            else{
+                currentPage.getMediaView().setDisable(true);
+                currentPage.getMediaPlayer().stop();
+            }
         }
 
         currentPage = page;
@@ -151,16 +165,20 @@ public class Client extends Application implements ServerObserver {
         currentPage.setClient(this);
         currentPage.setGame(game);
 
-        currentPage.setMediaPlayer(playermp3);
-        currentPage.setMediaView(mp3View);
+        if(hasMusic) {
+            currentPage.setMediaPlayer(playermp3);
+            currentPage.setMediaView(mp3View);
+        }
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
 
                     if (currentPage.getMediaPlayer() != null) {
-                        ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
-                        currentPage.getMediaPlayer().play();
-                        currentPage.getMediaPlayer().setAutoPlay(true);
+                        if(hasMusic == true) {
+                            ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
+                            currentPage.getMediaPlayer().play();
+                            currentPage.getMediaPlayer().setAutoPlay(true);
+                        }
                     }
                 }
         );

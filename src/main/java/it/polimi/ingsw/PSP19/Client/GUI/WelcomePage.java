@@ -105,6 +105,7 @@ public class WelcomePage extends Page implements Initializable {
         }
     }
 
+
     public void anotherServer(){
         localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
         localServerIsSelected = false;
@@ -112,6 +113,9 @@ public class WelcomePage extends Page implements Initializable {
 
     public void playBtnClick() throws IOException, InterruptedException {
         connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
+        if(!musicCheckBox.isSelected()){
+            client.setHasMusic(false);
+        }
         client.setThreePlayers(!twoPlayersButton.isSelected());
         String username = usernameTextBox.getText();
         boolean nPlayers = !twoPlayersButton.isSelected();
