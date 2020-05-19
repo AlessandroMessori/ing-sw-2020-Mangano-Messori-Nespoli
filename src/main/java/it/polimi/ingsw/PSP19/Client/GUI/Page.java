@@ -46,6 +46,19 @@ public abstract class Page {
         alert.showAndWait();
     }
 
+    public void showDisconnected() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("DISCONNECTION");
+        alert.setHeaderText("A player disconnected himself from the game");
+        alert.setContentText("GAME OVER!");
+
+        alert.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
+
+        alert.showAndWait();
+    }
+
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }

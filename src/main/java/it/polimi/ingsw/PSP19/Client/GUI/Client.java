@@ -31,6 +31,7 @@ public class Client extends Application implements ServerObserver {
     private String playerUsername;
     private Colour chosenColor;
     private boolean threePlayers;
+    private boolean disconnected = false;
     private Socket server = null;
     private Stage mainStage;
     double width = 1440;
@@ -54,6 +55,10 @@ public class Client extends Application implements ServerObserver {
         root = setCurrentPage(new WelcomePage(), "/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
         Scene scene = new Scene(root, width, height);
+
+        primaryStage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
 
         primaryStage.setTitle("SANTORINI");
         primaryStage.setScene(scene);
@@ -143,15 +148,13 @@ public class Client extends Application implements ServerObserver {
                 currentPage.getMediaView().setDisable(true);
                 currentPage.getMediaPlayer().stop();
             }
-        }
-        else {
+        } else {
 
             if (currentPage.getMediaView() != null) {
                 if (hasMusic) {
                     playermp3 = currentPage.getMediaPlayer();
                     mp3View = currentPage.getMediaView();
-                }
-                else{
+                } else {
                     currentPage.getMediaView().setDisable(true);
                     currentPage.getMediaPlayer().stop();
                 }
@@ -170,7 +173,7 @@ public class Client extends Application implements ServerObserver {
         currentPage.setClient(this);
         currentPage.setGame(game);
 
-        if(hasMusic) {
+        if (hasMusic) {
             currentPage.setMediaPlayer(playermp3);
             currentPage.setMediaView(mp3View);
         }
@@ -179,7 +182,7 @@ public class Client extends Application implements ServerObserver {
                     mainStage.getScene().setRoot(root);
 
                     if (currentPage.getMediaPlayer() != null) {
-                        if(hasMusic == true) {
+                        if (hasMusic == true) {
                             ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
                             currentPage.getMediaPlayer().play();
                             currentPage.getMediaPlayer().setAutoPlay(true);
@@ -337,8 +340,20 @@ public class Client extends Application implements ServerObserver {
     public synchronized void receiveModelUpdate(Game g) throws IOException {
         //System.out.println("Received Model Update");
         game = g;
+
+        if (game.getDisconnected() && !disconnected) {
+            disconnected = true;
+            Platform.runLater(
+                    () -> {
+                        currentPage.showDisconnected();
+                    }
+            );
+        }
+
+
         currentPage.setGame(g);
         //int nPlayersInGame = getThreePlayers() ? 3 : 2;
+
 
         switch (currentPage.getPageName()) {
 
