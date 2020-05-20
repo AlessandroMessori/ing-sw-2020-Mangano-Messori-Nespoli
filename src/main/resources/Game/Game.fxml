@@ -215,6 +215,96 @@
                     <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
+
+            <ImageView fx:id="action00" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action01" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action02" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action03" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action04" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fx:id="action10" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action11" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action12" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action13" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action14" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ImageView fx:id="action20" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action21" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action22" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action23" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action24" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ImageView fx:id="action30" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="5.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action31" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action32" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action33" fitHeight="130.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action34" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <ImageView fx:id="action40" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets bottom="4.0" left="5.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action41" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets bottom="4.0" left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action42" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets bottom="4.0" left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action43" fitHeight="130.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets bottom="4.0" left="3.0" />
+                </GridPane.margin></ImageView>
+            <ImageView fx:id="action44" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets bottom="4.0" />
+                </GridPane.margin></ImageView>
+
             <ImageView id="pawnImg00" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" />
             <ImageView id="pawnImg01" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="1" />
             <ImageView id="pawnImg02" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="2" />
