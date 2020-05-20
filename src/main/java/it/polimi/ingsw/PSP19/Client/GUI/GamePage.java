@@ -87,6 +87,9 @@ public class GamePage extends Page implements Initializable {
     @FXML
     private ImageView threePlayersPanel;
 
+    @FXML
+    private ImageView extraBtn;
+
 
     public String getPageName() {
         return "Game";
@@ -140,6 +143,23 @@ public class GamePage extends Page implements Initializable {
             //turnBanner.setImage(gridActive ? new Image("/Images/Game/turnBanner.png") : null);
 
             boolean alreadySetFirstOpponentImage = false;
+
+            if (gridActive && game.getNextMoves() != null && game.getNextMoves().size() > 0 && game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {
+                extraBtn.setDisable(false);
+                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build.png"));
+
+                extraBtn.setOnMousePressed(e -> {
+                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build_pressed.png"));
+                });
+
+                extraBtn.setOnMouseReleased(e -> {
+                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build.png"));
+                });
+
+            } else {
+                extraBtn.setDisable(true);
+                extraBtn.setImage(null);
+            }
 
 
             if (gridActive && game.getCurrentPlayer().getColour() != null) {
@@ -367,6 +387,17 @@ public class GamePage extends Page implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    public void extraBtnClick() {
+        if (gridActive) {
+            Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
+            gridActive = false;
+            actionText.setText("LOADING");
+
+            String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
+            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+        }
     }
 
 

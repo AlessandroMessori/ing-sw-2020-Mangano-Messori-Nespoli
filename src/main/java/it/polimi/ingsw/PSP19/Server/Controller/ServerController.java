@@ -36,7 +36,7 @@ public class ServerController {
 
         for (Game g : model.getGames()) {
             int nPlayers = if3 ? 3 : 2;
-            if (g.getThreePlayers() == if3) {
+            if (g.getThreePlayers() == if3 && !g.getDisconnected()) {
                 if (g.getPlayers().size() < nPlayers) {
                     g.getPlayers().addPlayer(p);
                     return g;

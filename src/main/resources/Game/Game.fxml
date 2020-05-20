@@ -240,4 +240,5 @@
             <ImageView fx:id="cell44" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
         </children>
     </GridPane>
+    <ImageView fx:id="extraBtn" onMouseClicked="#extraBtnClick" fitHeight="68.0" fitWidth="191.0" layoutX="248.0" layoutY="818.0"/>
 </Pane>
