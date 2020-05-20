@@ -97,12 +97,16 @@ public class GamePage extends Page implements Initializable {
     }
 
     private ImageView getGameGridCell(int x, int y, boolean pawn) {
-        int offset = pawn ? 25 : 0;
+        int offset = pawn ? 50 : 0;
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
     }
 
+    private ImageView getActionGridImage(int x, int y) {
+        return (ImageView) gameGrid.getChildren().get(25 + x * 5 + y);
+    }
+
     private ImageView getGameGridButton(int x, int y) {
-        return (ImageView) gameGrid.getChildren().get(50 + x * 5 + y);
+        return (ImageView) gameGrid.getChildren().get(75 + x * 5 + y);
     }
 
     public void setGame(Game g) throws IOException {
@@ -276,6 +280,7 @@ public class GamePage extends Page implements Initializable {
                     int finalJ = j;
                     ImageView currentTowerImage = getGameGridCell(i, j, false);
                     ImageView currentPawnImage = getGameGridCell(i, j, true);
+                    ImageView currentMoveImage = getActionGridImage(i, j);
                     ImageView currentButton = getGameGridButton(i, j);
                     Cell currentCell = game.getNewGrid().getCells(i, j);
 
@@ -293,7 +298,10 @@ public class GamePage extends Page implements Initializable {
                         });
                     }
 
-                    drawCell(currentCell, currentTowerImage, currentPawnImage);
+                    drawCell(currentCell, currentTowerImage, currentPawnImage, currentMoveImage, i, j);
+                    if (!gridActive || !alreadySelectedPawn) {
+                        cleanMoveImages();
+                    }
 
                 }
             }
@@ -353,8 +361,11 @@ public class GamePage extends Page implements Initializable {
                         for (int j = 0; j < 5; j++) {
                             ImageView towerImage = getGameGridCell(i, j, false);
                             ImageView pawnImage = getGameGridCell(i, j, true);
+                            ImageView moveImage = getActionGridImage(i, j);
+
                             Cell cell = game.getNewGrid().getCells(i, j);
-                            drawCell(cell, towerImage, pawnImage);
+                            drawCell(cell, towerImage, pawnImage, moveImage, i, j);
+                            moveImage.setImage(null);
                         }
                     }
 
@@ -421,7 +432,20 @@ public class GamePage extends Page implements Initializable {
     }
 
 
-    public void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage) {
+    public void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
+
+        //draws Move
+        if (currentMoveImage != null) {
+            if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
+                for (int k = 0; k < game.getNextMoves().size(); k++) {
+                    if (game.getNextMoves().getMove(k).getX() == i && game.getNextMoves().getMove(k).getY() == j) {
+                        boolean build = !game.getNextMoves().getMove(k).getIfMove();
+                        currentMoveImage.setImage(new Image(getMoveImagePath(client.getChosenColor(), build)));
+                    }
+                }
+            }
+        }
+
         // draws Tower
 
         if (currentCell.getTower().getIsDome() && currentCell.getTower().getLevel() != 4) {
@@ -447,6 +471,18 @@ public class GamePage extends Page implements Initializable {
         } else {
             currentPawnImage.setImage(null);
         }
+    }
+
+    public void cleanMoveImages() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                getActionGridImage(i, j).setImage(null);
+            }
+        }
+    }
+
+    public String getMoveImagePath(Colour colour, boolean build) {
+        return build ? "/Images/Game/Action/build.png" : "/Images/Game/Action/move_" + colour.toString().toLowerCase() + ".png";
     }
 
     public String getBuildingImagePath(int level) {
