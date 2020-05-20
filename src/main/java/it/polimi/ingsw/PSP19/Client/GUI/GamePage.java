@@ -28,6 +28,7 @@ public class GamePage extends Page implements Initializable {
     private boolean localChanges = false;
 
     int pawnCounter = 0;
+    int chosenPawnID = -1;
 
     @FXML
     private ImageView playerDivImage;
@@ -96,7 +97,7 @@ public class GamePage extends Page implements Initializable {
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
     }
 
-    private ImageView getGameGridButton(int x,int y) {
+    private ImageView getGameGridButton(int x, int y) {
         return (ImageView) gameGrid.getChildren().get(50 + x * 5 + y);
     }
 
@@ -105,6 +106,7 @@ public class GamePage extends Page implements Initializable {
         if (game == null || (!localChanges)) {
 
             if (game != null && game.getNTurns() != g.getNTurns()) {
+                chosenPawnID = -1;
                 alreadySelectedPawn = false;
             }
 
@@ -134,6 +136,8 @@ public class GamePage extends Page implements Initializable {
             gridActive = g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
             turnText.setText("Turn " + game.getNTurns());
+
+            //turnBanner.setImage(gridActive ? new Image("/Images/Game/turnBanner.png") : null);
 
             boolean alreadySetFirstOpponentImage = false;
 
@@ -236,7 +240,7 @@ public class GamePage extends Page implements Initializable {
                     int finalJ = j;
                     ImageView currentTowerImage = getGameGridCell(i, j, false);
                     ImageView currentPawnImage = getGameGridCell(i, j, true);
-                    ImageView currentButton = getGameGridButton(i,j);
+                    ImageView currentButton = getGameGridButton(i, j);
                     Cell currentCell = game.getNewGrid().getCells(i, j);
 
                     if (startingPosition) {
@@ -348,9 +352,11 @@ public class GamePage extends Page implements Initializable {
                 if (currentCell.getPawn() != null && currentCell.getPawn().getOwner().getUsername().equals(client.getPlayerUsername())) {
                     gridActive = false;
                     actionText.setText("LOADING");
+                    game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
+                    alreadySelectedPawn = true;
+                    chosenPawnID = currentCell.getPawn().getId();
                     String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
-                    alreadySelectedPawn = true;
                 }
             }
 
@@ -390,35 +396,24 @@ public class GamePage extends Page implements Initializable {
     }
 
     public String getBuildingImagePath(int level) {
-        switch (level) {
-            case 1:
-                return "/Images/Game/Buildings/Building1levels.png";
-            case 2:
-                return "/Images/Game/Buildings/Building2levels.png";
-            case 3:
-                return "/Images/Game/Buildings/Building3levels.png";
-            case 4:
-                return "/Images/Game/Buildings/Building4levels.png";
-            default:
-                return null;
-        }
+        return (level < 1 || level > 4) ? null : "/Images/Game/Buildings/Building" + level + "levels.png";
     }
 
     public String getPawnImagePath(Colour colour, int pawnID) {
-
         String gender = (pawnID % 2 == 0) ? "Female" : "Male";
+        String selected = (alreadySelectedPawn && pawnID == chosenPawnID) ? "_selected" : "";
 
         switch (colour) {
             case RED:
-                return "/Images/Game/Pawns/" + gender + "Builder_red.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_red" + selected + ".png";
             case BLUE:
-                return "/Images/Game/Pawns/" + gender + "Builder_blu.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_blu" + selected + ".png";
             case YELLOW:
-                return "/Images/Game/Pawns/" + gender + "Builder_yellow.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_yellow" + selected + ".png";
             case WHITE:
-                return "/Images/Game/Pawns/" + gender + "Builder_white.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_white" + selected + ".png";
             case PINK:
-                return "/Images/Game/Pawns/" + gender + "Builder_purple.png";
+                return "/Images/Game/Pawns/" + gender + "Builder_purple" + selected + ".png";
             default:
                 return null;
         }

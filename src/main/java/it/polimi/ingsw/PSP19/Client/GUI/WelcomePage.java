@@ -57,69 +57,68 @@ public class WelcomePage extends Page implements Initializable {
         return "Welcome";
     }
 
-    public void localPressed(){
+    public void localPressed() {
         localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
         localServerKeepsPressed = true;
     }
 
-    public void mouseEnteredLocal(){
-        if(localServerKeepsPressed == true){
+    public void mouseEnteredLocal() {
+        if (localServerKeepsPressed == true) {
             localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
         }
     }
 
-    public void mouseExitedLocal(){
-        if(localServerKeepsPressed == true && localServerIsSelected == false){
+    public void mouseExitedLocal() {
+        if (localServerKeepsPressed == true && localServerIsSelected == false) {
             localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
         }
     }
 
-    public void mouseEntered(){
-        if(connectBtnIsSelected == true){
+    public void mouseEntered() {
+        if (connectBtnIsSelected == true) {
             connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
         }
     }
 
-    public void mouseExited(){
-        if(connectBtnIsSelected == true){
+    public void mouseExited() {
+        if (connectBtnIsSelected == true) {
             connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
         }
     }
 
-    public void pressBtn(){
+    public void pressBtn() {
         connectBtnIsSelected = true;
         connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
     }
 
-    public void clickLocal(){
-        if(localServerIsSelected == false) {
+    public void clickLocal() {
+        if (localServerIsSelected == false) {
             localServerBtn.setImage(new Image("/Images/Login/localServer_pressed.png"));
             localServerIsSelected = true;
-            if(!anotherServerTextBox.getText().equals("")) {
+            if (!anotherServerTextBox.getText().equals("")) {
                 anotherServerTextBox.setText("");
             }
-        }
-        else{
+        } else {
             localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
             localServerIsSelected = false;
         }
     }
 
 
-    public void anotherServer(){
+    public void anotherServer() {
         localServerBtn.setImage(new Image("/Images/Login/localServer.png"));
         localServerIsSelected = false;
     }
 
     public void playBtnClick() throws IOException, InterruptedException {
         connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
-        if(!musicCheckBox.isSelected()){
+        if (!musicCheckBox.isSelected()) {
             client.setHasMusic(false);
         }
         client.setThreePlayers(!twoPlayersButton.isSelected());
         String username = usernameTextBox.getText();
         boolean nPlayers = !twoPlayersButton.isSelected();
-        if(username.length() > 12){
+        if (username.length() > 12) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("INVALID USERNAME");
             alert.setHeaderText("Please insert a valid username.");
@@ -127,8 +126,7 @@ public class WelcomePage extends Page implements Initializable {
 
             alert.showAndWait();
             connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
-        }
-        else if(username.equals("")){
+        } else if (username.equals("")) {
             //System.out.println("Insert a valid username");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("INVALID USERNAME");
@@ -137,8 +135,7 @@ public class WelcomePage extends Page implements Initializable {
 
             alert.showAndWait();
             connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
-        }
-        else if(localServerIsSelected == false && anotherServerTextBox.getText().equals("")){
+        } else if (localServerIsSelected == false && anotherServerTextBox.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("SELECT A SERVER");
             alert.setHeaderText("Please select local server or write an IP for another one.");
@@ -146,34 +143,35 @@ public class WelcomePage extends Page implements Initializable {
 
             alert.showAndWait();
             connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
-        }
-        else{
+        } else {
             try {
                 client.setPlayerUsername(username);
-                if(localServerIsSelected == true) {
+                if (localServerIsSelected) {
                     client.setServer("");
-                }
-                else{
-                    try{ client.setServer(anotherServerTextBox.getText()); } catch (IllegalArgumentException | IOException IO){
+                } else {
+                    try {
+                        client.setServer(anotherServerTextBox.getText());
+                    } catch (IllegalArgumentException | IOException IO) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("UNABLE TO ACCESS SERVER INSERTED");
                         alert.setHeaderText("Unluckily, it's impossible to reach the server.");
                         alert.setContentText("The server could be unreachable, or you could have failed to write it correctly.");
+                        alert.showAndWait();
                     }
                 }
                 Thread.sleep(100);
                 String message = messageSerializer.serializeJoinGame(username, nPlayers, null).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.JOIN_GAME, message);
-            }catch(IOException | InterruptedException IO){
+            } catch (IOException | InterruptedException IO) {
                 //System.out.println("Not able to connect to local server");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("UNABLE TO ACCESS LOCAL SERVER");
                 alert.setHeaderText("Unluckily, it looks like it's impossible to reach local server.");
                 alert.setContentText("This error is really rare, you're lucky!");
+                alert.showAndWait();
             }
         }
     }
-
 
 
     @Override
