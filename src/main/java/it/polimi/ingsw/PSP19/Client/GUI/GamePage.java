@@ -26,6 +26,7 @@ public class GamePage extends Page implements Initializable {
     private boolean alreadySelectedPawn = false;
     private boolean gridActive = true;
     private boolean localChanges = false;
+    private boolean atlasPower = false;
 
     int pawnCounter = 0;
     int chosenPawnID = -1;
@@ -136,7 +137,7 @@ public class GamePage extends Page implements Initializable {
             }
 
             // boolean to decide whether it's the client's turn to move
-            gridActive = g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+            gridActive = g.getCurrentPlayer() != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
             turnText.setText("Turn " + game.getNTurns());
 
@@ -144,9 +145,24 @@ public class GamePage extends Page implements Initializable {
 
             boolean alreadySetFirstOpponentImage = false;
 
-            if (gridActive && game.getNextMoves() != null && game.getNextMoves().size() > 0 && game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {
+            if (gridActive && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove()) {
+                String imagePath = atlasPower ? "_on" : "";
+                extraBtn.setDisable(false);
+                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + imagePath + ".png"));
+
+                extraBtn.setOnMouseClicked(e -> {
+                    atlasPower = !atlasPower;
+                    final String finalImagePath = atlasPower ? "_on" : "";
+                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + finalImagePath + ".png"));
+                });
+
+            } else if (gridActive && game.getNextMoves() != null && game.getNextMoves().size() > 0 && game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {
                 extraBtn.setDisable(false);
                 extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build.png"));
+
+                extraBtn.setOnMouseClicked(e -> {
+                    skipMove();
+                });
 
                 extraBtn.setOnMousePressed(e -> {
                     extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build_pressed.png"));
@@ -315,9 +331,13 @@ public class GamePage extends Page implements Initializable {
         if (gridActive) {
             if (alreadySelectedPawn) {
                 int selectedMove = -1;
+                //coeff used to select special moves for a certain coordinate
+                boolean isAtlasBuilding = (game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove() && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && atlasPower);
+                int cx = isAtlasBuilding ? (-1 * finalI) - 1 : finalI;
+                int cy = isAtlasBuilding ? (-1 * finalJ) - 1 : finalJ;
 
                 for (int k = 0; k < game.getNextMoves().size(); k++) {
-                    if (game.getNextMoves().getMove(k).getX() == finalI && game.getNextMoves().getMove(k).getY() == finalJ) {
+                    if (game.getNextMoves().getMove(k).getX() == cx && game.getNextMoves().getMove(k).getY() == cy) {
                         selectedMove = k;
                     }
                 }
@@ -389,7 +409,7 @@ public class GamePage extends Page implements Initializable {
 
     }
 
-    public void extraBtnClick() {
+    public void skipMove() {
         if (gridActive) {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
             gridActive = false;
@@ -403,7 +423,10 @@ public class GamePage extends Page implements Initializable {
 
     public void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage) {
         // draws Tower
-        if (currentCell.getTower().getLevel() > 0) {
+
+        if (currentCell.getTower().getIsDome() && currentCell.getTower().getLevel() != 4) {
+            currentTowerImage.setImage(new Image("/Images/Game/Buildings/Dome.png"));
+        } else if (currentCell.getTower().getLevel() > 0) {
             currentTowerImage.setImage(new Image(getBuildingImagePath(currentCell.getTower().getLevel())));
         } else {
             currentTowerImage.setImage(null);

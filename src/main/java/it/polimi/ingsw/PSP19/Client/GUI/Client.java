@@ -341,7 +341,7 @@ public class Client extends Application implements ServerObserver {
         //System.out.println("Received Model Update");
         game = g;
 
-        if (game.getDisconnected() && !disconnected) {
+        if (game.getDisconnected() && !disconnected && !currentPage.getPageName().equals("Ending")) {
             disconnected = true;
             Platform.runLater(
                     () -> {
