@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Server.Network;
 
+import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Server.Model.Model;
 import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
 
@@ -28,7 +29,20 @@ public class ResponseContext implements Runnable {
             handleResponse();
         } catch (IOException e) {
             System.out.println("Client " + client.getInetAddress() + " connection dropped");
-            if (gameID != null) Model.getModel().searchID(gameID).setDisconnected();
+            if (gameID != null) {
+                Game disconnectedGame = Model.getModel().searchID(gameID);
+                disconnectedGame.setDisconnected();
+                //Deletes Game from Model after 5 seconds
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                Model.getModel().delGame(disconnectedGame);
+                            }
+                        },
+                        30000
+                );
+            }
         }
     }
 
@@ -48,6 +62,8 @@ public class ResponseContext implements Runnable {
                 if (requestHeader.equals("CheckModel")) {
                     gameID = messageDeserializer.deserializeString(requestContent, "gameID");
                 }
+
+                System.out.println(Model.getModel().getGames().toString());
 
                 switch (requestHeader) {
                     case "JoinGame":

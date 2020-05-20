@@ -111,6 +111,19 @@ public class ListenForChosenMove extends ResponseHandler {
 
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), chosenMove, game.getGameTurn()));
 
+            if (game.getWinner() != null) {
+                // Deletes Game After 5 Seconds
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                Model.getModel().delGame(game);
+                            }
+                        },
+                        30000
+                );
+            }
+
             output.writeObject("Received Move");
         } catch (ClassCastException e) {
             System.out.println("error while writing the response");
