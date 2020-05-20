@@ -158,18 +158,18 @@ public class GamePage extends Page implements Initializable {
 
             } else if (gridActive && game.getNextMoves() != null && game.getNextMoves().size() > 0 && game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {
                 extraBtn.setDisable(false);
-                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build.png"));
+                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip.png"));
 
                 extraBtn.setOnMouseClicked(e -> {
                     skipMove();
                 });
 
                 extraBtn.setOnMousePressed(e -> {
-                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build_pressed.png"));
+                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_pressed.png"));
                 });
 
                 extraBtn.setOnMouseReleased(e -> {
-                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_sec_build.png"));
+                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip.png"));
                 });
 
             } else {

@@ -16,373 +16,260 @@
     <Text fx:id="turnText" fill="WHITE" layoutX="-10.0" layoutY="-49.0" strokeType="OUTSIDE" strokeWidth="0.0"
           style="-fx-translate-y: 210px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
         <font>
-            <Font size="26.0"/>
+            <Font size="26.0" />
         </font>
     </Text>
-    <Text fx:id="actionText" fill="WHITE" layoutX="-21.0" layoutY="-20.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          style="-fx-translate-y: 237px; -fx-translate-x: 45px;" text="POSITION" wrappingWidth="152.7294921875">
+    <Text fx:id="actionText" fill="WHITE" layoutX="-21.0" layoutY="-20.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 237px; -fx-translate-x: 45px;" text="POSITION" wrappingWidth="152.7294921875">
         <font>
-            <Font size="26.0"/>
+            <Font size="26.0" />
         </font>
     </Text>
-    <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" layoutY="-4.0" pickOnBounds="true"
-               style="-fx-translate-y: 270px; -fx-translate-x: -1px;">
+    <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" layoutY="-4.0" pickOnBounds="true" style="-fx-translate-y: 270px; -fx-translate-x: -1px;">
         <image>
-            <Image url="@../Images/Game/Gods/Bigger/Apollo.png"/>
+            <Image url="@../Images/Game/Gods/Bigger/Apollo.png" />
         </image>
     </ImageView>
-    <Text fx:id="playerUsernameText" fill="#ab6f6f" layoutX="6.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          style="-fx-translate-y: 216; -fx-translate-x: 55;" text="G1">
+    <Text fx:id="playerUsernameText" fill="#ab6f6f" layoutX="6.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 216; -fx-translate-x: 55;" text="G1">
         <font>
-            <Font size="25.0"/>
+            <Font size="25.0" />
         </font>
     </Text>
-    <ImageView fx:id="playerPowerImage" fitHeight="90.0" fitWidth="208.0" layoutY="459.0" pickOnBounds="true"
-               style="-fx-translate-y: 240; -fx-translate-x: -2;">
+    <ImageView fx:id="playerPowerImage" fitHeight="90.0" fitWidth="208.0" layoutY="459.0" pickOnBounds="true" style="-fx-translate-y: 240; -fx-translate-x: -2;">
         <image>
-            <Image url="@../Images/Game/Gods/Bigger/Powers/Apollo_power.png"/>
+            <Image url="@../Images/Game/Gods/Bigger/Powers/Apollo_power.png" />
         </image>
     </ImageView>
-    <ImageView fx:id="playerTurn" layoutY="548.0" pickOnBounds="true" style="-fx-translate-y: -290; -fx-view-order: -1;"
-               viewOrder="1">
+    <ImageView fx:id="playerTurn" layoutY="548.0" pickOnBounds="true" style="-fx-translate-y: -290; -fx-view-order: -1;" viewOrder="1">
         <image>
-            <Image url="@../Images/Game/Gods/Bigger/currentPlayer_pink.png"/>
+            <Image url="@../Images/Game/Gods/Bigger/currentPlayer_pink.png" />
         </image>
     </ImageView>
     <ImageView fx:id="twoPlayersPanel" layoutX="1194.0" pickOnBounds="true" preserveRatio="true">
         <image>
-            <Image url="@../Images/Game/two_players_panel.png"/>
+            <Image url="@../Images/Game/two_players_panel.png" />
         </image>
     </ImageView>
     <ImageView fx:id="threePlayersPanel" layoutX="1218.0" pickOnBounds="true" preserveRatio="true">
         <image>
-            <Image url="@../Images/Game/three_players_panel.png"/>
+            <Image url="@../Images/Game/three_players_panel.png" />
         </image>
     </ImageView>
-    <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" layoutX="1191.0" layoutY="-36.0"
-               pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;"/>
-    <ImageView fx:id="opponentPowerImage" fitHeight="90.0" fitWidth="208.0" layoutX="1190.0" layoutY="396.0"
-               pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;">
+    <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" layoutX="1191.0" layoutY="-36.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;" />
+    <ImageView fx:id="opponentPowerImage" fitHeight="90.0" fitWidth="208.0" layoutX="1190.0" layoutY="396.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;">
     </ImageView>
-    <ImageView fx:id="opponentTurn" fitHeight="536.0" fitWidth="207.0" layoutX="1233.0" layoutY="261.0"
-               pickOnBounds="true" style="-fx-translate-x: 0; -fx-translate-y: 0;" viewOrder="-5"/>
-    <ImageView fx:id="opponent1DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1258.0" pickOnBounds="true"
-               viewOrder="-5"/>
-    <Text fx:id="opponentUsernameText" fill="#722525" layoutX="1192.0" layoutY="501.0" strokeType="OUTSIDE"
-          strokeWidth="0.0" style="-fx-translate-y: 162; -fx-translate-x: 100;" wrappingWidth="55.50634765625">
+    <ImageView fx:id="opponentTurn" fitHeight="536.0" fitWidth="207.0" layoutX="1233.0" layoutY="261.0" pickOnBounds="true" style="-fx-translate-x: 0; -fx-translate-y: 0;" viewOrder="-5" />
+    <ImageView fx:id="opponent1DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1258.0" pickOnBounds="true" viewOrder="-5" />
+    <Text fx:id="opponentUsernameText" fill="#722525" layoutX="1192.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 162; -fx-translate-x: 100;" wrappingWidth="55.50634765625">
         <font>
-            <Font size="25.0"/>
+            <Font size="25.0" />
         </font>
     </Text>
-    <ImageView fx:id="opponent2DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1008.0" layoutY="459.0"
-               pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5"/>
-    <ImageView fx:id="opponent1Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="-2.0"
-               pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5"/>
-    <ImageView fx:id="opponent2Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="456.0"
-               pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5"/>
-    <Text fx:id="opponent1UsernameText" fill="#786060" layoutX="1070.0" layoutY="50.0" strokeType="OUTSIDE"
-          strokeWidth="0.0" style="-fx-translate-y: 298; -fx-translate-x: 230;" text="G2" viewOrder="-Infinity"
-          wrappingWidth="95.0">
+    <ImageView fx:id="opponent2DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1008.0" layoutY="459.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
+    <ImageView fx:id="opponent1Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="-2.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
+    <ImageView fx:id="opponent2Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="456.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
+    <Text fx:id="opponent1UsernameText" fill="#786060" layoutX="1070.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 298; -fx-translate-x: 230;" text="G2" viewOrder="-Infinity" wrappingWidth="95.0">
         <font>
-            <Font size="20.0"/>
+            <Font size="20.0" />
         </font>
     </Text>
-    <Text fx:id="opponent2UsernameText" fill="#786060" layoutX="1078.0" layoutY="64.0" strokeType="OUTSIDE"
-          strokeWidth="0.0" style="-fx-translate-y: 742; -fx-translate-x: 225;" text="G3" viewOrder="-Infinity">
+    <Text fx:id="opponent2UsernameText" fill="#786060" layoutX="1078.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 742; -fx-translate-x: 225;" text="G3" viewOrder="-Infinity">
         <font>
-            <Font size="20.0"/>
+            <Font size="20.0" />
         </font>
     </Text>
     <GridPane fx:id="gameGrid" layoutX="393.0" layoutY="124.0" prefHeight="660.0" prefWidth="665.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
             <ImageView id="towerImg00" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg01" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="1">
+            <ImageView id="towerImg01" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="1">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg02" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="2">
+            <ImageView id="towerImg02" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="2">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg03" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="3">
+            <ImageView id="towerImg03" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="3">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg04" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="4">
+            <ImageView id="towerImg04" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="4">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg10" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.rowIndex="1">
+            <ImageView id="towerImg10" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.rowIndex="1">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg11" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView id="towerImg11" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg12" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView id="towerImg12" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="2" GridPane.rowIndex="1">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg13" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <ImageView id="towerImg13" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="3" GridPane.rowIndex="1">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg14" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <ImageView id="towerImg14" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="4" GridPane.rowIndex="1">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg20" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.rowIndex="2">
+            <ImageView id="towerImg20" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.rowIndex="2">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg21" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ImageView id="towerImg21" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg22" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <ImageView id="towerImg22" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="2" GridPane.rowIndex="2">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg23" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <ImageView id="towerImg23" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="3" GridPane.rowIndex="2">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg24" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="2">
+            <ImageView id="towerImg24" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="4" GridPane.rowIndex="2">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg30" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.rowIndex="3">
+            <ImageView id="towerImg30" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.rowIndex="3">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg31" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <ImageView id="towerImg31" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="1" GridPane.rowIndex="3">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg32" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <ImageView id="towerImg32" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="2" GridPane.rowIndex="3">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg33" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <ImageView id="towerImg33" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="3" GridPane.rowIndex="3">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg34" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="3">
+            <ImageView id="towerImg34" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="4" GridPane.rowIndex="3">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg40" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.rowIndex="4">
+            <ImageView id="towerImg40" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.rowIndex="4">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg41" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ImageView id="towerImg41" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="1" GridPane.rowIndex="4">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg42" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <ImageView id="towerImg42" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="2" GridPane.rowIndex="4">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg43" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <ImageView id="towerImg43" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="3" GridPane.rowIndex="4">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="towerImg44" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <ImageView id="towerImg44" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" styleClass="TowerImg" GridPane.columnIndex="4" GridPane.rowIndex="4">
                 <GridPane.margin>
-                    <Insets left="-9.0" top="-25.0"/>
+                    <Insets left="-9.0" top="-25.0" />
                 </GridPane.margin>
             </ImageView>
-            <ImageView id="pawnImg00" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"/>
-            <ImageView id="pawnImg01" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="1"/>
-            <ImageView id="pawnImg02" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="2"/>
-            <ImageView id="pawnImg03" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="3"/>
-            <ImageView id="pawnImg04" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="4"/>
-            <ImageView id="pawnImg10" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.rowIndex="1"/>
-            <ImageView id="pawnImg11" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <ImageView id="pawnImg12" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-            <ImageView id="pawnImg13" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-            <ImageView id="pawnImg14" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-            <ImageView id="pawnImg20" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.rowIndex="2"/>
-            <ImageView id="pawnImg21" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <ImageView id="pawnImg22" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-            <ImageView id="pawnImg23" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-            <ImageView id="pawnImg24" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-            <ImageView id="pawnImg30" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.rowIndex="3"/>
-            <ImageView id="pawnImg31" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            <ImageView id="pawnImg32" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-            <ImageView id="pawnImg33" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-            <ImageView id="pawnImg34" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-            <ImageView id="pawnImg40" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.rowIndex="4"/>
-            <ImageView id="pawnImg41" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-            <ImageView id="pawnImg42" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-            <ImageView id="pawnImg43" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-            <ImageView id="pawnImg44" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg"
-                       GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+            <ImageView id="pawnImg00" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" />
+            <ImageView id="pawnImg01" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="1" />
+            <ImageView id="pawnImg02" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="2" />
+            <ImageView id="pawnImg03" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="3" />
+            <ImageView id="pawnImg04" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="4" />
+            <ImageView id="pawnImg10" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.rowIndex="1" />
+            <ImageView id="pawnImg11" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView id="pawnImg12" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView id="pawnImg13" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView id="pawnImg14" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ImageView id="pawnImg20" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.rowIndex="2" />
+            <ImageView id="pawnImg21" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView id="pawnImg22" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView id="pawnImg23" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ImageView id="pawnImg24" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ImageView id="pawnImg30" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.rowIndex="3" />
+            <ImageView id="pawnImg31" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ImageView id="pawnImg32" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ImageView id="pawnImg33" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ImageView id="pawnImg34" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <ImageView id="pawnImg40" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.rowIndex="4" />
+            <ImageView id="pawnImg41" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ImageView id="pawnImg42" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <ImageView id="pawnImg43" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <ImageView id="pawnImg44" fitHeight="108.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-y: -50px; -fx-translate-x: 27px;" styleClass="pawnImg" GridPane.columnIndex="4" GridPane.rowIndex="4" />
 
-            <ImageView fx:id="cell00" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"/>
-            <ImageView fx:id="cell01" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="1"/>
-            <ImageView fx:id="cell02" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="2"/>
-            <ImageView fx:id="cell03" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="3"/>
-            <ImageView fx:id="cell04" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="4"/>
-            <ImageView fx:id="cell10" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.rowIndex="1"/>
-            <ImageView fx:id="cell11" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <ImageView fx:id="cell12" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-            <ImageView fx:id="cell13" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-            <ImageView fx:id="cell14" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-            <ImageView fx:id="cell20" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.rowIndex="2"/>
-            <ImageView fx:id="cell21" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <ImageView fx:id="cell22" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-            <ImageView fx:id="cell23" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-            <ImageView fx:id="cell24" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-            <ImageView fx:id="cell30" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.rowIndex="3"/>
-            <ImageView fx:id="cell31" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            <ImageView fx:id="cell32" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-            <ImageView fx:id="cell33" fitHeight="130.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-            <ImageView fx:id="cell34" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-            <ImageView fx:id="cell40" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.rowIndex="4"/>
-            <ImageView fx:id="cell41" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-            <ImageView fx:id="cell42" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-            <ImageView fx:id="cell43" fitHeight="130.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-            <ImageView fx:id="cell44" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true"
-                       GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+            <ImageView fx:id="cell00" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="cell01" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fx:id="cell02" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fx:id="cell03" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fx:id="cell04" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fx:id="cell10" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fx:id="cell11" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fx:id="cell12" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fx:id="cell13" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fx:id="cell14" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ImageView fx:id="cell20" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fx:id="cell21" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView fx:id="cell22" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fx:id="cell23" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ImageView fx:id="cell24" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ImageView fx:id="cell30" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+            <ImageView fx:id="cell31" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ImageView fx:id="cell32" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ImageView fx:id="cell33" fitHeight="130.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ImageView fx:id="cell34" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <ImageView fx:id="cell40" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+            <ImageView fx:id="cell41" fitHeight="130.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ImageView fx:id="cell42" fitHeight="130.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <ImageView fx:id="cell43" fitHeight="130.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <ImageView fx:id="cell44" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
         </children>
     </GridPane>
-    <ImageView fx:id="extraBtn" fitHeight="68.0" fitWidth="191.0" layoutX="248.0" layoutY="818.0"/>
+    <ImageView fx:id="extraBtn" fitHeight="65.0" fitWidth="175.0" layoutX="229.0" layoutY="829.0" />
 </Pane>
