@@ -21,9 +21,10 @@ public class GamePage extends Page implements Initializable {
     private final ClientController clientController = new ClientController();
     private boolean startingPosition = true;
     private boolean alreadySelectedPawn = false;
+    private boolean alreadySelectedCanComeUp = true;
     private boolean gridActive = true;
     private boolean localChanges = false;
-    private boolean atlasPower = false;
+    private boolean powerSwitch = false;
     int pawnCounter = 0;
     int chosenPawnID = -1;
 
@@ -88,6 +89,9 @@ public class GamePage extends Page implements Initializable {
     private ImageView extraBtn;
 
     @FXML
+    private ImageView confirmBtn;
+
+    @FXML
     private ImageView yourTurnBanner;
 
 
@@ -110,6 +114,7 @@ public class GamePage extends Page implements Initializable {
 
     public void setGame(Game g) throws IOException, InterruptedException {
 
+
         if (game == null || (!localChanges)) {
 
             //start of new turn
@@ -120,6 +125,8 @@ public class GamePage extends Page implements Initializable {
                 if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
                     yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
                     yourTurnBanner.setDisable(false);
+
+                    alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
 
                     try {
                         Thread.sleep(1500);
@@ -158,20 +165,42 @@ public class GamePage extends Page implements Initializable {
             // boolean to decide whether it's the client's turn to move
             gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
-            turnText.setText("Turn " + game.getNTurns());
+            if (turnText != null) {
+                turnText.setText("Turn " + g.getNTurns());
+            }
 
             //turnBanner.setImage(gridActive ? new Image("/Images/Game/turnBanner.png") : null);
 
             boolean alreadySetFirstOpponentImage = false;
 
-            if (gridActive && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove()) {
-                String imagePath = atlasPower ? "_on" : "";
+            if (!startingPosition && game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
+                String imagePath = powerSwitch ? "_on" : "";
+                extraBtn.setDisable(false);
+                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + imagePath + ".png"));
+                confirmBtn.setDisable(false);
+                confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png"));
+
+                extraBtn.setOnMouseClicked(e -> {
+                    powerSwitch = !powerSwitch;
+                    final String finalImagePath = powerSwitch ? "_on" : "";
+                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + finalImagePath + ".png"));
+                });
+
+                confirmBtn.setOnMousePressed(e ->  {
+                    confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm_pressed.png"));
+                });
+
+                confirmBtn.setOnMouseReleased(e ->  {
+                    confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png"));
+                });
+            } else if (gridActive && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove()) {
+                String imagePath = powerSwitch ? "_on" : "";
                 extraBtn.setDisable(false);
                 extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + imagePath + ".png"));
 
                 extraBtn.setOnMouseClicked(e -> {
-                    atlasPower = !atlasPower;
-                    final String finalImagePath = atlasPower ? "_on" : "";
+                    powerSwitch = !powerSwitch;
+                    final String finalImagePath = powerSwitch ? "_on" : "";
                     extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + finalImagePath + ".png"));
                 });
 
@@ -194,6 +223,8 @@ public class GamePage extends Page implements Initializable {
             } else {
                 extraBtn.setDisable(true);
                 extraBtn.setImage(null);
+                confirmBtn.setDisable(true);
+                confirmBtn.setImage(null);
             }
 
 
@@ -357,7 +388,7 @@ public class GamePage extends Page implements Initializable {
             if (alreadySelectedPawn) {
                 int selectedMove = -1;
                 //coeff used to select special moves for a certain coordinate
-                boolean isAtlasBuilding = (game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove() && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && atlasPower);
+                boolean isAtlasBuilding = (game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove() && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && powerSwitch);
                 int cx = isAtlasBuilding ? (-1 * finalI) - 1 : finalI;
                 int cy = isAtlasBuilding ? (-1 * finalJ) - 1 : finalJ;
 
