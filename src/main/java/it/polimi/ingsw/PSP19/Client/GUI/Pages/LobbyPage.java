@@ -74,7 +74,6 @@ public class LobbyPage extends Page implements Initializable {
         if (!firstRenderHappened) {
 
             lobbyPageContainer.getStyleClass().clear();
-            firstPlayerText.setFont(Font.loadFont("/Images/Font/LillyBelle.ttf", 12));
             firstPlayerText.setText(client.getPlayerUsername());
             if (client.getThreePlayers()) {
                 nPlayersTextBox.setText("1/3");

@@ -13,12 +13,12 @@
 <Pane fx:id="gamePage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Game.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage">
     <Text fx:id="turnText" fill="WHITE" layoutX="-10.0" layoutY="-49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 210px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
         <font>
-            <Font size="26.0" />
+            <Font name="LillyBelle"  size="26.0" />
         </font>
     </Text>
     <Text fx:id="actionText" fill="WHITE" layoutX="-21.0" layoutY="-20.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 237px; -fx-translate-x: 45px;" text="POSITION" wrappingWidth="152.7294921875">
         <font>
-            <Font size="26.0" />
+            <Font name="LillyBelle"  size="26.0" />
         </font>
     </Text>
     <ImageView fx:id="playerDivImage" fitHeight="432.0" fitWidth="208.0" layoutY="-4.0" pickOnBounds="true" style="-fx-translate-y: 270px; -fx-translate-x: -1px;">
@@ -28,7 +28,7 @@
     </ImageView>
     <Text fx:id="playerUsernameText" fill="#ab6f6f" layoutX="6.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 216; -fx-translate-x: 55;" text="G1">
         <font>
-            <Font size="25.0" />
+            <Font name="LillyBelle"  size="25.0" />
         </font>
     </Text>
     <ImageView fx:id="playerPowerImage" fitHeight="90.0" fitWidth="208.0" layoutY="459.0" pickOnBounds="true" style="-fx-translate-y: 240; -fx-translate-x: -2;">
@@ -58,7 +58,7 @@
     <ImageView fx:id="opponent1DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1258.0" pickOnBounds="true" viewOrder="-5" />
     <Text fx:id="opponentUsernameText" fill="#722525" layoutX="1192.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 162; -fx-translate-x: 100;" wrappingWidth="55.50634765625">
         <font>
-            <Font size="25.0" />
+            <Font name="LillyBelle"  size="25.0" />
         </font>
     </Text>
     <ImageView fx:id="opponent2DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1008.0" layoutY="459.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
@@ -66,12 +66,12 @@
     <ImageView fx:id="opponent2Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="456.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
     <Text fx:id="opponent1UsernameText" fill="#786060" layoutX="1070.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 298; -fx-translate-x: 230;" text="G2" viewOrder="-Infinity" wrappingWidth="95.0">
         <font>
-            <Font size="20.0" />
+            <Font name="LillyBelle"  size="20.0" />
         </font>
     </Text>
     <Text fx:id="opponent2UsernameText" fill="#786060" layoutX="1078.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 742; -fx-translate-x: 225;" text="G3" viewOrder="-Infinity">
         <font>
-            <Font size="20.0" />
+            <Font name="LillyBelle"  size="20.0" />
         </font>
     </Text>
     <GridPane fx:id="gameGrid" layoutX="393.0" layoutY="124.0" prefHeight="660.0" prefWidth="665.0">

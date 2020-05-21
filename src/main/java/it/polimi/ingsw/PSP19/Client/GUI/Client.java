@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -167,6 +168,11 @@ public class Client extends Application implements ServerObserver {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".fxml"));
         Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
+
+        Font.loadFont(
+                getClass().getResource("/Images/Font/LillyBelle.ttf").toExternalForm(),
+                10
+        );
 
         currentPage = loader.getController();
         currentPage.setClient(this);
