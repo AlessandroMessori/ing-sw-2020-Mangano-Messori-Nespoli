@@ -283,6 +283,8 @@ public class GamePage extends Page implements Initializable {
                     System.out.println("");
 
                     actionTextContent = game.getNextMoves().getMove(0).getIfMove() ? "MOVE" : "BUILD";
+                } else if (game.getNextMoves().size() == 0) {
+                    client.setCurrentPage(new EndingPage(), null);
                 }
 
             }
@@ -508,19 +510,18 @@ public class GamePage extends Page implements Initializable {
 
     public String getPawnImagePath(Colour colour, int pawnID) {
         String gender = (pawnID % 2 == 0) ? "Female" : "Male";
-        String selected = (alreadySelectedPawn && pawnID == chosenPawnID) ? "_selected" : "";
 
         switch (colour) {
             case RED:
-                return "/Images/Game/Pawns/" + gender + "Builder_red" + selected + ".png";
+                return "/Images/Game/Pawns/" + gender + "Builder_red.png";
             case BLUE:
-                return "/Images/Game/Pawns/" + gender + "Builder_blu" + selected + ".png";
+                return "/Images/Game/Pawns/" + gender + "Builder_blu.png";
             case YELLOW:
-                return "/Images/Game/Pawns/" + gender + "Builder_yellow" + selected + ".png";
+                return "/Images/Game/Pawns/" + gender + "Builder_yellow.png";
             case WHITE:
-                return "/Images/Game/Pawns/" + gender + "Builder_white" + selected + ".png";
+                return "/Images/Game/Pawns/" + gender + "Builder_white.png";
             case PINK:
-                return "/Images/Game/Pawns/" + gender + "Builder_purple" + selected + ".png";
+                return "/Images/Game/Pawns/" + gender + "Builder_purple.png";
             default:
                 return null;
         }
