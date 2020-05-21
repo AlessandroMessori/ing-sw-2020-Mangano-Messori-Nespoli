@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane fx:id="lobbyPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Lobby.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.LobbyPage">
+<Pane fx:id="lobbyPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Lobby.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.LobbyPage">
    <children>
       <ImageView fx:id="playButton" fitHeight="280.0" fitWidth="251.0" layoutX="1083.0" layoutY="417.0" onMouseClicked="#playBtnClicked" pickOnBounds="true" preserveRatio="true" styleClass="playButton">
          <image>

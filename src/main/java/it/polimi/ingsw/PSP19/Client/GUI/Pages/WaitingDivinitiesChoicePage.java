@@ -1,17 +1,12 @@
-package it.polimi.ingsw.PSP19.Client.GUI;
+package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
-import it.polimi.ingsw.PSP19.Client.Commands;
-import it.polimi.ingsw.PSP19.Server.Model.Grid;
+import it.polimi.ingsw.PSP19.Client.GUI.Pages.Page;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
-import it.polimi.ingsw.PSP19.Utils.CastingHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 

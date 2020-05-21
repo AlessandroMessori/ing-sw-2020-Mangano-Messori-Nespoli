@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
+import it.polimi.ingsw.PSP19.Client.GUI.Pages.*;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
@@ -9,8 +10,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

@@ -7,7 +7,7 @@
 
 <Pane fx:id="waitingSingleDivinityChoicePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="900.0" prefWidth="1440.0" stylesheets="@WaitingSingleDivinityChoice.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.WaitingSingleDivinityChoicePage">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.WaitingSingleDivinityChoicePage">
 
     <ImageView fx:id="div31" fitHeight="566.0" fitWidth="315.0" layoutX="121.0"
                layoutY="202.0" pickOnBounds="true" preserveRatio="true">

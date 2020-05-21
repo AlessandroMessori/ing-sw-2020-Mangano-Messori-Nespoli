@@ -12,7 +12,7 @@
 
 <Pane fx:id="gamePage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="900.0" prefWidth="1440.0" stylesheets="@Game.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.GamePage">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage">
     <Text fx:id="turnText" fill="WHITE" layoutX="-10.0" layoutY="-49.0" strokeType="OUTSIDE" strokeWidth="0.0"
           style="-fx-translate-y: 210px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
         <font>

@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="welcomePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Welcome.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.WelcomePage">
+<Pane fx:id="welcomePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Welcome.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.WelcomePage">
    <children>
       <TextField fx:id="anotherServerTextBox" layoutX="916.0" layoutY="739.0" onMouseClicked="#anotherServer" prefHeight="38.0" prefWidth="295.0" />
       <TextField fx:id="usernameTextBox" layoutX="898.0" layoutY="307.0" prefHeight="38.0" prefWidth="331.0" />

@@ -6,7 +6,7 @@
 
 <Pane fx:id="colorPageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="900.0" prefWidth="1440.0" stylesheets="@Color.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.ColorPage">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.ColorPage">
 
     <ImageView fx:id="pawnTaken1" fitHeight="243.0" fitWidth="276.0" layoutX="97.0" layoutY="172.0" pickOnBounds="true"
                preserveRatio="true">

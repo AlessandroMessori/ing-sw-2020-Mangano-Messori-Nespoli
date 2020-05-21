@@ -1,18 +1,14 @@
-package it.polimi.ingsw.PSP19.Client.GUI;
+package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
+import it.polimi.ingsw.PSP19.Client.GUI.RequestHandler;
 import it.polimi.ingsw.PSP19.Server.Model.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -121,7 +117,7 @@ public class GamePage extends Page implements Initializable {
                 chosenPawnID = -1;
                 alreadySelectedPawn = false;
 
-                if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && game.getNTurns() > 0) {
+                if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
                     yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
                     yourTurnBanner.setDisable(false);
 

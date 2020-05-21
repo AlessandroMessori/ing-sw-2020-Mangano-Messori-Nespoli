@@ -17,18 +17,30 @@ public class ModelUpdaterThread implements Runnable {
     public ModelUpdaterThread(String cGame, ServerAdapter sAdapter) {
         codGame = cGame;
         serverAdapter = sAdapter;
-        loopCheck = true;
         modelCheck = false;
+        loopCheck = true;
     }
 
+
+    /**
+     * sets the param to start and stop the periodical updates
+     *
+     * @param mCheck boolean to trigger the periodic updates
+     */
     public void setModelCheck(boolean mCheck) {
         modelCheck = mCheck;
     }
 
+    /**
+     * stops the periodical requests
+     */
     public void stopLoop() {
         loopCheck = false;
     }
 
+    /**
+     * periodically makes request to the server checking the model status
+     */
     @Override
     public void run() {
         Instant lastTime = Instant.now();

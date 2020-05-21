@@ -1,4 +1,4 @@
-package it.polimi.ingsw.PSP19.Client.GUI;
+package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import javafx.fxml.FXML;

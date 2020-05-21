@@ -1,12 +1,8 @@
-package it.polimi.ingsw.PSP19.Client.GUI;
+package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
-import it.polimi.ingsw.PSP19.Client.Commands;
-import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
+import it.polimi.ingsw.PSP19.Client.GUI.Pages.Page;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
