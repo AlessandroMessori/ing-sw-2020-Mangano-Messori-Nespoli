@@ -85,7 +85,7 @@ public class ColorPage extends Page implements Initializable {
                     client.setChosenColor(getColorByIndex(finalI));
                     try {
                         client.setCurrentPage(new GamePage(),"/Music/Game/music.mp3");
-                    } catch (IOException ioException) {
+                    } catch (IOException | InterruptedException ioException) {
                         ioException.printStackTrace();
                     }
                 });

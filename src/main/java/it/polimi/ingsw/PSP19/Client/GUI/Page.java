@@ -25,7 +25,7 @@ public abstract class Page {
 
     public abstract String getPageName();
 
-    public void setGame(Game g) throws IOException {
+    public void setGame(Game g) throws IOException, InterruptedException {
         game = g;
     }
 

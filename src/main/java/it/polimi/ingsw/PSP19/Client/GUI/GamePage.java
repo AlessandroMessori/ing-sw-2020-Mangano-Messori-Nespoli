@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Server.Model.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -27,7 +28,6 @@ public class GamePage extends Page implements Initializable {
     private boolean gridActive = true;
     private boolean localChanges = false;
     private boolean atlasPower = false;
-
     int pawnCounter = 0;
     int chosenPawnID = -1;
 
@@ -91,6 +91,9 @@ public class GamePage extends Page implements Initializable {
     @FXML
     private ImageView extraBtn;
 
+    @FXML
+    private ImageView yourTurnBanner;
+
 
     public String getPageName() {
         return "Game";
@@ -109,13 +112,29 @@ public class GamePage extends Page implements Initializable {
         return (ImageView) gameGrid.getChildren().get(75 + x * 5 + y);
     }
 
-    public void setGame(Game g) throws IOException {
+    public void setGame(Game g) throws IOException, InterruptedException {
 
         if (game == null || (!localChanges)) {
 
+            //start of new turn
             if (game != null && game.getNTurns() != g.getNTurns()) {
                 chosenPawnID = -1;
                 alreadySelectedPawn = false;
+
+                if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && game.getNTurns() > 0) {
+                    yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
+                    yourTurnBanner.setDisable(false);
+
+                    try {
+                        Thread.sleep(1500);
+                        yourTurnBanner.setImage(null);
+                        yourTurnBanner.setDisable(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
             }
 
             game = g;
@@ -141,7 +160,7 @@ public class GamePage extends Page implements Initializable {
             }
 
             // boolean to decide whether it's the client's turn to move
-            gridActive = g.getCurrentPlayer() != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+            gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
             turnText.setText("Turn " + game.getNTurns());
 
@@ -394,7 +413,11 @@ public class GamePage extends Page implements Initializable {
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
 
                     if (game.getWinner() != null) {
-                        client.setCurrentPage(new EndingPage(), null);
+                        try {
+                            client.setCurrentPage(new EndingPage(), null);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -414,7 +437,6 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -430,7 +452,6 @@ public class GamePage extends Page implements Initializable {
             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
         }
     }
-
 
     public void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
 
