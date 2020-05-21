@@ -143,7 +143,7 @@ public class GamePage extends Page implements Initializable {
             game = g;
         }
 
-        if (game != null && g != null) {
+        if (game != null && g != null && turnText != null) {
 
             if (game.getThreePlayers()) {
                 if (twoPlayersPanel != null) {
@@ -186,11 +186,19 @@ public class GamePage extends Page implements Initializable {
                     extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + finalImagePath + ".png"));
                 });
 
-                confirmBtn.setOnMousePressed(e ->  {
+                confirmBtn.setOnMouseClicked(e -> {
+                    gridActive = false;
+                    actionText.setText("LOADING");
+                    alreadySelectedCanComeUp = true;
+                    String message = messageSerializer.serializeDecideCanComeUp(!powerSwitch, game.getCodGame()).toString();
+                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DECIDES_TO_COME_UP, message);
+                });
+
+                confirmBtn.setOnMousePressed(e -> {
                     confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm_pressed.png"));
                 });
 
-                confirmBtn.setOnMouseReleased(e ->  {
+                confirmBtn.setOnMouseReleased(e -> {
                     confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png"));
                 });
             } else if (gridActive && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove()) {
@@ -302,8 +310,9 @@ public class GamePage extends Page implements Initializable {
 
 
             if (pawnCounter == 2) {
-
-                if (!alreadySelectedPawn) {
+                if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
+                    actionTextContent = "DECIDE";
+                } else if (!alreadySelectedPawn) {
                     actionTextContent = "SELECT";
                 } else if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
 
@@ -384,7 +393,7 @@ public class GamePage extends Page implements Initializable {
 
     public void onGameCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) throws IOException {
 
-        if (gridActive) {
+        if (gridActive && alreadySelectedCanComeUp) {
             if (alreadySelectedPawn) {
                 int selectedMove = -1;
                 //coeff used to select special moves for a certain coordinate
