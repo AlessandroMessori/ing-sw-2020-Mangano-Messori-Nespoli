@@ -369,66 +369,64 @@ public class Client extends Application implements ServerObserver {
 
         try {
             currentPage.setGame(g);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //int nPlayersInGame = getThreePlayers() ? 3 : 2;
 
+            switch (currentPage.getPageName()) {
 
-        switch (currentPage.getPageName()) {
-
-            case "WaitingDivinitiesChoice":
-                if (game.getCurrentPlayer().getUsername().equals(playerUsername) && game.getInGameDivinities().size() == 0) {
-                    System.out.println("Going to Divinities Page");
-                    try {
-                        setCurrentPage(new DivinitiesChoicePage(), null);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else if (game.getInGameDivinities().size() > 0) {
-                    try {
-                        setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                break;
-            case "DivinitiesChoice":
-                if (game.getInGameDivinities().size() > 0) {
-                    try {
-                        setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case "WaitingSingleDivinityChoice":
-                if (game.getInGameDivinities().size() == 0) {
-                    try {
-                        setCurrentPage(new WaitingColorPage(), null);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
-                    try {
-                        setCurrentPage(new SingleDivinityChoicePage(), null);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case "WaitingColor":
-                if (game.getAlreadyChosenColors().size() < game.getPlayers().size()) {
-                    if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                case "WaitingDivinitiesChoice":
+                    if (game.getCurrentPlayer().getUsername().equals(playerUsername) && game.getInGameDivinities().size() == 0) {
+                        System.out.println("Going to Divinities Page");
                         try {
-                            setCurrentPage(new ColorPage(), null);
+                            setCurrentPage(new DivinitiesChoicePage(), null);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (game.getInGameDivinities().size() > 0) {
+                        try {
+                            setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    break;
+                case "DivinitiesChoice":
+                    if (game.getInGameDivinities().size() > 0) {
+                        try {
+                            setCurrentPage(new WaitingSingleDivinityChoicePage(), null);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
                     break;
-                }
+                case "WaitingSingleDivinityChoice":
+                    if (game.getInGameDivinities().size() == 0) {
+                        try {
+                            setCurrentPage(new WaitingColorPage(), null);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                        try {
+                            setCurrentPage(new SingleDivinityChoicePage(), null);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                case "WaitingColor":
+                    if (game.getAlreadyChosenColors().size() < game.getPlayers().size()) {
+                        if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {
+                            try {
+                                setCurrentPage(new ColorPage(), null);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
