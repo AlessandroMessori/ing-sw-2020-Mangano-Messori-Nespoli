@@ -97,6 +97,13 @@ public class ColorPage extends Page implements Initializable {
 
     }
 
+    /**
+     * returns the color string of the divinity at position i
+     *
+     * @param i index of the divinity to get the color string of
+     *
+     * @return the color string of the selected index
+     */
     private String getColorStringByIndex(int i) {
         switch (i) {
             case 0:
@@ -114,6 +121,13 @@ public class ColorPage extends Page implements Initializable {
         }
     }
 
+    /**
+     * returns the color of the divinity at position i
+     *
+     * @param i index of the divinity to get the color of
+     *
+     * @return the color of the selected index
+     */
     private Colour getColorByIndex(int i) {
         switch (i) {
             case 0:

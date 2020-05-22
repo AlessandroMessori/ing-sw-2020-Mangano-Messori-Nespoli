@@ -38,14 +38,6 @@ public class Client extends Application implements ServerObserver {
     double height = 900;
     Parent root;
 
-    public boolean getHasMusic() {
-        return hasMusic;
-    }
-
-    public void setHasMusic(boolean hasMusic) {
-        this.hasMusic = hasMusic;
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -79,7 +71,7 @@ public class Client extends Application implements ServerObserver {
     }
 
     /***
-     * makes requests to the server based on the data of requestHandler
+     * RequestHandler observer: makes requests to the server based on the data of requestHandler
      */
     public void makeRequest() {
         String reqContent = requestHandler.getCurrentRequest();
@@ -112,6 +104,12 @@ public class Client extends Application implements ServerObserver {
     }
 
 
+    /***
+     * Sets the server the client will be connecting to
+     *
+     * @param ip ip address of the server
+     *
+     */
     public void setServer(String ip) throws IOException {
         /* open a connection to the server */
         server = new Socket(ip, Server.SOCKET_PORT);
@@ -126,6 +124,11 @@ public class Client extends Application implements ServerObserver {
 
     /***
      * Sets the current Scene
+     *
+     * @param page the page the set
+     * @param musicPath path of the soundtrack of the page
+     *
+     * @return Parent node of the set page
      */
     public Parent setCurrentPage(Page page, String musicPath) throws IOException, InterruptedException {
 
@@ -200,26 +203,75 @@ public class Client extends Application implements ServerObserver {
     }
 
 
+    /**
+     * returns the value of the property hasMusic
+     *
+     * @return value of hasMusic
+     */
+    public boolean getHasMusic() {
+        return hasMusic;
+    }
+
+    /**
+     * sets the value of the property hasMusic
+     *
+     * @param hasMusic value of hasMusic
+     */
+    public void setHasMusic(boolean hasMusic) {
+        this.hasMusic = hasMusic;
+    }
+
+
+    /**
+     * returns the value of the property chosenColor
+     *
+     * @return value of chosenColor
+     */
     public Colour getChosenColor() {
         return chosenColor;
     }
 
+    /**
+     * sets the value of the property chosenColor
+     *
+     * @param cColor value of chosenColor
+     */
     public void setChosenColor(Colour cColor) {
         chosenColor = cColor;
     }
 
+    /**
+     * returns the value of the property playerUsername
+     *
+     * @return value of playerUsername
+     */
     public String getPlayerUsername() {
         return playerUsername;
     }
 
+    /**
+     * sets the value of the property playerUsername
+     *
+     * @param uName value of playerUsername
+     */
     public void setPlayerUsername(String uName) {
         playerUsername = uName;
     }
 
+    /**
+     * returns the value of the property threePlayers
+     *
+     * @return value of threePlayers
+     */
     public boolean getThreePlayers() {
         return threePlayers;
     }
 
+    /**
+     * sets the value of the property threePlayers
+     *
+     * @param threeP value of threePlayers
+     */
     public void setThreePlayers(boolean threeP) {
         threePlayers = threeP;
     }
