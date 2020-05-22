@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GamePage extends Page implements Initializable {
@@ -99,6 +100,36 @@ public class GamePage extends Page implements Initializable {
         return "Game";
     }
 
+    public void setGame(Game g) throws IOException, InterruptedException {
+
+        if (game == null || (!localChanges)) {
+            // start of a new turn,updating the GUI
+            newTurnGUIUpdate(g);
+        }
+
+        //opponent moves data updates
+        if (game != null && g != null && turnText != null) {
+
+            //if the game has ended,go to Ending Page
+            if (game.getWinner() != null) {
+                client.setCurrentPage(new EndingPage(), null);
+            }
+
+            // boolean to decide whether it's the client's turn to move
+            gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+
+            //updates the GUI based on the opponent moves
+            opponentMoveGUIUpdate(g);
+
+            //defines the behaviour of the Extra Button
+            setExtraBtnAction();
+
+            //defines the behaviour of the Grid
+            setGridActions();
+        }
+
+    }
+
     private ImageView getGameGridCell(int x, int y, boolean pawn) {
         int offset = pawn ? 50 : 0;
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
@@ -112,258 +143,219 @@ public class GamePage extends Page implements Initializable {
         return (ImageView) gameGrid.getChildren().get(75 + x * 5 + y);
     }
 
-    public void setGame(Game g) throws IOException, InterruptedException {
+    private void newTurnGUIUpdate(Game g) {
+        //start of new turn
+        if (game != null && game.getNTurns() != g.getNTurns()) {
+            chosenPawnID = -1;
+            alreadySelectedPawn = false;
 
+            if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
+                yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
+                yourTurnBanner.setDisable(false);
 
-        if (game == null || (!localChanges)) {
+                alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
 
-            //start of new turn
-            if (game != null && game.getNTurns() != g.getNTurns()) {
-                chosenPawnID = -1;
-                alreadySelectedPawn = false;
-
-                if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
-                    yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
-                    yourTurnBanner.setDisable(false);
-
-                    alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
-
-                    try {
-                        Thread.sleep(1500);
-                        yourTurnBanner.setImage(null);
-                        yourTurnBanner.setDisable(true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                try {
+                    Thread.sleep(1500);
+                    yourTurnBanner.setImage(null);
+                    yourTurnBanner.setDisable(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
 
-            game = g;
         }
 
-        if (game != null && g != null && turnText != null) {
+        game = g;
+    }
 
-            if (game.getThreePlayers()) {
-                if (twoPlayersPanel != null) {
-                    twoPlayersPanel.setImage(null);
-                }
+    private void opponentMoveGUIUpdate(Game g) throws IOException, InterruptedException {
 
+        if (game.getThreePlayers()) {
+            if (twoPlayersPanel != null) {
+                twoPlayersPanel.setImage(null);
+            }
+
+        } else {
+            if (threePlayersPanel != null) {
+                threePlayersPanel.setImage(null);
+            }
+        }
+
+        String actionTextContent = "POSITION";
+
+        if (turnText != null) {
+            turnText.setText("Turn " + g.getNTurns());
+        }
+
+        boolean alreadySetFirstOpponentImage = false;
+
+        if (gridActive && game.getCurrentPlayer().getColour() != null) {
+            playerTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
+            opponentTurn.setImage(null);
+            opponent1Turn.setImage(null);
+            opponent2Turn.setImage(null);
+        } else {
+            playerTurn.setImage(null);
+        }
+        //Updates the divinity images
+        for (int index = 0; index < game.getPlayers().size(); index++) {
+            Player pl = game.getPlayers().getPlayer(index);
+            String divName = pl.getDivinity().toString().substring(0, 1) + pl.getDivinity().toString().toLowerCase().substring(1);
+
+            if (pl.getUsername().equals(client.getPlayerUsername())) {
+                //Sets The Player Image
+                playerDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
+                playerUsernameText.setText(pl.getUsername());
+                //playerUsernameText.setTranslateX((225 - playerUsernameText.getWrappingWidth()) / 2 - 20);
+                playerPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
             } else {
-                if (threePlayersPanel != null) {
-                    threePlayersPanel.setImage(null);
-                }
-            }
 
-            String actionTextContent = "POSITION";
+                if (game.getThreePlayers()) {
+                    opponentDivImage.setImage(null);
+                    opponentTurn.setImage(null);
+                    opponentUsernameText.setText("");
 
-            if (game.getWinner() != null) {
-                client.setCurrentPage(new EndingPage(), null);
-            }
-
-            // boolean to decide whether it's the client's turn to move
-            gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
-
-            if (turnText != null) {
-                turnText.setText("Turn " + g.getNTurns());
-            }
-
-            //turnBanner.setImage(gridActive ? new Image("/Images/Game/turnBanner.png") : null);
-
-            boolean alreadySetFirstOpponentImage = false;
-
-            if (!startingPosition && game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
-                String imagePath = powerSwitch ? "_on" : "";
-                extraBtn.setDisable(false);
-                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + imagePath + ".png"));
-                confirmBtn.setDisable(false);
-                confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png"));
-
-                extraBtn.setOnMouseClicked(e -> {
-                    powerSwitch = !powerSwitch;
-                    final String finalImagePath = powerSwitch ? "_on" : "";
-                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + finalImagePath + ".png"));
-                });
-
-                confirmBtn.setOnMouseClicked(e -> {
-                    gridActive = false;
-                    actionText.setText("LOADING");
-                    alreadySelectedCanComeUp = true;
-                    String message = messageSerializer.serializeDecideCanComeUp(!powerSwitch, game.getCodGame()).toString();
-                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DECIDES_TO_COME_UP, message);
-                });
-
-                confirmBtn.setOnMousePressed(e -> {
-                    confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm_pressed.png"));
-                });
-
-                confirmBtn.setOnMouseReleased(e -> {
-                    confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png"));
-                });
-            } else if (gridActive && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove()) {
-                String imagePath = powerSwitch ? "_on" : "";
-                extraBtn.setDisable(false);
-                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + imagePath + ".png"));
-
-                extraBtn.setOnMouseClicked(e -> {
-                    powerSwitch = !powerSwitch;
-                    final String finalImagePath = powerSwitch ? "_on" : "";
-                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + finalImagePath + ".png"));
-                });
-
-            } else if (gridActive && game.getNextMoves() != null && game.getNextMoves().size() > 0 && game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {
-                extraBtn.setDisable(false);
-                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip.png"));
-
-                extraBtn.setOnMouseClicked(e -> {
-                    skipMove();
-                });
-
-                extraBtn.setOnMousePressed(e -> {
-                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_pressed.png"));
-                });
-
-                extraBtn.setOnMouseReleased(e -> {
-                    extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip.png"));
-                });
-
-            } else {
-                extraBtn.setDisable(true);
-                extraBtn.setImage(null);
-                confirmBtn.setDisable(true);
-                confirmBtn.setImage(null);
-            }
+                    if (alreadySetFirstOpponentImage) {
+                        setDivImages(pl, divName, opponent2DivImage, opponent2UsernameText, opponent1Turn, opponent2Turn);
 
 
-            if (gridActive && game.getCurrentPlayer().getColour() != null) {
-                playerTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
-                opponentTurn.setImage(null);
-                opponent1Turn.setImage(null);
-                opponent2Turn.setImage(null);
-            } else {
-                playerTurn.setImage(null);
-            }
-            //Updates the divinity images
-            for (int index = 0; index < game.getPlayers().size(); index++) {
-                Player pl = game.getPlayers().getPlayer(index);
-                String divName = pl.getDivinity().toString().substring(0, 1) + pl.getDivinity().toString().toLowerCase().substring(1);
+                    } else {
+                        setDivImages(pl, divName, opponent1DivImage, opponent1UsernameText, opponent2Turn, opponent1Turn);
+                        alreadySetFirstOpponentImage = true;
+                    }
 
-                if (pl.getUsername().equals(client.getPlayerUsername())) {
-                    //Sets The Player Image
-                    playerDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
-                    playerUsernameText.setText(pl.getUsername());
-                    //playerUsernameText.setTranslateX((225 - playerUsernameText.getWrappingWidth()) / 2 - 20);
-                    playerPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
                 } else {
 
-                    if (game.getThreePlayers()) {
-                        opponentDivImage.setImage(null);
-                        opponentTurn.setImage(null);
-                        opponentUsernameText.setText("");
+                    opponent1DivImage.setImage(null);
+                    opponent2DivImage.setImage(null);
+                    opponent1UsernameText.setText("");
+                    opponent2UsernameText.setText("");
 
-                        if (alreadySetFirstOpponentImage) {
-                            opponent2DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
-                            opponent2UsernameText.setText(pl.getUsername());
-
-                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()) && game.getCurrentPlayer().getColour() != null) {
-                                opponent1Turn.setImage(null);
-                                opponent2Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
-                            }
-
-
-                        } else {
-                            opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
-                            opponent1UsernameText.setText(pl.getUsername());
-
-                            if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()) && game.getCurrentPlayer().getColour() != null) {
-                                opponent2Turn.setImage(null);
-                                opponent1Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
-                            }
-                            alreadySetFirstOpponentImage = true;
-                        }
-
-                    } else {
-
-                        opponent1DivImage.setImage(null);
-                        opponent2DivImage.setImage(null);
-                        opponent1UsernameText.setText("");
-                        opponent2UsernameText.setText("");
-
-                        if (!gridActive && game.getCurrentPlayer().getColour() != null) {
-                            opponent1Turn.setImage(null);
-                            opponent2Turn.setImage(null);
-                            opponentTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
-                        }
-
-                        // Sets Opponent Image for a 2 Players Game
-                        opponentDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
-                        opponentUsernameText.setText(pl.getUsername());
-                        //opponentUsernameText.setTranslateX((225 - opponentUsernameText.getWrappingWidth()) / 2 - 20);
-                        opponentPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
+                    if (!gridActive && game.getCurrentPlayer().getColour() != null) {
+                        opponent1Turn.setImage(null);
+                        opponent2Turn.setImage(null);
+                        opponentTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
                     }
 
-
+                    // Sets Opponent Image for a 2 Players Game
+                    opponentDivImage.setImage(new Image("/Images/Game/Gods/Bigger/" + divName + ".png"));
+                    opponentUsernameText.setText(pl.getUsername());
+                    //opponentUsernameText.setTranslateX((225 - opponentUsernameText.getWrappingWidth()) / 2 - 20);
+                    opponentPowerImage.setImage(new Image("/Images/Game/Gods/Bigger/Powers/" + divName + "_power.png"));
                 }
+
 
             }
 
-
-            if (pawnCounter == 2) {
-                if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
-                    actionTextContent = "DECIDE";
-                } else if (!alreadySelectedPawn) {
-                    actionTextContent = "SELECT";
-                } else if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
-
-                    for (int ind = 0; ind < game.getNextMoves().size(); ind++) {
-                        Move mv = game.getNextMoves().getMove(ind);
-                        System.out.print("(" + mv.getX() + "," + mv.getY() + ") ");
-                    }
-                    System.out.println("");
-
-                    actionTextContent = game.getNextMoves().getMove(0).getIfMove() ? "MOVE" : "BUILD";
-                } else if (game.getNextMoves().size() == 0) {
-                    client.setCurrentPage(new EndingPage(), null);
-                }
-
-            }
-
-            actionText.setText(actionTextContent);
-
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++) {
-                    int finalI = i;
-                    int finalJ = j;
-                    ImageView currentTowerImage = getGameGridCell(i, j, false);
-                    ImageView currentPawnImage = getGameGridCell(i, j, true);
-                    ImageView currentMoveImage = getActionGridImage(i, j);
-                    ImageView currentButton = getGameGridButton(i, j);
-                    Cell currentCell = game.getNewGrid().getCells(i, j);
-
-                    if (startingPosition) {
-                        currentButton.setOnMouseClicked(e -> {
-                            onStartingPositionCellClick(currentCell, currentPawnImage, finalI, finalJ);
-                        });
-                    } else {
-                        currentButton.setOnMouseClicked(e -> {
-                            try {
-                                onGameCellClick(currentCell, currentPawnImage, finalI, finalJ);
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }
-                        });
-                    }
-
-                    drawCell(currentCell, currentTowerImage, currentPawnImage, currentMoveImage, i, j);
-                    if (!gridActive || !alreadySelectedPawn) {
-                        cleanMoveImages();
-                    }
-
-                }
-            }
         }
 
+
+        if (pawnCounter == 2) {
+            actionTextContent = getCurrentActionText();
+        }
+
+        actionText.setText(actionTextContent);
+
+    }
+
+    private void setExtraBtnAction() {
+
+        if (!startingPosition && game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
+            String imagePath = powerSwitch ? "_on" : "";
+            extraBtn.setDisable(false);
+            extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + imagePath + ".png"));
+            confirmBtn.setDisable(false);
+            confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png"));
+
+            extraBtn.setOnMouseClicked(e -> {
+                powerSwitch = !powerSwitch;
+                final String finalImagePath = powerSwitch ? "_on" : "";
+                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove" + finalImagePath + ".png"));
+            });
+
+            confirmBtn.setOnMouseClicked(e -> {
+                gridActive = false;
+                actionText.setText("LOADING");
+                alreadySelectedCanComeUp = true;
+                String message = messageSerializer.serializeDecideCanComeUp(!powerSwitch, game.getCodGame()).toString();
+                RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DECIDES_TO_COME_UP, message);
+            });
+
+            confirmBtn.setOnMousePressed(e -> confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm_pressed.png")));
+
+            confirmBtn.setOnMouseReleased(e -> confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm.png")));
+        } else if (gridActive && game.getCurrentPlayer().getDivinity() == Divinity.ATLAS && game.getNextMoves() != null && game.getNextMoves().size() > 0 && !game.getNextMoves().getMove(0).getIfMove()) {
+            String imagePath = powerSwitch ? "_on" : "";
+            extraBtn.setDisable(false);
+            extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + imagePath + ".png"));
+
+            extraBtn.setOnMouseClicked(e -> {
+                powerSwitch = !powerSwitch;
+                final String finalImagePath = powerSwitch ? "_on" : "";
+                extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/gp_builddome" + finalImagePath + ".png"));
+            });
+
+        } else if (gridActive && game.getNextMoves() != null && game.getNextMoves().size() > 0 && game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {
+            extraBtn.setDisable(false);
+            extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip.png"));
+
+            extraBtn.setOnMouseClicked(e -> skipMove());
+
+            extraBtn.setOnMousePressed(e -> extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip_pressed.png")));
+
+            extraBtn.setOnMouseReleased(e -> extraBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/skip.png")));
+
+        } else {
+            extraBtn.setDisable(true);
+            extraBtn.setImage(null);
+            confirmBtn.setDisable(true);
+            confirmBtn.setImage(null);
+        }
+
+    }
+
+    private void setGridActions() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int finalI = i;
+                int finalJ = j;
+                ImageView currentTowerImage = getGameGridCell(i, j, false);
+                ImageView currentPawnImage = getGameGridCell(i, j, true);
+                ImageView currentMoveImage = getActionGridImage(i, j);
+                ImageView currentButton = getGameGridButton(i, j);
+                Cell currentCell = game.getNewGrid().getCells(i, j);
+
+                if (startingPosition) {
+                    currentButton.setOnMouseClicked(e -> onStartingPositionCellClick(currentCell, currentPawnImage, finalI, finalJ));
+                } else {
+                    currentButton.setOnMouseClicked(e -> {
+                        try {
+                            onGameCellClick(currentCell, finalI, finalJ);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                }
+
+                drawCell(currentCell, currentTowerImage, currentPawnImage, currentMoveImage, i, j);
+                if (!gridActive || !alreadySelectedPawn) {
+                    cleanMoveImages();
+                }
+
+            }
+        }
+    }
+
+    private void setDivImages(Player pl, String divName, ImageView opponent1DivImage, Text opponent1UsernameText, ImageView opponent2Turn, ImageView opponent1Turn) {
+        opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
+        opponent1UsernameText.setText(pl.getUsername());
+
+        if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()) && game.getCurrentPlayer().getColour() != null) {
+            opponent2Turn.setImage(null);
+            opponent1Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
+        }
     }
 
     public void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
@@ -391,7 +383,7 @@ public class GamePage extends Page implements Initializable {
 
     }
 
-    public void onGameCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) throws IOException {
+    public void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
         if (gridActive && alreadySelectedCanComeUp) {
             if (alreadySelectedPawn) {
@@ -401,7 +393,7 @@ public class GamePage extends Page implements Initializable {
                 int cx = isAtlasBuilding ? (-1 * finalI) - 1 : finalI;
                 int cy = isAtlasBuilding ? (-1 * finalJ) - 1 : finalJ;
 
-                for (int k = 0; k < game.getNextMoves().size(); k++) {
+                for (int k = 0; k < Objects.requireNonNull(game.getNextMoves()).size(); k++) {
                     if (game.getNextMoves().getMove(k).getX() == cx && game.getNextMoves().getMove(k).getY() == cy) {
                         selectedMove = k;
                     }
@@ -475,11 +467,6 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     public void skipMove() {
         if (gridActive) {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
@@ -488,6 +475,22 @@ public class GamePage extends Page implements Initializable {
 
             String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+        }
+    }
+
+    public String getCurrentActionText() throws IOException, InterruptedException {
+        if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
+            return "DECIDE";
+        } else if (!alreadySelectedPawn) {
+            return "SELECT";
+        } else if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
+            return game.getNextMoves().getMove(0).getIfMove() ? "MOVE" : "BUILD";
+        } else {
+            assert game.getNextMoves() != null;
+            if (game.getNextMoves().size() == 0) {
+                client.setCurrentPage(new EndingPage(), null);
+            }
+            return null;
         }
     }
 
@@ -576,10 +579,9 @@ public class GamePage extends Page implements Initializable {
 
     public int getNewPawnId() {
         int randInt;
-        boolean idNotValid;
         int max = (int) Math.pow(10, 5);
         int min = (int) Math.pow(10, 4);
-        ArrayList<Integer> takenPawnId = new ArrayList<Integer>();
+        ArrayList<Integer> takenPawnId = new ArrayList<>();
 
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
@@ -589,6 +591,14 @@ public class GamePage extends Page implements Initializable {
             }
         }
 
+        randInt = getRandInt(max, min, takenPawnId, pawnCounter);
+
+        return randInt;
+    }
+
+    public static int getRandInt(int max, int min, ArrayList<Integer> takenPawnId, int pawnCounter) {
+        int randInt;
+        boolean idNotValid;
         if (pawnCounter == 0) {
             //first pawn have an odd id
             do {
@@ -614,7 +624,12 @@ public class GamePage extends Page implements Initializable {
                 }
             } while ((randInt % 2 != 0) && (!idNotValid));
         }
-
         return randInt;
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Client.CLI;
 
+import it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 
 import java.util.ArrayList;
@@ -732,32 +733,8 @@ public class CLI {
             }
 
             newPawn = new Pawn(choosingPlayer);
-            if (j == 0) {
-                //first pawn have an odd id
-                do {
-                    randInt = (int) (Math.random() * (max - min + 1) + min);
-                    idNotValid = false;
-                    for(int idInExam : takenPawnId){
-                        if(idInExam == randInt){
-                            idNotValid = true;
-                            break;
-                        }
-                    }
-                } while ((randInt % 2 != 1)&&(!idNotValid));
-            } else {
-                //second pawn have an even id
-                do {
-                    randInt = (int) (Math.random() * (max - min + 1) + min);
-                    idNotValid = false;
-                    for(int idInExam : takenPawnId){
-                        if(idInExam == randInt){
-                            idNotValid = true;
-                            break;
-                        }
-                    }
-                } while ((randInt % 2 != 0)&&(!idNotValid));
-            }
-            newPawn.setId(randInt);
+            int randomInt = GamePage.getRandInt(max, min, takenPawnId, j);
+            newPawn.setId(randomInt);
             gameGrid.getCells(valx - 1, valy - 1).setPawn(newPawn);
 
 
