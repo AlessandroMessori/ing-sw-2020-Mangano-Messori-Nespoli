@@ -2,6 +2,7 @@ package it.polimi.ingsw.PSP19.Client.CLI;
 
 import it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage;
 import it.polimi.ingsw.PSP19.Server.Model.*;
+import it.polimi.ingsw.PSP19.Utils.GuiHelper;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -733,7 +734,7 @@ public class CLI {
             }
 
             newPawn = new Pawn(choosingPlayer);
-            int randomInt = GamePage.getRandInt(max, min, takenPawnId, j);
+            int randomInt = GuiHelper.getRandInt(max, min, takenPawnId, j);
             newPawn.setId(randomInt);
             gameGrid.getCells(valx - 1, valy - 1).setPawn(newPawn);
 

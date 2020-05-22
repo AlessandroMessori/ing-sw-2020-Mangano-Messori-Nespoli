@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ing-sw-2020-Mangano-Messori-Nespoli" />
+        <module name="prog-ingsw-gr19" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ing-sw-2020-Mangano-Messori-Nespoli" target="13" />
+    </bytecodeTargetLevel>
   </component>
 </project>

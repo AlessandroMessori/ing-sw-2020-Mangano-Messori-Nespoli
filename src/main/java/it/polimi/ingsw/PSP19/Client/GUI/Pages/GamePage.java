@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Client.GUI.RequestHandler;
 import it.polimi.ingsw.PSP19.Server.Model.*;
+import it.polimi.ingsw.PSP19.Utils.GuiHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -13,7 +14,6 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -192,7 +192,7 @@ public class GamePage extends Page implements Initializable {
         boolean alreadySetFirstOpponentImage = false;
 
         if (gridActive && game.getCurrentPlayer().getColour() != null) {
-            playerTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
+            playerTurn.setImage(new Image(GuiHelper.getContourImagePath(game.getCurrentPlayer().getColour(), true)));
             opponentTurn.setImage(null);
             opponent1Turn.setImage(null);
             opponent2Turn.setImage(null);
@@ -236,7 +236,7 @@ public class GamePage extends Page implements Initializable {
                     if (!gridActive && game.getCurrentPlayer().getColour() != null) {
                         opponent1Turn.setImage(null);
                         opponent2Turn.setImage(null);
-                        opponentTurn.setImage(new Image(getContourImagePath(game.getCurrentPlayer().getColour(), true)));
+                        opponentTurn.setImage(new Image(GuiHelper.getContourImagePath(game.getCurrentPlayer().getColour(), true)));
                     }
 
                     // Sets Opponent Image for a 2 Players Game
@@ -354,19 +354,19 @@ public class GamePage extends Page implements Initializable {
 
         if (!gridActive && game.getCurrentPlayer().getUsername().equals(pl.getUsername()) && game.getCurrentPlayer().getColour() != null) {
             opponent2Turn.setImage(null);
-            opponent1Turn.setImage(new Image(getContourImagePath(pl.getColour(), false)));
+            opponent1Turn.setImage(new Image(GuiHelper.getContourImagePath(pl.getColour(), false)));
         }
     }
 
-    public void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
+    private void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
         if (currentCell.getPawn() == null && gridActive) {
             Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));
             newPawn.getOwner().setColour(client.getChosenColor());
-            newPawn.setId(getNewPawnId());
+            newPawn.setId(GuiHelper.getNewPawnId(game, pawnCounter));
             currentCell.setPawn(newPawn);
             game.getNewGrid().setCells(currentCell, finalI, finalJ);
-            currentPawnImage.setImage(new Image(getPawnImagePath(client.getChosenColor(), newPawn.getId())));
+            currentPawnImage.setImage(new Image(GuiHelper.getPawnImagePath(client.getChosenColor(), newPawn.getId())));
             localChanges = true;
             pawnCounter++;
 
@@ -383,7 +383,7 @@ public class GamePage extends Page implements Initializable {
 
     }
 
-    public void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
+    private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
         if (gridActive && alreadySelectedCanComeUp) {
             if (alreadySelectedPawn) {
@@ -467,7 +467,7 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-    public void skipMove() {
+    private void skipMove() {
         if (gridActive) {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
             gridActive = false;
@@ -478,7 +478,7 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-    public String getCurrentActionText() throws IOException, InterruptedException {
+    private String getCurrentActionText() throws IOException, InterruptedException {
         if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
             return "DECIDE";
         } else if (!alreadySelectedPawn) {
@@ -494,7 +494,7 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
-    public void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
+    private void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
 
         //draws Move
         if (currentMoveImage != null) {
@@ -502,7 +502,7 @@ public class GamePage extends Page implements Initializable {
                 for (int k = 0; k < game.getNextMoves().size(); k++) {
                     if (game.getNextMoves().getMove(k).getX() == i && game.getNextMoves().getMove(k).getY() == j) {
                         boolean build = !game.getNextMoves().getMove(k).getIfMove();
-                        currentMoveImage.setImage(new Image(getMoveImagePath(client.getChosenColor(), build)));
+                        currentMoveImage.setImage(new Image(GuiHelper.getMoveImagePath(client.getChosenColor(), build)));
                     }
                 }
             }
@@ -513,7 +513,7 @@ public class GamePage extends Page implements Initializable {
         if (currentCell.getTower().getIsDome() && currentCell.getTower().getLevel() != 4) {
             currentTowerImage.setImage(new Image("/Images/Game/Buildings/Dome.png"));
         } else if (currentCell.getTower().getLevel() > 0) {
-            currentTowerImage.setImage(new Image(getBuildingImagePath(currentCell.getTower().getLevel())));
+            currentTowerImage.setImage(new Image(GuiHelper.getBuildingImagePath(currentCell.getTower().getLevel())));
         } else {
             currentTowerImage.setImage(null);
         }
@@ -529,102 +529,18 @@ public class GamePage extends Page implements Initializable {
                 currentCellPawnColour = game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(currentCell.getPawn().getOwner().getUsername())).getColour();
             }
 
-            currentPawnImage.setImage(new Image(getPawnImagePath(currentCellPawnColour, currentCell.getPawn().getId())));
+            currentPawnImage.setImage(new Image(GuiHelper.getPawnImagePath(currentCellPawnColour, currentCell.getPawn().getId())));
         } else {
             currentPawnImage.setImage(null);
         }
     }
 
-    public void cleanMoveImages() {
+    private void cleanMoveImages() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 getActionGridImage(i, j).setImage(null);
             }
         }
-    }
-
-    public String getMoveImagePath(Colour colour, boolean build) {
-        return build ? "/Images/Game/Action/build.png" : "/Images/Game/Action/move_" + colour.toString().toLowerCase() + ".png";
-    }
-
-    public String getBuildingImagePath(int level) {
-        return (level < 1 || level > 4) ? null : "/Images/Game/Buildings/Building" + level + "levels.png";
-    }
-
-    public String getPawnImagePath(Colour colour, int pawnID) {
-        String gender = (pawnID % 2 == 0) ? "Female" : "Male";
-
-        switch (colour) {
-            case RED:
-                return "/Images/Game/Pawns/" + gender + "Builder_red.png";
-            case BLUE:
-                return "/Images/Game/Pawns/" + gender + "Builder_blu.png";
-            case YELLOW:
-                return "/Images/Game/Pawns/" + gender + "Builder_yellow.png";
-            case WHITE:
-                return "/Images/Game/Pawns/" + gender + "Builder_white.png";
-            case PINK:
-                return "/Images/Game/Pawns/" + gender + "Builder_purple.png";
-            default:
-                return null;
-        }
-    }
-
-    public String getContourImagePath(Colour colour, boolean big) {
-        String bigImage = big ? "" : "Small";
-        String bigPath = big ? "Bigger" : "Smaller";
-
-        return "/Images/Game/Gods/" + bigPath + "/currentPlayer" + bigImage + "_" + colour.toString().toLowerCase() + ".png";
-    }
-
-    public int getNewPawnId() {
-        int randInt;
-        int max = (int) Math.pow(10, 5);
-        int min = (int) Math.pow(10, 4);
-        ArrayList<Integer> takenPawnId = new ArrayList<>();
-
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                if (game.getNewGrid().getCells(x, y).getPawn() != null) {
-                    takenPawnId.add(game.getNewGrid().getCells(x, y).getPawn().getId());
-                }
-            }
-        }
-
-        randInt = getRandInt(max, min, takenPawnId, pawnCounter);
-
-        return randInt;
-    }
-
-    public static int getRandInt(int max, int min, ArrayList<Integer> takenPawnId, int pawnCounter) {
-        int randInt;
-        boolean idNotValid;
-        if (pawnCounter == 0) {
-            //first pawn have an odd id
-            do {
-                randInt = (int) (Math.random() * (max - min + 1) + min);
-                idNotValid = false;
-                for (int idInExam : takenPawnId) {
-                    if (idInExam == randInt) {
-                        idNotValid = true;
-                        break;
-                    }
-                }
-            } while ((randInt % 2 != 1) && (!idNotValid));
-        } else {
-            //second pawn have an even id
-            do {
-                randInt = (int) (Math.random() * (max - min + 1) + min);
-                idNotValid = false;
-                for (int idInExam : takenPawnId) {
-                    if (idInExam == randInt) {
-                        idNotValid = true;
-                        break;
-                    }
-                }
-            } while ((randInt % 2 != 0) && (!idNotValid));
-        }
-        return randInt;
     }
 
     @Override
