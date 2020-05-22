@@ -463,8 +463,8 @@
             </ImageView>
         </children>
     </GridPane>
-    <ImageView fx:id="extraBtn" fitHeight="65.0" fitWidth="175.0" layoutX="233.0" layoutY="829.0" />
+    <ImageView fx:id="extraBtn" fitHeight="80.0" fitWidth="158.0" layoutX="229.0" layoutY="817.0" preserveRatio="true" />
 
     <ImageView fx:id="yourTurnBanner" fitHeight="486.0" fitWidth="466.0" layoutX="493.0" layoutY="731.0" style="-fx-translate-y: -600px;" />
-   <ImageView fx:id="confirmBtn" fitHeight="65.0" fitWidth="175.0" layoutX="406.0" layoutY="829.0" />
+   <ImageView fx:id="confirmBtn" fitHeight="80.0" fitWidth="150.0" layoutX="404.0" layoutY="829.0" preserveRatio="true" />
 </Pane>
