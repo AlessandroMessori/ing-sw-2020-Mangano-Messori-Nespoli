@@ -51,12 +51,15 @@
             <Image url="@../Images/Game/three_players_panel.png" />
         </image>
     </ImageView>
-    <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" layoutX="1191.0" layoutY="-36.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;" />
+    <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" layoutX="1191.0" layoutY="-36.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;">
+      <image>
+         <Image url="@../Images/Game/Gods/Bigger/Apollo.png" />
+      </image></ImageView>
     <ImageView fx:id="opponentPowerImage" fitHeight="90.0" fitWidth="208.0" layoutX="1190.0" layoutY="396.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;">
     </ImageView>
     <ImageView fx:id="opponentTurn" fitHeight="536.0" fitWidth="207.0" layoutX="1233.0" layoutY="261.0" pickOnBounds="true" style="-fx-translate-x: 0; -fx-translate-y: 0;" viewOrder="-5" />
     <ImageView fx:id="opponent1DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1258.0" pickOnBounds="true" viewOrder="-5" />
-    <Text fx:id="opponentUsernameText" fill="#722525" layoutX="1192.0" layoutY="474.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 162; -fx-translate-x: 100;" wrappingWidth="114.50634765625">
+    <Text fx:id="opponentUsernameText" fill="#722525" layoutX="1192.0" layoutY="474.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 190; -fx-translate-x: 100;" text="G1" wrappingWidth="114.50634765625">
         <font>
             <Font name="LillyBelle" size="25.0" />
         </font>
