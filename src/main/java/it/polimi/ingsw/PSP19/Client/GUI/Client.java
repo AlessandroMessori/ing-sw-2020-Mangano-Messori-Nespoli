@@ -107,6 +107,7 @@ public class Client extends Application implements ServerObserver {
     /***
      * Sets the server the client will be connecting to
      *
+     * @throws IOException error when connecting to the server
      * @param ip ip address of the server
      *
      */
@@ -124,6 +125,8 @@ public class Client extends Application implements ServerObserver {
 
     /***
      * Sets the current Scene
+     *
+     * @exception  IOException,InterruptedException error when setting the scene
      *
      * @param page the page the set
      * @param musicPath path of the soundtrack of the page

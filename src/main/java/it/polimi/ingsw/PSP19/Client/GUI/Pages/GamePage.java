@@ -130,19 +130,46 @@ public class GamePage extends Page implements Initializable {
 
     }
 
+
+    /**
+     * Returns the ImageView of the specified Cell
+     * @param x x coordinate of the ImageView
+     * @param y y coordinate of the ImageView
+     * @param pawn if true returns Pawn ImageView,if false returns Tower ImageView
+     *
+     * @return ImageView  of the cell at coordinates x,y
+     */
     private ImageView getGameGridCell(int x, int y, boolean pawn) {
         int offset = pawn ? 50 : 0;
         return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);
     }
 
+    /**
+     * Returns the Action ImageView of the specified Cell
+     * @param x x coordinate of the ImageView
+     * @param y y coordinate of the ImageView
+     *
+     * @return ImageView of the Action of the cell at coordinates x,y
+     */
     private ImageView getActionGridImage(int x, int y) {
         return (ImageView) gameGrid.getChildren().get(25 + x * 5 + y);
     }
 
+    /**
+     * Returns the Button of the specified Cell
+     * @param x x coordinate of the Button
+     * @param y y coordinate of the Button
+     *
+     * @return Button of the cell at coordinates x,y
+     */
     private ImageView getGameGridButton(int x, int y) {
         return (ImageView) gameGrid.getChildren().get(75 + x * 5 + y);
     }
 
+    /**
+     * Updates the GUI when a new turn starts
+     * @param g the update game data from the model
+     */
     private void newTurnGUIUpdate(Game g) {
         //start of new turn
         if (game != null && game.getNTurns() != g.getNTurns()) {
@@ -170,6 +197,10 @@ public class GamePage extends Page implements Initializable {
         game = g;
     }
 
+    /**
+     * Updates the GUI when the opponent makes a new move
+     * @param g the update game data from the model
+     */
     private void opponentMoveGUIUpdate(Game g) throws IOException, InterruptedException {
 
         if (game.getThreePlayers()) {
@@ -260,6 +291,9 @@ public class GamePage extends Page implements Initializable {
 
     }
 
+    /**
+     * Sets the event handler for the extra button  in this turn
+     */
     private void setExtraBtnAction() {
 
         if (!startingPosition && game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
@@ -316,6 +350,9 @@ public class GamePage extends Page implements Initializable {
 
     }
 
+    /**
+     * Sets the event handler for the game grid in this turn
+     */
     private void setGridActions() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -348,6 +385,15 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
+    /**
+     * Sets the Images of the Divinities ImageViews
+     * @param pl player the divinity ImageView belongs to
+     * @param divName divinity name
+     * @param opponent1DivImage ImageView of the divinity of the first opponent in 3 player games
+     * @param opponent1Turn ImageView of the turn selector of the first opponent in 3 player games
+     * @param opponent1UsernameText Text of the first opponent in 3 player games
+     * @param opponent2Turn  ImageView of the turn selector of the second opponent in 3 player games
+     */
     private void setDivImages(Player pl, String divName, ImageView opponent1DivImage, Text opponent1UsernameText, ImageView opponent2Turn, ImageView opponent1Turn) {
         opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
         opponent1UsernameText.setText(pl.getUsername());
@@ -358,6 +404,13 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
+    /**
+     * Event handler for a click on a cell of the grid during the starting position phase
+     * @param currentCell the model cell being clicked
+     * @param currentPawnImage the pawn image of the cell being clicked
+     * @param finalI x coordinate of the cell being clicked
+     * @param finalJ y coordinate of the cell being clicked
+     */
     private void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
         if (currentCell.getPawn() == null && gridActive) {
@@ -383,6 +436,12 @@ public class GamePage extends Page implements Initializable {
 
     }
 
+    /**
+     * Event handler for a click on a cell of the grid during the game
+     * @param currentCell the model cell being clicked
+     * @param finalI x coordinate of the cell being clicked
+     * @param finalJ y coordinate of the cell being clicked
+     */
     private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
         if (gridActive && alreadySelectedCanComeUp) {
@@ -467,6 +526,9 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
+    /**
+     * Skip Button Click Event
+     */
     private void skipMove() {
         if (gridActive) {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
@@ -478,6 +540,11 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
+    /**
+     * Calculates the text of the action Text
+     *
+     * @return text of the current move
+     */
     private String getCurrentActionText() throws IOException, InterruptedException {
         if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS && !alreadySelectedCanComeUp) {
             return "DECIDE";
@@ -494,6 +561,16 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
+    /**
+     * Draw a single Cell of the game board
+     *
+     * @param currentCell       the model cell
+     * @param currentTowerImage ImageView of the tower of the cell
+     * @param currentPawnImage  ImageView of the pawn of the cell
+     * @param currentMoveImage  ImageView of the move of the cell
+     * @param i x coordinate of the cell
+     * @param j y coordinate of the cell
+     */
     private void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
 
         //draws Move
@@ -535,6 +612,9 @@ public class GamePage extends Page implements Initializable {
         }
     }
 
+    /**
+     * Sets all the images of the moves to null
+     */
     private void cleanMoveImages() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {

@@ -11,8 +11,7 @@ public class GuiHelper {
      * gets the image path of a move image
      *
      * @param colour the color of the player making the move
-     * @param build the type of move
-     *
+     * @param build  the type of move
      * @return the move image path
      */
     public static String getMoveImagePath(Colour colour, boolean build) {
@@ -23,7 +22,6 @@ public class GuiHelper {
      * gets the image path of a building
      *
      * @param level the level of the building
-     *
      * @return the building image path
      */
     public static String getBuildingImagePath(int level) {
@@ -35,7 +33,6 @@ public class GuiHelper {
      *
      * @param colour the color of the pawn making
      * @param pawnID the if of the pawn,if odd returns a Male pawn,if even returns a Female pawn
-     *
      * @return the pawn image path
      */
     public static String getPawnImagePath(Colour colour, int pawnID) {
@@ -50,10 +47,8 @@ public class GuiHelper {
                 return "/Images/Game/Pawns/" + gender + "Builder_yellow.png";
             case WHITE:
                 return "/Images/Game/Pawns/" + gender + "Builder_white.png";
-            case PINK:
-                return "/Images/Game/Pawns/" + gender + "Builder_purple.png";
             default:
-                return null;
+                return "/Images/Game/Pawns/" + gender + "Builder_purple.png";
         }
     }
 
@@ -61,8 +56,7 @@ public class GuiHelper {
      * gets the image path of a contour image
      *
      * @param colour the color of the contour image
-     * @param big dimension of the image
-     *
+     * @param big    dimension of the image
      * @return the contour image path
      */
     public static String getContourImagePath(Colour colour, boolean big) {
@@ -75,12 +69,11 @@ public class GuiHelper {
     /**
      * gets the image path of a move image
      *
-     * @param game the game the pawn belongs to
+     * @param game        the game the pawn belongs to
      * @param pawnCounter number of pawns already in the game before this function call
-     *
      * @return the new pawn id
      */
-    public static int getNewPawnId(Game game,int pawnCounter) {
+    public static int getNewPawnId(Game game, int pawnCounter) {
         int randInt;
         int max = (int) Math.pow(10, 5);
         int min = (int) Math.pow(10, 4);
@@ -106,26 +99,14 @@ public class GuiHelper {
             //first pawn have an odd id
             do {
                 randInt = (int) (Math.random() * (max - min + 1) + min);
-                idNotValid = false;
-                for (int idInExam : takenPawnId) {
-                    if (idInExam == randInt) {
-                        idNotValid = true;
-                        break;
-                    }
-                }
-            } while ((randInt % 2 != 1) && (!idNotValid));
+                idNotValid = takenPawnId.contains(randInt);
+            } while ((randInt % 2 != 1) || (idNotValid));
         } else {
             //second pawn have an even id
             do {
                 randInt = (int) (Math.random() * (max - min + 1) + min);
-                idNotValid = false;
-                for (int idInExam : takenPawnId) {
-                    if (idInExam == randInt) {
-                        idNotValid = true;
-                        break;
-                    }
-                }
-            } while ((randInt % 2 != 0) && (!idNotValid));
+                idNotValid = takenPawnId.contains(randInt);
+            } while ((randInt % 2 != 0) || (idNotValid));
         }
         return randInt;
     }
@@ -134,9 +115,8 @@ public class GuiHelper {
     /**
      * gets a specified percentage of a value
      *
-     * @param value the value to get the percentage from
+     * @param value      the value to get the percentage from
      * @param percentage the percentage to get
-     *
      * @return the percentage of the value
      */
     public static double getPercentage(double value, double percentage) {
@@ -146,9 +126,8 @@ public class GuiHelper {
     /**
      * gets the coordinates for centering a node in a window
      *
-     * @param width the total window width
+     * @param width     the total window width
      * @param nodeWidth width of the node to center
-     *
      * @return centered node coordinates
      */
     public static double getCenteredX(double width, double nodeWidth) {

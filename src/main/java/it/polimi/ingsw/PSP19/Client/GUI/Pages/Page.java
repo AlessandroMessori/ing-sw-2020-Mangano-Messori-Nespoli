@@ -33,6 +33,7 @@ public abstract class Page {
     /**
      * sets the internal state of the page
      *
+     * @exception  IOException,InterruptedException error when setting the game
      * @param g the game to set
      */
     public void setGame(Game g) throws IOException, InterruptedException {
@@ -59,7 +60,6 @@ public abstract class Page {
 
     /**
      * shows an alert,to use when an username already taken event is received
-     *
      */
     public void showAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -72,7 +72,6 @@ public abstract class Page {
 
     /**
      * shows an alert,to use when an user disconnected event is received
-     *
      */
     public void showDisconnected() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -108,7 +107,7 @@ public abstract class Page {
     /**
      * sets the media player of the page
      *
-     * @param m  the media player to set
+     * @param m the media player to set
      */
     public void setMediaPlayer(MediaPlayer m) {
         mediaPlayer = m;
@@ -118,7 +117,7 @@ public abstract class Page {
     /**
      * sets the media view of the page
      *
-     * @param mv  the media view to set
+     * @param mv the media view to set
      */
     public void setMediaView(MediaView mv) {
         mediaView = mv;
