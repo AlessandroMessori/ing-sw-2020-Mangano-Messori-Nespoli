@@ -22,7 +22,11 @@ import com.google.gson.Gson;
 public class Client implements Runnable, ServerObserver {
     private Game game;
     private Pages currentPage;
-    private CLI cli;
+    private LoginCLI loginCli;
+    private DivinitiesChoicesCLI divinChoiceCli;
+    private ColorChoiceCLI colorChoiceCli;
+    private GameCLI gameCli;
+    private EndCLI endCli;
     private ClientController clientController;
     private MessageSerializer messageSerializer;
     private String playerUsername;
@@ -56,7 +60,11 @@ public class Client implements Runnable, ServerObserver {
 
         currentPage = Pages.WELCOME; //class properties
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
-        cli = new CLI();
+        loginCli = new LoginCLI();
+        divinChoiceCli = new DivinitiesChoicesCLI();
+        colorChoiceCli = new ColorChoiceCLI();
+        gameCli = new GameCLI();
+        endCli = new EndCLI();
         clientController = new ClientController();
         messageSerializer = new MessageSerializer();
         checkModel = false;
@@ -65,7 +73,7 @@ public class Client implements Runnable, ServerObserver {
         /*
           get IP Address from user
          */
-        cli.printWelcome();
+        loginCli.printWelcome();
         System.out.println("IP address of server?");
         String ip = scanner.nextLine();
 
@@ -100,8 +108,8 @@ public class Client implements Runnable, ServerObserver {
 
             switch (currentPage) {
                 case WELCOME: //active states,the application gets data from the interaction with the user
-                    playerUsername = cli.readUsername();
-                    boolean nPlayers = cli.readTwoOrThree();
+                    playerUsername = loginCli.readUsername();
+                    boolean nPlayers = loginCli.readTwoOrThree();
                     message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();
                     currentPage = Pages.LOADINGWELCOMEDATA;
 
@@ -109,9 +117,9 @@ public class Client implements Runnable, ServerObserver {
                     System.out.println("Loading data from server...");
                     break;
                 case DIVINITIESCHOICE:
-                    cli.printListDivinities();
-                    chosenDivinities = cli.readDivinitiesChoice();
-                    cli.setChosenDivinities(chosenDivinities);
+                    divinChoiceCli.printListDivinities(game.getPlayers().size());
+                    chosenDivinities = divinChoiceCli.readDivinitiesChoice(game.getPlayers().size());
+                    divinChoiceCli.setChosenDivinities(chosenDivinities);
                     message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(chosenDivinities), "SendDivinities", game.getCodGame()).toString();
                     currentPage = Pages.LOADINGDIVINITY;
 
@@ -119,9 +127,9 @@ public class Client implements Runnable, ServerObserver {
                     break;
                 case DIVINITYCHOICE:
                     System.out.println("Choose Your Divinity");
-                    cli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
-                    cli.printPossibleDivinities(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
-                    String div = cli.readChosenDivinity(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
+                    divinChoiceCli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
+                    divinChoiceCli.printPossibleDivinities(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
+                    String div = divinChoiceCli.readChosenDivinity(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));
                     message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div), playerUsername, game.getCodGame()).toString();
                     alreadyChosenDivinity = true;
                     currentPage = Pages.LOADINGDIVINITY;
@@ -129,10 +137,11 @@ public class Client implements Runnable, ServerObserver {
                     serverAdapter.requestSendDivinity(message);
                     break;
                 case STARTINGPOSITIONCHOICE:
-                    chosenColor = cli.choseColor(convertColors(game.getAlreadyChosenColors()));
+                    chosenColor = colorChoiceCli.choseColor(convertColors(game.getAlreadyChosenColors()));
+
                     game.getCurrentPlayer().setColour(chosenColor);
-                    game.setNewGrid(cli.readStartingPosition(game.getCurrentPlayer(), game.getNewGrid()));
-                    cli.drawGrid(game.getNewGrid());
+                    game.setNewGrid(gameCli.readStartingPosition(game.getCurrentPlayer(), game.getNewGrid()));
+                    gameCli.drawGrid(game.getNewGrid());
                     game.setOldGrid(game.getNewGrid());
                     message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", playerUsername, game.getCodGame(), chosenColor).toString();
                     alreadyChosenStartingPosition = true;
@@ -145,16 +154,16 @@ public class Client implements Runnable, ServerObserver {
                         //boolean canComeUp = new Random().nextBoolean();
                         //System.out.println("Selecting a Random Value for Can Come Up");
                         //System.out.println("Selected " + (canComeUp ? "True" : "False"));
-                        boolean canComeUp = cli.wantToGoUp();
+                        boolean canComeUp = gameCli.wantToGoUp();
                         message = messageSerializer.serializeDecideCanComeUp(canComeUp, game.getCodGame()).toString();
                         serverAdapter.requestSendDecidesToComeUp(message);
                         alreadyChosenCanComeUp = true;
                         currentPage = Pages.LOADINGCANCOMEUP;
                     } else if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
                         System.out.println("Turn: " + game.getNTurns());
-                        cli.drawPlayers(game.getPlayers());
-                        cli.drawGrid(game.getNewGrid());
-                        chosenPawn = cli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
+                        gameCli.drawPlayers(game.getPlayers());
+                        gameCli.drawGrid(game.getNewGrid());
+                        chosenPawn = gameCli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
 
                         message = messageSerializer.serializeChosenPawn(game.getCodGame(), playerUsername, chosenPawn).toString();
                         lastMovedturn = game.getNTurns();
@@ -163,17 +172,17 @@ public class Client implements Runnable, ServerObserver {
 
                         serverAdapter.requestSendChosenPawn(message);
                     } else { // Making Moves
-                        cli.drawGrid(game.getNewGrid());
+                        //gameCli.drawGrid(game.getNewGrid());
                         Move chosenMove;
                         boolean endTurn = false;
 
                         if (game.getNextMoves().size() > 0) {
-                            chosenMove = (game.getNextMoves().size() == 1 && game.getNextMoves().getMove(0).getX() == 6) ? game.getNextMoves().getMove(0) : cli.choseMove(game.getNextMoves(), game.getNewGrid());
+                            chosenMove = (game.getNextMoves().size() == 1 && game.getNextMoves().getMove(0).getX() == 6) ? game.getNextMoves().getMove(0) : gameCli.choseMove(game.getNextMoves(), game.getNewGrid());
                             String moveText = chosenMove.getIfMove() ? "Moved to" : "Built in";
                             System.out.println(moveText + " coordinates (" + (chosenMove.getX() + 1) + "," + (chosenMove.getY() + 1) + ")");
                             endTurn = chosenMove.getX() == 6 && chosenMove.getY() == 6;
                             game = endTurn ? game : clientController.updateGameByMove(chosenMove, game);
-                            cli.drawGrid(game.getNewGrid());
+                            gameCli.drawGrid(game.getNewGrid());
 
                             if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && game.getGameTurn().getNPossibleBuildings() == 1) {
                                 Move cantBuildMove = new Move(chosenPawn);
@@ -210,7 +219,7 @@ public class Client implements Runnable, ServerObserver {
                 case ENDGAME:
                     System.out.println("GAME OVER!");
                     loopCheck = false;
-                    cli.drawResults(new Player(playerUsername, null, chosenColor), game.getWinner());
+                    endCli.drawResults(new Player(playerUsername, null, chosenColor), game.getWinner());
                     break;
                 case LOBBY: //passive states: the user can't do anything,the application is idle until an update from the server is received
                     currentPage = Pages.LOBBY;
@@ -363,7 +372,7 @@ public class Client implements Runnable, ServerObserver {
 
                 switch (currentPage) {
                     case LOBBY:
-                        cli.drawLobby(game.getPlayers(), game.getCodGame());
+                        loginCli.drawLobby(game.getPlayers(), game.getCodGame());
 
                         // check if we have enough players to start the game
                         if (game.getPlayers().size() == nPlayers) {
@@ -371,7 +380,7 @@ public class Client implements Runnable, ServerObserver {
                                 System.out.println("Going To Divinities Choice Page");
                                 currentPage = Pages.DIVINITIESCHOICE;
                             } else {
-                                System.out.println("Waiting for another player to choose the in game divinities");
+                                System.out.println("\nWaiting for another player to choose the in game divinities");
                                 currentPage = Pages.LOADINGDIVINITIES;
                             }
                         }
@@ -383,7 +392,7 @@ public class Client implements Runnable, ServerObserver {
                                 System.out.println("Going to Divinity Choice Page");
                                 currentPage = Pages.DIVINITYCHOICE;
                             } else {
-                                System.out.println("Waiting for other players to chose their divinities");
+                                System.out.println("\nWaiting for other players to chose their divinities");
                                 currentPage = Pages.LOADINGDIVINITY;
                             }
                         }
@@ -399,7 +408,7 @@ public class Client implements Runnable, ServerObserver {
                         break;
                     case LOADINGSTARTINGPOSITION:
                         if (gridChanged) {
-                            cli.drawGrid(game.getNewGrid());
+                            gameCli.drawGrid(game.getNewGrid());
                         }
 
                         if (!alreadyChosenStartingPosition && game.getCurrentPlayer().getUsername().equals(playerUsername)) {
@@ -421,7 +430,7 @@ public class Client implements Runnable, ServerObserver {
                             currentPage = Pages.GAME;
                         } else {
                             if (gridChanged) {
-                                cli.drawGrid(game.getNewGrid());
+                                gameCli.drawGrid(game.getNewGrid());
                             }
                             currentPage = Pages.LOADINGMOVE;
                         }
