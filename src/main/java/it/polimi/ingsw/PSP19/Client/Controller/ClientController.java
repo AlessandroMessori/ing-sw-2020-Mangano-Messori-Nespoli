@@ -6,33 +6,6 @@ import it.polimi.ingsw.PSP19.Server.Model.Move;
 
 public class ClientController {
 
-   /* /**
-     * ATHENA EFFECT
-     *
-     * @param grid grid where to see if Pawn was moved
-     * @param move where the pawn is now
-     * @return a boolean true if the pawn was moved, false if not
-     */
-    /*public boolean checkIfMoved(Grid grid, Move move){
-        int count = 0;
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                if (0 <= (move.getX() + i) && (move.getX() + i) <= 4 && 0 <= (move.getY() + j) && (move.getY() + j) <= 4) {
-                    if (grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
-                        if (grid.getCells(move.getX() + i, move.getY() + j).getPawn().getId() == move.getToMove().getId()) {
-                            count++;
-                        }
-                    }
-                }
-            }
-        }
-        if(count == 1){
-            return false;
-        }
-        return true;
-
-    }*/
-
     /**
      *
      * @param move is the move the current player has done
@@ -49,7 +22,6 @@ public class ClientController {
 
             if(game.getCurrentPlayer().getDivinity() == Divinity.ATHENA || game.getCurrentPlayer().getDivinity() == Divinity.PAN){
                 endingLevel = game.getNewGrid().getCells(move.getX(),move.getY()).getTower().getLevel();
-                /*game.getGameTurn().setPawnMoved(checkIfMoved(game.getNewGrid(),move));*/
             }
 
             for(int i = -1; i <= 1; i++) {
