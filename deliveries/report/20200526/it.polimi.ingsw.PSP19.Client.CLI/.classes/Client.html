@@ -1,0 +1,604 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Client</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Client (it.polimi.ingsw.PSP19.Client.CLI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 214)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Client$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 215)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.IOException;
+<i>4</i>&nbsp;import java.net.Socket;
+<i>5</i>&nbsp;import java.time.Duration;
+<i>6</i>&nbsp;import java.time.Instant;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.Scanner;
+<i>9</i>&nbsp;import java.util.concurrent.TimeUnit;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Network.PeriodicUpdater;
+<i>12</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
+<i>13</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
+<i>14</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Pages;
+<i>15</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.*;
+<i>16</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Server;
+<i>17</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
+<i>18</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.CastingHelper;
+<i>19</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
+<i>20</i>&nbsp;import com.google.gson.Gson;
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;public class Client implements Runnable, ServerObserver {</b>
+<i>23</i>&nbsp;    private Game game;
+<i>24</i>&nbsp;    private Pages currentPage;
+<i>25</i>&nbsp;    private LoginCLI loginCli;
+<i>26</i>&nbsp;    private DivinitiesChoicesCLI divinChoiceCli;
+<i>27</i>&nbsp;    private ColorChoiceCLI colorChoiceCli;
+<i>28</i>&nbsp;    private GameCLI gameCli;
+<i>29</i>&nbsp;    private EndCLI endCli;
+<i>30</i>&nbsp;    private ClientController clientController;
+<i>31</i>&nbsp;    private MessageSerializer messageSerializer;
+<i>32</i>&nbsp;    private String playerUsername;
+<i>33</i>&nbsp;    private Colour chosenColor;
+<i>34</i>&nbsp;    private boolean checkModel;
+<i>35</i>&nbsp;    private boolean alreadyChosenDivinity;
+<i>36</i>&nbsp;    private boolean alreadyChosenStartingPosition;
+<b class="nc"><i>37</i>&nbsp;    private boolean alreadyChosenCanComeUp = false;</b>
+<b class="nc"><i>38</i>&nbsp;    boolean loopCheck = true;</b>
+<b class="nc"><i>39</i>&nbsp;    private int lastMoveNumber = -1;</b>
+<b class="nc"><i>40</i>&nbsp;    private int lastMovedturn = 0;</b>
+<b class="nc"><i>41</i>&nbsp;    private Pawn chosenPawn = null;</b>
+<i>42</i>&nbsp;    ArrayList&lt;String&gt; chosenDivinities;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>45</i>&nbsp;        Client client = new Client();</b>
+<b class="nc"><i>46</i>&nbsp;        client.run();</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @Override
+<i>51</i>&nbsp;    public void run() {
+<i>52</i>&nbsp;        /*
+<i>53</i>&nbsp;         * WARNING: this method executes IN THE CONTEXT OF THE MAIN THREAD
+<i>54</i>&nbsp;         */
+<b class="nc"><i>55</i>&nbsp;        Scanner scanner = new Scanner(System.in); //local variables</b>
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;        int updateRate = 1;</b>
+<i>58</i>&nbsp;        Instant lastTime;
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;        currentPage = Pages.WELCOME; //class properties</b>
+<b class="nc"><i>61</i>&nbsp;        game = new Game(0, null, false, null, new Grid(), new Grid(), null);</b>
+<b class="nc"><i>62</i>&nbsp;        loginCli = new LoginCLI();</b>
+<b class="nc"><i>63</i>&nbsp;        divinChoiceCli = new DivinitiesChoicesCLI();</b>
+<b class="nc"><i>64</i>&nbsp;        colorChoiceCli = new ColorChoiceCLI();</b>
+<b class="nc"><i>65</i>&nbsp;        gameCli = new GameCLI();</b>
+<b class="nc"><i>66</i>&nbsp;        endCli = new EndCLI();</b>
+<b class="nc"><i>67</i>&nbsp;        clientController = new ClientController();</b>
+<b class="nc"><i>68</i>&nbsp;        messageSerializer = new MessageSerializer();</b>
+<b class="nc"><i>69</i>&nbsp;        checkModel = false;</b>
+<b class="nc"><i>70</i>&nbsp;        alreadyChosenDivinity = false;</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;        /*
+<i>73</i>&nbsp;          get IP Address from user
+<i>74</i>&nbsp;         */
+<b class="nc"><i>75</i>&nbsp;        loginCli.printWelcome();</b>
+<b class="nc"><i>76</i>&nbsp;        System.out.println(&quot;IP address of server?&quot;);</b>
+<b class="nc"><i>77</i>&nbsp;        String ip = scanner.nextLine();</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;        /* open a connection to the server */
+<i>80</i>&nbsp;        Socket server;
+<i>81</i>&nbsp;        try {
+<b class="nc"><i>82</i>&nbsp;            server = new Socket(ip, Server.SOCKET_PORT);</b>
+<b class="nc"><i>83</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>84</i>&nbsp;            System.out.println(&quot;server unreachable&quot;);</b>
+<i>85</i>&nbsp;            return;
+<b class="nc"><i>86</i>&nbsp;        }</b>
+<b class="nc"><i>87</i>&nbsp;        System.out.println(&quot;Connected to the server&quot;);</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;        /* Create the adapter that will allow communication with the server
+<i>90</i>&nbsp;         * in background, and start running its thread */
+<b class="nc"><i>91</i>&nbsp;        ServerAdapter serverAdapter = new ServerAdapter(server);</b>
+<b class="nc"><i>92</i>&nbsp;        serverAdapter.addObserver(this);</b>
+<b class="nc"><i>93</i>&nbsp;        Thread serverAdapterThread = new Thread(serverAdapter);</b>
+<b class="nc"><i>94</i>&nbsp;        serverAdapterThread.start();</b>
+<b class="nc"><i>95</i>&nbsp;        lastTime = Instant.now();</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        while (loopCheck) {</b>
+<i>98</i>&nbsp;
+<b class="nc"><i>99</i>&nbsp;            System.out.print(&quot;&quot;);</b>
+<i>100</i>&nbsp;            // periodically fetches the updated game data from Server
+<b class="nc"><i>101</i>&nbsp;            if (checkModel &amp;&amp; Duration.between(lastTime, Instant.now()).getSeconds() &gt; updateRate) {</b>
+<b class="nc"><i>102</i>&nbsp;                lastTime = Instant.now();</b>
+<b class="nc"><i>103</i>&nbsp;                PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter);</b>
+<b class="nc"><i>104</i>&nbsp;                Thread checkModelUpdateThread = new Thread(checkModelUpdate);</b>
+<b class="nc"><i>105</i>&nbsp;                checkModelUpdateThread.start();</b>
+<i>106</i>&nbsp;            }
+<i>107</i>&nbsp;
+<b class="nc"><i>108</i>&nbsp;            switch (currentPage) {</b>
+<i>109</i>&nbsp;                case WELCOME:
+<b class="nc"><i>110</i>&nbsp;                    welcome(serverAdapter);</b>
+<b class="nc"><i>111</i>&nbsp;                    break;</b>
+<i>112</i>&nbsp;                case DIVINITIESCHOICE:
+<b class="nc"><i>113</i>&nbsp;                    divinitiesChoice(serverAdapter);</b>
+<b class="nc"><i>114</i>&nbsp;                    break;</b>
+<i>115</i>&nbsp;                case DIVINITYCHOICE:
+<b class="nc"><i>116</i>&nbsp;                    divinityChoice(serverAdapter);</b>
+<b class="nc"><i>117</i>&nbsp;                    break;</b>
+<i>118</i>&nbsp;                case STARTINGPOSITIONCHOICE:
+<b class="nc"><i>119</i>&nbsp;                    startingPositionChoice(serverAdapter);</b>
+<b class="nc"><i>120</i>&nbsp;                    break;</b>
+<i>121</i>&nbsp;                case GAME:
+<b class="nc"><i>122</i>&nbsp;                    moveChoice(serverAdapter);</b>
+<b class="nc"><i>123</i>&nbsp;                    break;</b>
+<i>124</i>&nbsp;                case ENDGAME:
+<b class="nc"><i>125</i>&nbsp;                    endGame();</b>
+<b class="nc"><i>126</i>&nbsp;                    break;</b>
+<i>127</i>&nbsp;                default:
+<b class="nc"><i>128</i>&nbsp;                    break;</b>
+<i>129</i>&nbsp;            }
+<i>130</i>&nbsp;        }
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;        try {
+<b class="nc"><i>133</i>&nbsp;            TimeUnit.SECONDS.sleep(3);</b>
+<b class="nc"><i>134</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>135</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>136</i>&nbsp;        }</b>
+<i>137</i>&nbsp;
+<b class="nc"><i>138</i>&nbsp;        serverAdapter.stop();</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * handles the welcome phase
+<i>143</i>&nbsp;     *
+<i>144</i>&nbsp;     * @param serverAdapter the object used to communicate with the server
+<i>145</i>&nbsp;     */
+<i>146</i>&nbsp;    public void welcome(ServerAdapter serverAdapter) {
+<i>147</i>&nbsp;        String message;
+<b class="nc"><i>148</i>&nbsp;        playerUsername = loginCli.readUsername();</b>
+<b class="nc"><i>149</i>&nbsp;        boolean nPlayers = loginCli.readTwoOrThree();</b>
+<b class="nc"><i>150</i>&nbsp;        message = messageSerializer.serializeJoinGame(playerUsername, nPlayers, null).toString();</b>
+<b class="nc"><i>151</i>&nbsp;        currentPage = Pages.LOADINGWELCOMEDATA;</b>
+<i>152</i>&nbsp;
+<b class="nc"><i>153</i>&nbsp;        serverAdapter.requestJoinGame(message);</b>
+<b class="nc"><i>154</i>&nbsp;        System.out.println(&quot;Loading data from server...&quot;);</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    /**
+<i>158</i>&nbsp;     * handles the divinities choice phase
+<i>159</i>&nbsp;     *
+<i>160</i>&nbsp;     * @param serverAdapter the object used to communicate with the server
+<i>161</i>&nbsp;     */
+<i>162</i>&nbsp;    public void divinitiesChoice(ServerAdapter serverAdapter) {
+<i>163</i>&nbsp;        String message;
+<b class="nc"><i>164</i>&nbsp;        divinChoiceCli.printListDivinities(game.getPlayers().size());</b>
+<b class="nc"><i>165</i>&nbsp;        chosenDivinities = divinChoiceCli.readDivinitiesChoice(game.getPlayers().size());</b>
+<b class="nc"><i>166</i>&nbsp;        divinChoiceCli.setChosenDivinities(chosenDivinities);</b>
+<b class="nc"><i>167</i>&nbsp;        message = messageSerializer.serializeDivinities(CastingHelper.convertDivinityList(chosenDivinities), &quot;SendDivinities&quot;, game.getCodGame()).toString();</b>
+<b class="nc"><i>168</i>&nbsp;        currentPage = Pages.LOADINGDIVINITY;</b>
+<i>169</i>&nbsp;
+<b class="nc"><i>170</i>&nbsp;        serverAdapter.requestSendDivinities(message);</b>
+<i>171</i>&nbsp;    }
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;    /**
+<i>174</i>&nbsp;     * handles the divinity choice phase
+<i>175</i>&nbsp;     *
+<i>176</i>&nbsp;     * @param serverAdapter the object used to communicate with the server
+<i>177</i>&nbsp;     */
+<i>178</i>&nbsp;    public void divinityChoice(ServerAdapter serverAdapter) {
+<i>179</i>&nbsp;        String message;
+<b class="nc"><i>180</i>&nbsp;        System.out.println(&quot;Choose Your Divinity&quot;);</b>
+<b class="nc"><i>181</i>&nbsp;        divinChoiceCli.setChosenDivinities(CastingHelper.convertDivinityListToString(game.getInGameDivinities()));</b>
+<b class="nc"><i>182</i>&nbsp;        divinChoiceCli.printPossibleDivinities(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));</b>
+<b class="nc"><i>183</i>&nbsp;        String div = divinChoiceCli.readChosenDivinity(CastingHelper.convertDivinityListToString(game.getPossibleDivinities()), CastingHelper.convertDivinityListToString(game.getInGameDivinities()));</b>
+<b class="nc"><i>184</i>&nbsp;        message = messageSerializer.serializeDivinity(CastingHelper.convertDivinity(div), playerUsername, game.getCodGame()).toString();</b>
+<b class="nc"><i>185</i>&nbsp;        alreadyChosenDivinity = true;</b>
+<b class="nc"><i>186</i>&nbsp;        currentPage = Pages.LOADINGDIVINITY;</b>
+<i>187</i>&nbsp;
+<b class="nc"><i>188</i>&nbsp;        serverAdapter.requestSendDivinity(message);</b>
+<i>189</i>&nbsp;    }
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    /**
+<i>192</i>&nbsp;     * handles the starting position choice phase
+<i>193</i>&nbsp;     *
+<i>194</i>&nbsp;     * @param serverAdapter the object used to communicate with the server
+<i>195</i>&nbsp;     */
+<i>196</i>&nbsp;    public void startingPositionChoice(ServerAdapter serverAdapter) {
+<i>197</i>&nbsp;        String message;
+<b class="nc"><i>198</i>&nbsp;        chosenColor = colorChoiceCli.choseColor(convertColors(game.getAlreadyChosenColors()));</b>
+<i>199</i>&nbsp;
+<b class="nc"><i>200</i>&nbsp;        game.getCurrentPlayer().setColour(chosenColor);</b>
+<b class="nc"><i>201</i>&nbsp;        game.setNewGrid(gameCli.readStartingPosition(game.getCurrentPlayer(), game.getNewGrid()));</b>
+<b class="nc"><i>202</i>&nbsp;        gameCli.drawGrid(game.getNewGrid());</b>
+<b class="nc"><i>203</i>&nbsp;        game.setOldGrid(game.getNewGrid());</b>
+<b class="nc"><i>204</i>&nbsp;        message = messageSerializer.serializeStartingPosition(game.getNewGrid(), &quot;SendStartingPosition&quot;, playerUsername, game.getCodGame(), chosenColor).toString();</b>
+<b class="nc"><i>205</i>&nbsp;        alreadyChosenStartingPosition = true;</b>
+<b class="nc"><i>206</i>&nbsp;        currentPage = Pages.LOADINGSTARTINGPOSITION;</b>
+<i>207</i>&nbsp;
+<b class="nc"><i>208</i>&nbsp;        serverAdapter.requestSendStartingPosition(message);</b>
+<i>209</i>&nbsp;    }
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * handles the move choice phase
+<i>213</i>&nbsp;     *
+<i>214</i>&nbsp;     * @param serverAdapter the object used to communicate with the server
+<i>215</i>&nbsp;     */
+<i>216</i>&nbsp;    public void moveChoice(ServerAdapter serverAdapter) {
+<i>217</i>&nbsp;        String message;
+<b class="nc"><i>218</i>&nbsp;        if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS &amp;&amp; !alreadyChosenCanComeUp) {</b>
+<b class="nc"><i>219</i>&nbsp;            boolean canComeUp = gameCli.wantToGoUp();</b>
+<b class="nc"><i>220</i>&nbsp;            message = messageSerializer.serializeDecideCanComeUp(canComeUp, game.getCodGame()).toString();</b>
+<b class="nc"><i>221</i>&nbsp;            serverAdapter.requestSendDecidesToComeUp(message);</b>
+<b class="nc"><i>222</i>&nbsp;            alreadyChosenCanComeUp = true;</b>
+<b class="nc"><i>223</i>&nbsp;            currentPage = Pages.LOADINGCANCOMEUP;</b>
+<b class="nc"><i>224</i>&nbsp;        } else if (lastMovedturn &lt; game.getNTurns()) { // Choosing the Pawn to use</b>
+<b class="nc"><i>225</i>&nbsp;            System.out.println(&quot;Turn: &quot; + game.getNTurns());</b>
+<b class="nc"><i>226</i>&nbsp;            gameCli.drawPlayers(game.getPlayers());</b>
+<b class="nc"><i>227</i>&nbsp;            gameCli.drawGrid(game.getNewGrid());</b>
+<b class="nc"><i>228</i>&nbsp;            chosenPawn = gameCli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());</b>
+<i>229</i>&nbsp;
+<b class="nc"><i>230</i>&nbsp;            message = messageSerializer.serializeChosenPawn(game.getCodGame(), playerUsername, chosenPawn).toString();</b>
+<b class="nc"><i>231</i>&nbsp;            lastMovedturn = game.getNTurns();</b>
+<b class="nc"><i>232</i>&nbsp;            lastMoveNumber = game.getnMoves();</b>
+<b class="nc"><i>233</i>&nbsp;            currentPage = Pages.LOADINGMOVE;</b>
+<i>234</i>&nbsp;
+<b class="nc"><i>235</i>&nbsp;            serverAdapter.requestSendChosenPawn(message);</b>
+<i>236</i>&nbsp;        } else { // Making Moves
+<i>237</i>&nbsp;            //gameCli.drawGrid(game.getNewGrid());
+<i>238</i>&nbsp;            Move chosenMove;
+<b class="nc"><i>239</i>&nbsp;            boolean endTurn = false;</b>
+<i>240</i>&nbsp;
+<b class="nc"><i>241</i>&nbsp;            if (game.getNextMoves().size() &gt; 0) {</b>
+<b class="nc"><i>242</i>&nbsp;                chosenMove = (game.getNextMoves().size() == 1 &amp;&amp; game.getNextMoves().getMove(0).getX() == 6) ? game.getNextMoves().getMove(0) : gameCli.choseMove(game.getNextMoves(), game.getNewGrid());</b>
+<b class="nc"><i>243</i>&nbsp;                String moveText = chosenMove.getIfMove() ? &quot;Moved to&quot; : &quot;Built in&quot;;</b>
+<b class="nc"><i>244</i>&nbsp;                System.out.println(moveText + &quot; coordinates (&quot; + (chosenMove.getX() + 1) + &quot;,&quot; + (chosenMove.getY() + 1) + &quot;)&quot;);</b>
+<b class="nc"><i>245</i>&nbsp;                endTurn = chosenMove.getX() == 6 &amp;&amp; chosenMove.getY() == 6;</b>
+<b class="nc"><i>246</i>&nbsp;                game = endTurn ? game : clientController.updateGameByMove(chosenMove, game);</b>
+<b class="nc"><i>247</i>&nbsp;                gameCli.drawGrid(game.getNewGrid());</b>
+<i>248</i>&nbsp;
+<b class="nc"><i>249</i>&nbsp;                if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER &amp;&amp; game.getGameTurn().getNPossibleBuildings() == 1) {</b>
+<b class="nc"><i>250</i>&nbsp;                    Move cantBuildMove = new Move(chosenPawn);</b>
+<b class="nc"><i>251</i>&nbsp;                    cantBuildMove.setX(chosenMove.getX());</b>
+<b class="nc"><i>252</i>&nbsp;                    cantBuildMove.setY(chosenMove.getY());</b>
+<b class="nc"><i>253</i>&nbsp;                    cantBuildMove.setIfMove(false);</b>
+<b class="nc"><i>254</i>&nbsp;                    game.getGameTurn().setCantBuildOnThisBlock(cantBuildMove);</b>
+<i>255</i>&nbsp;
+<b class="nc"><i>256</i>&nbsp;                    for (int x = 0; x &lt; 5; x++) { //sending data for Demeter second building</b>
+<b class="nc"><i>257</i>&nbsp;                        for (int y = 0; y &lt; 5; y++) {</b>
+<b class="nc"><i>258</i>&nbsp;                            if (game.getNewGrid().getCells(x, y).getPawn() != null) {</b>
+<b class="nc"><i>259</i>&nbsp;                                if (chosenPawn.getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {</b>
+<b class="nc"><i>260</i>&nbsp;                                    chosenMove.setX(x);</b>
+<b class="nc"><i>261</i>&nbsp;                                    chosenMove.setY(y);</b>
+<i>262</i>&nbsp;                                }
+<i>263</i>&nbsp;                            }
+<i>264</i>&nbsp;                        }
+<i>265</i>&nbsp;                    }
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;                }
+<i>268</i>&nbsp;
+<b class="nc"><i>269</i>&nbsp;                message = messageSerializer.serializeChosenMove(game, chosenMove).toString();</b>
+<b class="nc"><i>270</i>&nbsp;                lastMoveNumber = game.getnMoves();</b>
+<b class="nc"><i>271</i>&nbsp;                currentPage = (game.getWinner() != null) ? Pages.ENDGAME : Pages.LOADINGMOVE;</b>
+<i>272</i>&nbsp;
+<b class="nc"><i>273</i>&nbsp;                serverAdapter.requestSendChosenMove(message);</b>
+<b class="nc"><i>274</i>&nbsp;            } else {</b>
+<b class="nc"><i>275</i>&nbsp;                System.out.println(&quot;There are no possible moves!&quot;);</b>
+<b class="nc"><i>276</i>&nbsp;                loopCheck = false;</b>
+<i>277</i>&nbsp;            }
+<i>278</i>&nbsp;        }
+<i>279</i>&nbsp;    }
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;    /**
+<i>282</i>&nbsp;     * handles the end game phase
+<i>283</i>&nbsp;     */
+<i>284</i>&nbsp;    public void endGame() {
+<b class="nc"><i>285</i>&nbsp;        System.out.println(&quot;GAME OVER!&quot;);</b>
+<b class="nc"><i>286</i>&nbsp;        loopCheck = false;</b>
+<b class="nc"><i>287</i>&nbsp;        endCli.drawResults(new Player(playerUsername, null, chosenColor), game.getWinner());</b>
+<i>288</i>&nbsp;    }
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;    /**
+<i>291</i>&nbsp;     * function that gets called when a username taken signal is received from the server
+<i>292</i>&nbsp;     *
+<i>293</i>&nbsp;     * @param response the server error response
+<i>294</i>&nbsp;     */
+<i>295</i>&nbsp;    @Override
+<i>296</i>&nbsp;    public synchronized void receiveUsernameTaken(String response) {
+<b class="nc"><i>297</i>&nbsp;        System.out.println(response);</b>
+<b class="nc"><i>298</i>&nbsp;        currentPage = Pages.WELCOME;</b>
+<i>299</i>&nbsp;    }
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;    /**
+<i>302</i>&nbsp;     * function that gets called when a new player signal is received from the server
+<i>303</i>&nbsp;     *
+<i>304</i>&nbsp;     * @param player the player who joined the game
+<i>305</i>&nbsp;     */
+<i>306</i>&nbsp;    @Override
+<i>307</i>&nbsp;    public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
+<b class="nc"><i>308</i>&nbsp;        System.out.println(&quot;Received Response From Server,Going to Lobby Page&quot;);</b>
+<b class="nc"><i>309</i>&nbsp;        game.getPlayers().addPlayer(player);</b>
+<b class="nc"><i>310</i>&nbsp;        game.setCodGame(gameID);</b>
+<b class="nc"><i>311</i>&nbsp;        checkModel = true;</b>
+<b class="nc"><i>312</i>&nbsp;        currentPage = Pages.LOBBY;</b>
+<b class="nc"><i>313</i>&nbsp;        notifyAll();</b>
+<i>314</i>&nbsp;    }
+<i>315</i>&nbsp;
+<i>316</i>&nbsp;    /**
+<i>317</i>&nbsp;     * function that gets called when a divinities signal is received from the server
+<i>318</i>&nbsp;     *
+<i>319</i>&nbsp;     * @param divinities the list of all divinities in the game
+<i>320</i>&nbsp;     */
+<i>321</i>&nbsp;    @Override
+<i>322</i>&nbsp;    public synchronized void receiveDivinities(String divinities) {
+<b class="nc"><i>323</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="nc"><i>324</i>&nbsp;        notifyAll();</b>
+<i>325</i>&nbsp;    }
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;    /**
+<i>328</i>&nbsp;     * function that gets called when a possible divinities signal is received from the server
+<i>329</i>&nbsp;     */
+<i>330</i>&nbsp;    @Override
+<i>331</i>&nbsp;    public synchronized void receivePossibleDivinities(String response) {
+<b class="nc"><i>332</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="nc"><i>333</i>&nbsp;        notifyAll();</b>
+<i>334</i>&nbsp;    }
+<i>335</i>&nbsp;
+<i>336</i>&nbsp;    /**
+<i>337</i>&nbsp;     * function that gets called when a starting position signal is received from the server
+<i>338</i>&nbsp;     */
+<i>339</i>&nbsp;    @Override
+<i>340</i>&nbsp;    public synchronized void receiveStartingPosition(String position) {
+<b class="nc"><i>341</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="nc"><i>342</i>&nbsp;        notifyAll();</b>
+<i>343</i>&nbsp;    }
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;    /**
+<i>346</i>&nbsp;     * function that gets called when an pawn signal is received from the server
+<i>347</i>&nbsp;     */
+<i>348</i>&nbsp;    public synchronized void receivePawn(String pawn) {
+<b class="nc"><i>349</i>&nbsp;        if (pawn.equals(&quot;You Lost&quot;)) {</b>
+<b class="nc"><i>350</i>&nbsp;            System.out.println(&quot;You don&#39;t have any possible move!&quot;);</b>
+<b class="nc"><i>351</i>&nbsp;            currentPage = Pages.LOADINGMOVE;</b>
+<b class="nc"><i>352</i>&nbsp;        } else if (pawn.equals(&quot;This pawn doesn&#39;t have any possible moves,choosing the other one&quot;)) {</b>
+<b class="nc"><i>353</i>&nbsp;            System.out.println(pawn + &quot;\n&quot;);</b>
+<i>354</i>&nbsp;        } else {
+<b class="nc"><i>355</i>&nbsp;            System.out.println(&quot;&quot;);</b>
+<i>356</i>&nbsp;        }
+<b class="nc"><i>357</i>&nbsp;        notifyAll();</b>
+<i>358</i>&nbsp;    }
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;    /**
+<i>361</i>&nbsp;     * function that gets called when an canComeUp signal is received from the server
+<i>362</i>&nbsp;     */
+<i>363</i>&nbsp;    public synchronized void receiveCanComeUp(String canComeUp) {
+<b class="nc"><i>364</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="nc"><i>365</i>&nbsp;        currentPage = Pages.GAME;</b>
+<b class="nc"><i>366</i>&nbsp;        notifyAll();</b>
+<i>367</i>&nbsp;    }
+<i>368</i>&nbsp;
+<i>369</i>&nbsp;    /**
+<i>370</i>&nbsp;     * function that gets called when an new move signal is received from the server
+<i>371</i>&nbsp;     */
+<i>372</i>&nbsp;    public synchronized void receiveMoves(String moves) {
+<b class="nc"><i>373</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="nc"><i>374</i>&nbsp;        notifyAll();</b>
+<i>375</i>&nbsp;    }
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;    /**
+<i>378</i>&nbsp;     * function that gets called when an end game signal is received from the server
+<i>379</i>&nbsp;     */
+<i>380</i>&nbsp;    @Override
+<i>381</i>&nbsp;    public synchronized void receiveEndGame(String endGame) {
+<b class="nc"><i>382</i>&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="nc"><i>383</i>&nbsp;        notifyAll();</b>
+<i>384</i>&nbsp;    }
+<i>385</i>&nbsp;
+<i>386</i>&nbsp;    /**
+<i>387</i>&nbsp;     * function that gets called when an update model signal is received from the server
+<i>388</i>&nbsp;     *
+<i>389</i>&nbsp;     * @param g update value of game
+<i>390</i>&nbsp;     */
+<i>391</i>&nbsp;    @Override
+<i>392</i>&nbsp;    public synchronized void receiveModelUpdate(Game g) {
+<b class="nc"><i>393</i>&nbsp;        boolean gridChanged = !(new Gson().toJson(game.getNewGrid()).equals(new Gson().toJson(g.getNewGrid())));</b>
+<b class="nc"><i>394</i>&nbsp;        game = g;</b>
+<i>395</i>&nbsp;
+<b class="nc"><i>396</i>&nbsp;        if (game != null) {</b>
+<b class="nc"><i>397</i>&nbsp;            int nPlayers = game.getThreePlayers() ? 3 : 2;</b>
+<i>398</i>&nbsp;
+<b class="nc"><i>399</i>&nbsp;            if (game.getDisconnected()) {</b>
+<b class="nc"><i>400</i>&nbsp;                System.out.println(&quot;A Player Disconnected,Game Over&quot;);</b>
+<b class="nc"><i>401</i>&nbsp;                loopCheck = false;</b>
+<i>402</i>&nbsp;            } else {
+<i>403</i>&nbsp;
+<b class="nc"><i>404</i>&nbsp;                switch (currentPage) {</b>
+<i>405</i>&nbsp;                    case LOBBY:
+<b class="nc"><i>406</i>&nbsp;                        loginCli.drawLobby(game.getPlayers(), game.getCodGame());</b>
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;                        // check if we have enough players to start the game
+<b class="nc"><i>409</i>&nbsp;                        if (game.getPlayers().size() == nPlayers) {</b>
+<b class="nc"><i>410</i>&nbsp;                            if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<b class="nc"><i>411</i>&nbsp;                                System.out.println(&quot;Going To Divinities Choice Page&quot;);</b>
+<b class="nc"><i>412</i>&nbsp;                                currentPage = Pages.DIVINITIESCHOICE;</b>
+<i>413</i>&nbsp;                            } else {
+<b class="nc"><i>414</i>&nbsp;                                System.out.println(&quot;\nWaiting for another player to choose the in game divinities&quot;);</b>
+<b class="nc"><i>415</i>&nbsp;                                currentPage = Pages.LOADINGDIVINITIES;</b>
+<i>416</i>&nbsp;                            }
+<i>417</i>&nbsp;                        }
+<i>418</i>&nbsp;                        break;
+<i>419</i>&nbsp;                    case LOADINGDIVINITIES:
+<b class="nc"><i>420</i>&nbsp;                        int nPlayersInGame = game.getThreePlayers() ? 3 : 2;</b>
+<b class="nc"><i>421</i>&nbsp;                        if (game.getPlayers().size() == nPlayersInGame &amp;&amp; game.getInGameDivinities().size() == nPlayersInGame) {</b>
+<b class="nc"><i>422</i>&nbsp;                            if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<b class="nc"><i>423</i>&nbsp;                                System.out.println(&quot;Going to Divinity Choice Page&quot;);</b>
+<b class="nc"><i>424</i>&nbsp;                                currentPage = Pages.DIVINITYCHOICE;</b>
+<i>425</i>&nbsp;                            } else {
+<b class="nc"><i>426</i>&nbsp;                                System.out.println(&quot;\nWaiting for other players to chose their divinities&quot;);</b>
+<b class="nc"><i>427</i>&nbsp;                                currentPage = Pages.LOADINGDIVINITY;</b>
+<i>428</i>&nbsp;                            }
+<i>429</i>&nbsp;                        }
+<i>430</i>&nbsp;                        break;
+<i>431</i>&nbsp;                    case LOADINGDIVINITY:
+<b class="nc"><i>432</i>&nbsp;                        if (!alreadyChosenDivinity &amp;&amp; game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<b class="nc"><i>433</i>&nbsp;                            System.out.println(&quot;Going to Divinity Choice Page&quot;);</b>
+<b class="nc"><i>434</i>&nbsp;                            currentPage = Pages.DIVINITYCHOICE;</b>
+<b class="nc"><i>435</i>&nbsp;                        } else if (alreadyChosenDivinity &amp;&amp; game.getInGameDivinities().size() == 0) {</b>
+<b class="nc"><i>436</i>&nbsp;                            System.out.println(&quot;Going to Starting Position Choice Page&quot;);</b>
+<b class="nc"><i>437</i>&nbsp;                            currentPage = Pages.LOADINGSTARTINGPOSITION;</b>
+<i>438</i>&nbsp;                        }
+<i>439</i>&nbsp;                        break;
+<i>440</i>&nbsp;                    case LOADINGSTARTINGPOSITION:
+<b class="nc"><i>441</i>&nbsp;                        if (gridChanged) {</b>
+<b class="nc"><i>442</i>&nbsp;                            gameCli.drawGrid(game.getNewGrid());</b>
+<i>443</i>&nbsp;                        }
+<i>444</i>&nbsp;
+<b class="nc"><i>445</i>&nbsp;                        if (!alreadyChosenStartingPosition &amp;&amp; game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<b class="nc"><i>446</i>&nbsp;                            System.out.println(&quot;\nChoose your Starting Position&quot;);</b>
+<b class="nc"><i>447</i>&nbsp;                            currentPage = Pages.STARTINGPOSITIONCHOICE;</b>
+<b class="nc"><i>448</i>&nbsp;                        } else if (alreadyChosenStartingPosition &amp;&amp; game.getNTurns() &gt; 0) {</b>
+<b class="nc"><i>449</i>&nbsp;                            System.out.println(&quot;\nGoing to Game Page&quot;);</b>
+<b class="nc"><i>450</i>&nbsp;                            currentPage = Pages.LOADINGMOVE;</b>
+<i>451</i>&nbsp;                        }
+<i>452</i>&nbsp;
+<i>453</i>&nbsp;                        break;
+<i>454</i>&nbsp;                    case LOADINGMOVE:
+<b class="nc"><i>455</i>&nbsp;                        if (game.getWinner() != null) {</b>
+<b class="nc"><i>456</i>&nbsp;                            currentPage = Pages.ENDGAME;</b>
+<b class="nc"><i>457</i>&nbsp;                        } else if (lastMoveNumber &lt; game.getnMoves() &amp;&amp; game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<b class="nc"><i>458</i>&nbsp;                            if (lastMovedturn &lt; game.getNTurns()) {</b>
+<b class="nc"><i>459</i>&nbsp;                                alreadyChosenCanComeUp = false;</b>
+<i>460</i>&nbsp;                            }
+<b class="nc"><i>461</i>&nbsp;                            currentPage = Pages.GAME;</b>
+<i>462</i>&nbsp;                        } else {
+<b class="nc"><i>463</i>&nbsp;                            if (gridChanged) {</b>
+<b class="nc"><i>464</i>&nbsp;                                gameCli.drawGrid(game.getNewGrid());</b>
+<i>465</i>&nbsp;                            }
+<b class="nc"><i>466</i>&nbsp;                            currentPage = Pages.LOADINGMOVE;</b>
+<i>467</i>&nbsp;                        }
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;                        break;
+<i>470</i>&nbsp;                }
+<i>471</i>&nbsp;            }
+<i>472</i>&nbsp;
+<i>473</i>&nbsp;        }
+<i>474</i>&nbsp;
+<b class="nc"><i>475</i>&nbsp;        notifyAll();</b>
+<i>476</i>&nbsp;
+<i>477</i>&nbsp;    }
+<i>478</i>&nbsp;
+<i>479</i>&nbsp;    /**
+<i>480</i>&nbsp;     * converts an ArrayList of Colors to an ArrayList of Strings
+<i>481</i>&nbsp;     *
+<i>482</i>&nbsp;     * @param colors the ArrayList to Convert
+<i>483</i>&nbsp;     * @return the ArrayList of converted strings
+<i>484</i>&nbsp;     */
+<i>485</i>&nbsp;    ArrayList&lt;String&gt; convertColors(ArrayList&lt;Colour&gt; colors) {
+<b class="nc"><i>486</i>&nbsp;        ArrayList&lt;String&gt; strColors = new ArrayList&lt;String&gt;();</b>
+<b class="nc"><i>487</i>&nbsp;        for (Colour cl : colors) {</b>
+<b class="nc"><i>488</i>&nbsp;            strColors.add(cl.toString());</b>
+<b class="nc"><i>489</i>&nbsp;        }</b>
+<b class="nc"><i>490</i>&nbsp;        return strColors;</b>
+<i>491</i>&nbsp;    }
+<i>492</i>&nbsp;}
+<i>493</i>&nbsp;
+<i>494</i>&nbsp;
+<i>495</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-25 11:28</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,598 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Client</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Client (it.polimi.ingsw.PSP19.Client.GUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 172)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Client$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 173)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Client.GUI.Pages.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Server;
+<i>8</i>&nbsp;import javafx.application.Application;
+<i>9</i>&nbsp;import javafx.application.Platform;
+<i>10</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>11</i>&nbsp;import javafx.scene.Parent;
+<i>12</i>&nbsp;import javafx.scene.Scene;
+<i>13</i>&nbsp;import javafx.scene.layout.Pane;
+<i>14</i>&nbsp;import javafx.scene.media.Media;
+<i>15</i>&nbsp;import javafx.scene.media.MediaPlayer;
+<i>16</i>&nbsp;import javafx.scene.media.MediaView;
+<i>17</i>&nbsp;import javafx.scene.text.Font;
+<i>18</i>&nbsp;import javafx.stage.Stage;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.io.IOException;
+<i>21</i>&nbsp;import java.net.Socket;
+<i>22</i>&nbsp;import java.net.URL;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<b class="nc"><i>25</i>&nbsp;public class Client extends Application implements ServerObserver {</b>
+<b class="nc"><i>26</i>&nbsp;    private boolean hasMusic = true;</b>
+<i>27</i>&nbsp;    private RequestHandler requestHandler;
+<i>28</i>&nbsp;    private ServerAdapter serverAdapter;
+<i>29</i>&nbsp;    private Game game;
+<i>30</i>&nbsp;    private Page currentPage;
+<i>31</i>&nbsp;    private String playerUsername;
+<i>32</i>&nbsp;    private Colour chosenColor;
+<i>33</i>&nbsp;    private boolean threePlayers;
+<b class="nc"><i>34</i>&nbsp;    private boolean disconnected = false;</b>
+<b class="nc"><i>35</i>&nbsp;    private Socket server = null;</b>
+<i>36</i>&nbsp;    private Stage mainStage;
+<b class="nc"><i>37</i>&nbsp;    double width = 1440;</b>
+<b class="nc"><i>38</i>&nbsp;    double height = 900;</b>
+<i>39</i>&nbsp;    Parent root;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @Override
+<i>42</i>&nbsp;    public void start(Stage primaryStage) throws Exception {
+<i>43</i>&nbsp;
+<b class="nc"><i>44</i>&nbsp;        game = new Game(0, null, false, null, new Grid(), new Grid(), null);</b>
+<b class="nc"><i>45</i>&nbsp;        mainStage = primaryStage;</b>
+<i>46</i>&nbsp;
+<b class="nc"><i>47</i>&nbsp;        root = setCurrentPage(new WelcomePage(), &quot;/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3&quot;);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        Scene scene = new Scene(root, width, height);</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;        primaryStage.setOnCloseRequest(e -&gt; {</b>
+<b class="nc"><i>52</i>&nbsp;            System.exit(0);</b>
+<i>53</i>&nbsp;        });
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;        primaryStage.setTitle(&quot;SANTORINI&quot;);</b>
+<b class="nc"><i>56</i>&nbsp;        primaryStage.setScene(scene);</b>
+<b class="nc"><i>57</i>&nbsp;        primaryStage.setResizable(false);</b>
+<b class="nc"><i>58</i>&nbsp;        primaryStage.show();</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;        // initializes the singleton used to handle  sending requests to server
+<b class="nc"><i>61</i>&nbsp;        requestHandler = RequestHandler.getRequestHandler();</b>
+<b class="nc"><i>62</i>&nbsp;        requestHandler.setClient(this);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        currentPage.setGame(game);</b>
+<b class="nc"><i>65</i>&nbsp;        currentPage.setServerAdapter(serverAdapter);</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i>70</i>&nbsp;        Application.launch(args);</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /***
+<i>74</i>&nbsp;     * RequestHandler observer: makes requests to the server based on the data of requestHandler
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public void makeRequest() {
+<b class="nc"><i>77</i>&nbsp;        String reqContent = requestHandler.getCurrentRequest();</b>
+<b class="nc"><i>78</i>&nbsp;        switch (requestHandler.getCurrentCommand()) {</b>
+<i>79</i>&nbsp;            case JOIN_GAME:
+<b class="nc"><i>80</i>&nbsp;                serverAdapter.requestJoinGame(reqContent);</b>
+<b class="nc"><i>81</i>&nbsp;                break;</b>
+<i>82</i>&nbsp;            case SEND_DIVINITIES:
+<b class="nc"><i>83</i>&nbsp;                serverAdapter.requestSendDivinities(reqContent);</b>
+<b class="nc"><i>84</i>&nbsp;                break;</b>
+<i>85</i>&nbsp;            case SEND_DIVINITY:
+<b class="nc"><i>86</i>&nbsp;                serverAdapter.requestSendDivinity(reqContent);</b>
+<b class="nc"><i>87</i>&nbsp;                break;</b>
+<i>88</i>&nbsp;            case SEND_STARTING_POSITION:
+<b class="nc"><i>89</i>&nbsp;                serverAdapter.requestSendStartingPosition(reqContent);</b>
+<b class="nc"><i>90</i>&nbsp;                break;</b>
+<i>91</i>&nbsp;            case SEND_DECIDES_TO_COME_UP:
+<b class="nc"><i>92</i>&nbsp;                serverAdapter.requestSendDecidesToComeUp(reqContent);</b>
+<b class="nc"><i>93</i>&nbsp;                break;</b>
+<i>94</i>&nbsp;            case SEND_CHOSEN_PAWN:
+<b class="nc"><i>95</i>&nbsp;                serverAdapter.requestSendChosenPawn(reqContent);</b>
+<b class="nc"><i>96</i>&nbsp;                break;</b>
+<i>97</i>&nbsp;            case SEND_CHOSEN_MOVE:
+<b class="nc"><i>98</i>&nbsp;                serverAdapter.requestSendChosenMove(reqContent);</b>
+<b class="nc"><i>99</i>&nbsp;                break;</b>
+<i>100</i>&nbsp;            case CHECK_MODEL:
+<b class="nc"><i>101</i>&nbsp;                serverAdapter.requestCheckModel(reqContent);</b>
+<i>102</i>&nbsp;                break;
+<i>103</i>&nbsp;        }
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /***
+<i>108</i>&nbsp;     * Sets the server the client will be connecting to
+<i>109</i>&nbsp;     *
+<i>110</i>&nbsp;     * @throws IOException error when connecting to the server
+<i>111</i>&nbsp;     * @param ip ip address of the server
+<i>112</i>&nbsp;     *
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public void setServer(String ip) throws IOException {
+<i>115</i>&nbsp;        /* open a connection to the server */
+<b class="nc"><i>116</i>&nbsp;        server = new Socket(ip, Server.SOCKET_PORT);</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;        /* Create the adapter that will allow communication with the server
+<i>119</i>&nbsp;         * in background, and start running its thread */
+<b class="nc"><i>120</i>&nbsp;        serverAdapter = new ServerAdapter(server);</b>
+<b class="nc"><i>121</i>&nbsp;        serverAdapter.addObserver(this);</b>
+<b class="nc"><i>122</i>&nbsp;        Thread serverAdapterThread = new Thread(serverAdapter);</b>
+<b class="nc"><i>123</i>&nbsp;        serverAdapterThread.start();</b>
+<i>124</i>&nbsp;    }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    /***
+<i>127</i>&nbsp;     * Sets the current Scene
+<i>128</i>&nbsp;     *
+<i>129</i>&nbsp;     * @exception  IOException,InterruptedException error when setting the scene
+<i>130</i>&nbsp;     *
+<i>131</i>&nbsp;     * @param page the page the set
+<i>132</i>&nbsp;     * @param musicPath path of the soundtrack of the page
+<i>133</i>&nbsp;     *
+<i>134</i>&nbsp;     * @return Parent node of the set page
+<i>135</i>&nbsp;     */
+<i>136</i>&nbsp;    public Parent setCurrentPage(Page page, String musicPath) throws IOException, InterruptedException {
+<i>137</i>&nbsp;
+<b class="nc"><i>138</i>&nbsp;        Media media = null;                     //MUSIC</b>
+<i>139</i>&nbsp;        // Create a Media Player
+<b class="nc"><i>140</i>&nbsp;        MediaPlayer playermp3 = null;</b>
+<i>141</i>&nbsp;        // Create a Media View
+<b class="nc"><i>142</i>&nbsp;        MediaView mp3View = null;</b>
+<b class="nc"><i>143</i>&nbsp;        if (musicPath != null) {</b>
+<i>144</i>&nbsp;            // Locate the media content in the CLASSPATH
+<b class="nc"><i>145</i>&nbsp;            URL mediaUrl = getClass().getResource(musicPath);</b>
+<b class="nc"><i>146</i>&nbsp;            String mediaStringUrl = mediaUrl.toExternalForm();</b>
+<b class="nc"><i>147</i>&nbsp;            media = new Media(mediaStringUrl);</b>
+<b class="nc"><i>148</i>&nbsp;            playermp3 = new MediaPlayer(media);</b>
+<b class="nc"><i>149</i>&nbsp;            playermp3.setCycleCount(MediaPlayer.INDEFINITE);</b>
+<b class="nc"><i>150</i>&nbsp;            mp3View = new MediaView(playermp3);</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;            // if there is another song playing it gets stopped
+<b class="nc"><i>153</i>&nbsp;            if (currentPage != null &amp;&amp; currentPage.getMediaPlayer() != null) {</b>
+<b class="nc"><i>154</i>&nbsp;                currentPage.getMediaView().setDisable(true);</b>
+<b class="nc"><i>155</i>&nbsp;                currentPage.getMediaPlayer().stop();</b>
+<i>156</i>&nbsp;            }
+<b class="nc"><i>157</i>&nbsp;        } else {</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;            if (currentPage.getMediaView() != null) {</b>
+<b class="nc"><i>160</i>&nbsp;                if (hasMusic) {</b>
+<b class="nc"><i>161</i>&nbsp;                    playermp3 = currentPage.getMediaPlayer();</b>
+<b class="nc"><i>162</i>&nbsp;                    mp3View = currentPage.getMediaView();</b>
+<i>163</i>&nbsp;                } else {
+<b class="nc"><i>164</i>&nbsp;                    currentPage.getMediaView().setDisable(true);</b>
+<b class="nc"><i>165</i>&nbsp;                    currentPage.getMediaPlayer().stop();</b>
+<i>166</i>&nbsp;                }
+<i>167</i>&nbsp;            }
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;        }
+<i>171</i>&nbsp;
+<b class="nc"><i>172</i>&nbsp;        currentPage = page;</b>
+<b class="nc"><i>173</i>&nbsp;        String currentPageName = currentPage.getPageName();</b>
+<b class="nc"><i>174</i>&nbsp;        FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;/&quot; + currentPageName + &quot;/&quot; + currentPageName + &quot;.fxml&quot;));</b>
+<b class="nc"><i>175</i>&nbsp;        Parent root = loader.load();</b>
+<b class="nc"><i>176</i>&nbsp;        root.getStylesheets().add(getClass().getResource(&quot;/&quot; + currentPageName + &quot;/&quot; + currentPageName + &quot;.css&quot;).toExternalForm());</b>
+<i>177</i>&nbsp;
+<b class="nc"><i>178</i>&nbsp;        Font.loadFont(</b>
+<b class="nc"><i>179</i>&nbsp;                getClass().getResource(&quot;/Images/Font/LillyBelle.ttf&quot;).toExternalForm(),</b>
+<i>180</i>&nbsp;                10
+<i>181</i>&nbsp;        );
+<i>182</i>&nbsp;
+<b class="nc"><i>183</i>&nbsp;        currentPage = loader.getController();</b>
+<b class="nc"><i>184</i>&nbsp;        currentPage.setClient(this);</b>
+<b class="nc"><i>185</i>&nbsp;        currentPage.setGame(game);</b>
+<i>186</i>&nbsp;
+<b class="nc"><i>187</i>&nbsp;        if (hasMusic) {</b>
+<b class="nc"><i>188</i>&nbsp;            currentPage.setMediaPlayer(playermp3);</b>
+<b class="nc"><i>189</i>&nbsp;            currentPage.setMediaView(mp3View);</b>
+<i>190</i>&nbsp;        }
+<b class="nc"><i>191</i>&nbsp;        Platform.runLater(</b>
+<i>192</i>&nbsp;                () -&gt; {
+<b class="nc"><i>193</i>&nbsp;                    mainStage.getScene().setRoot(root);</b>
+<i>194</i>&nbsp;
+<b class="nc"><i>195</i>&nbsp;                    if (currentPage.getMediaPlayer() != null) {</b>
+<b class="nc"><i>196</i>&nbsp;                        if (hasMusic == true) {</b>
+<b class="nc"><i>197</i>&nbsp;                            ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());</b>
+<b class="nc"><i>198</i>&nbsp;                            currentPage.getMediaPlayer().play();</b>
+<b class="nc"><i>199</i>&nbsp;                            currentPage.getMediaPlayer().setAutoPlay(true);</b>
+<i>200</i>&nbsp;                        }
+<i>201</i>&nbsp;                    }
+<i>202</i>&nbsp;                }
+<i>203</i>&nbsp;        );
+<i>204</i>&nbsp;
+<b class="nc"><i>205</i>&nbsp;        return root;</b>
+<i>206</i>&nbsp;    }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    /**
+<i>210</i>&nbsp;     * returns the value of the property hasMusic
+<i>211</i>&nbsp;     *
+<i>212</i>&nbsp;     * @return value of hasMusic
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    public boolean getHasMusic() {
+<b class="nc"><i>215</i>&nbsp;        return hasMusic;</b>
+<i>216</i>&nbsp;    }
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    /**
+<i>219</i>&nbsp;     * sets the value of the property hasMusic
+<i>220</i>&nbsp;     *
+<i>221</i>&nbsp;     * @param hasMusic value of hasMusic
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;    public void setHasMusic(boolean hasMusic) {
+<b class="nc"><i>224</i>&nbsp;        this.hasMusic = hasMusic;</b>
+<i>225</i>&nbsp;    }
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    /**
+<i>229</i>&nbsp;     * returns the value of the property chosenColor
+<i>230</i>&nbsp;     *
+<i>231</i>&nbsp;     * @return value of chosenColor
+<i>232</i>&nbsp;     */
+<i>233</i>&nbsp;    public Colour getChosenColor() {
+<b class="nc"><i>234</i>&nbsp;        return chosenColor;</b>
+<i>235</i>&nbsp;    }
+<i>236</i>&nbsp;
+<i>237</i>&nbsp;    /**
+<i>238</i>&nbsp;     * sets the value of the property chosenColor
+<i>239</i>&nbsp;     *
+<i>240</i>&nbsp;     * @param cColor value of chosenColor
+<i>241</i>&nbsp;     */
+<i>242</i>&nbsp;    public void setChosenColor(Colour cColor) {
+<b class="nc"><i>243</i>&nbsp;        chosenColor = cColor;</b>
+<i>244</i>&nbsp;    }
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;    /**
+<i>247</i>&nbsp;     * returns the value of the property playerUsername
+<i>248</i>&nbsp;     *
+<i>249</i>&nbsp;     * @return value of playerUsername
+<i>250</i>&nbsp;     */
+<i>251</i>&nbsp;    public String getPlayerUsername() {
+<b class="nc"><i>252</i>&nbsp;        return playerUsername;</b>
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    /**
+<i>256</i>&nbsp;     * sets the value of the property playerUsername
+<i>257</i>&nbsp;     *
+<i>258</i>&nbsp;     * @param uName value of playerUsername
+<i>259</i>&nbsp;     */
+<i>260</i>&nbsp;    public void setPlayerUsername(String uName) {
+<b class="nc"><i>261</i>&nbsp;        playerUsername = uName;</b>
+<i>262</i>&nbsp;    }
+<i>263</i>&nbsp;
+<i>264</i>&nbsp;    /**
+<i>265</i>&nbsp;     * returns the value of the property threePlayers
+<i>266</i>&nbsp;     *
+<i>267</i>&nbsp;     * @return value of threePlayers
+<i>268</i>&nbsp;     */
+<i>269</i>&nbsp;    public boolean getThreePlayers() {
+<b class="nc"><i>270</i>&nbsp;        return threePlayers;</b>
+<i>271</i>&nbsp;    }
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;    /**
+<i>274</i>&nbsp;     * sets the value of the property threePlayers
+<i>275</i>&nbsp;     *
+<i>276</i>&nbsp;     * @param threeP value of threePlayers
+<i>277</i>&nbsp;     */
+<i>278</i>&nbsp;    public void setThreePlayers(boolean threeP) {
+<b class="nc"><i>279</i>&nbsp;        threePlayers = threeP;</b>
+<i>280</i>&nbsp;    }
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * function that gets called when a username taken signal is received from the server
+<i>284</i>&nbsp;     *
+<i>285</i>&nbsp;     * @param response the server error response
+<i>286</i>&nbsp;     */
+<i>287</i>&nbsp;    @Override
+<i>288</i>&nbsp;    public synchronized void receiveUsernameTaken(String response) {
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;        Platform.runLater(</b>
+<i>291</i>&nbsp;                () -&gt; {
+<b class="nc"><i>292</i>&nbsp;                    currentPage.showAlert();</b>
+<i>293</i>&nbsp;                }
+<i>294</i>&nbsp;        );
+<b class="nc"><i>295</i>&nbsp;        System.out.println(response);</b>
+<i>296</i>&nbsp;    }
+<i>297</i>&nbsp;
+<i>298</i>&nbsp;    /**
+<i>299</i>&nbsp;     * function that gets called when a new player signal is received from the server
+<i>300</i>&nbsp;     *
+<i>301</i>&nbsp;     * @param player the player who joined the game
+<i>302</i>&nbsp;     */
+<i>303</i>&nbsp;    @Override
+<i>304</i>&nbsp;    public synchronized void receiveNewPlayerConnected(Player player, String gameID) {
+<b class="nc"><i>305</i>&nbsp;        System.out.println(&quot;Received Response From Server,Going to Lobby Page&quot;);</b>
+<b class="nc"><i>306</i>&nbsp;        game.getPlayers().addPlayer(player);</b>
+<b class="nc"><i>307</i>&nbsp;        game.setCodGame(gameID);</b>
+<i>308</i>&nbsp;
+<b class="nc"><i>309</i>&nbsp;        ModelUpdaterThread modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates</b>
+<b class="nc"><i>310</i>&nbsp;        Thread modelUpdaterThread = new Thread(modelUpdater);</b>
+<i>311</i>&nbsp;
+<b class="nc"><i>312</i>&nbsp;        modelUpdater.setModelCheck(true);</b>
+<b class="nc"><i>313</i>&nbsp;        modelUpdaterThread.start();</b>
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;        try {
+<b class="nc"><i>316</i>&nbsp;            setCurrentPage(new LobbyPage(), null);</b>
+<b class="nc"><i>317</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>318</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>319</i>&nbsp;        }</b>
+<i>320</i>&nbsp;
+<b class="nc"><i>321</i>&nbsp;        notifyAll();</b>
+<i>322</i>&nbsp;    }
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    /**
+<i>326</i>&nbsp;     * function that gets called when a divinities signal is received from the server
+<i>327</i>&nbsp;     *
+<i>328</i>&nbsp;     * @param divinities the list of all divinities in the game
+<i>329</i>&nbsp;     */
+<i>330</i>&nbsp;    @Override
+<i>331</i>&nbsp;    public synchronized void receiveDivinities(String divinities) throws IOException {
+<i>332</i>&nbsp;
+<b class="nc"><i>333</i>&nbsp;        if (game.getInGameDivinities().size() == 1) {</b>
+<i>334</i>&nbsp;            try {
+<b class="nc"><i>335</i>&nbsp;                setCurrentPage(new WaitingColorPage(), null);</b>
+<b class="nc"><i>336</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>337</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>338</i>&nbsp;            }</b>
+<i>339</i>&nbsp;        } else {
+<i>340</i>&nbsp;            try {
+<b class="nc"><i>341</i>&nbsp;                setCurrentPage(new WaitingSingleDivinityChoicePage(), null);</b>
+<b class="nc"><i>342</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>343</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>344</i>&nbsp;            }</b>
+<i>345</i>&nbsp;        }
+<i>346</i>&nbsp;
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;        notifyAll();</b>
+<i>349</i>&nbsp;    }
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;    /**
+<i>352</i>&nbsp;     * function that gets called when a possible divinities signal is received from the server
+<i>353</i>&nbsp;     */
+<i>354</i>&nbsp;    @Override
+<i>355</i>&nbsp;    public synchronized void receivePossibleDivinities(String response) throws IOException {
+<i>356</i>&nbsp;        try {
+<b class="nc"><i>357</i>&nbsp;            setCurrentPage(new WaitingDivinitiesChoicePage(), null);</b>
+<b class="nc"><i>358</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>359</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>360</i>&nbsp;        }</b>
+<b class="nc"><i>361</i>&nbsp;        notifyAll();</b>
+<i>362</i>&nbsp;    }
+<i>363</i>&nbsp;
+<i>364</i>&nbsp;    /**
+<i>365</i>&nbsp;     * function that gets called when an pawn signal is received from the server
+<i>366</i>&nbsp;     */
+<i>367</i>&nbsp;    public synchronized void receivePawn(String pawn) {
+<b class="nc"><i>368</i>&nbsp;        if (pawn.equals(&quot;You Lost&quot;)) {</b>
+<b class="nc"><i>369</i>&nbsp;            System.out.println(&quot;You don&#39;t have any possible move!&quot;);</b>
+<i>370</i>&nbsp;            //currentPage = Pages.LOADINGMOVE;
+<b class="nc"><i>371</i>&nbsp;        } else if (pawn.equals(&quot;This pawn doesn&#39;t have any possible moves,choosing the other one&quot;)) {</b>
+<b class="nc"><i>372</i>&nbsp;            System.out.println(pawn + &quot;\n&quot;);</b>
+<i>373</i>&nbsp;        }
+<b class="nc"><i>374</i>&nbsp;        notifyAll();</b>
+<i>375</i>&nbsp;    }
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;    @Override
+<i>378</i>&nbsp;    public void receiveStartingPosition(String position) {
+<i>379</i>&nbsp;        //notifyAll();
+<i>380</i>&nbsp;    }
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    /**
+<i>383</i>&nbsp;     * function that gets called when an canComeUp signal is received from the server
+<i>384</i>&nbsp;     */
+<i>385</i>&nbsp;    public synchronized void receiveCanComeUp(String canComeUp) {
+<i>386</i>&nbsp;        //currentPage = Pages.GAME;
+<b class="nc"><i>387</i>&nbsp;        notifyAll();</b>
+<i>388</i>&nbsp;    }
+<i>389</i>&nbsp;
+<i>390</i>&nbsp;    /**
+<i>391</i>&nbsp;     * function that gets called when an new move signal is received from the server
+<i>392</i>&nbsp;     */
+<i>393</i>&nbsp;    public synchronized void receiveMoves(String moves) {
+<b class="nc"><i>394</i>&nbsp;        notifyAll();</b>
+<i>395</i>&nbsp;    }
+<i>396</i>&nbsp;
+<i>397</i>&nbsp;    /**
+<i>398</i>&nbsp;     * function that gets called when an end game signal is received from the server
+<i>399</i>&nbsp;     */
+<i>400</i>&nbsp;    @Override
+<i>401</i>&nbsp;    public synchronized void receiveEndGame(String endGame) {
+<b class="nc"><i>402</i>&nbsp;        notifyAll();</b>
+<i>403</i>&nbsp;    }
+<i>404</i>&nbsp;
+<i>405</i>&nbsp;    /**
+<i>406</i>&nbsp;     * function that gets called when an update model signal is received from the server
+<i>407</i>&nbsp;     *
+<i>408</i>&nbsp;     * @param g update value of game
+<i>409</i>&nbsp;     */
+<i>410</i>&nbsp;    @Override
+<i>411</i>&nbsp;    public synchronized void receiveModelUpdate(Game g) throws IOException {
+<i>412</i>&nbsp;        //System.out.println(&quot;Received Model Update&quot;);
+<b class="nc"><i>413</i>&nbsp;        game = g;</b>
+<i>414</i>&nbsp;
+<b class="nc"><i>415</i>&nbsp;        if (game.getDisconnected() &amp;&amp; !disconnected &amp;&amp; !currentPage.getPageName().equals(&quot;Ending&quot;)) {</b>
+<b class="nc"><i>416</i>&nbsp;            disconnected = true;</b>
+<b class="nc"><i>417</i>&nbsp;            Platform.runLater(</b>
+<i>418</i>&nbsp;                    () -&gt; {
+<b class="nc"><i>419</i>&nbsp;                        currentPage.showDisconnected();</b>
+<i>420</i>&nbsp;                    }
+<i>421</i>&nbsp;            );
+<i>422</i>&nbsp;        }
+<i>423</i>&nbsp;
+<i>424</i>&nbsp;
+<i>425</i>&nbsp;        try {
+<b class="nc"><i>426</i>&nbsp;            currentPage.setGame(g);</b>
+<i>427</i>&nbsp;
+<b class="nc"><i>428</i>&nbsp;            switch (currentPage.getPageName()) {</b>
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;                case &quot;WaitingDivinitiesChoice&quot;:
+<b class="nc"><i>431</i>&nbsp;                    if (game.getCurrentPlayer().getUsername().equals(playerUsername) &amp;&amp; game.getInGameDivinities().size() == 0) {</b>
+<b class="nc"><i>432</i>&nbsp;                        System.out.println(&quot;Going to Divinities Page&quot;);</b>
+<i>433</i>&nbsp;                        try {
+<b class="nc"><i>434</i>&nbsp;                            setCurrentPage(new DivinitiesChoicePage(), null);</b>
+<b class="nc"><i>435</i>&nbsp;                        } catch (InterruptedException e) {</b>
+<b class="nc"><i>436</i>&nbsp;                            e.printStackTrace();</b>
+<b class="nc"><i>437</i>&nbsp;                        }</b>
+<b class="nc"><i>438</i>&nbsp;                    } else if (game.getInGameDivinities().size() &gt; 0) {</b>
+<i>439</i>&nbsp;                        try {
+<b class="nc"><i>440</i>&nbsp;                            setCurrentPage(new WaitingSingleDivinityChoicePage(), null);</b>
+<b class="nc"><i>441</i>&nbsp;                        } catch (InterruptedException e) {</b>
+<b class="nc"><i>442</i>&nbsp;                            e.printStackTrace();</b>
+<b class="nc"><i>443</i>&nbsp;                        }</b>
+<i>444</i>&nbsp;                    }
+<i>445</i>&nbsp;
+<i>446</i>&nbsp;                    break;
+<i>447</i>&nbsp;                case &quot;DivinitiesChoice&quot;:
+<b class="nc"><i>448</i>&nbsp;                    if (game.getInGameDivinities().size() &gt; 0) {</b>
+<i>449</i>&nbsp;                        try {
+<b class="nc"><i>450</i>&nbsp;                            setCurrentPage(new WaitingSingleDivinityChoicePage(), null);</b>
+<b class="nc"><i>451</i>&nbsp;                        } catch (InterruptedException e) {</b>
+<b class="nc"><i>452</i>&nbsp;                            e.printStackTrace();</b>
+<b class="nc"><i>453</i>&nbsp;                        }</b>
+<i>454</i>&nbsp;                    }
+<i>455</i>&nbsp;                    break;
+<i>456</i>&nbsp;                case &quot;WaitingSingleDivinityChoice&quot;:
+<b class="nc"><i>457</i>&nbsp;                    if (game.getInGameDivinities().size() == 0) {</b>
+<i>458</i>&nbsp;                        try {
+<b class="nc"><i>459</i>&nbsp;                            setCurrentPage(new WaitingColorPage(), null);</b>
+<b class="nc"><i>460</i>&nbsp;                        } catch (InterruptedException e) {</b>
+<b class="nc"><i>461</i>&nbsp;                            e.printStackTrace();</b>
+<b class="nc"><i>462</i>&nbsp;                        }</b>
+<b class="nc"><i>463</i>&nbsp;                    } else if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<i>464</i>&nbsp;                        try {
+<b class="nc"><i>465</i>&nbsp;                            setCurrentPage(new SingleDivinityChoicePage(), null);</b>
+<b class="nc"><i>466</i>&nbsp;                        } catch (InterruptedException e) {</b>
+<b class="nc"><i>467</i>&nbsp;                            e.printStackTrace();</b>
+<b class="nc"><i>468</i>&nbsp;                        }</b>
+<i>469</i>&nbsp;                    }
+<i>470</i>&nbsp;                    break;
+<i>471</i>&nbsp;                case &quot;WaitingColor&quot;:
+<b class="nc"><i>472</i>&nbsp;                    if (game.getAlreadyChosenColors().size() &lt; game.getPlayers().size()) {</b>
+<b class="nc"><i>473</i>&nbsp;                        if (game.getCurrentPlayer().getUsername().equals(playerUsername)) {</b>
+<i>474</i>&nbsp;                            try {
+<b class="nc"><i>475</i>&nbsp;                                setCurrentPage(new ColorPage(), null);</b>
+<b class="nc"><i>476</i>&nbsp;                            } catch (InterruptedException e) {</b>
+<b class="nc"><i>477</i>&nbsp;                                e.printStackTrace();</b>
+<b class="nc"><i>478</i>&nbsp;                            }</b>
+<i>479</i>&nbsp;                        }
+<i>480</i>&nbsp;                        break;
+<i>481</i>&nbsp;                    }
+<i>482</i>&nbsp;            }
+<b class="nc"><i>483</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>484</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>485</i>&nbsp;        }</b>
+<i>486</i>&nbsp;    }
+<i>487</i>&nbsp;
+<i>488</i>&nbsp;
+<i>489</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-25 11:28</div>
+</div>
+</body>
+</html>

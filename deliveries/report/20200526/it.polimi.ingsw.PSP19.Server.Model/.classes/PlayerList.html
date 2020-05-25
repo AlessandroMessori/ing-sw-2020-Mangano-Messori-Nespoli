@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PlayerList</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Server.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PlayerList (it.polimi.ingsw.PSP19.Server.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerList</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (34/ 34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Server.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;public class PlayerList {
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;    private ArrayList&lt;Player&gt; players;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    /**
+<i>10</i>&nbsp;     * @return size;
+<i>11</i>&nbsp;     */
+<i>12</i>&nbsp;    public int size() {
+<b class="fc"><i>13</i>&nbsp;        return players.size();</b>
+<i>14</i>&nbsp;    }
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * adds a new player to the list,throws exception if player is already present
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param player the player to add;
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    public void addPlayer(Player player) throws IllegalArgumentException {
+<i>22</i>&nbsp;
+<b class="fc"><i>23</i>&nbsp;        for (Player pl : players) {</b>
+<b class="fc"><i>24</i>&nbsp;            if (player.getUsername().equals(pl.getUsername()) ||</b>
+<b class="fc"><i>25</i>&nbsp;                    (player.getDivinity() == pl.getDivinity() &amp;&amp; pl.getDivinity() != null) ||</b>
+<b class="fc"><i>26</i>&nbsp;                    player.getColour() == pl.getColour() &amp;&amp; pl.getColour() != null) {</b>
+<b class="fc"><i>27</i>&nbsp;                throw new IllegalArgumentException();</b>
+<i>28</i>&nbsp;            }
+<b class="fc"><i>29</i>&nbsp;        }</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        players.add(player);</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * returns player at position i,throws IndexOutOfBoundsException if is greater than list size
+<i>36</i>&nbsp;     *
+<i>37</i>&nbsp;     * @param i index of the player
+<i>38</i>&nbsp;     * @return player at position i
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public Player getPlayer(int i) throws IllegalArgumentException {
+<b class="fc"><i>41</i>&nbsp;        if (i &gt; size() - 1) {</b>
+<b class="fc"><i>42</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>43</i>&nbsp;        }
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;        return players.get(i);</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * returns random player from the list
+<i>50</i>&nbsp;     *
+<i>51</i>&nbsp;     * @return random player
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public Player getRandomPlayer() {
+<b class="fc"><i>54</i>&nbsp;        int randomNumber = (int) (Math.random() * size());</b>
+<i>55</i>&nbsp;
+<b class="fc"><i>56</i>&nbsp;        return players.get(randomNumber);</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * searches for a player in the list
+<i>61</i>&nbsp;     *
+<i>62</i>&nbsp;     * @param uName the username of the player to search
+<i>63</i>&nbsp;     * @return index of the found player in the list,returns -1 if the player isn&#39;t found
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    public int searchPlayerByUsername(String uName) {
+<b class="fc"><i>66</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>67</i>&nbsp;        for (Player pl : players) {</b>
+<b class="fc"><i>68</i>&nbsp;            if (pl.getUsername().equals(uName)) {</b>
+<b class="fc"><i>69</i>&nbsp;                return i;</b>
+<i>70</i>&nbsp;            }
+<b class="fc"><i>71</i>&nbsp;            i++;</b>
+<b class="fc"><i>72</i>&nbsp;        }</b>
+<i>73</i>&nbsp;
+<b class="fc"><i>74</i>&nbsp;        return -1;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * deletes a player,throws exception if the player isn&#39;t in the list
+<i>79</i>&nbsp;     *
+<i>80</i>&nbsp;     * @param player the player to delete;
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public void deletePlayer(Player player) throws IllegalArgumentException {
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        Player playerToDelete;
+<b class="fc"><i>85</i>&nbsp;        playerToDelete = null;</b>
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;        for (Player pl : players) {</b>
+<b class="fc"><i>88</i>&nbsp;            if (player.getUsername().equals(pl.getUsername())) {</b>
+<b class="fc"><i>89</i>&nbsp;                playerToDelete = pl;</b>
+<i>90</i>&nbsp;            }
+<b class="fc"><i>91</i>&nbsp;        }</b>
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;        if (playerToDelete == null) {</b>
+<b class="fc"><i>94</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>95</i>&nbsp;        } else {
+<b class="fc"><i>96</i>&nbsp;            players.remove(playerToDelete);</b>
+<i>97</i>&nbsp;        }
+<i>98</i>&nbsp;
+<b class="fc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    @Override
+<i>102</i>&nbsp;    public String toString() {
+<b class="fc"><i>103</i>&nbsp;        return players.toString();</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /**
+<i>107</i>&nbsp;     * constructor
+<i>108</i>&nbsp;     */
+<b class="fc"><i>109</i>&nbsp;    public PlayerList() {</b>
+<b class="fc"><i>110</i>&nbsp;        players = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-25 11:28</div>
+</div>
+</body>
+</html>
