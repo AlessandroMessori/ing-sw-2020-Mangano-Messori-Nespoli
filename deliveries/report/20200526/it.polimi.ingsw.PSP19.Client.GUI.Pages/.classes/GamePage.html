@@ -1,0 +1,714 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GamePage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.GUI.Pages</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GamePage (it.polimi.ingsw.PSP19.Client.GUI.Pages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GamePage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 246)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.GUI.Pages;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Commands;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP19.Client.GUI.RequestHandler;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.GuiHelper;
+<i>8</i>&nbsp;import javafx.fxml.FXML;
+<i>9</i>&nbsp;import javafx.fxml.Initializable;
+<i>10</i>&nbsp;import javafx.scene.image.Image;
+<i>11</i>&nbsp;import javafx.scene.image.ImageView;
+<i>12</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>13</i>&nbsp;import javafx.scene.text.Text;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.io.IOException;
+<i>16</i>&nbsp;import java.net.URL;
+<i>17</i>&nbsp;import java.util.Objects;
+<i>18</i>&nbsp;import java.util.ResourceBundle;
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;public class GamePage extends Page implements Initializable {</b>
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;    private final ClientController clientController = new ClientController();</b>
+<b class="nc"><i>23</i>&nbsp;    private boolean startingPosition = true;</b>
+<b class="nc"><i>24</i>&nbsp;    private boolean alreadySelectedPawn = false;</b>
+<b class="nc"><i>25</i>&nbsp;    private boolean alreadySelectedCanComeUp = true;</b>
+<b class="nc"><i>26</i>&nbsp;    private boolean gridActive = true;</b>
+<b class="nc"><i>27</i>&nbsp;    private boolean localChanges = false;</b>
+<b class="nc"><i>28</i>&nbsp;    private boolean powerSwitch = false;</b>
+<b class="nc"><i>29</i>&nbsp;    int pawnCounter = 0;</b>
+<b class="nc"><i>30</i>&nbsp;    int chosenPawnID = -1;</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    private ImageView playerDivImage;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @FXML
+<i>36</i>&nbsp;    private ImageView playerPowerImage;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    private Text playerUsernameText;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    private ImageView playerTurn;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    private ImageView opponentDivImage;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    @FXML
+<i>48</i>&nbsp;    private ImageView opponentPowerImage;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    private Text opponentUsernameText;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @FXML
+<i>54</i>&nbsp;    private Text opponent1UsernameText;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @FXML
+<i>57</i>&nbsp;    private Text opponent2UsernameText;
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    @FXML
+<i>60</i>&nbsp;    private ImageView opponent1DivImage;
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    @FXML
+<i>63</i>&nbsp;    private ImageView opponent2DivImage;
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @FXML
+<i>66</i>&nbsp;    private ImageView opponentTurn;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @FXML
+<i>69</i>&nbsp;    private ImageView opponent1Turn;
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    @FXML
+<i>72</i>&nbsp;    private ImageView opponent2Turn;
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    @FXML
+<i>75</i>&nbsp;    private GridPane gameGrid;
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    @FXML
+<i>78</i>&nbsp;    private Text turnText;
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @FXML
+<i>81</i>&nbsp;    private Text actionText;
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    @FXML
+<i>84</i>&nbsp;    private ImageView twoPlayersPanel;
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @FXML
+<i>87</i>&nbsp;    private ImageView threePlayersPanel;
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    @FXML
+<i>90</i>&nbsp;    private ImageView extraBtn;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    @FXML
+<i>93</i>&nbsp;    private ImageView confirmBtn;
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @FXML
+<i>96</i>&nbsp;    private ImageView yourTurnBanner;
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public String getPageName() {
+<b class="nc"><i>100</i>&nbsp;        return &quot;Game&quot;;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public void setGame(Game g) throws IOException, InterruptedException {
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;        if (game == null || (!localChanges)) {</b>
+<i>106</i>&nbsp;            // start of a new turn,updating the GUI
+<b class="nc"><i>107</i>&nbsp;            newTurnGUIUpdate(g);</b>
+<i>108</i>&nbsp;        }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;        //opponent moves data updates
+<b class="nc"><i>111</i>&nbsp;        if (game != null &amp;&amp; g != null &amp;&amp; turnText != null) {</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;            //if the game has ended,go to Ending Page
+<b class="nc"><i>114</i>&nbsp;            if (game.getWinner() != null) {</b>
+<b class="nc"><i>115</i>&nbsp;                client.setCurrentPage(new EndingPage(), null);</b>
+<i>116</i>&nbsp;            }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;            // boolean to decide whether it&#39;s the client&#39;s turn to move
+<b class="nc"><i>119</i>&nbsp;            gridActive = g.getCurrentPlayer() != null &amp;&amp; client != null &amp;&amp; g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;            //updates the GUI based on the opponent moves
+<b class="nc"><i>122</i>&nbsp;            opponentMoveGUIUpdate(g);</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;            //defines the behaviour of the Extra Button
+<b class="nc"><i>125</i>&nbsp;            setExtraBtnAction();</b>
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;            //defines the behaviour of the Grid
+<b class="nc"><i>128</i>&nbsp;            setGridActions();</b>
+<i>129</i>&nbsp;        }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Returns the ImageView of the specified Cell
+<i>136</i>&nbsp;     * @param x x coordinate of the ImageView
+<i>137</i>&nbsp;     * @param y y coordinate of the ImageView
+<i>138</i>&nbsp;     * @param pawn if true returns Pawn ImageView,if false returns Tower ImageView
+<i>139</i>&nbsp;     *
+<i>140</i>&nbsp;     * @return ImageView  of the cell at coordinates x,y
+<i>141</i>&nbsp;     */
+<i>142</i>&nbsp;    private ImageView getGameGridCell(int x, int y, boolean pawn) {
+<b class="nc"><i>143</i>&nbsp;        int offset = pawn ? 50 : 0;</b>
+<b class="nc"><i>144</i>&nbsp;        return (ImageView) gameGrid.getChildren().get(offset + x * 5 + y);</b>
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    /**
+<i>148</i>&nbsp;     * Returns the Action ImageView of the specified Cell
+<i>149</i>&nbsp;     * @param x x coordinate of the ImageView
+<i>150</i>&nbsp;     * @param y y coordinate of the ImageView
+<i>151</i>&nbsp;     *
+<i>152</i>&nbsp;     * @return ImageView of the Action of the cell at coordinates x,y
+<i>153</i>&nbsp;     */
+<i>154</i>&nbsp;    private ImageView getActionGridImage(int x, int y) {
+<b class="nc"><i>155</i>&nbsp;        return (ImageView) gameGrid.getChildren().get(25 + x * 5 + y);</b>
+<i>156</i>&nbsp;    }
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    /**
+<i>159</i>&nbsp;     * Returns the Button of the specified Cell
+<i>160</i>&nbsp;     * @param x x coordinate of the Button
+<i>161</i>&nbsp;     * @param y y coordinate of the Button
+<i>162</i>&nbsp;     *
+<i>163</i>&nbsp;     * @return Button of the cell at coordinates x,y
+<i>164</i>&nbsp;     */
+<i>165</i>&nbsp;    private ImageView getGameGridButton(int x, int y) {
+<b class="nc"><i>166</i>&nbsp;        return (ImageView) gameGrid.getChildren().get(75 + x * 5 + y);</b>
+<i>167</i>&nbsp;    }
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;    /**
+<i>170</i>&nbsp;     * Updates the GUI when a new turn starts
+<i>171</i>&nbsp;     * @param g the update game data from the model
+<i>172</i>&nbsp;     */
+<i>173</i>&nbsp;    private void newTurnGUIUpdate(Game g) {
+<i>174</i>&nbsp;        //start of new turn
+<b class="nc"><i>175</i>&nbsp;        if (game != null &amp;&amp; game.getNTurns() != g.getNTurns()) {</b>
+<b class="nc"><i>176</i>&nbsp;            chosenPawnID = -1;</b>
+<b class="nc"><i>177</i>&nbsp;            alreadySelectedPawn = false;</b>
+<i>178</i>&nbsp;
+<b class="nc"><i>179</i>&nbsp;            if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) &amp;&amp; g.getNTurns() &gt; 0) {</b>
+<b class="nc"><i>180</i>&nbsp;                yourTurnBanner.setImage(new Image(&quot;/Images/Game/your_turn.png&quot;));</b>
+<b class="nc"><i>181</i>&nbsp;                yourTurnBanner.setDisable(false);</b>
+<i>182</i>&nbsp;
+<b class="nc"><i>183</i>&nbsp;                alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);</b>
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;                try {
+<b class="nc"><i>186</i>&nbsp;                    Thread.sleep(1500);</b>
+<b class="nc"><i>187</i>&nbsp;                    yourTurnBanner.setImage(null);</b>
+<b class="nc"><i>188</i>&nbsp;                    yourTurnBanner.setDisable(true);</b>
+<b class="nc"><i>189</i>&nbsp;                } catch (Exception e) {</b>
+<b class="nc"><i>190</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>191</i>&nbsp;                }</b>
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;            }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;        }
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        game = g;</b>
+<i>198</i>&nbsp;    }
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    /**
+<i>201</i>&nbsp;     * Updates the GUI when the opponent makes a new move
+<i>202</i>&nbsp;     * @param g the update game data from the model
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;    private void opponentMoveGUIUpdate(Game g) throws IOException, InterruptedException {
+<i>205</i>&nbsp;
+<b class="nc"><i>206</i>&nbsp;        if (game.getThreePlayers()) {</b>
+<b class="nc"><i>207</i>&nbsp;            if (twoPlayersPanel != null) {</b>
+<b class="nc"><i>208</i>&nbsp;                twoPlayersPanel.setImage(null);</b>
+<i>209</i>&nbsp;            }
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;        } else {
+<b class="nc"><i>212</i>&nbsp;            if (threePlayersPanel != null) {</b>
+<b class="nc"><i>213</i>&nbsp;                threePlayersPanel.setImage(null);</b>
+<i>214</i>&nbsp;            }
+<i>215</i>&nbsp;        }
+<i>216</i>&nbsp;
+<b class="nc"><i>217</i>&nbsp;        String actionTextContent = &quot;POSITION&quot;;</b>
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;        if (turnText != null) {</b>
+<b class="nc"><i>220</i>&nbsp;            turnText.setText(&quot;Turn &quot; + g.getNTurns());</b>
+<i>221</i>&nbsp;        }
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;        boolean alreadySetFirstOpponentImage = false;</b>
+<i>224</i>&nbsp;
+<b class="nc"><i>225</i>&nbsp;        if (gridActive &amp;&amp; game.getCurrentPlayer().getColour() != null) {</b>
+<b class="nc"><i>226</i>&nbsp;            playerTurn.setImage(new Image(GuiHelper.getContourImagePath(game.getCurrentPlayer().getColour(), true)));</b>
+<b class="nc"><i>227</i>&nbsp;            opponentTurn.setImage(null);</b>
+<b class="nc"><i>228</i>&nbsp;            opponent1Turn.setImage(null);</b>
+<b class="nc"><i>229</i>&nbsp;            opponent2Turn.setImage(null);</b>
+<i>230</i>&nbsp;        } else {
+<b class="nc"><i>231</i>&nbsp;            playerTurn.setImage(null);</b>
+<i>232</i>&nbsp;        }
+<i>233</i>&nbsp;        //Updates the divinity images
+<b class="nc"><i>234</i>&nbsp;        for (int index = 0; index &lt; game.getPlayers().size(); index++) {</b>
+<b class="nc"><i>235</i>&nbsp;            Player pl = game.getPlayers().getPlayer(index);</b>
+<b class="nc"><i>236</i>&nbsp;            String divName = pl.getDivinity().toString().substring(0, 1) + pl.getDivinity().toString().toLowerCase().substring(1);</b>
+<i>237</i>&nbsp;
+<b class="nc"><i>238</i>&nbsp;            if (pl.getUsername().equals(client.getPlayerUsername())) {</b>
+<i>239</i>&nbsp;                //Sets The Player Image
+<b class="nc"><i>240</i>&nbsp;                playerDivImage.setImage(new Image(&quot;/Images/Game/Gods/Bigger/&quot; + divName + &quot;.png&quot;));</b>
+<b class="nc"><i>241</i>&nbsp;                playerUsernameText.setText(pl.getUsername());</b>
+<i>242</i>&nbsp;                //playerUsernameText.setTranslateX((225 - playerUsernameText.getWrappingWidth()) / 2 - 20);
+<b class="nc"><i>243</i>&nbsp;                playerPowerImage.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/&quot; + divName + &quot;_power.png&quot;));</b>
+<i>244</i>&nbsp;            } else {
+<i>245</i>&nbsp;
+<b class="nc"><i>246</i>&nbsp;                if (game.getThreePlayers()) {</b>
+<b class="nc"><i>247</i>&nbsp;                    opponentDivImage.setImage(null);</b>
+<b class="nc"><i>248</i>&nbsp;                    opponentTurn.setImage(null);</b>
+<b class="nc"><i>249</i>&nbsp;                    opponentUsernameText.setText(&quot;&quot;);</b>
+<i>250</i>&nbsp;
+<b class="nc"><i>251</i>&nbsp;                    if (alreadySetFirstOpponentImage) {</b>
+<b class="nc"><i>252</i>&nbsp;                        setDivImages(pl, divName, opponent2DivImage, opponent2UsernameText, opponent1Turn, opponent2Turn);</b>
+<i>253</i>&nbsp;
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;                    } else {
+<b class="nc"><i>256</i>&nbsp;                        setDivImages(pl, divName, opponent1DivImage, opponent1UsernameText, opponent2Turn, opponent1Turn);</b>
+<b class="nc"><i>257</i>&nbsp;                        alreadySetFirstOpponentImage = true;</b>
+<i>258</i>&nbsp;                    }
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;                } else {
+<i>261</i>&nbsp;
+<b class="nc"><i>262</i>&nbsp;                    opponent1DivImage.setImage(null);</b>
+<b class="nc"><i>263</i>&nbsp;                    opponent2DivImage.setImage(null);</b>
+<b class="nc"><i>264</i>&nbsp;                    opponent1UsernameText.setText(&quot;&quot;);</b>
+<b class="nc"><i>265</i>&nbsp;                    opponent2UsernameText.setText(&quot;&quot;);</b>
+<i>266</i>&nbsp;
+<b class="nc"><i>267</i>&nbsp;                    if (!gridActive &amp;&amp; game.getCurrentPlayer().getColour() != null) {</b>
+<b class="nc"><i>268</i>&nbsp;                        opponent1Turn.setImage(null);</b>
+<b class="nc"><i>269</i>&nbsp;                        opponent2Turn.setImage(null);</b>
+<b class="nc"><i>270</i>&nbsp;                        opponentTurn.setImage(new Image(GuiHelper.getContourImagePath(game.getCurrentPlayer().getColour(), true)));</b>
+<i>271</i>&nbsp;                    }
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;                    // Sets Opponent Image for a 2 Players Game
+<b class="nc"><i>274</i>&nbsp;                    opponentDivImage.setImage(new Image(&quot;/Images/Game/Gods/Bigger/&quot; + divName + &quot;.png&quot;));</b>
+<b class="nc"><i>275</i>&nbsp;                    opponentUsernameText.setText(pl.getUsername());</b>
+<i>276</i>&nbsp;                    //opponentUsernameText.setTranslateX((225 - opponentUsernameText.getWrappingWidth()) / 2 - 20);
+<b class="nc"><i>277</i>&nbsp;                    opponentPowerImage.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/&quot; + divName + &quot;_power.png&quot;));</b>
+<i>278</i>&nbsp;                }
+<i>279</i>&nbsp;
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;            }
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;        }
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;
+<b class="nc"><i>286</i>&nbsp;        if (pawnCounter == 2) {</b>
+<b class="nc"><i>287</i>&nbsp;            actionTextContent = getCurrentActionText();</b>
+<i>288</i>&nbsp;        }
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;        actionText.setText(actionTextContent);</b>
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;    }
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;    /**
+<i>295</i>&nbsp;     * Sets the event handler for the extra button  in this turn
+<i>296</i>&nbsp;     */
+<i>297</i>&nbsp;    private void setExtraBtnAction() {
+<i>298</i>&nbsp;
+<b class="nc"><i>299</i>&nbsp;        if (!startingPosition &amp;&amp; game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS &amp;&amp; !alreadySelectedCanComeUp) {</b>
+<b class="nc"><i>300</i>&nbsp;            String imagePath = powerSwitch ? &quot;_on&quot; : &quot;&quot;;</b>
+<b class="nc"><i>301</i>&nbsp;            extraBtn.setDisable(false);</b>
+<b class="nc"><i>302</i>&nbsp;            extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove&quot; + imagePath + &quot;.png&quot;));</b>
+<b class="nc"><i>303</i>&nbsp;            confirmBtn.setDisable(false);</b>
+<b class="nc"><i>304</i>&nbsp;            confirmBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/confirm.png&quot;));</b>
+<i>305</i>&nbsp;
+<b class="nc"><i>306</i>&nbsp;            extraBtn.setOnMouseClicked(e -&gt; {</b>
+<b class="nc"><i>307</i>&nbsp;                powerSwitch = !powerSwitch;</b>
+<b class="nc"><i>308</i>&nbsp;                final String finalImagePath = powerSwitch ? &quot;_on&quot; : &quot;&quot;;</b>
+<b class="nc"><i>309</i>&nbsp;                extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/gp_buildbeforemove&quot; + finalImagePath + &quot;.png&quot;));</b>
+<i>310</i>&nbsp;            });
+<i>311</i>&nbsp;
+<b class="nc"><i>312</i>&nbsp;            confirmBtn.setOnMouseClicked(e -&gt; {</b>
+<b class="nc"><i>313</i>&nbsp;                gridActive = false;</b>
+<b class="nc"><i>314</i>&nbsp;                actionText.setText(&quot;LOADING&quot;);</b>
+<b class="nc"><i>315</i>&nbsp;                alreadySelectedCanComeUp = true;</b>
+<b class="nc"><i>316</i>&nbsp;                String message = messageSerializer.serializeDecideCanComeUp(!powerSwitch, game.getCodGame()).toString();</b>
+<b class="nc"><i>317</i>&nbsp;                RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DECIDES_TO_COME_UP, message);</b>
+<i>318</i>&nbsp;            });
+<i>319</i>&nbsp;
+<b class="nc"><i>320</i>&nbsp;            confirmBtn.setOnMousePressed(e -&gt; confirmBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/confirm_pressed.png&quot;)));</b>
+<i>321</i>&nbsp;
+<b class="nc"><i>322</i>&nbsp;            confirmBtn.setOnMouseReleased(e -&gt; confirmBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/confirm.png&quot;)));</b>
+<b class="nc"><i>323</i>&nbsp;        } else if (gridActive &amp;&amp; game.getCurrentPlayer().getDivinity() == Divinity.ATLAS &amp;&amp; game.getNextMoves() != null &amp;&amp; game.getNextMoves().size() &gt; 0 &amp;&amp; !game.getNextMoves().getMove(0).getIfMove()) {</b>
+<b class="nc"><i>324</i>&nbsp;            String imagePath = powerSwitch ? &quot;_on&quot; : &quot;&quot;;</b>
+<b class="nc"><i>325</i>&nbsp;            extraBtn.setDisable(false);</b>
+<b class="nc"><i>326</i>&nbsp;            extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/gp_builddome&quot; + imagePath + &quot;.png&quot;));</b>
+<i>327</i>&nbsp;
+<b class="nc"><i>328</i>&nbsp;            extraBtn.setOnMouseClicked(e -&gt; {</b>
+<b class="nc"><i>329</i>&nbsp;                powerSwitch = !powerSwitch;</b>
+<b class="nc"><i>330</i>&nbsp;                final String finalImagePath = powerSwitch ? &quot;_on&quot; : &quot;&quot;;</b>
+<b class="nc"><i>331</i>&nbsp;                extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/gp_builddome&quot; + finalImagePath + &quot;.png&quot;));</b>
+<i>332</i>&nbsp;            });
+<i>333</i>&nbsp;
+<b class="nc"><i>334</i>&nbsp;        } else if (gridActive &amp;&amp; game.getNextMoves() != null &amp;&amp; game.getNextMoves().size() &gt; 0 &amp;&amp; game.getNextMoves().getMove(game.getNextMoves().size() - 1).getX() == 6) {</b>
+<b class="nc"><i>335</i>&nbsp;            extraBtn.setDisable(false);</b>
+<b class="nc"><i>336</i>&nbsp;            extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/skip.png&quot;));</b>
+<i>337</i>&nbsp;
+<b class="nc"><i>338</i>&nbsp;            extraBtn.setOnMouseClicked(e -&gt; skipMove());</b>
+<i>339</i>&nbsp;
+<b class="nc"><i>340</i>&nbsp;            extraBtn.setOnMousePressed(e -&gt; extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/skip_pressed.png&quot;)));</b>
+<i>341</i>&nbsp;
+<b class="nc"><i>342</i>&nbsp;            extraBtn.setOnMouseReleased(e -&gt; extraBtn.setImage(new Image(&quot;/Images/Game/Gods/Bigger/Powers/skip.png&quot;)));</b>
+<i>343</i>&nbsp;
+<i>344</i>&nbsp;        } else {
+<b class="nc"><i>345</i>&nbsp;            extraBtn.setDisable(true);</b>
+<b class="nc"><i>346</i>&nbsp;            extraBtn.setImage(null);</b>
+<b class="nc"><i>347</i>&nbsp;            confirmBtn.setDisable(true);</b>
+<b class="nc"><i>348</i>&nbsp;            confirmBtn.setImage(null);</b>
+<i>349</i>&nbsp;        }
+<i>350</i>&nbsp;
+<i>351</i>&nbsp;    }
+<i>352</i>&nbsp;
+<i>353</i>&nbsp;    /**
+<i>354</i>&nbsp;     * Sets the event handler for the game grid in this turn
+<i>355</i>&nbsp;     */
+<i>356</i>&nbsp;    private void setGridActions() {
+<b class="nc"><i>357</i>&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="nc"><i>358</i>&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="nc"><i>359</i>&nbsp;                int finalI = i;</b>
+<b class="nc"><i>360</i>&nbsp;                int finalJ = j;</b>
+<b class="nc"><i>361</i>&nbsp;                ImageView currentTowerImage = getGameGridCell(i, j, false);</b>
+<b class="nc"><i>362</i>&nbsp;                ImageView currentPawnImage = getGameGridCell(i, j, true);</b>
+<b class="nc"><i>363</i>&nbsp;                ImageView currentMoveImage = getActionGridImage(i, j);</b>
+<b class="nc"><i>364</i>&nbsp;                ImageView currentButton = getGameGridButton(i, j);</b>
+<b class="nc"><i>365</i>&nbsp;                Cell currentCell = game.getNewGrid().getCells(i, j);</b>
+<i>366</i>&nbsp;
+<b class="nc"><i>367</i>&nbsp;                if (startingPosition) {</b>
+<b class="nc"><i>368</i>&nbsp;                    currentButton.setOnMouseClicked(e -&gt; onStartingPositionCellClick(currentCell, currentPawnImage, finalI, finalJ));</b>
+<i>369</i>&nbsp;                } else {
+<b class="nc"><i>370</i>&nbsp;                    currentButton.setOnMouseClicked(e -&gt; {</b>
+<i>371</i>&nbsp;                        try {
+<b class="nc"><i>372</i>&nbsp;                            onGameCellClick(currentCell, finalI, finalJ);</b>
+<b class="nc"><i>373</i>&nbsp;                        } catch (IOException ioException) {</b>
+<b class="nc"><i>374</i>&nbsp;                            ioException.printStackTrace();</b>
+<b class="nc"><i>375</i>&nbsp;                        }</b>
+<i>376</i>&nbsp;                    });
+<i>377</i>&nbsp;                }
+<i>378</i>&nbsp;
+<b class="nc"><i>379</i>&nbsp;                drawCell(currentCell, currentTowerImage, currentPawnImage, currentMoveImage, i, j);</b>
+<b class="nc"><i>380</i>&nbsp;                if (!gridActive || !alreadySelectedPawn) {</b>
+<b class="nc"><i>381</i>&nbsp;                    cleanMoveImages();</b>
+<i>382</i>&nbsp;                }
+<i>383</i>&nbsp;
+<i>384</i>&nbsp;            }
+<i>385</i>&nbsp;        }
+<i>386</i>&nbsp;    }
+<i>387</i>&nbsp;
+<i>388</i>&nbsp;    /**
+<i>389</i>&nbsp;     * Sets the Images of the Divinities ImageViews
+<i>390</i>&nbsp;     * @param pl player the divinity ImageView belongs to
+<i>391</i>&nbsp;     * @param divName divinity name
+<i>392</i>&nbsp;     * @param opponent1DivImage ImageView of the divinity of the first opponent in 3 player games
+<i>393</i>&nbsp;     * @param opponent1Turn ImageView of the turn selector of the first opponent in 3 player games
+<i>394</i>&nbsp;     * @param opponent1UsernameText Text of the first opponent in 3 player games
+<i>395</i>&nbsp;     * @param opponent2Turn  ImageView of the turn selector of the second opponent in 3 player games
+<i>396</i>&nbsp;     */
+<i>397</i>&nbsp;    private void setDivImages(Player pl, String divName, ImageView opponent1DivImage, Text opponent1UsernameText, ImageView opponent2Turn, ImageView opponent1Turn) {
+<b class="nc"><i>398</i>&nbsp;        opponent1DivImage.setImage(new Image(&quot;/Images/Game/Gods/Smaller/&quot; + divName + &quot;.png&quot;));</b>
+<b class="nc"><i>399</i>&nbsp;        opponent1UsernameText.setText(pl.getUsername());</b>
+<i>400</i>&nbsp;
+<b class="nc"><i>401</i>&nbsp;        if (!gridActive &amp;&amp; game.getCurrentPlayer().getUsername().equals(pl.getUsername()) &amp;&amp; game.getCurrentPlayer().getColour() != null) {</b>
+<b class="nc"><i>402</i>&nbsp;            opponent2Turn.setImage(null);</b>
+<b class="nc"><i>403</i>&nbsp;            opponent1Turn.setImage(new Image(GuiHelper.getContourImagePath(pl.getColour(), false)));</b>
+<i>404</i>&nbsp;        }
+<i>405</i>&nbsp;    }
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;    /**
+<i>408</i>&nbsp;     * Event handler for a click on a cell of the grid during the starting position phase
+<i>409</i>&nbsp;     * @param currentCell the model cell being clicked
+<i>410</i>&nbsp;     * @param currentPawnImage the pawn image of the cell being clicked
+<i>411</i>&nbsp;     * @param finalI x coordinate of the cell being clicked
+<i>412</i>&nbsp;     * @param finalJ y coordinate of the cell being clicked
+<i>413</i>&nbsp;     */
+<i>414</i>&nbsp;    private void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
+<i>415</i>&nbsp;
+<b class="nc"><i>416</i>&nbsp;        if (currentCell.getPawn() == null &amp;&amp; gridActive) {</b>
+<b class="nc"><i>417</i>&nbsp;            Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));</b>
+<b class="nc"><i>418</i>&nbsp;            newPawn.getOwner().setColour(client.getChosenColor());</b>
+<b class="nc"><i>419</i>&nbsp;            newPawn.setId(GuiHelper.getNewPawnId(game, pawnCounter));</b>
+<b class="nc"><i>420</i>&nbsp;            currentCell.setPawn(newPawn);</b>
+<b class="nc"><i>421</i>&nbsp;            game.getNewGrid().setCells(currentCell, finalI, finalJ);</b>
+<b class="nc"><i>422</i>&nbsp;            currentPawnImage.setImage(new Image(GuiHelper.getPawnImagePath(client.getChosenColor(), newPawn.getId())));</b>
+<b class="nc"><i>423</i>&nbsp;            localChanges = true;</b>
+<b class="nc"><i>424</i>&nbsp;            pawnCounter++;</b>
+<i>425</i>&nbsp;
+<b class="nc"><i>426</i>&nbsp;            if (pawnCounter == 2) {</b>
+<b class="nc"><i>427</i>&nbsp;                gridActive = false;</b>
+<b class="nc"><i>428</i>&nbsp;                actionText.setText(&quot;LOADING&quot;);</b>
+<b class="nc"><i>429</i>&nbsp;                startingPosition = false;</b>
+<b class="nc"><i>430</i>&nbsp;                System.out.println(client.getChosenColor());</b>
+<b class="nc"><i>431</i>&nbsp;                String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), &quot;SendStartingPosition&quot;, client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();</b>
+<b class="nc"><i>432</i>&nbsp;                RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);</b>
+<b class="nc"><i>433</i>&nbsp;                localChanges = false;</b>
+<i>434</i>&nbsp;            }
+<i>435</i>&nbsp;        }
+<i>436</i>&nbsp;
+<i>437</i>&nbsp;    }
+<i>438</i>&nbsp;
+<i>439</i>&nbsp;    /**
+<i>440</i>&nbsp;     * Event handler for a click on a cell of the grid during the game
+<i>441</i>&nbsp;     * @param currentCell the model cell being clicked
+<i>442</i>&nbsp;     * @param finalI x coordinate of the cell being clicked
+<i>443</i>&nbsp;     * @param finalJ y coordinate of the cell being clicked
+<i>444</i>&nbsp;     */
+<i>445</i>&nbsp;    private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
+<i>446</i>&nbsp;
+<b class="nc"><i>447</i>&nbsp;        if (gridActive &amp;&amp; alreadySelectedCanComeUp) {</b>
+<b class="nc"><i>448</i>&nbsp;            if (alreadySelectedPawn) {</b>
+<b class="nc"><i>449</i>&nbsp;                int selectedMove = -1;</b>
+<i>450</i>&nbsp;                //coeff used to select special moves for a certain coordinate
+<b class="nc"><i>451</i>&nbsp;                boolean isAtlasBuilding = (game.getNextMoves() != null &amp;&amp; game.getNextMoves().size() &gt; 0 &amp;&amp; !game.getNextMoves().getMove(0).getIfMove() &amp;&amp; game.getCurrentPlayer().getDivinity() == Divinity.ATLAS &amp;&amp; powerSwitch);</b>
+<b class="nc"><i>452</i>&nbsp;                int cx = isAtlasBuilding ? (-1 * finalI) - 1 : finalI;</b>
+<b class="nc"><i>453</i>&nbsp;                int cy = isAtlasBuilding ? (-1 * finalJ) - 1 : finalJ;</b>
+<i>454</i>&nbsp;
+<b class="nc"><i>455</i>&nbsp;                for (int k = 0; k &lt; Objects.requireNonNull(game.getNextMoves()).size(); k++) {</b>
+<b class="nc"><i>456</i>&nbsp;                    if (game.getNextMoves().getMove(k).getX() == cx &amp;&amp; game.getNextMoves().getMove(k).getY() == cy) {</b>
+<b class="nc"><i>457</i>&nbsp;                        selectedMove = k;</b>
+<i>458</i>&nbsp;                    }
+<i>459</i>&nbsp;                }
+<i>460</i>&nbsp;
+<b class="nc"><i>461</i>&nbsp;                if (selectedMove &gt;= 0) {</b>
+<b class="nc"><i>462</i>&nbsp;                    Move nextMove = game.getNextMoves().getMove(selectedMove);</b>
+<i>463</i>&nbsp;                    //nextMove.setToMove(game.getCurrentPlayer().getCurrentPawn());
+<b class="nc"><i>464</i>&nbsp;                    gridActive = false;</b>
+<b class="nc"><i>465</i>&nbsp;                    actionText.setText(&quot;LOADING&quot;);</b>
+<b class="nc"><i>466</i>&nbsp;                    game = clientController.updateGameByMove(nextMove, game);</b>
+<i>467</i>&nbsp;
+<b class="nc"><i>468</i>&nbsp;                    for (int i = 0; i &lt; 5; i++) {</b>
+<b class="nc"><i>469</i>&nbsp;                        for (int j = 0; j &lt; 5; j++) {</b>
+<b class="nc"><i>470</i>&nbsp;                            ImageView towerImage = getGameGridCell(i, j, false);</b>
+<b class="nc"><i>471</i>&nbsp;                            ImageView pawnImage = getGameGridCell(i, j, true);</b>
+<b class="nc"><i>472</i>&nbsp;                            ImageView moveImage = getActionGridImage(i, j);</b>
+<i>473</i>&nbsp;
+<b class="nc"><i>474</i>&nbsp;                            Cell cell = game.getNewGrid().getCells(i, j);</b>
+<b class="nc"><i>475</i>&nbsp;                            drawCell(cell, towerImage, pawnImage, moveImage, i, j);</b>
+<b class="nc"><i>476</i>&nbsp;                            moveImage.setImage(null);</b>
+<i>477</i>&nbsp;                        }
+<i>478</i>&nbsp;                    }
+<i>479</i>&nbsp;
+<b class="nc"><i>480</i>&nbsp;                    if (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER &amp;&amp; game.getGameTurn().getNPossibleBuildings() == 1) {</b>
+<b class="nc"><i>481</i>&nbsp;                        Move cantBuildMove = new Move(game.getCurrentPlayer().getCurrentPawn());</b>
+<b class="nc"><i>482</i>&nbsp;                        cantBuildMove.setX(nextMove.getX());</b>
+<b class="nc"><i>483</i>&nbsp;                        cantBuildMove.setY(nextMove.getY());</b>
+<b class="nc"><i>484</i>&nbsp;                        cantBuildMove.setIfMove(false);</b>
+<b class="nc"><i>485</i>&nbsp;                        game.getGameTurn().setCantBuildOnThisBlock(cantBuildMove);</b>
+<i>486</i>&nbsp;
+<b class="nc"><i>487</i>&nbsp;                        for (int x = 0; x &lt; 5; x++) { //sending data for Demeter second building</b>
+<b class="nc"><i>488</i>&nbsp;                            for (int y = 0; y &lt; 5; y++) {</b>
+<b class="nc"><i>489</i>&nbsp;                                if (game.getNewGrid().getCells(x, y).getPawn() != null) {</b>
+<b class="nc"><i>490</i>&nbsp;                                    if (game.getCurrentPlayer().getCurrentPawn().getId() == game.getNewGrid().getCells(x, y).getPawn().getId()) {</b>
+<b class="nc"><i>491</i>&nbsp;                                        nextMove.setX(x);</b>
+<b class="nc"><i>492</i>&nbsp;                                        nextMove.setY(y);</b>
+<i>493</i>&nbsp;                                    }
+<i>494</i>&nbsp;                                }
+<i>495</i>&nbsp;                            }
+<i>496</i>&nbsp;                        }
+<i>497</i>&nbsp;
+<i>498</i>&nbsp;                    }
+<i>499</i>&nbsp;
+<i>500</i>&nbsp;
+<b class="nc"><i>501</i>&nbsp;                    String message = messageSerializer.serializeChosenMove(game, nextMove).toString();</b>
+<b class="nc"><i>502</i>&nbsp;                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);</b>
+<i>503</i>&nbsp;
+<b class="nc"><i>504</i>&nbsp;                    if (game.getWinner() != null) {</b>
+<i>505</i>&nbsp;                        try {
+<b class="nc"><i>506</i>&nbsp;                            client.setCurrentPage(new EndingPage(), null);</b>
+<b class="nc"><i>507</i>&nbsp;                        } catch (InterruptedException e) {</b>
+<b class="nc"><i>508</i>&nbsp;                            e.printStackTrace();</b>
+<b class="nc"><i>509</i>&nbsp;                        }</b>
+<i>510</i>&nbsp;                    }
+<i>511</i>&nbsp;                }
+<i>512</i>&nbsp;
+<b class="nc"><i>513</i>&nbsp;            } else {</b>
+<i>514</i>&nbsp;                // Selecting the Pawn to use in this turn
+<b class="nc"><i>515</i>&nbsp;                if (currentCell.getPawn() != null &amp;&amp; currentCell.getPawn().getOwner().getUsername().equals(client.getPlayerUsername())) {</b>
+<b class="nc"><i>516</i>&nbsp;                    gridActive = false;</b>
+<b class="nc"><i>517</i>&nbsp;                    actionText.setText(&quot;LOADING&quot;);</b>
+<b class="nc"><i>518</i>&nbsp;                    game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());</b>
+<b class="nc"><i>519</i>&nbsp;                    alreadySelectedPawn = true;</b>
+<b class="nc"><i>520</i>&nbsp;                    chosenPawnID = currentCell.getPawn().getId();</b>
+<b class="nc"><i>521</i>&nbsp;                    String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();</b>
+<b class="nc"><i>522</i>&nbsp;                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);</b>
+<i>523</i>&nbsp;                }
+<i>524</i>&nbsp;            }
+<i>525</i>&nbsp;
+<i>526</i>&nbsp;        }
+<i>527</i>&nbsp;    }
+<i>528</i>&nbsp;
+<i>529</i>&nbsp;    /**
+<i>530</i>&nbsp;     * Skip Button Click Event
+<i>531</i>&nbsp;     */
+<i>532</i>&nbsp;    private void skipMove() {
+<b class="nc"><i>533</i>&nbsp;        if (gridActive) {</b>
+<b class="nc"><i>534</i>&nbsp;            Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);</b>
+<b class="nc"><i>535</i>&nbsp;            gridActive = false;</b>
+<b class="nc"><i>536</i>&nbsp;            actionText.setText(&quot;LOADING&quot;);</b>
+<i>537</i>&nbsp;
+<b class="nc"><i>538</i>&nbsp;            String message = messageSerializer.serializeChosenMove(game, nextMove).toString();</b>
+<b class="nc"><i>539</i>&nbsp;            RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);</b>
+<i>540</i>&nbsp;        }
+<i>541</i>&nbsp;    }
+<i>542</i>&nbsp;
+<i>543</i>&nbsp;    /**
+<i>544</i>&nbsp;     * Calculates the text of the action Text
+<i>545</i>&nbsp;     *
+<i>546</i>&nbsp;     * @return text of the current move
+<i>547</i>&nbsp;     */
+<i>548</i>&nbsp;    private String getCurrentActionText() throws IOException, InterruptedException {
+<b class="nc"><i>549</i>&nbsp;        if (game.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS &amp;&amp; !alreadySelectedCanComeUp) {</b>
+<b class="nc"><i>550</i>&nbsp;            return &quot;DECIDE&quot;;</b>
+<b class="nc"><i>551</i>&nbsp;        } else if (!alreadySelectedPawn) {</b>
+<b class="nc"><i>552</i>&nbsp;            return &quot;SELECT&quot;;</b>
+<b class="nc"><i>553</i>&nbsp;        } else if (game.getNextMoves() != null &amp;&amp; game.getNextMoves().size() &gt; 0) {</b>
+<b class="nc"><i>554</i>&nbsp;            return game.getNextMoves().getMove(0).getIfMove() ? &quot;MOVE&quot; : &quot;BUILD&quot;;</b>
+<i>555</i>&nbsp;        } else {
+<b class="nc"><i>556</i>&nbsp;            assert game.getNextMoves() != null;</b>
+<b class="nc"><i>557</i>&nbsp;            if (game.getNextMoves().size() == 0) {</b>
+<b class="nc"><i>558</i>&nbsp;                client.setCurrentPage(new EndingPage(), null);</b>
+<i>559</i>&nbsp;            }
+<b class="nc"><i>560</i>&nbsp;            return null;</b>
+<i>561</i>&nbsp;        }
+<i>562</i>&nbsp;    }
+<i>563</i>&nbsp;
+<i>564</i>&nbsp;    /**
+<i>565</i>&nbsp;     * Draw a single Cell of the game board
+<i>566</i>&nbsp;     *
+<i>567</i>&nbsp;     * @param currentCell       the model cell
+<i>568</i>&nbsp;     * @param currentTowerImage ImageView of the tower of the cell
+<i>569</i>&nbsp;     * @param currentPawnImage  ImageView of the pawn of the cell
+<i>570</i>&nbsp;     * @param currentMoveImage  ImageView of the move of the cell
+<i>571</i>&nbsp;     * @param i x coordinate of the cell
+<i>572</i>&nbsp;     * @param j y coordinate of the cell
+<i>573</i>&nbsp;     */
+<i>574</i>&nbsp;    private void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
+<i>575</i>&nbsp;
+<i>576</i>&nbsp;        //draws Move
+<b class="nc"><i>577</i>&nbsp;        if (currentMoveImage != null) {</b>
+<b class="nc"><i>578</i>&nbsp;            if (game.getNextMoves() != null &amp;&amp; game.getNextMoves().size() &gt; 0) {</b>
+<b class="nc"><i>579</i>&nbsp;                for (int k = 0; k &lt; game.getNextMoves().size(); k++) {</b>
+<b class="nc"><i>580</i>&nbsp;                    if (game.getNextMoves().getMove(k).getX() == i &amp;&amp; game.getNextMoves().getMove(k).getY() == j) {</b>
+<b class="nc"><i>581</i>&nbsp;                        boolean build = !game.getNextMoves().getMove(k).getIfMove();</b>
+<b class="nc"><i>582</i>&nbsp;                        currentMoveImage.setImage(new Image(GuiHelper.getMoveImagePath(client.getChosenColor(), build)));</b>
+<i>583</i>&nbsp;                    }
+<i>584</i>&nbsp;                }
+<i>585</i>&nbsp;            }
+<i>586</i>&nbsp;        }
+<i>587</i>&nbsp;
+<i>588</i>&nbsp;        // draws Tower
+<i>589</i>&nbsp;
+<b class="nc"><i>590</i>&nbsp;        if (currentCell.getTower().getIsDome() &amp;&amp; currentCell.getTower().getLevel() != 4) {</b>
+<b class="nc"><i>591</i>&nbsp;            currentTowerImage.setImage(new Image(&quot;/Images/Game/Buildings/Dome.png&quot;));</b>
+<b class="nc"><i>592</i>&nbsp;        } else if (currentCell.getTower().getLevel() &gt; 0) {</b>
+<b class="nc"><i>593</i>&nbsp;            currentTowerImage.setImage(new Image(GuiHelper.getBuildingImagePath(currentCell.getTower().getLevel())));</b>
+<i>594</i>&nbsp;        } else {
+<b class="nc"><i>595</i>&nbsp;            currentTowerImage.setImage(null);</b>
+<i>596</i>&nbsp;        }
+<i>597</i>&nbsp;
+<i>598</i>&nbsp;        // draws Pawn
+<b class="nc"><i>599</i>&nbsp;        if (currentCell.getPawn() != null) {</b>
+<i>600</i>&nbsp;
+<i>601</i>&nbsp;            Colour currentCellPawnColour;
+<i>602</i>&nbsp;
+<b class="nc"><i>603</i>&nbsp;            if (client.getPlayerUsername().equals(currentCell.getPawn().getOwner().getUsername())) {</b>
+<b class="nc"><i>604</i>&nbsp;                currentCellPawnColour = client.getChosenColor();</b>
+<i>605</i>&nbsp;            } else {
+<b class="nc"><i>606</i>&nbsp;                currentCellPawnColour = game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(currentCell.getPawn().getOwner().getUsername())).getColour();</b>
+<i>607</i>&nbsp;            }
+<i>608</i>&nbsp;
+<b class="nc"><i>609</i>&nbsp;            currentPawnImage.setImage(new Image(GuiHelper.getPawnImagePath(currentCellPawnColour, currentCell.getPawn().getId())));</b>
+<b class="nc"><i>610</i>&nbsp;        } else {</b>
+<b class="nc"><i>611</i>&nbsp;            currentPawnImage.setImage(null);</b>
+<i>612</i>&nbsp;        }
+<i>613</i>&nbsp;    }
+<i>614</i>&nbsp;
+<i>615</i>&nbsp;    /**
+<i>616</i>&nbsp;     * Sets all the images of the moves to null
+<i>617</i>&nbsp;     */
+<i>618</i>&nbsp;    private void cleanMoveImages() {
+<b class="nc"><i>619</i>&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="nc"><i>620</i>&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="nc"><i>621</i>&nbsp;                getActionGridImage(i, j).setImage(null);</b>
+<i>622</i>&nbsp;            }
+<i>623</i>&nbsp;        }
+<i>624</i>&nbsp;    }
+<i>625</i>&nbsp;
+<i>626</i>&nbsp;    @Override
+<i>627</i>&nbsp;    public void initialize(URL url, ResourceBundle resourceBundle) {
+<i>628</i>&nbsp;
+<i>629</i>&nbsp;    }
+<i>630</i>&nbsp;
+<i>631</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-25 11:28</div>
+</div>
+</body>
+</html>

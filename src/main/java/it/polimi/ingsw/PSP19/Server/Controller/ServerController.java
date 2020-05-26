@@ -72,15 +72,6 @@ public class ServerController {
 
         if (move.getIfMove()) {              //IF MOVEMENT
             movelist = new MoveList();
-            /*turn.canItComeUp(grid, move); //TODO: PUT OUTSIDE THIS FUNCTION, WHEN CALCULATENEXTMOVE() IS CALLED
-            if (!turn.getCanComeUp()) {
-                if (turn.getCanBuildBeforeMove()) {
-                    move.setIfMove(false);
-                    calculateNextMove(grid,p,gameID,move,turn);
-                    move.setIfMove(true);
-                    //TODO: BUILD BEFORE MOVE
-                }
-            }*/
 
             if (turn.getNPossibleMoves() > 0) {
                 for (int i = -1; i <= 1; i++) {
@@ -102,12 +93,10 @@ public class ServerController {
                                                 continue;
                                             }
 
-                                            if (game.getGameTurn().getEnemyPawn1() == null) {        //TODO: COMPLETE MINOTAUR EFFECT (E CONTROLLA CHE FUNZIONI)
+                                            if (game.getGameTurn().getEnemyPawn1() == null) {
                                                 if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        //if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
-                                                            game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
-                                                        //}
+                                                        game.getGameTurn().setEnemyPawn1(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
                                                     }
                                                 }
                                             }
@@ -115,9 +104,7 @@ public class ServerController {
                                             if (game.getGameTurn().getEnemyPawn1() != null) {
                                                 if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        //if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
-                                                            game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
-                                                        //}
+                                                        game.getGameTurn().setEnemyPawn2(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
                                                     }
                                                 }
                                             }
@@ -125,9 +112,7 @@ public class ServerController {
                                             if (game.getGameTurn().getEnemyPawn2() != null) {
                                                 if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        //if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
-                                                            game.getGameTurn().setEnemyPawn3(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
-                                                        //}
+                                                        game.getGameTurn().setEnemyPawn3(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
                                                     }
                                                 }
                                             }
@@ -135,9 +120,7 @@ public class ServerController {
                                             if (game.getGameTurn().getEnemyPawn3() != null) {
                                                 if ((game.getCurrentPlayer().getDivinity() == Divinity.MINOTAUR || game.getCurrentPlayer().getDivinity() == Divinity.APOLLO) && grid.getCells(move.getX() + i, move.getY() + j).getPawn() != null) {
                                                     if (!grid.getCells(move.getX() + i, move.getY() + j).getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername())) {
-                                                        //if(game.getCurrentPlayer().getDivinity() == Divinity.APOLLO || (0 <= move.getX() + 2*i && move.getX() + 2*i <= 4 && 0 <= move.getY() + 2*j && move.getY() + 2*j <= 4 && !grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getTower().getIsDome() && grid.getCells(move.getX() + 2*i,move.getY() + 2*j).getPawn() == null)) {
-                                                            game.getGameTurn().setEnemyPawn4(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
-                                                        //}
+                                                        game.getGameTurn().setEnemyPawn4(grid.getCells(move.getX() + i, move.getY() + j).getPawn());
                                                     }
                                                 }
                                             }
@@ -296,35 +279,6 @@ public class ServerController {
             turn.setNMadeBuildings(turn.getNMadeBuildings() + 1);
             turn.setNPossibleBuildings(turn.getNPossibleBuildings() - 1);
         }
-
-        //ALTERNATIVE FOR DEMETER
-
-        /*else if(move.getIfMove() == false && game.getCurrentPlayer().getDivinity() == Divinity.DEMETER && turn.getNMadeBuildings() == 1){
-            Move moveP = new Move(move.getToMove());
-            for(int i = 0; i <= 4; i++){
-                for(int j = 0; j <= 4; j++){
-                    if(grid.getCells(i,j).getPawn().getId() == move.getToMove().getId()){
-                        moveP.setX(i);
-                        moveP.setY(j);
-                    }
-                }
-            }
-            for(int i = 0; i <= 1; i++){
-                for(int j = 0; j <= 1; j++){
-                    if (0 <= moveP.getX() + i && moveP.getX() + i <= 4 && 0 <= moveP.getY() + j && moveP.getY() + j <= 4){
-                        if(grid.getCells(moveP.getX() + i, moveP.getY() + j).getPawn() == null){
-                            if(!grid.getCells(moveP.getX() + i,moveP.getY() + j).getTower().getIsDome()){
-                                if(moveP.getX() + i == move.getX() && moveP.getY() + j == move.getY()){
-                                    continue;
-                                }
-                                //TODO BUILDING MOVE
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-
         return movelist;
     }
 
