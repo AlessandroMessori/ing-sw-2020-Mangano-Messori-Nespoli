@@ -315,6 +315,8 @@ public class GamePage extends Page implements Initializable {
                 alreadySelectedCanComeUp = true;
                 String message = messageSerializer.serializeDecideCanComeUp(!powerSwitch, game.getCodGame()).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.SEND_DECIDES_TO_COME_UP, message);
+                localChanges = false;
+
             });
 
             confirmBtn.setOnMousePressed(e -> confirmBtn.setImage(new Image("/Images/Game/Gods/Bigger/Powers/confirm_pressed.png")));
@@ -500,6 +502,8 @@ public class GamePage extends Page implements Initializable {
 
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+                    localChanges = false;
+
 
                     if (game.getWinner() != null) {
                         try {
@@ -520,6 +524,8 @@ public class GamePage extends Page implements Initializable {
                     chosenPawnID = currentCell.getPawn().getId();
                     String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
+                    localChanges = false;
+
                 }
             }
 
@@ -537,6 +543,8 @@ public class GamePage extends Page implements Initializable {
 
             String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+            localChanges = false;
+
         }
     }
 
