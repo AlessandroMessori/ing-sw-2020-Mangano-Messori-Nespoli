@@ -105,6 +105,9 @@ public class EndCLI {
         return color;
     }
 
+    /**
+     * Constructor
+     */
     public EndCLI(){
     }
 }

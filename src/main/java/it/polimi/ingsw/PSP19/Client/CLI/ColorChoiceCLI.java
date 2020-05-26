@@ -78,6 +78,9 @@ public class ColorChoiceCLI {
         return color;
     }
 
+    /**
+     * Constructor
+     */
     public ColorChoiceCLI() {
     }
 }

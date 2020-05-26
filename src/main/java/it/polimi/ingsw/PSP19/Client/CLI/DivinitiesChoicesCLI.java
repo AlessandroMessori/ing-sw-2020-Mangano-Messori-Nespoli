@@ -163,6 +163,9 @@ public class DivinitiesChoicesCLI {
         this.chosenDivinities = chosenDivinities;
     }
 
+    /**
+     * Constructor
+     */
     public DivinitiesChoicesCLI() {
         this.chosenDivinities = new ArrayList<String>();
     }

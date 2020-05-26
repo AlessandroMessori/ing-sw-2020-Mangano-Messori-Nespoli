@@ -121,6 +121,9 @@ public class LoginCLI {
 
     }
 
+    /**
+     * Constructor
+     */
     public LoginCLI() {
     }
 }
