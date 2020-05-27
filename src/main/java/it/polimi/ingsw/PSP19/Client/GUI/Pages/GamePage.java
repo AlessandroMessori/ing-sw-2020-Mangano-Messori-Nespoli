@@ -133,10 +133,10 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Returns the ImageView of the specified Cell
-     * @param x x coordinate of the ImageView
-     * @param y y coordinate of the ImageView
-     * @param pawn if true returns Pawn ImageView,if false returns Tower ImageView
      *
+     * @param x    x coordinate of the ImageView
+     * @param y    y coordinate of the ImageView
+     * @param pawn if true returns Pawn ImageView,if false returns Tower ImageView
      * @return ImageView  of the cell at coordinates x,y
      */
     private ImageView getGameGridCell(int x, int y, boolean pawn) {
@@ -146,9 +146,9 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Returns the Action ImageView of the specified Cell
+     *
      * @param x x coordinate of the ImageView
      * @param y y coordinate of the ImageView
-     *
      * @return ImageView of the Action of the cell at coordinates x,y
      */
     private ImageView getActionGridImage(int x, int y) {
@@ -157,9 +157,9 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Returns the Button of the specified Cell
+     *
      * @param x x coordinate of the Button
      * @param y y coordinate of the Button
-     *
      * @return Button of the cell at coordinates x,y
      */
     private ImageView getGameGridButton(int x, int y) {
@@ -168,6 +168,7 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Updates the GUI when a new turn starts
+     *
      * @param g the update game data from the model
      */
     private void newTurnGUIUpdate(Game g) {
@@ -181,14 +182,20 @@ public class GamePage extends Page implements Initializable {
                 yourTurnBanner.setDisable(false);
 
                 alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
+                gridActive = false;
 
-                try {
-                    Thread.sleep(1500);
-                    yourTurnBanner.setImage(null);
-                    yourTurnBanner.setDisable(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+
+                                yourTurnBanner.setImage(null);
+                                yourTurnBanner.setDisable(true);
+                            }
+                        },
+                        1500
+                );
 
             }
 
@@ -199,6 +206,7 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Updates the GUI when the opponent makes a new move
+     *
      * @param g the update game data from the model
      */
     private void opponentMoveGUIUpdate(Game g) throws IOException, InterruptedException {
@@ -389,12 +397,13 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Sets the Images of the Divinities ImageViews
-     * @param pl player the divinity ImageView belongs to
-     * @param divName divinity name
-     * @param opponent1DivImage ImageView of the divinity of the first opponent in 3 player games
-     * @param opponent1Turn ImageView of the turn selector of the first opponent in 3 player games
+     *
+     * @param pl                    player the divinity ImageView belongs to
+     * @param divName               divinity name
+     * @param opponent1DivImage     ImageView of the divinity of the first opponent in 3 player games
+     * @param opponent1Turn         ImageView of the turn selector of the first opponent in 3 player games
      * @param opponent1UsernameText Text of the first opponent in 3 player games
-     * @param opponent2Turn  ImageView of the turn selector of the second opponent in 3 player games
+     * @param opponent2Turn         ImageView of the turn selector of the second opponent in 3 player games
      */
     private void setDivImages(Player pl, String divName, ImageView opponent1DivImage, Text opponent1UsernameText, ImageView opponent2Turn, ImageView opponent1Turn) {
         opponent1DivImage.setImage(new Image("/Images/Game/Gods/Smaller/" + divName + ".png"));
@@ -408,10 +417,11 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Event handler for a click on a cell of the grid during the starting position phase
-     * @param currentCell the model cell being clicked
+     *
+     * @param currentCell      the model cell being clicked
      * @param currentPawnImage the pawn image of the cell being clicked
-     * @param finalI x coordinate of the cell being clicked
-     * @param finalJ y coordinate of the cell being clicked
+     * @param finalI           x coordinate of the cell being clicked
+     * @param finalJ           y coordinate of the cell being clicked
      */
     private void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
@@ -440,9 +450,10 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Event handler for a click on a cell of the grid during the game
+     *
      * @param currentCell the model cell being clicked
-     * @param finalI x coordinate of the cell being clicked
-     * @param finalJ y coordinate of the cell being clicked
+     * @param finalI      x coordinate of the cell being clicked
+     * @param finalJ      y coordinate of the cell being clicked
      */
     private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
@@ -576,8 +587,8 @@ public class GamePage extends Page implements Initializable {
      * @param currentTowerImage ImageView of the tower of the cell
      * @param currentPawnImage  ImageView of the pawn of the cell
      * @param currentMoveImage  ImageView of the move of the cell
-     * @param i x coordinate of the cell
-     * @param j y coordinate of the cell
+     * @param i                 x coordinate of the cell
+     * @param j                 y coordinate of the cell
      */
     private void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
 
