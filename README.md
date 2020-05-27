@@ -5,7 +5,7 @@
 #### Instructions on how to play the board game: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf
 
 ## GROUP DESCRIPTION
-<pre><ul><li> Mangano Davide ----- https://github.com/Davismanghi , https://github.com/DavideMangano </li>
+<pre><ul><li> Mangano Davide ------- https://github.com/Davismanghi , https://github.com/DavideMangano </li>
   <li> Messori Alessandro --- https://github.com/AlessandroMessori </li>
   <li> Nespoli Matteo ------- https://github.com/MattNes </li></pre></ul>
   
@@ -17,3 +17,12 @@ We decided to implement the __complete rules + CLI + GUI + Socket + 1 AF__, so t
 
 ### On Ubuntu/Debian:
 
+__Step 1)__ *Checking if you already have java installed.* <br>
+To work properly, the .jar needs to be opened in an OS with already a JRE and a JDK installed. Open the terminal with the CTRL+ALT+T combination, write down <code> java -version </code> and see the result. If the Java version is already 13 or more, you can jump directly to __Step 4__. Otherwise, go to the next step. <br><br>
+__Step 2)__ *Installing Java*.<br>
+Start by typing <code> sudo apt-get install default-jre</code> to download the JRE. After that, type <code>sudo apt_get install openjdk-13-jdk</code> to install Java JDK 13. <br><br>
+__Step 3)__ *Confirmation*<br>
+Always on the terminal, now type again <code>java -version</code>. You should see Java 13, that means everything has gone correctly. Otherwise there could be some errors in the previous phases, but the terminal should explain you how to solve them.<br><br>
+__Step 4)__ *Congratulations!*<br>
+Now you can play your Santorini.jar file without problems. 
+#### Enjoy the game!
