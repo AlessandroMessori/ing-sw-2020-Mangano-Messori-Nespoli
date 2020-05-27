@@ -25,9 +25,9 @@ __Step 3)__ *Confirmation*.<br>
 Always on the terminal, now type again <code>java -version</code>. You should see Java 13, that means everything has gone correctly. Otherwise there could be some errors in the previous phases, but the terminal should explain you how to solve them.<br><br>
 __Step 4)__ *Downloading the actual game*.<br>
 Now you have to get the actual file to play with. First, open the <code>deliveries/final/jar</code> folder in this repo. From there, download either the CLI client or the GUI client, depending on you wanting to play a more vintage gameplay or a more modern, graphical one.
-After you have decided, you now have the .jar file in your PC. But how to run it?<br>
+After you have decided, you now have the .jar file in your PC. But how to run it?<br><br>
 __Step 5)__ *Open the game*. <br>
-Open the terminal, reach the folder in your system containing the downloaded .jar file, and write <code>java SantoriniGUI.jar -jar</code>.<br>
+Open the terminal, reach the folder in your system containing the downloaded .jar file, and write <code>java SantoriniGUI.jar -jar</code>.<br><br>
 __Step 6)__ *Congratulations!*<br>
 Now you can play your Santorini.jar file without problems. 
 #### Enjoy the game!
