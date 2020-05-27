@@ -5,8 +5,8 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 import javafx.scene.control.Alert;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+//import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.MediaView;
 
 import java.io.IOException;
 
@@ -19,9 +19,9 @@ public abstract class Page {
 
     protected final MessageSerializer messageSerializer = new MessageSerializer();
 
-    protected MediaView mediaView = null;
+    //protected MediaView mediaView = null;
 
-    protected MediaPlayer mediaPlayer = null;
+    //protected MediaPlayer mediaPlayer = null;
 
     /**
      * returns the string identifier of the page
@@ -79,18 +79,18 @@ public abstract class Page {
         alert.setHeaderText("A player disconnected himself from the game");
         alert.setContentText("GAME OVER!");
 
-        alert.setOnCloseRequest(e -> {
-            System.exit(0);
-        });
+        alert.setOnCloseRequest(e -> System.exit(0));
 
         alert.showAndWait();
     }
+
+    /*
 
     /**
      * returns the media player of the page
      *
      * @return the media player
-     */
+
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
@@ -99,7 +99,7 @@ public abstract class Page {
      * returns the media component of the page
      *
      * @return the media view
-     */
+
     public MediaView getMediaView() {
         return mediaView;
     }
@@ -108,7 +108,7 @@ public abstract class Page {
      * sets the media player of the page
      *
      * @param m the media player to set
-     */
+
     public void setMediaPlayer(MediaPlayer m) {
         mediaPlayer = m;
     }
@@ -118,10 +118,9 @@ public abstract class Page {
      * sets the media view of the page
      *
      * @param mv the media view to set
-     */
+
     public void setMediaView(MediaView mv) {
         mediaView = mv;
-    }
-
+    }*/
 
 }

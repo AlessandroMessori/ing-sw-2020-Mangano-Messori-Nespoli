@@ -11,11 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.net.Socket;
@@ -113,14 +111,20 @@ public class Client extends Application implements ServerObserver {
      */
     public void setServer(String ip) throws IOException {
         /* open a connection to the server */
-        server = new Socket(ip, Server.SOCKET_PORT);
+        try {
+            server = new Socket(ip, Server.SOCKET_PORT);
 
-        /* Create the adapter that will allow communication with the server
-         * in background, and start running its thread */
-        serverAdapter = new ServerAdapter(server);
-        serverAdapter.addObserver(this);
-        Thread serverAdapterThread = new Thread(serverAdapter);
-        serverAdapterThread.start();
+            /* Create the adapter that will allow communication with the server
+             * in background, and start running its thread */
+            serverAdapter = new ServerAdapter(server);
+            serverAdapter.addObserver(this);
+            Thread serverAdapterThread = new Thread(serverAdapter);
+            serverAdapterThread.start();
+        } catch (IOException e) {
+            System.out.println("server unreachable");
+            return;
+        }
+
     }
 
     /***
@@ -135,7 +139,7 @@ public class Client extends Application implements ServerObserver {
      */
     public Parent setCurrentPage(Page page, String musicPath) throws IOException, InterruptedException {
 
-        Media media = null;                     //MUSIC
+        /*Media media = null;                     //MUSIC
         // Create a Media Player
         MediaPlayer playermp3 = null;
         // Create a Media View
@@ -167,7 +171,7 @@ public class Client extends Application implements ServerObserver {
             }
 
 
-        }
+        }*/
 
         currentPage = page;
         String currentPageName = currentPage.getPageName();
@@ -184,21 +188,21 @@ public class Client extends Application implements ServerObserver {
         currentPage.setClient(this);
         currentPage.setGame(game);
 
-        if (hasMusic) {
+        /*if (hasMusic) {
             currentPage.setMediaPlayer(playermp3);
             currentPage.setMediaView(mp3View);
-        }
+        }*/
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
 
-                    if (currentPage.getMediaPlayer() != null) {
+                    /*if (currentPage.getMediaPlayer() != null) {
                         if (hasMusic == true) {
                             ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
                             currentPage.getMediaPlayer().play();
                             currentPage.getMediaPlayer().setAutoPlay(true);
                         }
-                    }
+                    }*/
                 }
         );
 
