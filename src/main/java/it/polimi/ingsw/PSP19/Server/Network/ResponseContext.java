@@ -69,10 +69,10 @@ public class ResponseContext implements Runnable {
                 requestHeader = messageDeserializer.deserializeString(requestContent, "header");
 
                 if (requestHeader.equals("CheckModel")) {
-                    long delay = 5000;
+                    long delay = 30000;
                     gameID = messageDeserializer.deserializeString(requestContent, "gameID");
                     long localTime = (new Date()).getTime();
-                    ResponseContext.connectionsStamps.put(client.getLocalSocketAddress().toString(), localTime);
+                    ResponseContext.connectionsStamps.put(client.getRemoteSocketAddress().toString(), localTime);
 
                     new java.util.Timer().schedule(
                             new java.util.TimerTask() {
@@ -81,7 +81,7 @@ public class ResponseContext implements Runnable {
 
                                     System.out.println(new Gson().toJson(ResponseContext.connectionsStamps));
                                     //if in the last 5 seconds there hasn't been any check model request from the client,the connection is considered lost
-                                    if (localTime == ResponseContext.connectionsStamps.get(client.getLocalSocketAddress().toString())) {
+                                    if (localTime == ResponseContext.connectionsStamps.get(client.getRemoteSocketAddress().toString())) {
                                         Game disconnectedGame = Model.getModel().searchID(gameID);
                                         disconnectedGame.setDisconnected();
                                     }
