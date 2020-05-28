@@ -15,7 +15,7 @@ We decided to implement the __complete rules + CLI + GUI + Socket + 1 AF__, so t
 
 ## INSTRUCTIONS ON HOW TO CORRECTLY USE THE .jar FILE
 
-### On Ubuntu/Debian:
+### On Ubuntu/Debian/MacOS[1]:
 
 __Step 1)__ *Checking if you already have java installed.* <br>
 To work properly, the .jar needs to be opened in an OS with already a JRE and a JDK installed. Open the terminal with the CTRL+ALT+T combination, write down <code> java -version </code> and see the result. If the Java version is already 13 or more, you can jump directly to __Step 4__. Otherwise, go to the next step. <br><br>
@@ -31,3 +31,5 @@ Open the terminal, reach the folder in your system containing the downloaded .ja
 __Step 6)__ *Congratulations!*<br>
 Now you can play your Santorini.jar file without problems. 
 #### Enjoy the game!
+
+__[1] ATTENTION! On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!
