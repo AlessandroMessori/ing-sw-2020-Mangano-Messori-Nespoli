@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Server.Network;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Server.Model.Model;
 import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
@@ -8,6 +9,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class ResponseContext implements Runnable {
 
@@ -15,19 +21,23 @@ public class ResponseContext implements Runnable {
     private String requestContent, requestHeader, gameID;
     private Socket client;
     private MessageDeserializer messageDeserializer;
+    private static Map<String, Long> connectionsStamps;
 
 
     public ResponseContext(Socket cl) {
         client = cl;
         gameID = null;
         messageDeserializer = new MessageDeserializer();
+        if (ResponseContext.connectionsStamps == null) {
+            ResponseContext.connectionsStamps = new HashMap<>();
+        }
     }
 
     @Override
     public void run() {
         try {
             handleResponse();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Client " + client.getInetAddress() + " connection dropped");
             if (gameID != null) {
                 Game disconnectedGame = Model.getModel().searchID(gameID);
@@ -48,7 +58,6 @@ public class ResponseContext implements Runnable {
 
     private void handleResponse() throws IOException {
 
-
         //loop to handle all the requests of the connected client
         try {
             System.out.println("started connection with " + client.getInetAddress());
@@ -60,10 +69,32 @@ public class ResponseContext implements Runnable {
                 requestHeader = messageDeserializer.deserializeString(requestContent, "header");
 
                 if (requestHeader.equals("CheckModel")) {
+                    long delay = 5000;
                     gameID = messageDeserializer.deserializeString(requestContent, "gameID");
+                    long localTime = (new Date()).getTime();
+                    ResponseContext.connectionsStamps.put(client.getLocalSocketAddress().toString(), localTime);
+
+                    new java.util.Timer().schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+
+                                    System.out.println(new Gson().toJson(ResponseContext.connectionsStamps));
+                                    //if in the last 5 seconds there hasn't been any check model request from the client,the connection is considered lost
+                                    if (localTime == ResponseContext.connectionsStamps.get(client.getLocalSocketAddress().toString())) {
+                                        Game disconnectedGame = Model.getModel().searchID(gameID);
+                                        disconnectedGame.setDisconnected();
+                                    }
+                                }
+                            },
+                            delay
+                    );
+
                 }
 
+
                 System.out.println(Model.getModel().getGames().toString());
+
 
                 switch (requestHeader) {
                     case "JoinGame":
