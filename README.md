@@ -5,9 +5,9 @@
 #### Instructions on how to play the board game: https://cdn.1j1ju.com/medias/fc/ec/5d-santorini-rulebook.pdf
 
 ## GROUP DESCRIPTION
-<pre><ul><li> Mangano Davide ------- https://github.com/Davismanghi , https://github.com/DavideMangano </li>
+<pre><li> Mangano Davide ------- https://github.com/Davismanghi , https://github.com/DavideMangano </li>
   <li> Messori Alessandro --- https://github.com/AlessandroMessori </li>
-  <li> Nespoli Matteo ------- https://github.com/MattNes </li></pre></ul>
+  <li> Nespoli Matteo ------- https://github.com/MattNes </li></pre>
   
 ## LIST OF FUNCTIONALITIES
 
@@ -31,7 +31,7 @@ Open the terminal, reach the folder in your system containing the downloaded .ja
 __Step 6)__ *Congratulations!*<br>
 Now you can play your Santorini.jar file without problems. 
 
-### On Windows:
+### On Windows[2]:
 
 __Step 1)__ *Downloading Java.*<br>
 If you already have Java installed, you can skip to __Step 4__. Otherwise, you have to download JRE and JDK 13 (or later). To do so, you can search the links here indicated to have all you need to play:<br>
@@ -43,9 +43,10 @@ __Step 3)__ *How to run the .jar*<br>
 To run the .jar without problems, Windows gets a bit tricky. Open the Terminal, and go to the folder where you saved your Santorini.jar file (with a series of <code>cd</code>). Now write the path to the folder where you saved the JDK previously downloaded together with the .jar name in this way:<br>
 <code>/Example/Folder/WhereYouHaveJDK/bin/Java -jar Santorini.jar</code>.<br><br>
 __Step 4)__ *Congratulations!*<br>
-Now you can play your Santorini.jar file without problems.
+Now you can play your Santorini.jar file without problems.<br><br>
 
 
-#### Enjoy the game!
+#### Enjoy the game!<br><br><br>
 
-__[1] ATTENTION!__ On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!
+__[1] WARNING!__ On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!<br><br>
+__[2] WARNING!__ On some Windows devices there's a default display option that scales up the images by 125% automatically. This doesn't stop you from playing the game, but it could severely ruin your experience since some in-game possible choices are in the corners or, sometimes, really down/up the screen. __To solve this:__ you can simply go in Settings>System>Display and the first option is the layout one. From the default 125% you can change it to 100%, and of course if you don't like it you can turn it back whenever you want.
