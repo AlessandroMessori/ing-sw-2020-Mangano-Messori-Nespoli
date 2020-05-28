@@ -32,4 +32,4 @@ __Step 6)__ *Congratulations!*<br>
 Now you can play your Santorini.jar file without problems. 
 #### Enjoy the game!
 
-__[1] ATTENTION! On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!
+__[1] ATTENTION!__ On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!
