@@ -30,6 +30,22 @@ __Step 5)__ *Open the game*. <br>
 Open the terminal, reach the folder in your system containing the downloaded .jar file, and write <code>java SantoriniGUI.jar -jar</code>.<br><br>
 __Step 6)__ *Congratulations!*<br>
 Now you can play your Santorini.jar file without problems. 
+
+### On Windows:
+
+__Step 1)__ *Downloading Java.*<br>
+If you already have Java installed, you can skip to __Step 4__. Otherwise, you have to download JRE and JDK 13 (or later). To do so, you can search the links here indicated to have all you need to play:<br>
+__JRE__: https://www.java.com/it/download <br>
+__JDK__: https://download.java.net/openjdk/jdk13/ri/openjdk-13+33_windows-x64_bin.zip.<br><br>
+__Step 2)__ *Downloading the actual game*.<br>
+When you're done with Java, you can see the __Step 4__ in the Ubuntu/Debian/MacOS guide.<br><br>
+__Step 3)__ *How to run the .jar*<br>
+To run the .jar without problems, Windows gets a bit tricky. Open the Terminal, and go to the folder where you saved your Santorini.jar file (with a series of <code>cd</code>). Now write the path to the folder where you saved the JDK previously downloaded together with the .jar name in this way:<br>
+<code>/Example/Folder/WhereYouHaveJDK/bin/Java -jar Santorini.jar</code>.<br><br>
+__Step 4)__ *Congratulations!*<br>
+Now you can play your Santorini.jar file without problems.
+
+
 #### Enjoy the game!
 
 __[1] ATTENTION!__ On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!
