@@ -9,13 +9,12 @@ import it.polimi.ingsw.PSP19.Server.Server;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -38,11 +37,18 @@ public class Client extends Application implements ServerObserver {
     private Stage mainStage;
     double width = 1440;
     double height = 900;
-    double scaleFactor = 0.9;
+    double scaleFactor = 1;
     Parent root;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+        //adapts size to smaller screens
+        if (primaryScreenBounds.getWidth() < width || primaryScreenBounds.getHeight() < height) {
+            scaleFactor = 0.8;
+        }
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
         mainStage = primaryStage;
