@@ -19,6 +19,9 @@ public class LobbyPage extends Page implements Initializable {
     private boolean firstRenderHappened = false;
 
     @FXML
+    private ImageView backgroundImage;
+
+    @FXML
     public Pane lobbyPageContainer;
 
     @FXML
@@ -77,11 +80,12 @@ public class LobbyPage extends Page implements Initializable {
             firstPlayerText.setText(client.getPlayerUsername());
             if (client.getThreePlayers()) {
                 nPlayersTextBox.setText("1/3");
-                lobbyPageContainer.getStyleClass().add("threePlayersBackground");
+                backgroundImage.setImage(new Image("/Images/Lobby/Lobby3Pbackground.png"));
             } else {
                 thirdPlayerText.setOpacity(0);
                 nPlayersTextBox.setText("1/2");
                 lobbyPageContainer.getStyleClass().add("twoPlayersBackground");
+                backgroundImage.setImage(new Image("/Images/Lobby/Lobby2Pbackground.png"));
             }
             playButton.setImage(new Image("/Images/Lobby/LobbyPlayButtonNONActive.png"));
             playButton.setDisable(true);

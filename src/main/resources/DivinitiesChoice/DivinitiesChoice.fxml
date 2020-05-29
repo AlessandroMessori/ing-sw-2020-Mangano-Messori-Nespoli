@@ -4,60 +4,51 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
+<Pane fx:id="divinitiesChoicePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@DivinitiesChoice.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.DivinitiesChoicePage">
+   <ImageView fitHeight="900.0" fitWidth="1440.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../Images/DivChoice/DivChoiceBackground.png" />
+      </image>
+   </ImageView>
 
-<Pane fx:id="divinitiesChoicePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity"
-      prefHeight="900.0" prefWidth="1440.0" stylesheets="@DivinitiesChoice.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.DivinitiesChoicePage">
-
-    <ImageView fx:id="goBtn" styleClass="goBtn" fitHeight="86.0" fitWidth="235.0" layoutX="1132.0"
-               layoutY="57.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Go_button_NONactive.png"/>
+    <ImageView fx:id="goBtn" fitHeight="86.0" fitWidth="235.0" layoutX="1132.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" styleClass="goBtn">
+        <Image url="@../Images/DivChoice/Go_button_NONactive.png" />
     </ImageView>
 
-    <ImageView fx:id="div1" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="96.0"
-               layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Apollo.png"/>
+    <ImageView fx:id="div1" fitHeight="300.0" fitWidth="167.0" layoutX="96.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Apollo.png" />
     </ImageView>
 
-    <ImageView fx:id="div2" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="367.0"
-               layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Artemis.png"/>
+    <ImageView fx:id="div2" fitHeight="300.0" fitWidth="167.0" layoutX="367.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Artemis.png" />
     </ImageView>
 
-    <ImageView fx:id="div3" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="638.0"
-               layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Athena.png"/>
+    <ImageView fx:id="div3" fitHeight="300.0" fitWidth="167.0" layoutX="638.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Athena.png" />
     </ImageView>
 
-    <ImageView fx:id="div4" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="909.0"
-               layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Atlas.png"/>
+    <ImageView fx:id="div4" fitHeight="300.0" fitWidth="167.0" layoutX="909.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Atlas.png" />
     </ImageView>
 
-    <ImageView fx:id="div5" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="1180.0"
-               layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Demeter.png"/>
+    <ImageView fx:id="div5" fitHeight="300.0" fitWidth="167.0" layoutX="1180.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Demeter.png" />
     </ImageView>
 
-    <ImageView fx:id="div6" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="232.0"
-               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Hephaestus.png"/>
+    <ImageView fx:id="div6" fitHeight="300.0" fitWidth="167.0" layoutX="232.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Hephaestus.png" />
     </ImageView>
 
-    <ImageView fx:id="div7" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="505.0"
-               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Minotaur.png"/>
+    <ImageView fx:id="div7" fitHeight="300.0" fitWidth="167.0" layoutX="505.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Minotaur.png" />
     </ImageView>
 
-    <ImageView fx:id="div8" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="774.0"
-               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Pan.png"/>
+    <ImageView fx:id="div8" fitHeight="300.0" fitWidth="167.0" layoutX="774.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Pan.png" />
     </ImageView>
 
-    <ImageView fx:id="div9" styleClass="divinityBtn" fitHeight="300.0" fitWidth="167.0" layoutX="1045.0"
-               layoutY="490.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Prometheus.png"/>
+    <ImageView fx:id="div9" fitHeight="300.0" fitWidth="167.0" layoutX="1045.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" styleClass="divinityBtn">
+        <Image url="@../Images/DivChoice/Prometheus.png" />
     </ImageView>
 
 </Pane>

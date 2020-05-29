@@ -1,7 +1,3 @@
-#gamePage {
-    -fx-background-image: url(../Images/Game/SantoriniBoard_flat.png);
-    -fx-background-size: stretch;
-}
 
 .TowerImg {
     -fx-translate-x: 13px;

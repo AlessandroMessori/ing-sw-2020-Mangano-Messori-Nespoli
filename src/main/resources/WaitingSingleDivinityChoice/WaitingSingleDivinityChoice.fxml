@@ -4,34 +4,30 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
+<Pane fx:id="waitingSingleDivinityChoicePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@WaitingSingleDivinityChoice.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.WaitingSingleDivinityChoicePage">
+   <ImageView fitHeight="900.0" fitWidth="1440.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../Images/DivChoice/WaitBackground.png" />
+      </image>
+   </ImageView>
 
-<Pane fx:id="waitingSingleDivinityChoicePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="900.0" prefWidth="1440.0" stylesheets="@WaitingSingleDivinityChoice.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.WaitingSingleDivinityChoicePage">
-
-    <ImageView fx:id="div31" fitHeight="566.0" fitWidth="315.0" layoutX="121.0"
-               layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="div31" fitHeight="566.0" fitWidth="315.0" layoutX="121.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
     </ImageView>
 
-    <ImageView fx:id="div32" fitHeight="566.0" fitWidth="315.0" layoutX="562.0"
-               layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="div32" fitHeight="566.0" fitWidth="315.0" layoutX="562.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
     </ImageView>
 
-    <ImageView fx:id="div33" fitHeight="566.0" fitWidth="315.0" layoutX="1003.0"
-               layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="div33" fitHeight="566.0" fitWidth="315.0" layoutX="1003.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
     </ImageView>
 
 
-    <ImageView fx:id="div21" fitHeight="566.0" fitWidth="315.0" layoutX="265.0"
-               layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="div21" fitHeight="566.0" fitWidth="315.0" layoutX="265.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
     </ImageView>
 
-    <ImageView fx:id="div22" fitHeight="566.0" fitWidth="315.0" layoutX="861.0"
-               layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="div22" fitHeight="566.0" fitWidth="315.0" layoutX="861.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
     </ImageView>
 
-    <ImageView fx:id="wait" fitHeight="-Infinity" fitWidth="-Infinity" layoutX="31.0"
-               layoutY="169.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../Images/DivChoice/Anot_Play_Ch.png"/>
+    <ImageView fx:id="wait" fitHeight="-Infinity" fitWidth="-Infinity" layoutX="31.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Images/DivChoice/Anot_Play_Ch.png" />
     </ImageView>
 </Pane>

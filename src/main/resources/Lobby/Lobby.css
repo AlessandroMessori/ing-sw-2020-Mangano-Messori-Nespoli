@@ -1,13 +1,3 @@
-.twoPlayersBackground {
-    -fx-background-image: url(../Images/Lobby/Lobby2Pbackground.png);
-    -fx-background-size: stretch;
-}
-
-.threePlayersBackground {
-    -fx-background-image: url(../Images/Lobby/Lobby3Pbackground.png);
-    -fx-background-size: stretch;
-}
-
 .playButton{
     -fx-graphic: url(../Images/Lobby/LobbyPlayButtonActive.png);
     -fx-cursor: hand;
