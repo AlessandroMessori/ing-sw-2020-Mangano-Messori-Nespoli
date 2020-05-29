@@ -11,6 +11,11 @@
 <?import javafx.scene.text.Text?>
 
 <Pane fx:id="gamePage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Game.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage">
+   <ImageView fitHeight="900.0" fitWidth="1440.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../Images/Game/SantoriniBoard_flat.png" />
+      </image>
+   </ImageView>
 
     <Text fx:id="turnText" fill="WHITE" layoutX="-10.0" layoutY="-49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 210px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
         <font>
