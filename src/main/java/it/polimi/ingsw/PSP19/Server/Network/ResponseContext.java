@@ -39,7 +39,7 @@ public class ResponseContext implements Runnable {
             handleResponse();
         } catch (Exception e) {
             System.out.println("Client " + client.getInetAddress() + " connection dropped");
-            if (gameID != null) {
+            /*if (gameID != null) {
                 Game disconnectedGame = Model.getModel().searchID(gameID);
                 disconnectedGame.setDisconnected();
                 //Deletes Game from Model after 5 seconds
@@ -52,7 +52,7 @@ public class ResponseContext implements Runnable {
                         },
                         30000
                 );
-            }
+            }*/
         }
     }
 
@@ -66,10 +66,11 @@ public class ResponseContext implements Runnable {
             while (true) {
                 Object next = input.readObject();
                 requestContent = (String) next;
+
                 requestHeader = messageDeserializer.deserializeString(requestContent, "header");
 
-                if (requestHeader.equals("CheckModel")) {
-                    long delay = 30000;
+                if (requestHeader.equals("Ping")) {
+                    long delay = 20000;
                     gameID = messageDeserializer.deserializeString(requestContent, "gameID");
                     long localTime = (new Date()).getTime();
                     ResponseContext.connectionsStamps.put(client.getRemoteSocketAddress().toString(), localTime);
@@ -90,43 +91,45 @@ public class ResponseContext implements Runnable {
                             delay
                     );
 
+                    output.writeObject("Received Ping");
+
+                } else {
+
+                    System.out.println(Model.getModel().getGames().toString());
+
+                    switch (requestHeader) {
+                        case "JoinGame":
+                            responseHandler = new ListenForPlayer(client, output);
+                            break;
+                        case "SendDivinities":
+                            responseHandler = new ListenForDivinities(client, output);
+                            break;
+                        case "SendChosenDivinity":
+                            responseHandler = new ListenForChosenDivinity(client, output);
+                            break;
+                        case "SendStartingPosition":
+                            responseHandler = new ListenForStartingPosition(client, output);
+                            break;
+                        case "SendCanComeUp":
+                            responseHandler = new ListenForDecidesToComeUp(client, output);
+                            break;
+                        case "SendChosenPawn":
+                            responseHandler = new ListenForChosenPawn(client, output);
+                            break;
+                        case "SendChosenMove":
+                            responseHandler = new ListenForChosenMove(client, output);
+                            break;
+                        case "CheckModel":
+                            responseHandler = new ListenForModelCheck(client, output);
+                            break;
+                        default:
+                            responseHandler = new ResponseHandler(client, output);
+                            break;
+                    }
+
+                    responseHandler.handleResponse(requestContent);
                 }
 
-
-                System.out.println(Model.getModel().getGames().toString());
-
-
-                switch (requestHeader) {
-                    case "JoinGame":
-                        responseHandler = new ListenForPlayer(client, output);
-                        break;
-                    case "SendDivinities":
-                        responseHandler = new ListenForDivinities(client, output);
-                        break;
-                    case "SendChosenDivinity":
-                        responseHandler = new ListenForChosenDivinity(client, output);
-                        break;
-                    case "SendStartingPosition":
-                        responseHandler = new ListenForStartingPosition(client, output);
-                        break;
-                    case "SendCanComeUp":
-                        responseHandler = new ListenForDecidesToComeUp(client, output);
-                        break;
-                    case "SendChosenPawn":
-                        responseHandler = new ListenForChosenPawn(client, output);
-                        break;
-                    case "SendChosenMove":
-                        responseHandler = new ListenForChosenMove(client, output);
-                        break;
-                    case "CheckModel":
-                        responseHandler = new ListenForModelCheck(client, output);
-                        break;
-                    default:
-                        responseHandler = new ResponseHandler(client, output);
-                        break;
-                }
-
-                responseHandler.handleResponse(requestContent);
             }
         } catch (ClassNotFoundException | ClassCastException e) {
             System.out.println("Invalid stream from client");

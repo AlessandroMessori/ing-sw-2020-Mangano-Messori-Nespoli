@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import it.polimi.ingsw.PSP19.Client.Network.PeriodicUpdater;
+import it.polimi.ingsw.PSP19.Client.Network.PingService;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Pages;
@@ -29,6 +30,7 @@ public class Client implements Runnable, ServerObserver {
     private EndCLI endCli;
     private ClientController clientController;
     private MessageSerializer messageSerializer;
+    private ServerAdapter serverAdapter;
     private String playerUsername;
     private Colour chosenColor;
     private boolean checkModel;
@@ -88,7 +90,7 @@ public class Client implements Runnable, ServerObserver {
 
         /* Create the adapter that will allow communication with the server
          * in background, and start running its thread */
-        ServerAdapter serverAdapter = new ServerAdapter(server);
+        serverAdapter = new ServerAdapter(server);
         serverAdapter.addObserver(this);
         Thread serverAdapterThread = new Thread(serverAdapter);
         serverAdapterThread.start();
@@ -100,7 +102,7 @@ public class Client implements Runnable, ServerObserver {
             // periodically fetches the updated game data from Server
             if (checkModel && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
                 lastTime = Instant.now();
-                PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter);
+                PeriodicUpdater checkModelUpdate = new PeriodicUpdater(game.getCodGame(), serverAdapter, true);
                 Thread checkModelUpdateThread = new Thread(checkModelUpdate);
                 checkModelUpdateThread.start();
             }
@@ -309,6 +311,11 @@ public class Client implements Runnable, ServerObserver {
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
         checkModel = true;
+
+        PingService pingService = new PingService(gameID, serverAdapter); //starts a thread pinging the server
+        Thread pingServiceThread = new Thread(pingService);
+        pingServiceThread.start();
+
         currentPage = Pages.LOBBY;
         notifyAll();
     }
@@ -474,6 +481,11 @@ public class Client implements Runnable, ServerObserver {
 
         notifyAll();
 
+    }
+
+    @Override
+    public synchronized void receivePing(String ping) {
+        notifyAll();
     }
 
     /**

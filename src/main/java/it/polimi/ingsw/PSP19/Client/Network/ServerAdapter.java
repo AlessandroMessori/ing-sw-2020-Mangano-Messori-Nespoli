@@ -56,6 +56,12 @@ public class ServerAdapter implements Runnable {
         notifyAll();
     }
 
+    public synchronized void requestPing(String input) {
+        nextCommand = Commands.PING;
+        requestContent = input;
+        notifyAll();
+    }
+
     public synchronized void requestCheckModel(String input) {
         nextCommand = Commands.CHECK_MODEL;
         requestContent = input;
@@ -153,6 +159,9 @@ public class ServerAdapter implements Runnable {
                     break;
                 case CHECK_MODEL:
                     doCheckModel();
+                    break;
+                case PING:
+                    doPing();
                     break;
                 case STOP:
                     return;
@@ -353,6 +362,23 @@ public class ServerAdapter implements Runnable {
         /* notify the observers that we got the string */
         for (ServerObserver observer : observersCpy) {
             observer.receiveModelUpdate(game);
+        }
+    }
+
+    private synchronized void doPing() throws IOException, ClassNotFoundException {
+        outputStm.writeObject(requestContent);
+        String responseContent = (String) inputStm.readObject();
+
+        /* copy the list of observers in case some observers changes it from inside
+         * the notification method */
+        List<ServerObserver> observersCpy;
+        synchronized (observers) {
+            observersCpy = new ArrayList<>(observers);
+        }
+
+        /* notify the observers that we got the string */
+        for (ServerObserver observer : observersCpy) {
+            observer.receivePing(responseContent);
         }
     }
 }

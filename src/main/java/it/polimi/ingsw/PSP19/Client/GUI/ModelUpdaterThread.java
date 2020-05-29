@@ -50,7 +50,7 @@ public class ModelUpdaterThread implements Runnable {
             // periodically fetches the updated game data from Server
             if (modelCheck && Duration.between(lastTime, Instant.now()).getSeconds() > updateRate) {
                 lastTime = Instant.now();
-                PeriodicUpdater checkModelUpdate = new PeriodicUpdater(codGame, serverAdapter);
+                PeriodicUpdater checkModelUpdate = new PeriodicUpdater(codGame, serverAdapter,true);
                 Thread checkModelUpdateThread = new Thread(checkModelUpdate);
                 //System.out.println("Checking for model updates");
                 checkModelUpdateThread.start();

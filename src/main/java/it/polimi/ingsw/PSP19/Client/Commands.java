@@ -9,5 +9,6 @@ public enum Commands {
     SEND_CHOSEN_PAWN,
     SEND_CHOSEN_MOVE,
     CHECK_MODEL,
+    PING,
     STOP
 }

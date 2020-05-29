@@ -35,6 +35,21 @@ public class MessageSerializer {
     }
 
     /**
+     * serializes in JSON a Ping Message
+     *
+     * @param gameID identifier of the Game
+     * @return the JSON serialized Ping Message
+     */
+    public JsonElement serializePing(String gameID) {
+        JsonObject result = new JsonObject();
+
+        result.add("header", new JsonPrimitive("Ping"));
+        result.add("gameID", new JsonPrimitive(gameID));
+
+        return result;
+    }
+
+    /**
      * serializes in JSON a Check Model Message
      *
      * @param gameID identifier of the Game

@@ -26,4 +26,6 @@ public interface ServerObserver {
     void receiveEndGame(String endGame);
 
     void receiveModelUpdate(Game game) throws IOException;
+
+    void receivePing(String ping);
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP19.Client.GUI;
 
 import it.polimi.ingsw.PSP19.Client.GUI.Pages.*;
+import it.polimi.ingsw.PSP19.Client.Network.PingService;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
@@ -130,7 +131,7 @@ public class Client extends Application implements ServerObserver {
     /***
      * Sets the current Scene
      *
-     * @exception  IOException,InterruptedException error when setting the scene
+     * @exception IOException,InterruptedException error when setting the scene
      *
      * @param page the page the set
      * @param musicPath path of the soundtrack of the page
@@ -316,6 +317,10 @@ public class Client extends Application implements ServerObserver {
         modelUpdater.setModelCheck(true);
         modelUpdaterThread.start();
 
+        PingService pingService = new PingService(gameID, serverAdapter); //starts a thread pinging the server
+        Thread pingServiceThread = new Thread(pingService);
+        pingServiceThread.start();
+
         try {
             setCurrentPage(new LobbyPage(), null);
         } catch (Exception e) {
@@ -379,8 +384,8 @@ public class Client extends Application implements ServerObserver {
     }
 
     @Override
-    public void receiveStartingPosition(String position) {
-        //notifyAll();
+    public synchronized void receiveStartingPosition(String position) {
+        notifyAll();
     }
 
     /**
@@ -487,6 +492,11 @@ public class Client extends Application implements ServerObserver {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public synchronized void receivePing(String ping) {
+        notifyAll();
     }
 
 
