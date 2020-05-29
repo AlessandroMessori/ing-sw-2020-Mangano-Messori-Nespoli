@@ -79,8 +79,8 @@ public class ResponseContext implements Runnable {
                             new java.util.TimerTask() {
                                 @Override
                                 public void run() {
-
-                                    System.out.println(new Gson().toJson(ResponseContext.connectionsStamps));
+                                   
+                                    //System.out.println(new Gson().toJson(ResponseContext.connectionsStamps));
                                     //if in the last 5 seconds there hasn't been any check model request from the client,the connection is considered lost
                                     if (localTime == ResponseContext.connectionsStamps.get(client.getRemoteSocketAddress().toString())) {
                                         Game disconnectedGame = Model.getModel().searchID(gameID);

@@ -124,17 +124,17 @@ public class Client extends Application implements ServerObserver {
         /* open a connection to the server */
         try {
             server = new Socket(ip, Server.SOCKET_PORT);
-
-            /* Create the adapter that will allow communication with the server
-             * in background, and start running its thread */
-            serverAdapter = new ServerAdapter(server);
-            serverAdapter.addObserver(this);
-            Thread serverAdapterThread = new Thread(serverAdapter);
-            serverAdapterThread.start();
         } catch (IOException e) {
             System.out.println("server unreachable");
             return;
         }
+
+        /* Create the adapter that will allow communication with the server
+         * in background, and start running its thread */
+        serverAdapter = new ServerAdapter(server);
+        serverAdapter.addObserver(this);
+        Thread serverAdapterThread = new Thread(serverAdapter);
+        serverAdapterThread.start();
 
     }
 
