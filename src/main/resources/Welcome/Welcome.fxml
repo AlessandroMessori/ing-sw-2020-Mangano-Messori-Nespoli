@@ -13,8 +13,6 @@
             <ToggleGroup fx:id="selectPlayers" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="threePlayersButton" layoutX="805.0" layoutY="427.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" styleClass="threePlayersButton" toggleGroup="$selectPlayers" />
-      <CheckBox fx:id="musicCheckBox" layoutX="1229.0" layoutY="368.0" mnemonicParsing="false" styleClass="musicCheckBox" />
-      <CheckBox fx:id="effectsCheckBox" layoutX="1229.0" layoutY="435.0" mnemonicParsing="false" styleClass="effectsCheckBox" />
       <ImageView fx:id="connectButton" fitHeight="70.0" fitWidth="243.0" layoutX="940.0" layoutY="481.0" onMouseExited="#mouseExited" onMouseEntered="#mouseEntered" onMousePressed="#pressBtn" onMouseClicked="#playBtnClick" pickOnBounds="true" preserveRatio="true" styleClass="connectButton">
          <image>
             <Image url="@../Images/Login/Connect_Button.png" />

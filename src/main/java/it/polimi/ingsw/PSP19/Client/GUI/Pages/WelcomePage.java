@@ -34,12 +34,6 @@ public class WelcomePage extends Page implements Initializable {
     RadioButton twoPlayersButton;
 
     @FXML
-    CheckBox musicCheckBox;
-
-    @FXML
-    CheckBox effectsCheckBox;
-
-    @FXML
     TextField anotherServerTextBox;
 
     @FXML
@@ -107,9 +101,9 @@ public class WelcomePage extends Page implements Initializable {
 
     public void playBtnClick() throws IOException, InterruptedException {
         connectButton.setImage(new Image("/Images/Login/Connect_Button_Pressed.png"));
-        if (!musicCheckBox.isSelected()) {
+        /*if (!musicCheckBox.isSelected()) {
             client.setHasMusic(false);
-        }
+        }*/
         client.setThreePlayers(!twoPlayersButton.isSelected());
         String username = usernameTextBox.getText();
         boolean nPlayers = !twoPlayersButton.isSelected();
@@ -172,8 +166,8 @@ public class WelcomePage extends Page implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         twoPlayersButton.setSelected(true);
-        musicCheckBox.setSelected(true);
-        effectsCheckBox.setSelected(true);
+        /*musicCheckBox.setSelected(true);
+        effectsCheckBox.setSelected(true);*/
     }
 
 }
