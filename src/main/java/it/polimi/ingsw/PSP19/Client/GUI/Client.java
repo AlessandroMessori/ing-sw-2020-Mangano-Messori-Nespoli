@@ -36,7 +36,7 @@ public class Client extends Application implements ServerObserver {
     private Socket server = null;
     private Stage mainStage;
     double width = 1440;
-    double height = 900;
+    double height = 935;
     double scaleFactor = 1;
     Parent root;
 

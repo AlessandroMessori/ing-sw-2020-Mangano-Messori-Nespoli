@@ -1,6 +1,4 @@
 #welcomePageContainer {
-    -fx-background-image: url(../Images/Login/LoginBackground.png);
-    -fx-background-size: stretch;
 }
 .connectButton{
     -fx-cursor: hand;
