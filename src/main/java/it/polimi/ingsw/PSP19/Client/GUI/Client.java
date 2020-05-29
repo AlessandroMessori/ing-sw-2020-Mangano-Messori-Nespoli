@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 
@@ -35,6 +36,7 @@ public class Client extends Application implements ServerObserver {
     private Stage mainStage;
     double width = 1440;
     double height = 900;
+    double scaleFactor = 0.8;
     Parent root;
 
     @Override
@@ -45,7 +47,7 @@ public class Client extends Application implements ServerObserver {
 
         root = setCurrentPage(new WelcomePage(), "/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(root, width * scaleFactor, height * scaleFactor);
 
         primaryStage.setOnCloseRequest(e -> {
             System.exit(0);
@@ -180,6 +182,7 @@ public class Client extends Application implements ServerObserver {
         Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("/" + currentPageName + "/" + currentPageName + ".css").toExternalForm());
 
+
         Font.loadFont(
                 getClass().getResource("/Images/Font/LillyBelle.ttf").toExternalForm(),
                 10
@@ -196,6 +199,14 @@ public class Client extends Application implements ServerObserver {
         Platform.runLater(
                 () -> {
                     mainStage.getScene().setRoot(root);
+                    mainStage.setResizable(true);
+                    mainStage.setWidth(width*scaleFactor);
+                    mainStage.setHeight(height*scaleFactor);
+                    mainStage.setResizable(false);
+                    Scale scale = new Scale(scaleFactor, scaleFactor);
+                    scale.setPivotX(0);
+                    scale.setPivotY(0);
+                    root.getTransforms().setAll(scale);
 
                     /*if (currentPage.getMediaPlayer() != null) {
                         if (hasMusic == true) {
