@@ -24,6 +24,7 @@ public class GamePage extends Page implements Initializable {
     private boolean startingPosition = true;
     private boolean alreadySelectedPawn = false;
     private boolean alreadySelectedCanComeUp = true;
+    private boolean loadingNewGrid = false;
     private boolean gridActive = true;
     private boolean localChanges = false;
     private boolean powerSwitch = false;
@@ -459,7 +460,7 @@ public class GamePage extends Page implements Initializable {
      */
     private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
-        if (gridActive && alreadySelectedCanComeUp) {
+        if (gridActive && alreadySelectedCanComeUp && !loadingNewGrid) {
             if (alreadySelectedPawn) {
                 int selectedMove = -1;
                 //coeff used to select special moves for a certain coordinate
@@ -478,7 +479,9 @@ public class GamePage extends Page implements Initializable {
                     //nextMove.setToMove(game.getCurrentPlayer().getCurrentPawn());
                     gridActive = false;
                     actionText.setText("LOADING");
+                    loadingNewGrid = true;
                     game = clientController.updateGameByMove(nextMove, game);
+                    loadingNewGrid = false;
 
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
