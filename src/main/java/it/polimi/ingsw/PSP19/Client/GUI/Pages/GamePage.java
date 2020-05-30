@@ -196,6 +196,8 @@ public class GamePage extends Page implements Initializable {
                         1500
                 );
 
+                System.out.println("Starting Turn");
+
             }
 
         }
@@ -513,6 +515,7 @@ public class GamePage extends Page implements Initializable {
 
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
+
                     localChanges = false;
 
 

@@ -36,7 +36,7 @@ public class Client extends Application implements ServerObserver {
     private Socket server = null;
     private Stage mainStage;
     double width = 1440;
-    double height = 935;
+    double height = 900;
     double scaleFactor = 1;
     Parent root;
 
@@ -207,6 +207,7 @@ public class Client extends Application implements ServerObserver {
                 () -> {
                     mainStage.getScene().setRoot(root);
                     mainStage.setResizable(true);
+                    height = currentPageName.equals("Welcome") ? 900 : 935;
                     mainStage.setWidth(width * scaleFactor);
                     mainStage.setHeight(height * scaleFactor);
                     mainStage.setResizable(false);
