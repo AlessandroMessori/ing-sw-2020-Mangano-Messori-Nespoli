@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Client.GUI.RequestHandler;
@@ -182,8 +183,6 @@ public class GamePage extends Page implements Initializable {
                 yourTurnBanner.setDisable(false);
 
                 alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
-                gridActive = false;
-
 
                 new java.util.Timer().schedule(
                         new java.util.TimerTask() {
@@ -202,6 +201,7 @@ public class GamePage extends Page implements Initializable {
         }
 
         game = g;
+        //System.out.println(new Gson().toJson(game));
     }
 
     /**
