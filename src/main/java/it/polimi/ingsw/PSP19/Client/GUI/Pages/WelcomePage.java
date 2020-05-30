@@ -133,30 +133,19 @@ public class WelcomePage extends Page implements Initializable {
             alert.showAndWait();
             connectButton.setImage(new Image("/Images/Login/Connect_Button.png"));
         } else {
+            client.setPlayerUsername(username);
+            String serverIp = localServerIsSelected ? "" : anotherServerTextBox.getText();
+
             try {
-                client.setPlayerUsername(username);
-                if (localServerIsSelected) {
-                    client.setServer("");
-                } else {
-                    try {
-                        client.setServer(anotherServerTextBox.getText());
-                    } catch (IllegalArgumentException | IOException IO) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("UNABLE TO ACCESS SERVER INSERTED");
-                        alert.setHeaderText("Unluckily, it's impossible to reach the server.");
-                        alert.setContentText("The server could be unreachable, or you could have failed to write it correctly.");
-                        alert.showAndWait();
-                    }
-                }
-                Thread.sleep(100);
+                client.setServer(serverIp);
+                Thread.sleep(300);
                 String message = messageSerializer.serializeJoinGame(username, nPlayers, null).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.JOIN_GAME, message);
-            } catch (IOException | InterruptedException IO) {
-                //System.out.println("Not able to connect to local server");
+            } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("UNABLE TO ACCESS LOCAL SERVER");
-                alert.setHeaderText("Unluckily, it looks like it's impossible to reach local server.");
-                alert.setContentText("This error is really rare, you're lucky!");
+                alert.setTitle("UNABLE TO ACCESS SERVER INSERTED");
+                alert.setHeaderText("Unluckily, it's impossible to reach the server.");
+                alert.setContentText("The server could be unreachable, or you could have failed to write it correctly.");
                 alert.showAndWait();
             }
         }

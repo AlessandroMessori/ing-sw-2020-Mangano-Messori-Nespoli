@@ -46,7 +46,5 @@ __Step 4)__ *Congratulations!*<br>
 Now you can play your Santorini.jar file without problems.<br><br>
 
 
-#### Enjoy the game!<br><br><br>
-
-__[1] WARNING!__ On some MacOS devices (13" laptops) there could be some problems with the buttons and texts disposure. Be aware, and use a 15,6" display or an Ubuntu/Debian device!<br><br>
-__[2] WARNING!__ On some Windows devices there's a default display option that scales up the images by 125% automatically. This doesn't stop you from playing the game, but it could severely ruin your experience since some in-game possible choices are in the corners or, sometimes, really down/up the screen. __To solve this:__ you can simply go in Settings>System>Display and the first option is the layout one. From the default 125% you can change it to 100%, and of course if you don't like it you can turn it back whenever you want.
+#### Enjoy the game!<br><br>
+__[1] WARNING!__ On some Windows devices there's a default display option that scales up the images by 125% automatically. This doesn't stop you from playing the game, but it could severely ruin your experience since some in-game possible choices are in the corners or, sometimes, really down/up the screen. __To solve this:__ you can simply go in Settings>System>Display and the first option is the layout one. From the default 125% you can change it to 100%, and of course if you don't like it you can turn it back whenever you want.
