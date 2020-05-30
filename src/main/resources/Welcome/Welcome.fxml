@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<Pane fx:id="welcomePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.WelcomePage">
+<Pane fx:id="welcomePageContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.WelcomePage">
    <children>
       <ImageView fitHeight="900.0" fitWidth="1440.0" pickOnBounds="true" preserveRatio="false">
          <image>
             <Image url="@../Images/Login/LoginBackground.png" />
          </image>
       </ImageView>
-      <TextField fx:id="anotherServerTextBox" layoutX="916.0" layoutY="777.0" onMouseClicked="#anotherServer" prefHeight="38.0" prefWidth="295.0" />
-      <TextField fx:id="usernameTextBox" layoutX="898.0" layoutY="307.0" prefHeight="38.0" prefWidth="331.0" />
+      <TextField fx:id="anotherServerTextBox" layoutX="917.0" layoutY="744.0" onMouseClicked="#anotherServer" prefHeight="38.0" prefWidth="295.0" promptText="(NEW SERVER IP)" />
+      <TextField fx:id="usernameTextBox" layoutX="898.0" layoutY="307.0" prefHeight="38.0" prefWidth="331.0" promptText="(MAX 12 CHAR)" />
       <RadioButton fx:id="twoPlayersButton" layoutX="805.0" layoutY="376.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" styleClass="twoPlayersButton">
          <toggleGroup>
             <ToggleGroup fx:id="selectPlayers" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="threePlayersButton" layoutX="805.0" layoutY="427.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="17.0" styleClass="threePlayersButton" toggleGroup="$selectPlayers" />
-      <ImageView fx:id="connectButton" fitHeight="70.0" fitWidth="243.0" layoutX="941.0" layoutY="503.0" onMouseClicked="#playBtnClick" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" onMousePressed="#pressBtn" pickOnBounds="true" preserveRatio="true" styleClass="connectButton">
+      <ImageView fx:id="connectButton" fitHeight="70.0" fitWidth="243.0" layoutX="941.0" layoutY="488.0" onMouseClicked="#playBtnClick" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" onMousePressed="#pressBtn" pickOnBounds="true" preserveRatio="true" styleClass="connectButton">
          <image>
             <Image url="@../Images/Login/Connect_Button.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="localServerBtn" fitHeight="86.0" fitWidth="316.0" layoutX="904.0" layoutY="625.0" onMouseClicked="#clickLocal" onMouseEntered="#mouseEnteredLocal" onMouseExited="#mouseExitedLocal" onMousePressed="#localPressed" pickOnBounds="true" preserveRatio="true" styleClass="localServerBtn">
+      <ImageView fx:id="localServerBtn" fitHeight="86.0" fitWidth="316.0" layoutX="906.0" layoutY="603.0" onMouseClicked="#clickLocal" onMouseEntered="#mouseEnteredLocal" onMouseExited="#mouseExitedLocal" onMousePressed="#localPressed" pickOnBounds="true" preserveRatio="true" styleClass="localServerBtn">
          <image>
             <Image url="@../Images/Login/localServer.png" />
          </image>

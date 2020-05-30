@@ -36,8 +36,8 @@ public class Client extends Application implements ServerObserver {
     private Socket server = null;
     private Stage mainStage;
     double width = 1440;
-    double height = 935;
-    double scaleFactor = 1;
+    double height = 900;
+    double scaleFactor = 0;
     Parent root;
 
     @Override
@@ -47,7 +47,7 @@ public class Client extends Application implements ServerObserver {
 
         //adapts size to smaller screens
         if (primaryScreenBounds.getWidth() < width || primaryScreenBounds.getHeight() < height) {
-            scaleFactor = 0.8;
+            scaleFactor = 0.7;
         }
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
@@ -55,8 +55,12 @@ public class Client extends Application implements ServerObserver {
 
         root = setCurrentPage(new WelcomePage(), "/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
-        Scene scene = new Scene(root, width * scaleFactor, height * scaleFactor);
-
+        Scene scene;
+        if(scaleFactor != 0) {
+            scene = new Scene(root, width * scaleFactor, height * scaleFactor);
+        }else{
+            scene = new Scene(root, width, height);
+        }
         primaryStage.setOnCloseRequest(e -> {
             System.exit(0);
         });
@@ -207,14 +211,15 @@ public class Client extends Application implements ServerObserver {
                 () -> {
                     mainStage.getScene().setRoot(root);
                     mainStage.setResizable(true);
-                    mainStage.setWidth(width * scaleFactor);
-                    mainStage.setHeight(height * scaleFactor);
-                    mainStage.setResizable(false);
-                    Scale scale = new Scale(scaleFactor, scaleFactor);
-                    scale.setPivotX(0);
-                    scale.setPivotY(0);
-                    root.getTransforms().setAll(scale);
-
+                    if(scaleFactor != 0) {
+                        mainStage.setWidth(width * scaleFactor);
+                        mainStage.setHeight(height * scaleFactor);
+                        mainStage.setResizable(false);
+                        Scale scale = new Scale(scaleFactor, scaleFactor);
+                        scale.setPivotX(0);
+                        scale.setPivotY(0);
+                        root.getTransforms().setAll(scale);
+                    }
                     /*if (currentPage.getMediaPlayer() != null) {
                         if (hasMusic == true) {
                             ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
