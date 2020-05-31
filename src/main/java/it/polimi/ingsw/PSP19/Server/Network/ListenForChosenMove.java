@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP19.Server.Model.Divinity;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Server.Model.Model;
 import it.polimi.ingsw.PSP19.Server.Model.Move;
+import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -124,7 +125,8 @@ public class ListenForChosenMove extends ResponseHandler {
                 );
             }
 
-            output.writeObject("Received Move");
+            String message = new MessageSerializer().serializeGame(game, "Received Move").toString();
+            output.writeObject(message);
         } catch (ClassCastException e) {
             System.out.println("error while writing the response");
         }

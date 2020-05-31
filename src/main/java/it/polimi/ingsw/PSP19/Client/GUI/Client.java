@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Server;
+import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -56,9 +57,9 @@ public class Client extends Application implements ServerObserver {
         root = setCurrentPage(new WelcomePage(), "/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
         Scene scene;
-        if(scaleFactor != 0) {
+        if (scaleFactor != 0) {
             scene = new Scene(root, width * scaleFactor, height * scaleFactor);
-        }else{
+        } else {
             scene = new Scene(root, width, height);
         }
         primaryStage.setOnCloseRequest(e -> {
@@ -211,7 +212,7 @@ public class Client extends Application implements ServerObserver {
                 () -> {
                     mainStage.getScene().setRoot(root);
                     mainStage.setResizable(true);
-                    if(scaleFactor != 0) {
+                    if (scaleFactor != 0) {
                         mainStage.setWidth(width * scaleFactor);
                         mainStage.setHeight(height * scaleFactor);
                         mainStage.setResizable(false);
@@ -397,6 +398,14 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an pawn signal is received from the server
      */
     public synchronized void receivePawn(String pawn) {
+        Game game = (new MessageDeserializer()).deserializeObject(pawn, "game", Game.class);
+
+        try {
+            currentPage.setGame(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (pawn.equals("You Lost")) {
             System.out.println("You don't have any possible move!");
             //currentPage = Pages.LOADINGMOVE;
@@ -415,7 +424,6 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an canComeUp signal is received from the server
      */
     public synchronized void receiveCanComeUp(String canComeUp) {
-        //currentPage = Pages.GAME;
         notifyAll();
     }
 
@@ -423,6 +431,13 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an new move signal is received from the server
      */
     public synchronized void receiveMoves(String moves) {
+        Game game = (new MessageDeserializer()).deserializeObject(moves, "game", Game.class);
+
+        try {
+            currentPage.setGame(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         notifyAll();
     }
 
@@ -451,6 +466,15 @@ public class Client extends Application implements ServerObserver {
                         currentPage.showDisconnected();
                     }
             );
+        }
+
+        if (game.getWinner() != null) {
+            game = g;
+            try {
+                setCurrentPage(new EndingPage(), null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 

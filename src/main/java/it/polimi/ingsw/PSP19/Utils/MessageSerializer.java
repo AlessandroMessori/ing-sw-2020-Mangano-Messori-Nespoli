@@ -153,13 +153,15 @@ public class MessageSerializer {
      * @param pawn     the pawn to serialize
      * @return the JSON serialized send Chosen Pawn Message
      */
-    public JsonElement serializeChosenPawn(String gameID, String username, Pawn pawn) {
+    public JsonElement serializeChosenPawn(String gameID, String username, Pawn pawn,int x,int y) {
         JsonObject result = new JsonObject();
 
         result.add("header", new JsonPrimitive("SendChosenPawn"));
         result.add("gameID", new JsonPrimitive(gameID));
         result.add("username", new JsonPrimitive(username));
         result.add("pawn", new JsonPrimitive(gson.toJson(pawn)));
+        result.add("x",new JsonPrimitive(x));
+        result.add("y",new JsonPrimitive(y));
 
         return result;
     }
@@ -208,10 +210,10 @@ public class MessageSerializer {
      * @param game the game to serialize
      * @return the JSON serialized send Game Message
      */
-    public JsonElement serializeGame(Game game) {
+    public JsonElement serializeGame(Game game,String header) {
         JsonObject result = new JsonObject();
 
-        result.add("header", new JsonPrimitive("SendGameUpdate"));
+        result.add("header", new JsonPrimitive(header));
         result.add("game", new JsonPrimitive(gson.toJson(game)));
 
         return result;

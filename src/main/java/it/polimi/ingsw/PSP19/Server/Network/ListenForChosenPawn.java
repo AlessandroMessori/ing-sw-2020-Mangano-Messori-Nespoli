@@ -4,6 +4,7 @@ import it.polimi.ingsw.PSP19.Server.Controller.ServerController;
 import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Model.*;
+import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -37,6 +38,7 @@ public class ListenForChosenPawn extends ResponseHandler {
             String gameID;
             Pawn pawn;
             Move move;
+            int moveX,moveY;
 
 
             System.out.println("Received Choose Pawn Request");
@@ -44,22 +46,16 @@ public class ListenForChosenPawn extends ResponseHandler {
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             pawn = messageDeserializer.deserializeObject(requestContent, "pawn", Pawn.class);
             move = new Move(pawn);
+            moveX = messageDeserializer.deserializeObject(requestContent,"x",Integer.class);
+            moveY = messageDeserializer.deserializeObject(requestContent,"y",Integer.class);
             game = Model.getModel().searchID(gameID);
             game.getCurrentPlayer().setCurrentPawn(pawn);
-            game.setnMoves(game.getnMoves() + 1);
 
-            for (int x = 0; x < 5; x++) {
-                for (int y = 0; y < 5; y++) {
-                    if (game.getNewGrid().getCells(x, y).getPawn() != null) {
-                        if (game.getNewGrid().getCells(x, y).getPawn().getId() == pawn.getId()) {
-                            boolean ifMove = game.getCurrentPlayer().getDivinity() != Divinity.PROMETHEUS || game.getGameTurn().getDecidesToComeUp();
-                            move.setIfMove(ifMove);
-                            move.setX(x);
-                            move.setY(y);
-                        }
-                    }
-                }
-            }
+
+            boolean ifMove = game.getCurrentPlayer().getDivinity() != Divinity.PROMETHEUS || game.getGameTurn().getDecidesToComeUp();
+            move.setIfMove(ifMove);
+            move.setX(moveX);
+            move.setY(moveY);
 
             game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), gameID, move, game.getGameTurn()));
@@ -114,14 +110,23 @@ public class ListenForChosenPawn extends ResponseHandler {
                         game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
                     }
 
-                    output.writeObject("You Lost");
+
+                    game.setnMoves(game.getnMoves() + 1);
+                    String message = new MessageSerializer().serializeGame(game, "You Lost").toString();
+                    output.writeObject(message);
                 } else {
                     //this pawn doesn't have any possible moves but the other one does
                     game.setNextMoves(moves);
-                    output.writeObject("This pawn doesn't have any possible moves,choosing the other one");
+
+                    game.setnMoves(game.getnMoves() + 1);
+                    String message = new MessageSerializer().serializeGame(game, "This pawn doesn't have any possible moves,choosing the other one").toString();
+                    output.writeObject(message);
                 }
             } else {
-                output.writeObject("Received Chosen Pawn");
+
+                game.setnMoves(game.getnMoves() + 1);
+                String message = new MessageSerializer().serializeGame(game, "Received Chosen Pawn").toString();
+                output.writeObject(message);
             }
         } catch (ClassCastException e) {
             e.printStackTrace();

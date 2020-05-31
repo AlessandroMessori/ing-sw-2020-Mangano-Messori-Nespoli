@@ -104,31 +104,30 @@ public class GamePage extends Page implements Initializable {
 
     public void setGame(Game g) throws IOException, InterruptedException {
 
-        if (game == null || (!localChanges)) {
-            // start of a new turn,updating the GUI
-            newTurnGUIUpdate(g);
-        }
+        if (game == null || startingPosition || !gridActive) {
 
-        //opponent moves data updates
-        if (game != null && g != null && turnText != null) {
-
-            //if the game has ended,go to Ending Page
-            if (game.getWinner() != null) {
-                client.setCurrentPage(new EndingPage(), null);
+            if (game == null || (!localChanges && (game.getNTurns() < g.getNTurns() || game.getnMoves() < g.getnMoves()))) {
+                // start of a new turn,updating the GUI
+                newTurnGUIUpdate(g);
             }
 
-            // boolean to decide whether it's the client's turn to move
-            gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+            //opponent moves data updates
+            if (game != null && g != null && turnText != null) {
 
-            //updates the GUI based on the opponent moves
-            opponentMoveGUIUpdate(g);
+                // boolean to decide whether it's the client's turn to move
+                gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
-            //defines the behaviour of the Extra Button
-            setExtraBtnAction();
+                //updates the GUI based on the opponent moves
+                opponentMoveGUIUpdate(g);
 
-            //defines the behaviour of the Grid
-            setGridActions();
+                //defines the behaviour of the Extra Button
+                setExtraBtnAction();
+
+                //defines the behaviour of the Grid
+                setGridActions();
+            }
         }
+
 
     }
 
@@ -202,7 +201,6 @@ public class GamePage extends Page implements Initializable {
             }
 
         }
-
         game = g;
         //System.out.println(new Gson().toJson(game));
     }
@@ -460,7 +458,7 @@ public class GamePage extends Page implements Initializable {
      */
     private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
-        if (gridActive && alreadySelectedCanComeUp && !loadingNewGrid) {
+        if (gridActive && alreadySelectedCanComeUp && !loadingNewGrid && game.getWinner() == null) {
             if (alreadySelectedPawn) {
                 int selectedMove = -1;
                 //coeff used to select special moves for a certain coordinate
@@ -516,19 +514,15 @@ public class GamePage extends Page implements Initializable {
                     }
 
 
+                    localChanges = false;
+
+                    if (game.getWinner() != null) {
+                        gridActive = false;
+                    }
+
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
 
-                    localChanges = false;
-
-
-                    if (game.getWinner() != null) {
-                        try {
-                            client.setCurrentPage(new EndingPage(), null);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
 
             } else {
@@ -539,7 +533,7 @@ public class GamePage extends Page implements Initializable {
                     game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
                     alreadySelectedPawn = true;
                     chosenPawnID = currentCell.getPawn().getId();
-                    String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
+                    String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn(), finalI, finalJ).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
                     localChanges = false;
 
@@ -599,7 +593,7 @@ public class GamePage extends Page implements Initializable {
     private void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
 
         //draws Move
-        if (currentMoveImage != null) {
+        if (currentMoveImage != null && game.getWinner() == null) {
             if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
                 for (int k = 0; k < game.getNextMoves().size(); k++) {
                     if (game.getNextMoves().getMove(k).getX() == i && game.getNextMoves().getMove(k).getY() == j) {
