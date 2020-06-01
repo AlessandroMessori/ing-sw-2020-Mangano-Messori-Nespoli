@@ -87,9 +87,9 @@ public class Move {
     public String toString() {
         StringBuilder moveString = new StringBuilder();
 
-        moveString.append("\"pawnID\":" + getToMove().getId() + ",\n");
+        //moveString.append("\"pawnID\":" + getToMove().getId() + ",\n");
         moveString.append("\"x\":" + getX() + ",\n");
-        moveString.append("\"y\":" + getX() + ",\n");
+        moveString.append("\"y\":" + getY() + ",\n");
         moveString.append("\"ifMove\":" + getIfMove() + ",\n");
 
 

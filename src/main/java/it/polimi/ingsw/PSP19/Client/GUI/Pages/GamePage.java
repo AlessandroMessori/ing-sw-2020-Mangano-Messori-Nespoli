@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Client.GUI.RequestHandler;
@@ -104,27 +103,39 @@ public class GamePage extends Page implements Initializable {
 
     public void setGame(Game g) throws IOException, InterruptedException {
 
+
+        System.out.println(g.getnMoves());
+
         if (game == null || startingPosition || !gridActive) {
 
-            if (game == null || (!localChanges && (game.getNTurns() < g.getNTurns() || game.getnMoves() < g.getnMoves()))) {
+            if (game != null && (!localChanges && game.getNTurns() < g.getNTurns())) {
                 // start of a new turn,updating the GUI
-                newTurnGUIUpdate(g);
+                showNewTurnBanner(g);
             }
 
-            //opponent moves data updates
-            if (game != null && g != null && turnText != null) {
-
+            //data updates
+            if (turnText != null) {
                 // boolean to decide whether it's the client's turn to move
                 gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
-                //updates the GUI based on the opponent moves
-                opponentMoveGUIUpdate(g);
+                if (game != null) {
+                    System.out.println(game.getnMoves() + " " + g.getnMoves());
+                }
 
-                //defines the behaviour of the Extra Button
-                setExtraBtnAction();
+                if (game == null || (!localChanges && g.getnMoves() == 0) || (!localChanges && game.getnMoves() < g.getnMoves()) || (!localChanges && game.getNTurns() < g.getNTurns())) {
+                    System.out.println("Updating Game!");
+                    game = g;
 
-                //defines the behaviour of the Grid
-                setGridActions();
+                    //updates the GUI based on the opponent moves
+                    opponentMoveGUIUpdate();
+
+                    //defines the behaviour of the Extra Button
+                    setExtraBtnAction();
+
+                    //defines the behaviour of the Grid
+                    setGridActions();
+                }
+
             }
         }
 
@@ -169,48 +180,43 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Updates the GUI when a new turn starts
-     *
-     * @param g the update game data from the model
      */
-    private void newTurnGUIUpdate(Game g) {
+    private void showNewTurnBanner(Game g) {
         //start of new turn
-        if (game != null && game.getNTurns() != g.getNTurns()) {
-            chosenPawnID = -1;
-            alreadySelectedPawn = false;
 
-            if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
-                yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
-                yourTurnBanner.setDisable(false);
+        chosenPawnID = -1;
+        alreadySelectedPawn = false;
 
-                alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
+        if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
+            yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
+            yourTurnBanner.setDisable(false);
 
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
+            alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
 
-                                yourTurnBanner.setImage(null);
-                                yourTurnBanner.setDisable(true);
-                            }
-                        },
-                        1500
-                );
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
 
-                System.out.println("Starting Turn");
+                            yourTurnBanner.setImage(null);
+                            yourTurnBanner.setDisable(true);
+                        }
+                    },
+                    1500
+            );
 
-            }
+            System.out.println("Starting Turn");
 
         }
-        game = g;
+
         //System.out.println(new Gson().toJson(game));
     }
 
+
     /**
      * Updates the GUI when the opponent makes a new move
-     *
-     * @param g the update game data from the model
      */
-    private void opponentMoveGUIUpdate(Game g) throws IOException, InterruptedException {
+    private void opponentMoveGUIUpdate() throws IOException, InterruptedException {
 
         if (game.getThreePlayers()) {
             if (twoPlayersPanel != null) {
@@ -226,7 +232,7 @@ public class GamePage extends Page implements Initializable {
         String actionTextContent = "POSITION";
 
         if (turnText != null) {
-            turnText.setText("Turn " + g.getNTurns());
+            turnText.setText("Turn " + game.getNTurns());
         }
 
         boolean alreadySetFirstOpponentImage = false;
@@ -522,7 +528,6 @@ public class GamePage extends Page implements Initializable {
 
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
-
                 }
 
             } else {
@@ -572,8 +577,7 @@ public class GamePage extends Page implements Initializable {
         } else if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
             return game.getNextMoves().getMove(0).getIfMove() ? "MOVE" : "BUILD";
         } else {
-            assert game.getNextMoves() != null;
-            if (game.getNextMoves().size() == 0) {
+            if (game.getNextMoves() != null && game.getNextMoves().size() == 0) {
                 client.setCurrentPage(new EndingPage(), null);
             }
             return null;

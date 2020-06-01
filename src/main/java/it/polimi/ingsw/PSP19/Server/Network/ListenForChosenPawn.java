@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PSP19.Server.Network;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Server.Controller.ServerController;
 import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
 import it.polimi.ingsw.PSP19.Server.Model.*;
@@ -32,8 +33,6 @@ public class ListenForChosenPawn extends ResponseHandler {
     @Override
     public void handleResponse(String requestContent) throws IOException {
         try {
-            ArrayList<String> receivedDivinitiesStr;
-            ArrayList<Divinity> receivedDivinities;
             MoveList moves;
             String gameID;
             Pawn pawn;
@@ -59,6 +58,8 @@ public class ListenForChosenPawn extends ResponseHandler {
 
             game.getGameTurn().startingTurn(game.getCurrentPlayer().getDivinity());
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), gameID, move, game.getGameTurn()));
+
+            System.out.println(new Gson().toJson(game.getNextMoves()));
 
             if (game.getNextMoves().size() <= 0) {
                 Move otherPawnMove = null;

@@ -64,6 +64,7 @@ public class ListenForStartingPosition extends ResponseHandler {
                 game.setNTurns(1);
             }
 
+            game.setnMoves(game.getnMoves() + 1);
             output.writeObject("Received Starting Position");
 
         } catch (

@@ -41,7 +41,6 @@ public class ListenForChosenMove extends ResponseHandler {
 
             //updates the game in Model with the data sent from the Client
             game.copyGame(gameToCopy);
-            game.setnMoves(game.getnMoves() + 1);
 
 
             if ((chosenMove.getX() == 6 && chosenMove.getY() == 6 && (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER || game.getCurrentPlayer().getDivinity() == Divinity.HEPHAESTUS))
@@ -112,6 +111,8 @@ public class ListenForChosenMove extends ResponseHandler {
 
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), chosenMove, game.getGameTurn()));
 
+            System.out.println(game.getNextMoves());
+
             if (game.getWinner() != null) {
                 // Deletes Game After 5 Seconds
                 new java.util.Timer().schedule(
@@ -125,6 +126,8 @@ public class ListenForChosenMove extends ResponseHandler {
                 );
             }
 
+
+            game.setnMoves(game.getnMoves() + 1);
             String message = new MessageSerializer().serializeGame(game, "Received Move").toString();
             output.writeObject(message);
         } catch (ClassCastException e) {

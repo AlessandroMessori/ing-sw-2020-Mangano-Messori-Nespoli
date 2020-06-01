@@ -432,7 +432,7 @@ public class Client extends Application implements ServerObserver {
      */
     public synchronized void receiveMoves(String moves) {
         Game game = (new MessageDeserializer()).deserializeObject(moves, "game", Game.class);
-
+        System.out.println("Received Moves Response!");
         try {
             currentPage.setGame(game);
         } catch (Exception e) {
