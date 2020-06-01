@@ -111,18 +111,22 @@ public class GamePage extends Page implements Initializable {
             if (game != null && (!localChanges && game.getNTurns() < g.getNTurns())) {
                 // start of a new turn,updating the GUI
                 showNewTurnBanner(g);
+                modelUpdaterThread.setModelCheck(true);
             }
 
             //data updates
             if (turnText != null) {
                 // boolean to decide whether it's the client's turn to move
                 gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+                if (gridActive && game != null && game.getnMoves() < g.getnMoves()) {
+                    modelUpdaterThread.setModelCheck(false);
+                }
 
                 if (game != null) {
                     System.out.println(game.getnMoves() + " " + g.getnMoves());
                 }
 
-                if (game == null || (!localChanges && g.getnMoves() == 0) || (!localChanges && game.getnMoves() < g.getnMoves()) || (!localChanges && game.getNTurns() < g.getNTurns())) {
+                if (game == null || (g.getnMoves() == 0) || (!localChanges) || (game.getnMoves() < g.getnMoves()) || (game.getNTurns() < g.getNTurns())) {
                     System.out.println("Updating Game!");
                     game = g;
 
@@ -443,6 +447,15 @@ public class GamePage extends Page implements Initializable {
             pawnCounter++;
 
             if (pawnCounter == 2) {
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                modelUpdaterThread.setModelCheck(true);
+                            }
+                        },
+                        1000
+                );
                 gridActive = false;
                 actionText.setText("LOADING");
                 startingPosition = false;
@@ -526,6 +539,19 @@ public class GamePage extends Page implements Initializable {
                         gridActive = false;
                     }
 
+                    if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0) {
+                        //turn ending,start redownloading updates
+                        new java.util.Timer().schedule(
+                                new java.util.TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        modelUpdaterThread.setModelCheck(true);
+                                    }
+                                },
+                                1000
+                        );
+                    }
+
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
                 }
@@ -556,6 +582,15 @@ public class GamePage extends Page implements Initializable {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
             gridActive = false;
             actionText.setText("LOADING");
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            modelUpdaterThread.setModelCheck(true);
+                        }
+                    },
+                    1000
+            );
 
             String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);

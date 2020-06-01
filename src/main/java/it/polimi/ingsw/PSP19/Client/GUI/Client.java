@@ -39,6 +39,7 @@ public class Client extends Application implements ServerObserver {
     double width = 1440;
     double height = 900;
     double scaleFactor = 0;
+    ModelUpdaterThread modelUpdater;
     Parent root;
 
     @Override
@@ -202,6 +203,7 @@ public class Client extends Application implements ServerObserver {
 
         currentPage = loader.getController();
         currentPage.setClient(this);
+        currentPage.setModelUpdaterThread(modelUpdater);
         currentPage.setGame(game);
 
         /*if (hasMusic) {
@@ -335,7 +337,7 @@ public class Client extends Application implements ServerObserver {
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
 
-        ModelUpdaterThread modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
+         modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
         Thread modelUpdaterThread = new Thread(modelUpdater);
 
         modelUpdater.setModelCheck(true);

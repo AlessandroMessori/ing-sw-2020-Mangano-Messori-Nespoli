@@ -125,7 +125,7 @@ public class ListenForChosenPawn extends ResponseHandler {
                 }
             } else {
 
-                game.setnMoves(game.getnMoves() + 1);
+                game.setnMoves(game.getnMoves() + 2);
                 String message = new MessageSerializer().serializeGame(game, "Received Chosen Pawn").toString();
                 output.writeObject(message);
             }

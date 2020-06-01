@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
 import it.polimi.ingsw.PSP19.Client.GUI.Client;
+import it.polimi.ingsw.PSP19.Client.GUI.ModelUpdaterThread;
 import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
@@ -18,6 +19,8 @@ public abstract class Page {
     protected Client client;
 
     protected final MessageSerializer messageSerializer = new MessageSerializer();
+
+    protected ModelUpdaterThread modelUpdaterThread = null;
 
     //protected MediaView mediaView = null;
 
@@ -83,6 +86,16 @@ public abstract class Page {
 
         alert.showAndWait();
     }
+
+    /**
+     * sets the model updater thread
+     *
+     * @param sAdapter the ServerAdapter to set
+     */
+    public void setModelUpdaterThread(ModelUpdaterThread modelUp) {
+        modelUpdaterThread = modelUp;
+    }
+
 
     /*
 
