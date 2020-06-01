@@ -37,7 +37,7 @@ public class Client extends Application implements ServerObserver {
     private Stage mainStage;
     double width = 1440;
     double height = 900;
-    double scaleFactor = 0;
+    double scaleFactor = 1;
     Parent root;
 
     @Override
@@ -48,6 +48,8 @@ public class Client extends Application implements ServerObserver {
         //adapts size to smaller screens
         if (primaryScreenBounds.getWidth() < width || primaryScreenBounds.getHeight() < height) {
             scaleFactor = 0.7;
+            width = width*scaleFactor;
+            height = height*scaleFactor;
         }
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
@@ -55,12 +57,8 @@ public class Client extends Application implements ServerObserver {
 
         root = setCurrentPage(new WelcomePage(), "/Music/Menu/Atmospheric_fantasy_music_-_Ocean_Palace.mp3");
 
-        Scene scene;
-        if(scaleFactor != 0) {
-            scene = new Scene(root, width * scaleFactor, height * scaleFactor);
-        }else{
-            scene = new Scene(root, width, height);
-        }
+        Scene scene = new Scene(root, width, height);
+
         primaryStage.setOnCloseRequest(e -> {
             System.exit(0);
         });
@@ -209,17 +207,15 @@ public class Client extends Application implements ServerObserver {
         }*/
         Platform.runLater(
                 () -> {
+
+                    root.resize(width,height);
                     mainStage.getScene().setRoot(root);
-                    mainStage.setResizable(true);
-                    if(scaleFactor != 0) {
-                        mainStage.setWidth(width * scaleFactor);
-                        mainStage.setHeight(height * scaleFactor);
-                        mainStage.setResizable(false);
-                        Scale scale = new Scale(scaleFactor, scaleFactor);
-                        scale.setPivotX(0);
-                        scale.setPivotY(0);
-                        root.getTransforms().setAll(scale);
-                    }
+                    mainStage.setResizable(false);
+                    Scale scale = new Scale(scaleFactor, scaleFactor);
+                    scale.setPivotX(0);
+                    scale.setPivotY(0);
+                    root.getTransforms().setAll(scale);
+
                     /*if (currentPage.getMediaPlayer() != null) {
                         if (hasMusic == true) {
                             ((Pane) mainStage.getScene().getRoot()).getChildren().add(currentPage.getMediaView());
