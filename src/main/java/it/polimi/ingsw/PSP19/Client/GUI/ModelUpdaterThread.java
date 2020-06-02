@@ -52,7 +52,7 @@ public class ModelUpdaterThread implements Runnable {
                 lastTime = Instant.now();
                 PeriodicUpdater checkModelUpdate = new PeriodicUpdater(codGame, serverAdapter,true);
                 Thread checkModelUpdateThread = new Thread(checkModelUpdate);
-                //System.out.println("Checking for model updates");
+                System.out.println("Checking for model updates");
                 checkModelUpdateThread.start();
             }
         }

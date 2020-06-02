@@ -118,7 +118,8 @@ public class GamePage extends Page implements Initializable {
             if (turnText != null) {
                 // boolean to decide whether it's the client's turn to move
                 gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
-                if (gridActive && ((game != null && game.getnMoves() < g.getnMoves()) || (startingPosition && pawnCounter < 2))) {
+
+                if (gridActive && ((game != null && game.getnMoves() < g.getnMoves()))) {
                     modelUpdaterThread.setModelCheck(false);
                 }
 
@@ -126,8 +127,10 @@ public class GamePage extends Page implements Initializable {
                     System.out.println(game.getnMoves() + " " + g.getnMoves());
                 }
 
-                if (game == null || (g.getnMoves() == 0) || (!localChanges) || (game.getnMoves() < g.getnMoves()) || (game.getNTurns() < g.getNTurns())) {
+                if (game == null || (!(startingPosition && pawnCounter < 2) && game.getnMoves() == 0) || (!localChanges) || (game.getnMoves() < g.getnMoves()) || (game.getNTurns() < g.getNTurns())) {
                     System.out.println("Updating Game!");
+
+
                     game = g;
 
                     //updates the GUI based on the opponent moves
@@ -138,6 +141,8 @@ public class GamePage extends Page implements Initializable {
 
                     //defines the behaviour of the Grid
                     setGridActions();
+
+
                 }
 
             }
@@ -447,15 +452,6 @@ public class GamePage extends Page implements Initializable {
             pawnCounter++;
 
             if (pawnCounter == 2) {
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                modelUpdaterThread.setModelCheck(true);
-                            }
-                        },
-                        1500
-                );
                 gridActive = false;
                 actionText.setText("LOADING");
                 startingPosition = false;
@@ -463,6 +459,19 @@ public class GamePage extends Page implements Initializable {
                 String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
                 localChanges = false;
+
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+
+                                modelUpdaterThread.setModelCheck(true);
+                                System.out.println("ModelCheck = TRUE");
+                            }
+                        },
+                        1500
+                );
+
             }
         }
 
@@ -645,10 +654,8 @@ public class GamePage extends Page implements Initializable {
 
         // draws Tower
 
-        if (currentCell.getTower().getIsDome() && currentCell.getTower().getLevel() != 4) {
-            currentTowerImage.setImage(new Image("/Images/Game/Buildings/Dome.png"));
-        } else if (currentCell.getTower().getLevel() > 0) {
-            currentTowerImage.setImage(new Image(GuiHelper.getBuildingImagePath(currentCell.getTower().getLevel())));
+        if (currentCell.getTower().getIsDome() || currentCell.getTower().getLevel() > 0) {
+            currentTowerImage.setImage(new Image(GuiHelper.getBuildingImagePath(currentCell.getTower().getLevel(), currentCell.getTower().getIsDome())));
         } else {
             currentTowerImage.setImage(null);
         }

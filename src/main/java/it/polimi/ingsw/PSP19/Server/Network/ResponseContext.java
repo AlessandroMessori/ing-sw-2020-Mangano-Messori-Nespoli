@@ -39,7 +39,7 @@ public class ResponseContext implements Runnable {
             handleResponse();
         } catch (Exception e) {
             System.out.println("Client " + client.getInetAddress() + " connection dropped");
-            /*if (gameID != null) {
+            if (gameID != null) {
                 Game disconnectedGame = Model.getModel().searchID(gameID);
                 disconnectedGame.setDisconnected();
                 //Deletes Game from Model after 5 seconds
@@ -47,12 +47,17 @@ public class ResponseContext implements Runnable {
                         new java.util.TimerTask() {
                             @Override
                             public void run() {
-                                Model.getModel().delGame(disconnectedGame);
+                                try {
+                                    Model.getModel().delGame(disconnectedGame);
+                                }
+                                catch (Exception e) {
+
+                                }
                             }
                         },
                         30000
                 );
-            }*/
+            }
         }
     }
 

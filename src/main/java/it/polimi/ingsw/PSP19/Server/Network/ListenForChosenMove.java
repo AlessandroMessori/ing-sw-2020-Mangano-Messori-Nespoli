@@ -113,20 +113,6 @@ public class ListenForChosenMove extends ResponseHandler {
 
             System.out.println(game.getNextMoves());
 
-            if (game.getWinner() != null) {
-                // Deletes Game After 5 Seconds
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                Model.getModel().delGame(game);
-                            }
-                        },
-                        30000
-                );
-            }
-
-
             game.setnMoves(game.getnMoves() + 1);
             String message = new MessageSerializer().serializeGame(game, "Received Move").toString();
             output.writeObject(message);
