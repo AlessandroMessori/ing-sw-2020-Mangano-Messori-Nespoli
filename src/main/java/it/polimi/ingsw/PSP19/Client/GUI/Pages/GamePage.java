@@ -118,7 +118,7 @@ public class GamePage extends Page implements Initializable {
             if (turnText != null) {
                 // boolean to decide whether it's the client's turn to move
                 gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
-                if (gridActive && game != null && (game.getnMoves() < g.getnMoves() || startingPosition)) {
+                if (gridActive && ((game != null && game.getnMoves() < g.getnMoves()) || (startingPosition && pawnCounter < 2))) {
                     modelUpdaterThread.setModelCheck(false);
                 }
 
@@ -539,7 +539,7 @@ public class GamePage extends Page implements Initializable {
                         gridActive = false;
                     }
 
-                    if (game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0) {
+                    if ((game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0) || game.getWinner() != null) {
                         //turn ending,start redownloading updates
                         new java.util.Timer().schedule(
                                 new java.util.TimerTask() {
