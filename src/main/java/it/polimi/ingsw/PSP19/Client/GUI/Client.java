@@ -426,6 +426,13 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an canComeUp signal is received from the server
      */
     public synchronized void receiveCanComeUp(String canComeUp) {
+        Game game = (new MessageDeserializer()).deserializeObject(canComeUp, "game", Game.class);
+        System.out.println("Received Can Come Up Response!");
+        try {
+            currentPage.setGame(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         notifyAll();
     }
 

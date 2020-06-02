@@ -118,7 +118,7 @@ public class GamePage extends Page implements Initializable {
             if (turnText != null) {
                 // boolean to decide whether it's the client's turn to move
                 gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
-                if (gridActive && game != null && game.getnMoves() < g.getnMoves()) {
+                if (gridActive && game != null && (game.getnMoves() < g.getnMoves() || startingPosition)) {
                     modelUpdaterThread.setModelCheck(false);
                 }
 
@@ -454,7 +454,7 @@ public class GamePage extends Page implements Initializable {
                                 modelUpdaterThread.setModelCheck(true);
                             }
                         },
-                        1000
+                        1500
                 );
                 gridActive = false;
                 actionText.setText("LOADING");
@@ -548,7 +548,7 @@ public class GamePage extends Page implements Initializable {
                                         modelUpdaterThread.setModelCheck(true);
                                     }
                                 },
-                                1000
+                                1500
                         );
                     }
 
@@ -589,7 +589,7 @@ public class GamePage extends Page implements Initializable {
                             modelUpdaterThread.setModelCheck(true);
                         }
                     },
-                    1000
+                    1500
             );
 
             String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
