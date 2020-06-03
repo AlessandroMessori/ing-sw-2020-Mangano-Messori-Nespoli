@@ -420,6 +420,7 @@ public class Client extends Application implements ServerObserver {
     @Override
     public synchronized void receiveStartingPosition(String position) {
         notifyAll();
+        modelUpdater.setModelCheck(true);
     }
 
     /**
@@ -443,6 +444,11 @@ public class Client extends Application implements ServerObserver {
         Game game = (new MessageDeserializer()).deserializeObject(moves, "game", Game.class);
         System.out.println("Received Moves Response!");
         try {
+
+            if (game == null || !game.getCurrentPlayer().getUsername().equals(playerUsername) || game.getWinner() != null) {
+                modelUpdater.setModelCheck(true);
+            }
+
             currentPage.setGame(game);
         } catch (Exception e) {
             e.printStackTrace();

@@ -105,8 +105,10 @@ public class GamePage extends Page implements Initializable {
 
 
         System.out.println(g.getnMoves());
+        gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
-        if (game == null || startingPosition || !gridActive) {
+
+        if (game == null || startingPosition || !gridActive || (game != null && game.getnMoves() < g.getnMoves())) {
 
             if (game != null && (!localChanges && game.getNTurns() < g.getNTurns())) {
                 // start of a new turn,updating the GUI
@@ -117,8 +119,6 @@ public class GamePage extends Page implements Initializable {
             //data updates
             if (turnText != null) {
                 // boolean to decide whether it's the client's turn to move
-                gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
-
                 if (gridActive && ((game != null && game.getnMoves() < g.getnMoves()))) {
                     modelUpdaterThread.setModelCheck(false);
                 }
@@ -441,7 +441,7 @@ public class GamePage extends Page implements Initializable {
      */
     private void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
-        if (currentCell.getPawn() == null && gridActive) {
+        if (currentCell.getPawn() == null && gridActive && pawnCounter < 2) {
             Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));
             newPawn.getOwner().setColour(client.getChosenColor());
             newPawn.setId(GuiHelper.getNewPawnId(game, pawnCounter));
@@ -459,18 +459,6 @@ public class GamePage extends Page implements Initializable {
                 String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
                 localChanges = false;
-
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-
-                                modelUpdaterThread.setModelCheck(true);
-                                System.out.println("ModelCheck = TRUE");
-                            }
-                        },
-                        1500
-                );
 
             }
         }
@@ -548,19 +536,6 @@ public class GamePage extends Page implements Initializable {
                         gridActive = false;
                     }
 
-                    if ((game.getGameTurn().getNPossibleMoves() == 0 && game.getGameTurn().getNPossibleBuildings() == 0) || game.getWinner() != null) {
-                        //turn ending,start redownloading updates
-                        new java.util.Timer().schedule(
-                                new java.util.TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        modelUpdaterThread.setModelCheck(true);
-                                    }
-                                },
-                                1500
-                        );
-                    }
-
                     String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
                 }
@@ -591,15 +566,7 @@ public class GamePage extends Page implements Initializable {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
             gridActive = false;
             actionText.setText("LOADING");
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            modelUpdaterThread.setModelCheck(true);
-                        }
-                    },
-                    1500
-            );
+
 
             String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
