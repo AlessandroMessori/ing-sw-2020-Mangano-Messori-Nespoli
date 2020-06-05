@@ -43,8 +43,8 @@ public class GuiHelperTest {
 
     @Test
     public void getBuildingImagePathTest() {
-        assertNull(GuiHelper.getBuildingImagePath(5));
-        assertEquals("/Images/Game/Buildings/Building1levels.png", GuiHelper.getBuildingImagePath(1));
+        assertNull(GuiHelper.getBuildingImagePath(5,false));
+        assertEquals("/Images/Game/Buildings/Building1levels.png", GuiHelper.getBuildingImagePath(1, false));
     }
 
     @Test

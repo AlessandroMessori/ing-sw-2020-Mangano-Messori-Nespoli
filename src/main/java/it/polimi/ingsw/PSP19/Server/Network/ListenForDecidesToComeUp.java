@@ -1,7 +1,9 @@
 package it.polimi.ingsw.PSP19.Server.Network;
 
+import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Server.Model.Model;
 import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
+import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -27,16 +29,20 @@ public class ListenForDecidesToComeUp extends ResponseHandler {
         try {
             String gameID;
             boolean canComeUp;
+            Game game;
 
             System.out.println("Received Choose Decides To Come Up Request");
 
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             canComeUp = messageDeserializer.deserializeBoolean(requestContent, "canComeUp");
+            game = model.searchID(gameID);
 
-            model.searchID(gameID).getGameTurn().setDecidesToComeUp(canComeUp);
+            game.getGameTurn().setDecidesToComeUp(canComeUp);
             System.out.println("canComeUp: " + model.searchID(gameID).getGameTurn().getDecidesToComeUp());
 
-            output.writeObject("Received Can Come Up");
+            game.setnMoves(game.getnMoves() + 1);
+            String message = new MessageSerializer().serializeGame(game, "Received Can Come Up").toString();
+            output.writeObject(message);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("error while writing the response");

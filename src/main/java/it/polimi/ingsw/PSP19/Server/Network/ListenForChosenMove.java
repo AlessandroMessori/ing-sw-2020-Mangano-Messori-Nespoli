@@ -7,6 +7,7 @@ import it.polimi.ingsw.PSP19.Server.Model.Divinity;
 import it.polimi.ingsw.PSP19.Server.Model.Game;
 import it.polimi.ingsw.PSP19.Server.Model.Model;
 import it.polimi.ingsw.PSP19.Server.Model.Move;
+import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -40,7 +41,6 @@ public class ListenForChosenMove extends ResponseHandler {
 
             //updates the game in Model with the data sent from the Client
             game.copyGame(gameToCopy);
-            game.setnMoves(game.getnMoves() + 1);
 
 
             if ((chosenMove.getX() == 6 && chosenMove.getY() == 6 && (game.getCurrentPlayer().getDivinity() == Divinity.DEMETER || game.getCurrentPlayer().getDivinity() == Divinity.HEPHAESTUS))
@@ -111,20 +111,11 @@ public class ListenForChosenMove extends ResponseHandler {
 
             game.setNextMoves(serverController.calculateNextMove(game.getNewGrid(), game.getCodGame(), chosenMove, game.getGameTurn()));
 
-            if (game.getWinner() != null) {
-                // Deletes Game After 5 Seconds
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                Model.getModel().delGame(game);
-                            }
-                        },
-                        30000
-                );
-            }
+            System.out.println(game.getNextMoves());
 
-            output.writeObject("Received Move");
+            game.setnMoves(game.getnMoves() + 1);
+            String message = new MessageSerializer().serializeGame(game, "Received Move").toString();
+            output.writeObject(message);
         } catch (ClassCastException e) {
             System.out.println("error while writing the response");
         }

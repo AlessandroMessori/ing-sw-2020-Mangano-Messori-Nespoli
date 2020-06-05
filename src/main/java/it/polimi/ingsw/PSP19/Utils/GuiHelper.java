@@ -24,8 +24,12 @@ public class GuiHelper {
      * @param level the level of the building
      * @return the building image path
      */
-    public static String getBuildingImagePath(int level) {
-        return (level < 1 || level > 4) ? null : "/Images/Game/Buildings/Building" + level + "levels.png";
+    public static String getBuildingImagePath(int level, boolean dome) {
+
+        String domePath = dome ? "Dome" : "";
+        int newLevel = dome ? level - 1 : level;
+
+        return (level < 0 || level > 4) ? null : "/Images/Game/Buildings/Building" + newLevel + "levels" + domePath + ".png";
     }
 
     /**

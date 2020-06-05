@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PSP19.Client.GUI.Pages;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.PSP19.Client.Commands;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Client.GUI.RequestHandler;
@@ -104,31 +103,56 @@ public class GamePage extends Page implements Initializable {
 
     public void setGame(Game g) throws IOException, InterruptedException {
 
-        if (game == null || (!localChanges)) {
-            // start of a new turn,updating the GUI
-            newTurnGUIUpdate(g);
-        }
 
-        //opponent moves data updates
-        if (game != null && g != null && turnText != null) {
+        System.out.println(g.getnMoves());
+        gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
 
-            //if the game has ended,go to Ending Page
-            if (game.getWinner() != null) {
-                client.setCurrentPage(new EndingPage(), null);
+
+        if (game == null || startingPosition || !gridActive || (game != null && game.getnMoves() < g.getnMoves())) {
+
+            if (game != null && (!localChanges && game.getNTurns() < g.getNTurns())) {
+                // start of a new turn,updating the GUI
+                showNewTurnBanner(g);
+                modelUpdaterThread.setModelCheck(true);
             }
 
-            // boolean to decide whether it's the client's turn to move
-            gridActive = g.getCurrentPlayer() != null && client != null && g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername());
+            //data updates
+            if (turnText != null) {
+                // boolean to decide whether it's the client's turn to move
+                if (gridActive && ((game != null && game.getnMoves() < g.getnMoves()))) {
+                    modelUpdaterThread.setModelCheck(false);
+                }
 
-            //updates the GUI based on the opponent moves
-            opponentMoveGUIUpdate(g);
+                if (game != null) {
+                    System.out.println(game.getnMoves() + " " + g.getnMoves());
+                }
 
-            //defines the behaviour of the Extra Button
-            setExtraBtnAction();
+                if (game == null || (!(startingPosition && pawnCounter < 2) && game.getnMoves() == 0) || (!localChanges) || (game.getnMoves() < g.getnMoves()) || (game.getNTurns() < g.getNTurns())) {
+                    System.out.println("Updating Game!");
 
-            //defines the behaviour of the Grid
-            setGridActions();
+
+                    game = g;
+
+                    try {
+                        //updates the GUI based on the opponent moves
+                        opponentMoveGUIUpdate();
+
+                        //defines the behaviour of the Extra Button
+                        setExtraBtnAction();
+
+                        //defines the behaviour of the Grid
+                        setGridActions();
+                    } catch (Exception e) {
+                        System.out.println("There Was an Error in Rendering the GUI");
+                    }
+
+
+
+                }
+
+            }
         }
+
 
     }
 
@@ -170,49 +194,43 @@ public class GamePage extends Page implements Initializable {
 
     /**
      * Updates the GUI when a new turn starts
-     *
-     * @param g the update game data from the model
      */
-    private void newTurnGUIUpdate(Game g) {
+    private void showNewTurnBanner(Game g) {
         //start of new turn
-        if (game != null && game.getNTurns() != g.getNTurns()) {
-            chosenPawnID = -1;
-            alreadySelectedPawn = false;
 
-            if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
-                yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
-                yourTurnBanner.setDisable(false);
+        chosenPawnID = -1;
+        alreadySelectedPawn = false;
 
-                alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
+        if (g.getCurrentPlayer().getUsername().equals(client.getPlayerUsername()) && g.getNTurns() > 0) {
+            yourTurnBanner.setImage(new Image("/Images/Game/your_turn.png"));
+            yourTurnBanner.setDisable(false);
 
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
+            alreadySelectedCanComeUp = !(g.getCurrentPlayer().getDivinity() == Divinity.PROMETHEUS);
 
-                                yourTurnBanner.setImage(null);
-                                yourTurnBanner.setDisable(true);
-                            }
-                        },
-                        1500
-                );
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
 
-                System.out.println("Starting Turn");
+                            yourTurnBanner.setImage(null);
+                            yourTurnBanner.setDisable(true);
+                        }
+                    },
+                    1500
+            );
 
-            }
+            System.out.println("Starting Turn");
 
         }
 
-        game = g;
         //System.out.println(new Gson().toJson(game));
     }
 
+
     /**
      * Updates the GUI when the opponent makes a new move
-     *
-     * @param g the update game data from the model
      */
-    private void opponentMoveGUIUpdate(Game g) throws IOException, InterruptedException {
+    private void opponentMoveGUIUpdate() throws IOException, InterruptedException {
 
         if (game.getThreePlayers()) {
             if (twoPlayersPanel != null) {
@@ -228,7 +246,7 @@ public class GamePage extends Page implements Initializable {
         String actionTextContent = "POSITION";
 
         if (turnText != null) {
-            turnText.setText("Turn " + g.getNTurns());
+            turnText.setText("Turn " + game.getNTurns());
         }
 
         boolean alreadySetFirstOpponentImage = false;
@@ -428,7 +446,7 @@ public class GamePage extends Page implements Initializable {
      */
     private void onStartingPositionCellClick(Cell currentCell, ImageView currentPawnImage, int finalI, int finalJ) {
 
-        if (currentCell.getPawn() == null && gridActive) {
+        if (currentCell.getPawn() == null && gridActive && pawnCounter < 2) {
             Pawn newPawn = new Pawn(game.getPlayers().getPlayer(game.getPlayers().searchPlayerByUsername(client.getPlayerUsername())));
             newPawn.getOwner().setColour(client.getChosenColor());
             newPawn.setId(GuiHelper.getNewPawnId(game, pawnCounter));
@@ -446,6 +464,7 @@ public class GamePage extends Page implements Initializable {
                 String message = messageSerializer.serializeStartingPosition(game.getNewGrid(), "SendStartingPosition", client.getPlayerUsername(), game.getCodGame(), client.getChosenColor()).toString();
                 RequestHandler.getRequestHandler().updateRequest(Commands.SEND_STARTING_POSITION, message);
                 localChanges = false;
+
             }
         }
 
@@ -460,7 +479,7 @@ public class GamePage extends Page implements Initializable {
      */
     private void onGameCellClick(Cell currentCell, int finalI, int finalJ) throws IOException {
 
-        if (gridActive && alreadySelectedCanComeUp && !loadingNewGrid) {
+        if (gridActive && alreadySelectedCanComeUp && !loadingNewGrid && game.getWinner() == null) {
             if (alreadySelectedPawn) {
                 int selectedMove = -1;
                 //coeff used to select special moves for a certain coordinate
@@ -516,19 +535,14 @@ public class GamePage extends Page implements Initializable {
                     }
 
 
-                    String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
-                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
-
                     localChanges = false;
 
-
                     if (game.getWinner() != null) {
-                        try {
-                            client.setCurrentPage(new EndingPage(), null);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        gridActive = false;
                     }
+
+                    String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
+                    RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
                 }
 
             } else {
@@ -539,7 +553,7 @@ public class GamePage extends Page implements Initializable {
                     game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
                     alreadySelectedPawn = true;
                     chosenPawnID = currentCell.getPawn().getId();
-                    String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn()).toString();
+                    String message = messageSerializer.serializeChosenPawn(game.getCodGame(), client.getPlayerUsername(), currentCell.getPawn(), finalI, finalJ).toString();
                     RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_PAWN, message);
                     localChanges = false;
 
@@ -557,6 +571,7 @@ public class GamePage extends Page implements Initializable {
             Move nextMove = game.getNextMoves().getMove(game.getNextMoves().size() - 1);
             gridActive = false;
             actionText.setText("LOADING");
+
 
             String message = messageSerializer.serializeChosenMove(game, nextMove).toString();
             RequestHandler.getRequestHandler().updateRequest(Commands.SEND_CHOSEN_MOVE, message);
@@ -578,8 +593,7 @@ public class GamePage extends Page implements Initializable {
         } else if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
             return game.getNextMoves().getMove(0).getIfMove() ? "MOVE" : "BUILD";
         } else {
-            assert game.getNextMoves() != null;
-            if (game.getNextMoves().size() == 0) {
+            if (game.getNextMoves() != null && game.getNextMoves().size() == 0) {
                 client.setCurrentPage(new EndingPage(), null);
             }
             return null;
@@ -599,7 +613,7 @@ public class GamePage extends Page implements Initializable {
     private void drawCell(Cell currentCell, ImageView currentTowerImage, ImageView currentPawnImage, ImageView currentMoveImage, int i, int j) {
 
         //draws Move
-        if (currentMoveImage != null) {
+        if (currentMoveImage != null && game.getWinner() == null) {
             if (game.getNextMoves() != null && game.getNextMoves().size() > 0) {
                 for (int k = 0; k < game.getNextMoves().size(); k++) {
                     if (game.getNextMoves().getMove(k).getX() == i && game.getNextMoves().getMove(k).getY() == j) {
@@ -612,10 +626,8 @@ public class GamePage extends Page implements Initializable {
 
         // draws Tower
 
-        if (currentCell.getTower().getIsDome() && currentCell.getTower().getLevel() != 4) {
-            currentTowerImage.setImage(new Image("/Images/Game/Buildings/Dome.png"));
-        } else if (currentCell.getTower().getLevel() > 0) {
-            currentTowerImage.setImage(new Image(GuiHelper.getBuildingImagePath(currentCell.getTower().getLevel())));
+        if (currentCell.getTower().getIsDome() || currentCell.getTower().getLevel() > 0) {
+            currentTowerImage.setImage(new Image(GuiHelper.getBuildingImagePath(currentCell.getTower().getLevel(), currentCell.getTower().getIsDome())));
         } else {
             currentTowerImage.setImage(null);
         }

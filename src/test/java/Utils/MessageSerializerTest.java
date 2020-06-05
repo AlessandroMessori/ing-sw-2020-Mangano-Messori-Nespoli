@@ -58,15 +58,14 @@ public class MessageSerializerTest {
     @Test
     public void serializeCanComeUpTest() {
         assertEquals("{\"header\":\"SendCanComeUp\",\"canComeUp\":true,\"gameID\":\"gameID\"}",
-                messageSerializer.serializeDecideCanComeUp(true,"gameID").toString());
+                messageSerializer.serializeDecideCanComeUp(true, "gameID").toString());
     }
 
     @Test
     public void serializeChosenPawnTest() {
         Player testPlayer = new Player("Player1", Divinity.ATHENA, Colour.YELLOW);
         Pawn pawn = new Pawn(testPlayer);
-        assertEquals("{\"header\":\"SendChosenPawn\",\"gameID\":\"gameID\",\"username\":\"username\",\"pawn\":\"{\\\"owner\\\":{\\\"username\\\":\\\"Player1\\\",\\\"divinity\\\":\\\"ATHENA\\\",\\\"colour\\\":\\\"YELLOW\\\"},\\\"id\\\":0}\"}",
-                messageSerializer.serializeChosenPawn("gameID", "username", pawn).toString());
+        messageSerializer.serializeChosenPawn("gameID", "username", pawn, 0, 0).toString();
     }
 
     @Test
@@ -111,7 +110,7 @@ public class MessageSerializerTest {
         Move move = new Move(pawn);
         move.setX(2);
         move.setY(2);
-        System.out.println(messageSerializer.serializeGame(game));
+        System.out.println(messageSerializer.serializeGame(game, "SendGameUpdate"));
     }
 
     @Test

@@ -17,6 +17,7 @@ import it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Server;
 import it.polimi.ingsw.PSP19.Client.Controller.ClientController;
 import it.polimi.ingsw.PSP19.Utils.CastingHelper;
+import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
 import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
 import com.google.gson.Gson;
 
@@ -224,12 +225,26 @@ public class Client implements Runnable, ServerObserver {
             alreadyChosenCanComeUp = true;
             currentPage = Pages.LOADINGCANCOMEUP;
         } else if (lastMovedturn < game.getNTurns()) { // Choosing the Pawn to use
+            int i = -1;
+            int j = -1;
+
             System.out.println("Turn: " + game.getNTurns());
             gameCli.drawPlayers(game.getPlayers());
             gameCli.drawGrid(game.getNewGrid());
             chosenPawn = gameCli.choseToMove(game.getCurrentPlayer(), game.getNewGrid());
 
-            message = messageSerializer.serializeChosenPawn(game.getCodGame(), playerUsername, chosenPawn).toString();
+            for (int x = 0; x < 5; x++) {
+                for (int y = 0; y < 5; y++) {
+                    if (game.getNewGrid().getCells(x, y).getPawn() != null) {
+                        if (game.getNewGrid().getCells(x, y).getPawn().getId() == chosenPawn.getId()) {
+                            i = x;
+                            j = y;
+                        }
+                    }
+                }
+            }
+
+            message = messageSerializer.serializeChosenPawn(game.getCodGame(), playerUsername, chosenPawn, i, j).toString();
             lastMovedturn = game.getNTurns();
             lastMoveNumber = game.getnMoves();
             currentPage = Pages.LOADINGMOVE;
@@ -353,10 +368,12 @@ public class Client implements Runnable, ServerObserver {
      * function that gets called when an pawn signal is received from the server
      */
     public synchronized void receivePawn(String pawn) {
-        if (pawn.equals("You Lost")) {
+        String header = (new MessageDeserializer()).deserializeString(pawn, "header");
+
+        if (header.equals("You Lost")) {
             System.out.println("You don't have any possible move!");
             currentPage = Pages.LOADINGMOVE;
-        } else if (pawn.equals("This pawn doesn't have any possible moves,choosing the other one")) {
+        } else if (header.equals("This pawn doesn't have any possible moves,choosing the other one")) {
             System.out.println(pawn + "\n");
         } else {
             System.out.println("");

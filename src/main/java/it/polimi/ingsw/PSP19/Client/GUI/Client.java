@@ -6,6 +6,7 @@ import it.polimi.ingsw.PSP19.Client.Network.ServerAdapter;
 import it.polimi.ingsw.PSP19.Client.Network.ServerObserver;
 import it.polimi.ingsw.PSP19.Server.Model.*;
 import it.polimi.ingsw.PSP19.Server.Server;
+import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-
 
 public class Client extends Application implements ServerObserver {
     private boolean hasMusic = true;
@@ -38,6 +37,8 @@ public class Client extends Application implements ServerObserver {
     double width = 1440;
     double height = 900;
     double scaleFactor = 1;
+    ModelUpdaterThread modelUpdater;
+
     Parent root;
 
     @Override
@@ -48,8 +49,9 @@ public class Client extends Application implements ServerObserver {
         //adapts size to smaller screens
         if (primaryScreenBounds.getWidth() < width || primaryScreenBounds.getHeight() < height) {
             scaleFactor = 0.7;
-            width = width*scaleFactor;
-            height = height*scaleFactor;
+
+            height = height * scaleFactor;
+            width = width * scaleFactor;
         }
 
         game = new Game(0, null, false, null, new Grid(), new Grid(), null);
@@ -199,6 +201,7 @@ public class Client extends Application implements ServerObserver {
 
         currentPage = loader.getController();
         currentPage.setClient(this);
+        currentPage.setModelUpdaterThread(modelUpdater);
         currentPage.setGame(game);
 
         /*if (hasMusic) {
@@ -330,7 +333,7 @@ public class Client extends Application implements ServerObserver {
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
 
-        ModelUpdaterThread modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
+         modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
         Thread modelUpdaterThread = new Thread(modelUpdater);
 
         modelUpdater.setModelCheck(true);
@@ -393,6 +396,14 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an pawn signal is received from the server
      */
     public synchronized void receivePawn(String pawn) {
+        Game game = (new MessageDeserializer()).deserializeObject(pawn, "game", Game.class);
+
+        try {
+            currentPage.setGame(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (pawn.equals("You Lost")) {
             System.out.println("You don't have any possible move!");
             //currentPage = Pages.LOADINGMOVE;
@@ -405,13 +416,20 @@ public class Client extends Application implements ServerObserver {
     @Override
     public synchronized void receiveStartingPosition(String position) {
         notifyAll();
+        modelUpdater.setModelCheck(true);
     }
 
     /**
      * function that gets called when an canComeUp signal is received from the server
      */
     public synchronized void receiveCanComeUp(String canComeUp) {
-        //currentPage = Pages.GAME;
+        Game game = (new MessageDeserializer()).deserializeObject(canComeUp, "game", Game.class);
+        System.out.println("Received Can Come Up Response!");
+        try {
+            currentPage.setGame(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         notifyAll();
     }
 
@@ -419,6 +437,18 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an new move signal is received from the server
      */
     public synchronized void receiveMoves(String moves) {
+        Game game = (new MessageDeserializer()).deserializeObject(moves, "game", Game.class);
+        System.out.println("Received Moves Response!");
+        try {
+
+            if (game == null || !game.getCurrentPlayer().getUsername().equals(playerUsername) || game.getWinner() != null) {
+                modelUpdater.setModelCheck(true);
+            }
+
+            currentPage.setGame(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         notifyAll();
     }
 
@@ -447,6 +477,15 @@ public class Client extends Application implements ServerObserver {
                         currentPage.showDisconnected();
                     }
             );
+        }
+
+        if (game.getWinner() != null) {
+            game = g;
+            try {
+                setCurrentPage(new EndingPage(), null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
