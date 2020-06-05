@@ -133,14 +133,19 @@ public class GamePage extends Page implements Initializable {
 
                     game = g;
 
-                    //updates the GUI based on the opponent moves
-                    opponentMoveGUIUpdate();
+                    try {
+                        //updates the GUI based on the opponent moves
+                        opponentMoveGUIUpdate();
 
-                    //defines the behaviour of the Extra Button
-                    setExtraBtnAction();
+                        //defines the behaviour of the Extra Button
+                        setExtraBtnAction();
 
-                    //defines the behaviour of the Grid
-                    setGridActions();
+                        //defines the behaviour of the Grid
+                        setGridActions();
+                    } catch (Exception e) {
+                        System.out.println("There Was an Error in Rendering the GUI");
+                    }
+
 
 
                 }
