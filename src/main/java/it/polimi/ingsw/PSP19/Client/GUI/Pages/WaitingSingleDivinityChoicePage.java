@@ -81,9 +81,9 @@ public class WaitingSingleDivinityChoicePage extends Page implements Initializab
             String divName = possibleDivinities.get(i).substring(0, 1) + possibleDivinities.get(i).toLowerCase().substring(1);
 
             if (!chosen) {
-                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + ".png"));
-            } else {
                 divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + "_chosen.png"));
+            } else {
+                divButtonsArray[i].setImage(new Image("/Images/DivChoice/" + divName + ".png"));
             }
             divButtonsArray[i].setDisable(true);
 
