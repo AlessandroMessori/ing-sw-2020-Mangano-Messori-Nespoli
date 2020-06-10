@@ -37,7 +37,7 @@ public class ListenForChosenPawn extends ResponseHandler {
             String gameID;
             Pawn pawn;
             Move move;
-            int moveX,moveY;
+            int moveX, moveY;
 
 
             System.out.println("Received Choose Pawn Request");
@@ -45,8 +45,8 @@ public class ListenForChosenPawn extends ResponseHandler {
             gameID = messageDeserializer.deserializeString(requestContent, "gameID");
             pawn = messageDeserializer.deserializeObject(requestContent, "pawn", Pawn.class);
             move = new Move(pawn);
-            moveX = messageDeserializer.deserializeObject(requestContent,"x",Integer.class);
-            moveY = messageDeserializer.deserializeObject(requestContent,"y",Integer.class);
+            moveX = messageDeserializer.deserializeObject(requestContent, "x", Integer.class);
+            moveY = messageDeserializer.deserializeObject(requestContent, "y", Integer.class);
             game = Model.getModel().searchID(gameID);
             game.getCurrentPlayer().setCurrentPawn(pawn);
 
@@ -117,7 +117,24 @@ public class ListenForChosenPawn extends ResponseHandler {
                     output.writeObject(message);
                 } else {
                     //this pawn doesn't have any possible moves but the other one does
+                    boolean foundOtherPawn = false;
                     game.setNextMoves(moves);
+
+                    //automatically choosing the other pawn
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            Cell currentCell = game.getNewGrid().getCells(i, j);
+                            if (currentCell.getPawn() != null &&
+                                    currentCell.getPawn().getOwner().getUsername().equals(game.getCurrentPlayer().getUsername()) &&
+                                    currentCell.getPawn().getId() != game.getCurrentPlayer().getCurrentPawn().getId() &&
+                                    !foundOtherPawn) {
+                                game.getCurrentPlayer().setCurrentPawn(currentCell.getPawn());
+                                foundOtherPawn = true;
+                            }
+
+                        }
+                    }
+
 
                     game.setnMoves(game.getnMoves() + 1);
                     String message = new MessageSerializer().serializeGame(game, "This pawn doesn't have any possible moves,choosing the other one").toString();
