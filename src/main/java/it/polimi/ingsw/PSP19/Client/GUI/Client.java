@@ -396,18 +396,27 @@ public class Client extends Application implements ServerObserver {
      * function that gets called when an pawn signal is received from the server
      */
     public synchronized void receivePawn(String pawn) {
-        Game game = (new MessageDeserializer()).deserializeObject(pawn, "game", Game.class);
+        Game g = (new MessageDeserializer()).deserializeObject(pawn, "game", Game.class);
+        String header = (new MessageDeserializer()).deserializeString(pawn,"header");
 
-        try {
-            currentPage.setGame(game);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!header.equals("You Lost")) {
+            try {
+                currentPage.setGame(g);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
-        if (pawn.equals("You Lost")) {
+        if (header.equals("You Lost")) {
             System.out.println("You don't have any possible move!");
-            //currentPage = Pages.LOADINGMOVE;
-        } else if (pawn.equals("This pawn doesn't have any possible moves,choosing the other one")) {
+            game = g;
+            try {
+                setCurrentPage(new EndingPage(), null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (header.equals("This pawn doesn't have any possible moves,choosing the other one")) {
             System.out.println(pawn + "\n");
         }
         notifyAll();
