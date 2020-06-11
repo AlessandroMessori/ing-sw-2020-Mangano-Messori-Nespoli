@@ -202,22 +202,24 @@ public class Client extends Application implements ServerObserver {
         currentPage = loader.getController();
         currentPage.setClient(this);
         currentPage.setModelUpdaterThread(modelUpdater);
-        currentPage.setGame(game);
+
+        try {
+            currentPage.setGame(game);
 
         /*if (hasMusic) {
             currentPage.setMediaPlayer(playermp3);
             currentPage.setMediaView(mp3View);
         }*/
-        Platform.runLater(
-                () -> {
+            Platform.runLater(
+                    () -> {
 
-                    root.resize(width,height);
-                    mainStage.getScene().setRoot(root);
-                    mainStage.setResizable(false);
-                    Scale scale = new Scale(scaleFactor, scaleFactor);
-                    scale.setPivotX(0);
-                    scale.setPivotY(0);
-                    root.getTransforms().setAll(scale);
+                        root.resize(width, height);
+                        mainStage.getScene().setRoot(root);
+                        mainStage.setResizable(false);
+                        Scale scale = new Scale(scaleFactor, scaleFactor);
+                        scale.setPivotX(0);
+                        scale.setPivotY(0);
+                        root.getTransforms().setAll(scale);
 
                     /*if (currentPage.getMediaPlayer() != null) {
                         if (hasMusic == true) {
@@ -226,8 +228,13 @@ public class Client extends Application implements ServerObserver {
                             currentPage.getMediaPlayer().setAutoPlay(true);
                         }
                     }*/
-                }
-        );
+                    }
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
         return root;
     }
@@ -333,7 +340,7 @@ public class Client extends Application implements ServerObserver {
         game.getPlayers().addPlayer(player);
         game.setCodGame(gameID);
 
-         modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
+        modelUpdater = new ModelUpdaterThread(gameID, serverAdapter); //starts a thread periodically checking for Model updates
         Thread modelUpdaterThread = new Thread(modelUpdater);
 
         modelUpdater.setModelCheck(true);
@@ -397,7 +404,7 @@ public class Client extends Application implements ServerObserver {
      */
     public synchronized void receivePawn(String pawn) {
         Game g = (new MessageDeserializer()).deserializeObject(pawn, "game", Game.class);
-        String header = (new MessageDeserializer()).deserializeString(pawn,"header");
+        String header = (new MessageDeserializer()).deserializeString(pawn, "header");
 
         if (!header.equals("You Lost")) {
             try {
