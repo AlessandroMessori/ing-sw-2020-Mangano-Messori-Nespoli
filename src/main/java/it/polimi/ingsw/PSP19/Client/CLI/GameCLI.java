@@ -542,6 +542,7 @@ public class GameCLI {
         }
 
         drawPossibleMovesOnGrid(movesGrid, possibleAction);
+        System.out.println(" ");
         System.out.println(list);
 
         //choice

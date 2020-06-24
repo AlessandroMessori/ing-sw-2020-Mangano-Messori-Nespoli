@@ -45,7 +45,7 @@ public class LoginCLI {
      */
     public String readUsername() {
         String username;
-        int max = 16;
+        int max = 12;
         do {
             System.out.println("Chose your username (max " + max + " chars): ");
             Scanner input = new Scanner(System.in);

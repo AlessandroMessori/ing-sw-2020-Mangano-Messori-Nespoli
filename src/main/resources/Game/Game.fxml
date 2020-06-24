@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="gamePage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Game.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage">
+<Pane fx:id="gamePage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@Game.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.PSP19.Client.GUI.Pages.GamePage">
    <ImageView fitHeight="900.0" fitWidth="1440.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../Images/Game/SantoriniBoard_flat.png" />
       </image>
    </ImageView>
 
-    <Text fx:id="turnText" fill="WHITE" layoutX="-10.0" layoutY="-49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 210px; -fx-translate-x: 45px;" text="TURN 0" wrappingWidth="152.7294921875">
+    <Text fx:id="turnText" fill="WHITE" layoutX="-32.0" layoutY="-51.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 210px; -fx-translate-x: 45px;" text="TURN 0" textAlignment="CENTER" wrappingWidth="181.99996936321259">
         <font>
             <Font name="LillyBelle" size="26.0" />
         </font>
     </Text>
-    <Text fx:id="actionText" fill="WHITE" layoutX="-21.0" layoutY="-20.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 237px; -fx-translate-x: 45px;" text="POSITION" wrappingWidth="152.7294921875">
+    <Text fx:id="actionText" fill="WHITE" layoutX="-33.0" layoutY="-20.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 237px; -fx-translate-x: 45px;" text="POSITION" textAlignment="CENTER" wrappingWidth="181.99996936321259">
         <font>
             <Font name="LillyBelle" size="26.0" />
         </font>
@@ -32,7 +27,7 @@
             <Image url="@../Images/Game/Gods/Bigger/Apollo.png" />
         </image>
     </ImageView>
-    <Text fx:id="playerUsernameText" fill="#ab6f6f" layoutX="6.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 216; -fx-translate-x: 55;" text="G1">
+    <Text fx:id="playerUsernameText" fill="#ab6f6f" layoutX="6.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 271; -fx-translate-x: 32;" text="G1" textAlignment="CENTER" wrappingWidth="143.00000227987766">
         <font>
             <Font name="LillyBelle" size="25.0" />
         </font>
@@ -57,15 +52,12 @@
             <Image url="@../Images/Game/three_players_panel.png" />
         </image>
     </ImageView>
-    <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" layoutX="1191.0" layoutY="-36.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;">
-      <image>
-         <Image url="@../Images/Game/Gods/Bigger/Apollo.png" />
-      </image></ImageView>
+    <ImageView fx:id="opponentDivImage" fitHeight="432.0" fitWidth="208.0" layoutX="1191.0" layoutY="-36.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;" />
     <ImageView fx:id="opponentPowerImage" fitHeight="90.0" fitWidth="208.0" layoutX="1190.0" layoutY="396.0" pickOnBounds="true" style="-fx-translate-y: 300px; -fx-translate-x: 43px;">
     </ImageView>
     <ImageView fx:id="opponentTurn" fitHeight="536.0" fitWidth="207.0" layoutX="1233.0" layoutY="261.0" pickOnBounds="true" style="-fx-translate-x: 0; -fx-translate-y: 0;" viewOrder="-5" />
     <ImageView fx:id="opponent1DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1258.0" pickOnBounds="true" viewOrder="-5" />
-    <Text fx:id="opponentUsernameText" fill="#722525" layoutX="1192.0" layoutY="474.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 190; -fx-translate-x: 100;" text="G1" wrappingWidth="114.50634765625">
+    <Text fx:id="opponentUsernameText" fill="#ab6f6f" layoutX="1154.0" layoutY="447.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 218; -fx-translate-x: 114;" text="G2" textAlignment="CENTER" wrappingWidth="152.7295013666153">
         <font>
             <Font name="LillyBelle" size="25.0" />
         </font>
@@ -73,12 +65,12 @@
     <ImageView fx:id="opponent2DivImage" fitHeight="442.0" fitWidth="182.0" layoutX="1008.0" layoutY="459.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
     <ImageView fx:id="opponent1Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="-2.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
     <ImageView fx:id="opponent2Turn" fitHeight="449.0" fitWidth="182.0" layoutX="1008.0" layoutY="456.0" pickOnBounds="true" style="-fx-translate-x: 250;" viewOrder="-5" />
-    <Text fx:id="opponent1UsernameText" fill="#786060" layoutX="1070.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 298; -fx-translate-x: 230;" text="G2" viewOrder="-Infinity" wrappingWidth="95.0">
+    <Text fx:id="opponent1UsernameText" fill="#ab6f6f" layoutX="1065.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 298; -fx-translate-x: 230;" text="G2" textAlignment="CENTER" viewOrder="-Infinity" wrappingWidth="120.0">
         <font>
             <Font name="LillyBelle" size="20.0" />
         </font>
     </Text>
-    <Text fx:id="opponent2UsernameText" fill="#786060" layoutX="1078.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 742; -fx-translate-x: 225;" text="G3" viewOrder="-Infinity">
+    <Text fx:id="opponent2UsernameText" fill="#ab6f6f" layoutX="1070.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 742; -fx-translate-x: 225;" text="G3" textAlignment="CENTER" viewOrder="-Infinity" wrappingWidth="120.00000202655792">
         <font>
             <Font name="LillyBelle" size="20.0" />
         </font>
