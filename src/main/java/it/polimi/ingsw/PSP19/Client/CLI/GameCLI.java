@@ -293,12 +293,16 @@ public class GameCLI {
         StringColor color = StringColor.ANSI_GREEN;
         StringColor colorPawn;
         int[][] posCoord = new int[5][5];
-        for(int i = 0; i < possibleMoves.size(); i++) {
+        int[][] domes = new int[5][5];
+        for(int i = 1; i < possibleMoves.size()+1; i++) {
             for(int x = 0; x < 5; x++){
                 for(int y = 0; y < 5; y++){
 
-                    if ((possibleMoves.getMove(i).getX() == x) && (possibleMoves.getMove(i).getY() == y)) {
-                        posCoord[x][y] = 1;
+                    if ((possibleMoves.getMove(i-1).getX() == x) && (possibleMoves.getMove(i-1).getY() == y)) {
+                        posCoord[x][y] = i; //se faccio = il valore di i posso mettere l'indice della mossa
+                    }
+                    if (((-possibleMoves.getMove(i-1).getX()) == x+1) && ((-possibleMoves.getMove(i-1).getY()) == y+1)) {
+                        domes[x][y] = i; //se faccio = il valore di i posso mettere l'indice della mossa
                     }
                 }
             }
@@ -318,7 +322,7 @@ public class GameCLI {
             for (int y = 0; y < 5; y++) {
 
                 if (x == 0) {
-                    if (posCoord[x][y] == 1) {
+                    if (posCoord[x][y] != 0) {
                         top.append(color + "_______" + StringColor.RESET);
                         rowOne.append(color + "|" + StringColor.RESET);
                         rowTwo.append(color + "|" + StringColor.RESET);
@@ -327,7 +331,7 @@ public class GameCLI {
                         top.append("_______");
 
                         if (y > 0) {
-                            if (posCoord[x][y - 1] == 1) {
+                            if (posCoord[x][y - 1] != 0) {
                                 rowOne.append(color + "|" + StringColor.RESET);
                                 rowTwo.append(color + "|" + StringColor.RESET);
                             } else {
@@ -342,10 +346,10 @@ public class GameCLI {
                     }
 
                 } else {
-                    if (posCoord[x - 1][y] == 1) {
+                    if (posCoord[x - 1][y] != 0) {
                         mid.append(color + "|" + StringColor.RESET);
                     } else if (y > 0) {
-                        if (posCoord[x - 1][y - 1] == 1) {
+                        if (posCoord[x - 1][y - 1] != 0) {
                             mid.append(color + "|" + StringColor.RESET);
                         } else {
                             mid.append("|");
@@ -354,18 +358,18 @@ public class GameCLI {
                         mid.append("|");
                     }
 
-                    if (posCoord[x][y] == 1) {
+                    if (posCoord[x][y] != 0) {
                         mid.append(color + "_______" + StringColor.RESET);
                         rowOne.append(color + "|" + StringColor.RESET);
                         rowTwo.append(color + "|" + StringColor.RESET);
                     } else {
-                        if (posCoord[x - 1][y] == 1) {
+                        if (posCoord[x - 1][y] != 0) {
                             mid.append(color + "_______" + StringColor.RESET);
                         } else {
                             mid.append("_______");
                         }
                         if (y > 0) {
-                            if (posCoord[x][y - 1] == 1) {
+                            if (posCoord[x][y - 1] != 0) {
                                 rowOne.append(color + "|" + StringColor.RESET);
                                 rowTwo.append(color + "|" + StringColor.RESET);
                             } else {
@@ -385,29 +389,70 @@ public class GameCLI {
                     colorPawn = colorString(grid.getCells(x, y).getPawn().getOwner());
                     rowOne.append(colorPawn + " W");
                     if (grid.getCells(x, y).getPawn().getId() % 2 == 1) {
-                        rowOne.append("1");
+                        rowOne.append("1" + StringColor.RESET);
                     } else {
-                        rowOne.append("2");
+                        rowOne.append("2" + StringColor.RESET);
                     }
-                    rowOne.append("    " + StringColor.RESET);
+                    if (posCoord[x][y] != 0){
+                        rowOne.append(color + "  " + posCoord[x][y] + StringColor.RESET);
+                        if (posCoord[x][y] > 9) {
+                            rowOne.append("");
+                        }else{
+                            rowOne.append(" ");
+                        }
+
+                    } else {
+                        rowOne.append("    " + StringColor.RESET);
+                    }
+
                 } else {
-                    rowOne.append("       ");
+
+                    if (posCoord[x][y] != 0){
+                        rowOne.append(color + "     " + posCoord[x][y] + StringColor.RESET);
+                        if (posCoord[x][y] > 9) {
+                            rowOne.append("");
+                        }else{
+                            rowOne.append(" ");
+                        }
+
+                    } else {
+                        rowOne.append("       ");
+                    }
                 }
 
                 if (grid.getCells(x, y).getTower().getLevel() != 0) {
                     int lvl = grid.getCells(x, y).getTower().getLevel();
-                    if ((lvl == 4) || (grid.getCells(x, y).getTower().getIsDome())) {
-                        rowTwo.append("    X  ");
+                    if (domes[x][y] != 0) {
+                        rowTwo.append(color + " " + domes[x][y] + StringColor.RESET);
+                        if (domes[x][y] > 9) {
+                            rowTwo.append("");
+                        } else {
+                            rowTwo.append(" ");
+                        }
                     } else {
-                        rowTwo.append("    T" + lvl + " ");
+                        rowTwo.append("   ");
+                    }
+                    if ((lvl == 4) || (grid.getCells(x, y).getTower().getIsDome())) {
+                        rowTwo.append(" X  ");
+                    } else {
+                        rowTwo.append(" T" + lvl + " ");
                     }
                 } else {
-                    rowTwo.append("       ");
+                    if (domes[x][y] != 0) {
+                        rowTwo.append(color + " " + domes[x][y] + StringColor.RESET);
+                        if (domes[x][y] > 9) {
+                            rowTwo.append("    ");
+                        } else {
+                            rowTwo.append("     ");
+                        }
+                    } else {
+                        rowTwo.append("       ");
+                    }
                 }
 
                 if (y == 4) {
                     if (x != 0) {
-                        if (posCoord[x - 1][y] == 1) {
+                        if (posCoord[x - 1][y] != 0) {
                             mid.append(color + "|" + StringColor.RESET);
                         } else {
 
@@ -415,7 +460,7 @@ public class GameCLI {
 
                         }
                     }
-                    if (posCoord[x][y] == 1) {
+                    if (posCoord[x][y] != 0) {
                         rowOne.append(color + "|" + StringColor.RESET);
                         rowTwo.append(color + "|" + StringColor.RESET);
                     } else {
@@ -427,10 +472,10 @@ public class GameCLI {
                 }
 
                 if (x == 4) {
-                    if (posCoord[x][y] == 1) {
+                    if (posCoord[x][y] != 0) {
                         bot.append(color + "|" + StringColor.RESET);
                     } else if (y > 0) {
-                        if (posCoord[x][y - 1] == 1) {
+                        if (posCoord[x][y - 1] != 0) {
                             bot.append(color + "|" + StringColor.RESET);
                         } else {
                             bot.append("|");
@@ -439,7 +484,7 @@ public class GameCLI {
                         bot.append("|");
                     }
 
-                    if (posCoord[x][y] == 1) {
+                    if (posCoord[x][y] != 0) {
                         bot.append(color + "_______" + StringColor.RESET);
 
                     } else {
@@ -447,7 +492,7 @@ public class GameCLI {
                     }
 
                     if (y == 4) {
-                        if (posCoord[x][y] == 1) {
+                        if (posCoord[x][y] != 0) {
                             bot.append(color + "|" + StringColor.RESET);
                         } else {
                             /*if (posCoord[x - 1][y - 1] == 1) {
@@ -492,6 +537,7 @@ public class GameCLI {
         Scanner input = new Scanner(System.in);
         String word;
         String action;
+        String bannerAction;
         StringBuilder list = new StringBuilder();
         StringBuilder[] row;
         int val;
@@ -501,9 +547,13 @@ public class GameCLI {
 
         if (possibleAction.getMove(0).getIfMove()) {
             action = "Move";
+            bannerAction = "----------------|   MOVE   |-----------------";
         } else {
             action = "Build";
+            bannerAction = "----------------|   BUILD   |----------------";
         }
+
+
 
         if ((possibleAction.size() > 16)){
             nRow = 6;
@@ -541,8 +591,9 @@ public class GameCLI {
             list.append(row[i] + "\n");
         }
 
+        System.out.println("\n" + bannerAction);
         drawPossibleMovesOnGrid(movesGrid, possibleAction);
-        System.out.println(" ");
+        System.out.println("\n" + bannerAction +"\n");
         System.out.println(list);
 
         //choice
