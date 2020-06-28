@@ -1,0 +1,12 @@
+module:it.polimi.ingsw.PSP19
+it.polimi.ingsw.PSP19.Client
+it.polimi.ingsw.PSP19.Client.CLI
+it.polimi.ingsw.PSP19.Client.Controller
+it.polimi.ingsw.PSP19.Client.GUI
+it.polimi.ingsw.PSP19.Client.GUI.Pages
+it.polimi.ingsw.PSP19.Client.Network
+it.polimi.ingsw.PSP19.Server
+it.polimi.ingsw.PSP19.Server.Controller
+it.polimi.ingsw.PSP19.Server.Model
+it.polimi.ingsw.PSP19.Server.Network
+it.polimi.ingsw.PSP19.Utils

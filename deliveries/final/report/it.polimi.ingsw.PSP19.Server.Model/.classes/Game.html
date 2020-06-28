@@ -1,0 +1,493 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Server.Model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.PSP19.Server.Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (40/ 40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (104/ 104)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Server.Model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;public class Game {
+<i>6</i>&nbsp;    private int nTurns;
+<i>7</i>&nbsp;    private int nMoves;
+<i>8</i>&nbsp;    private int currentPlayerIndex;
+<i>9</i>&nbsp;    private int availableLevel1Buildings;
+<i>10</i>&nbsp;    private int availableLevel2Buildings;
+<i>11</i>&nbsp;    private int availableLevel3Buildings;
+<i>12</i>&nbsp;    private int availableDomes;
+<i>13</i>&nbsp;    private String CodGame;
+<i>14</i>&nbsp;    private boolean threePlayers;
+<i>15</i>&nbsp;    private Player currentPlayer;
+<i>16</i>&nbsp;    private Player winner;
+<i>17</i>&nbsp;    private PlayerList players;
+<i>18</i>&nbsp;    private Grid oldGrid;
+<i>19</i>&nbsp;    private Grid newGrid;
+<i>20</i>&nbsp;    private MoveList nextMoves;
+<i>21</i>&nbsp;    private DivinityList possibleDivinities;
+<i>22</i>&nbsp;    private DivinityList inGameDivinities;
+<i>23</i>&nbsp;    private ArrayList&lt;Colour&gt; alreadyChosenColors;
+<i>24</i>&nbsp;    private Turn gameTurn;
+<i>25</i>&nbsp;    private boolean disconnected;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * @return index of the current player
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public int getCurrentPlayerIndex() {
+<b class="fc"><i>32</i>&nbsp;        return currentPlayerIndex;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * increases the currentPlayer index
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    public void increaseCurrentPlayerIndex() throws IllegalArgumentException {
+<b class="fc"><i>39</i>&nbsp;        if (currentPlayerIndex + 1 == getPlayers().size()) {</b>
+<b class="fc"><i>40</i>&nbsp;            currentPlayerIndex = 0;</b>
+<i>41</i>&nbsp;        } else {
+<b class="fc"><i>42</i>&nbsp;            currentPlayerIndex++;</b>
+<i>43</i>&nbsp;        }
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * @return number of turns played
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    public int getNTurns() {
+<b class="fc"><i>50</i>&nbsp;        return nTurns;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * sets the number of turns
+<i>55</i>&nbsp;     *
+<i>56</i>&nbsp;     * @param t updated number of turns played
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public void setNTurns(int t) throws IllegalArgumentException {
+<b class="fc"><i>59</i>&nbsp;        if (t &gt;= 0) {</b>
+<b class="fc"><i>60</i>&nbsp;            nTurns = t;</b>
+<i>61</i>&nbsp;        } else {
+<b class="fc"><i>62</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>63</i>&nbsp;        }
+<b class="fc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * @return number of moves played
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public int getnMoves() {
+<b class="fc"><i>70</i>&nbsp;        return nMoves;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * sets the number of turns
+<i>75</i>&nbsp;     *
+<i>76</i>&nbsp;     * @param m updated number of moves played
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    public void setnMoves(int m) throws IllegalArgumentException {
+<b class="fc"><i>79</i>&nbsp;        if (m &gt;= 0) {</b>
+<b class="fc"><i>80</i>&nbsp;            nMoves = m;</b>
+<i>81</i>&nbsp;        } else {
+<b class="fc"><i>82</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>83</i>&nbsp;        }
+<b class="fc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    /**
+<i>87</i>&nbsp;     * @return available level 1 buildings
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    public int getAvailableLevel1Buildings() {
+<b class="fc"><i>90</i>&nbsp;        return availableLevel1Buildings;</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    /**
+<i>94</i>&nbsp;     * decreases by 1 the AvailableLevel1Buildings
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    public void decreaseAvailableLevel1Buildings() {
+<b class="fc"><i>97</i>&nbsp;        availableLevel1Buildings--;</b>
+<b class="fc"><i>98</i>&nbsp;    }</b>
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    /**
+<i>101</i>&nbsp;     * @return available level 2 buildings
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    public int getAvailableLevel2Buildings() {
+<b class="fc"><i>104</i>&nbsp;        return availableLevel2Buildings;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /**
+<i>108</i>&nbsp;     * decreases by 1 the AvailableLevel2Buildings
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public void decreaseAvailableLevel2Buildings() {
+<b class="fc"><i>111</i>&nbsp;        availableLevel2Buildings--;</b>
+<b class="fc"><i>112</i>&nbsp;    }</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * @return available level 3 buildings
+<i>116</i>&nbsp;     */
+<i>117</i>&nbsp;    public int getAvailableLevel3Buildings() {
+<b class="fc"><i>118</i>&nbsp;        return availableLevel3Buildings;</b>
+<i>119</i>&nbsp;    }
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    /**
+<i>122</i>&nbsp;     * decreases by 1 the AvailableLevel3Buildings
+<i>123</i>&nbsp;     */
+<i>124</i>&nbsp;    public void decreaseAvailableLevel3Buildings() {
+<b class="fc"><i>125</i>&nbsp;        availableLevel3Buildings--;</b>
+<b class="fc"><i>126</i>&nbsp;    }</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * @return available domes
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    public int getAvailableDomes() {
+<b class="fc"><i>132</i>&nbsp;        return availableDomes;</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    /**
+<i>136</i>&nbsp;     * decreases by 1 the AvailableDomes
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;    public void decreaseAvailableDomes() {
+<b class="fc"><i>139</i>&nbsp;        availableDomes--;</b>
+<b class="fc"><i>140</i>&nbsp;    }</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /*/**
+<i>144</i>&nbsp;     * sets the number of turns
+<i>145</i>&nbsp;     *
+<i>146</i>&nbsp;     * @param t updated number of turns played
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;    /*public void decreaseMaxLevel1Builings(int t) throws IllegalArgumentException {
+<i>149</i>&nbsp;    }*/
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /**
+<i>152</i>&nbsp;     * @return the game ID
+<i>153</i>&nbsp;     */
+<i>154</i>&nbsp;    public String getCodGame() {
+<b class="fc"><i>155</i>&nbsp;        return CodGame;</b>
+<i>156</i>&nbsp;    }
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    /**
+<i>159</i>&nbsp;     * sets the ID of the game
+<i>160</i>&nbsp;     *
+<i>161</i>&nbsp;     * @param c the ID of the game
+<i>162</i>&nbsp;     */
+<i>163</i>&nbsp;    public void setCodGame(String c) throws IllegalArgumentException {
+<b class="fc"><i>164</i>&nbsp;        Model model = Model.getModel();</b>
+<b class="fc"><i>165</i>&nbsp;        if (model.searchID(c) == null) {</b>
+<b class="fc"><i>166</i>&nbsp;            CodGame = c;</b>
+<i>167</i>&nbsp;        } else {
+<b class="fc"><i>168</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>169</i>&nbsp;        }
+<b class="fc"><i>170</i>&nbsp;    }</b>
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;    /**
+<i>173</i>&nbsp;     * @return a value that defines the number of players (FALSE = 2, TRUE = 3)
+<i>174</i>&nbsp;     */
+<i>175</i>&nbsp;    public boolean getThreePlayers() {
+<b class="fc"><i>176</i>&nbsp;        return threePlayers;</b>
+<i>177</i>&nbsp;    }
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;    /**
+<i>180</i>&nbsp;     * defines if the game is played by 2 (FALSE) or 3 (TRUE) people
+<i>181</i>&nbsp;     *
+<i>182</i>&nbsp;     * @param y boolean that indicates the number of players
+<i>183</i>&nbsp;     */
+<i>184</i>&nbsp;    public void setThreePlayers(boolean y) {
+<b class="fc"><i>185</i>&nbsp;        threePlayers = y;</b>
+<b class="fc"><i>186</i>&nbsp;    }</b>
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;    /**
+<i>189</i>&nbsp;     * @return a value that is TRUE if a player disconnected from the server
+<i>190</i>&nbsp;     */
+<i>191</i>&nbsp;    public boolean getDisconnected() {
+<b class="fc"><i>192</i>&nbsp;        return disconnected;</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * function to call when a player disconnects itself from the server
+<i>197</i>&nbsp;     */
+<i>198</i>&nbsp;    public void setDisconnected() {
+<b class="fc"><i>199</i>&nbsp;        disconnected = true;</b>
+<b class="fc"><i>200</i>&nbsp;    }</b>
+<i>201</i>&nbsp;
+<i>202</i>&nbsp;    /**
+<i>203</i>&nbsp;     * @return the player who&#39;s currently playing
+<i>204</i>&nbsp;     */
+<i>205</i>&nbsp;    public Player getCurrentPlayer() {
+<b class="fc"><i>206</i>&nbsp;        return currentPlayer;</b>
+<i>207</i>&nbsp;    }
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    /**
+<i>210</i>&nbsp;     * updates the player who is currently playing
+<i>211</i>&nbsp;     *
+<i>212</i>&nbsp;     * @param p the player who is currently playing
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    public void setCurrentPlayer(Player p) throws IllegalArgumentException {
+<b class="fc"><i>215</i>&nbsp;        for (int i = 0; i &lt; players.size(); i++)     //POSSIBLE ERROR: BEFORE I PUT &quot;PLAYERS.SIZE() - 1&quot;, NOW CHANGED</b>
+<i>216</i>&nbsp;        {
+<b class="fc"><i>217</i>&nbsp;            Player p1 = players.getPlayer(i);</b>
+<b class="fc"><i>218</i>&nbsp;            if (p1.getUsername().equals(p.getUsername())) {</b>
+<b class="fc"><i>219</i>&nbsp;                currentPlayer = p;</b>
+<b class="fc"><i>220</i>&nbsp;                return;</b>
+<i>221</i>&nbsp;            }
+<i>222</i>&nbsp;        }
+<b class="fc"><i>223</i>&nbsp;        throw new IllegalArgumentException();</b>
+<i>224</i>&nbsp;    }
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;    /**
+<i>227</i>&nbsp;     * @return the winner of the game
+<i>228</i>&nbsp;     */
+<i>229</i>&nbsp;    public Player getWinner() {
+<b class="fc"><i>230</i>&nbsp;        return winner;</b>
+<i>231</i>&nbsp;    }
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    /**
+<i>234</i>&nbsp;     * @param p the winner of the game
+<i>235</i>&nbsp;     */
+<i>236</i>&nbsp;    public void setWinner(Player p) {
+<b class="fc"><i>237</i>&nbsp;        winner = p;</b>
+<b class="fc"><i>238</i>&nbsp;    }</b>
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    /**
+<i>241</i>&nbsp;     * @return the list of players of the game
+<i>242</i>&nbsp;     */
+<i>243</i>&nbsp;    public PlayerList getPlayers() {
+<b class="fc"><i>244</i>&nbsp;        return players;</b>
+<i>245</i>&nbsp;    }
+<i>246</i>&nbsp;
+<i>247</i>&nbsp;    /**
+<i>248</i>&nbsp;     * sets the players of the game
+<i>249</i>&nbsp;     *
+<i>250</i>&nbsp;     * @param p player to add in the game
+<i>251</i>&nbsp;     */
+<i>252</i>&nbsp;    public void setPlayers(Player p) {
+<b class="fc"><i>253</i>&nbsp;        players.addPlayer(p);</b>
+<b class="fc"><i>254</i>&nbsp;    }</b>
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    /**
+<i>257</i>&nbsp;     * @return the old grid, if the move coming from the view is not accepted
+<i>258</i>&nbsp;     */
+<i>259</i>&nbsp;    public Grid getOldGrid() {
+<b class="fc"><i>260</i>&nbsp;        return oldGrid;</b>
+<i>261</i>&nbsp;    }
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;    /**
+<i>264</i>&nbsp;     * sets (saves) the old grid
+<i>265</i>&nbsp;     *
+<i>266</i>&nbsp;     * @param g is the old grid
+<i>267</i>&nbsp;     */
+<i>268</i>&nbsp;    public void setOldGrid(Grid g) {
+<b class="fc"><i>269</i>&nbsp;        oldGrid = g;</b>
+<b class="fc"><i>270</i>&nbsp;    }</b>
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;    /**
+<i>273</i>&nbsp;     * @return the new grid, modified with the current player&#39;s move
+<i>274</i>&nbsp;     */
+<i>275</i>&nbsp;    public Grid getNewGrid() {
+<b class="fc"><i>276</i>&nbsp;        return newGrid;</b>
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    /**
+<i>280</i>&nbsp;     * sets the new grid, modified after the current player&#39;s move is accepted
+<i>281</i>&nbsp;     *
+<i>282</i>&nbsp;     * @param g is the new grid
+<i>283</i>&nbsp;     */
+<i>284</i>&nbsp;    public void setNewGrid(Grid g) {
+<b class="fc"><i>285</i>&nbsp;        newGrid = g;</b>
+<b class="fc"><i>286</i>&nbsp;    }</b>
+<i>287</i>&nbsp;
+<i>288</i>&nbsp;    /**
+<i>289</i>&nbsp;     * gives to the Controller the possible moves
+<i>290</i>&nbsp;     *
+<i>291</i>&nbsp;     * @return the possible moves
+<i>292</i>&nbsp;     */
+<i>293</i>&nbsp;    public MoveList getNextMoves() {
+<b class="fc"><i>294</i>&nbsp;        return nextMoves;</b>
+<i>295</i>&nbsp;    }
+<i>296</i>&nbsp;
+<i>297</i>&nbsp;    /**
+<i>298</i>&nbsp;     * sets the moves the payer will be able to do
+<i>299</i>&nbsp;     *
+<i>300</i>&nbsp;     * @param m is the moves the player will be able to do
+<i>301</i>&nbsp;     */
+<i>302</i>&nbsp;    public void setNextMoves(MoveList m) {
+<b class="fc"><i>303</i>&nbsp;        nextMoves = m;</b>
+<b class="fc"><i>304</i>&nbsp;    }</b>
+<i>305</i>&nbsp;
+<i>306</i>&nbsp;    /**
+<i>307</i>&nbsp;     * @return the list of divinities of the game
+<i>308</i>&nbsp;     */
+<i>309</i>&nbsp;    public DivinityList getInGameDivinities() {
+<b class="fc"><i>310</i>&nbsp;        return inGameDivinities;</b>
+<i>311</i>&nbsp;    }
+<i>312</i>&nbsp;
+<i>313</i>&nbsp;    /**
+<i>314</i>&nbsp;     * @return the list of possible divinities of the game
+<i>315</i>&nbsp;     */
+<i>316</i>&nbsp;    public DivinityList getPossibleDivinities() {
+<b class="fc"><i>317</i>&nbsp;        return possibleDivinities;</b>
+<i>318</i>&nbsp;    }
+<i>319</i>&nbsp;
+<i>320</i>&nbsp;    /**
+<i>321</i>&nbsp;     * @return the list of colours of the game
+<i>322</i>&nbsp;     */
+<i>323</i>&nbsp;    public ArrayList&lt;Colour&gt; getAlreadyChosenColors() {
+<b class="fc"><i>324</i>&nbsp;        return alreadyChosenColors;</b>
+<i>325</i>&nbsp;    }
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;    /**
+<i>328</i>&nbsp;     * adds a colour
+<i>329</i>&nbsp;     *
+<i>330</i>&nbsp;     * @param colour the colour to add;
+<i>331</i>&nbsp;     */
+<i>332</i>&nbsp;    public void addChosenColour(Colour colour) {
+<b class="fc"><i>333</i>&nbsp;        alreadyChosenColors.add(colour);</b>
+<b class="fc"><i>334</i>&nbsp;    }</b>
+<i>335</i>&nbsp;
+<i>336</i>&nbsp;    /**
+<i>337</i>&nbsp;     * @param turn the current turn in-game
+<i>338</i>&nbsp;     */
+<i>339</i>&nbsp;    public void setGameTurn(Turn turn) {
+<b class="fc"><i>340</i>&nbsp;        gameTurn = turn;</b>
+<b class="fc"><i>341</i>&nbsp;    }</b>
+<i>342</i>&nbsp;
+<i>343</i>&nbsp;    /**
+<i>344</i>&nbsp;     * @return the current turn in-game
+<i>345</i>&nbsp;     */
+<i>346</i>&nbsp;    public Turn getGameTurn() {
+<b class="fc"><i>347</i>&nbsp;        return gameTurn;</b>
+<i>348</i>&nbsp;    }
+<i>349</i>&nbsp;
+<i>350</i>&nbsp;    /**
+<i>351</i>&nbsp;     * copies all the properties from a Game
+<i>352</i>&nbsp;     *
+<i>353</i>&nbsp;     * @param gameToCopy the game to copy from
+<i>354</i>&nbsp;     */
+<i>355</i>&nbsp;    public void copyGame(Game gameToCopy) {
+<b class="fc"><i>356</i>&nbsp;        setWinner(gameToCopy.getWinner());</b>
+<b class="fc"><i>357</i>&nbsp;        setNextMoves(gameToCopy.getNextMoves());</b>
+<b class="fc"><i>358</i>&nbsp;        setCurrentPlayer(gameToCopy.getCurrentPlayer());</b>
+<b class="fc"><i>359</i>&nbsp;        setNTurns(gameToCopy.getNTurns());</b>
+<b class="fc"><i>360</i>&nbsp;        setnMoves(gameToCopy.getnMoves());</b>
+<b class="fc"><i>361</i>&nbsp;        setOldGrid(gameToCopy.getOldGrid());</b>
+<b class="fc"><i>362</i>&nbsp;        setNewGrid(gameToCopy.getNewGrid());</b>
+<b class="fc"><i>363</i>&nbsp;        setGameTurn(gameToCopy.getGameTurn());</b>
+<i>364</i>&nbsp;        //setCodGame(gameToCopy.getCodGame());
+<i>365</i>&nbsp;        //players = gameToCopy.getPlayers();
+<i>366</i>&nbsp;        //setThreePlayers(gameToCopy.getThreePlayers());
+<b class="fc"><i>367</i>&nbsp;    }</b>
+<i>368</i>&nbsp;
+<i>369</i>&nbsp;    /**
+<i>370</i>&nbsp;     * constructor
+<i>371</i>&nbsp;     *
+<i>372</i>&nbsp;     * @param nTur    indicates the number of turn passed + 1
+<i>373</i>&nbsp;     * @param CodG    the game ID which is unique
+<i>374</i>&nbsp;     * @param threePl boolean which indicates if the game has three players (true)
+<i>375</i>&nbsp;     * @param currPl  indicates the current player of the 2/3 that are playing the game
+<i>376</i>&nbsp;     * @param oldG    the old grid, before the move
+<i>377</i>&nbsp;     * @param newG    the new grid made after the move was set
+<i>378</i>&nbsp;     * @param move    the possible moves
+<i>379</i>&nbsp;     */
+<b class="fc"><i>380</i>&nbsp;    public Game(int nTur, String CodG, boolean threePl, Player currPl, Grid oldG, Grid newG, MoveList move) {</b>
+<b class="fc"><i>381</i>&nbsp;        nTurns = nTur;</b>
+<b class="fc"><i>382</i>&nbsp;        CodGame = CodG;</b>
+<b class="fc"><i>383</i>&nbsp;        threePlayers = threePl;</b>
+<b class="fc"><i>384</i>&nbsp;        currentPlayer = currPl;</b>
+<b class="fc"><i>385</i>&nbsp;        winner = null;</b>
+<b class="fc"><i>386</i>&nbsp;        players = new PlayerList();       // NOT SURE</b>
+<b class="fc"><i>387</i>&nbsp;        oldGrid = oldG;</b>
+<b class="fc"><i>388</i>&nbsp;        newGrid = newG;</b>
+<b class="fc"><i>389</i>&nbsp;        nextMoves = move;</b>
+<b class="fc"><i>390</i>&nbsp;        availableLevel1Buildings = 22;</b>
+<b class="fc"><i>391</i>&nbsp;        availableLevel2Buildings = 18;</b>
+<b class="fc"><i>392</i>&nbsp;        availableLevel3Buildings = 14;</b>
+<b class="fc"><i>393</i>&nbsp;        availableDomes = 18;</b>
+<b class="fc"><i>394</i>&nbsp;        inGameDivinities = new DivinityList();</b>
+<b class="fc"><i>395</i>&nbsp;        possibleDivinities = new DivinityList();</b>
+<b class="fc"><i>396</i>&nbsp;        alreadyChosenColors = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>397</i>&nbsp;        gameTurn = new Turn(null);</b>
+<b class="fc"><i>398</i>&nbsp;        nMoves = 0;</b>
+<b class="fc"><i>399</i>&nbsp;        disconnected = false;</b>
+<b class="fc"><i>400</i>&nbsp;        currentPlayerIndex = -1;</b>
+<i>401</i>&nbsp;
+<b class="fc"><i>402</i>&nbsp;        for (int x = 0; x &lt; 5; x++) {</b>
+<b class="fc"><i>403</i>&nbsp;            for (int y = 0; y &lt; 5; y++) {</b>
+<b class="fc"><i>404</i>&nbsp;                getNewGrid().setCells(new Cell(new Tower(0, false), null), x, y);</b>
+<b class="fc"><i>405</i>&nbsp;                getOldGrid().setCells(new Cell(new Tower(0, false), null), x, y);</b>
+<i>406</i>&nbsp;            }
+<i>407</i>&nbsp;        }
+<b class="fc"><i>408</i>&nbsp;    }</b>
+<i>409</i>&nbsp;
+<i>410</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-28 10:39</div>
+</div>
+</body>
+</html>

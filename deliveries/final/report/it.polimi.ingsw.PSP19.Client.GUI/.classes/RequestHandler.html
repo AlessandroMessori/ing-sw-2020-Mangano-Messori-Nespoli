@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RequestHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RequestHandler (it.polimi.ingsw.PSP19.Client.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RequestHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Commands;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;public class RequestHandler {
+<i>6</i>&nbsp;
+<b class="nc"><i>7</i>&nbsp;    static private RequestHandler Instance = null;</b>
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    private Commands currentCommand;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    private String currentRequest;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    private Client client;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    private RequestHandler() {</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * returns the current type of request to make
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @return the type of request
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public Commands getCurrentCommand() {
+<b class="nc"><i>24</i>&nbsp;        return currentCommand;</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * returns the content of the current request
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @return the content of current request
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    public String getCurrentRequest() {
+<b class="nc"><i>33</i>&nbsp;        return currentRequest;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * makes a request to the server with the configuration taken from the parameters
+<i>39</i>&nbsp;     *
+<i>40</i>&nbsp;     * @param comm the type of request
+<i>41</i>&nbsp;     * @param reqContent the content of the request to make
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public void updateRequest(Commands comm, String reqContent) {
+<b class="nc"><i>44</i>&nbsp;        currentCommand = comm;</b>
+<b class="nc"><i>45</i>&nbsp;        currentRequest = reqContent;</b>
+<b class="nc"><i>46</i>&nbsp;        client.makeRequest();</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * sets the reference to the client making the requests
+<i>51</i>&nbsp;     *
+<i>52</i>&nbsp;     * @param cl the client making the requests
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    public void setClient(Client cl) {
+<b class="nc"><i>55</i>&nbsp;        client = cl;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * static method used to make this object a singleton
+<i>60</i>&nbsp;     *
+<i>61</i>&nbsp;     * @return the RequestHandler singleton instance
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public static RequestHandler getRequestHandler() {
+<b class="nc"><i>64</i>&nbsp;        if (Instance == null) {</b>
+<b class="nc"><i>65</i>&nbsp;            Instance = new RequestHandler();</b>
+<i>66</i>&nbsp;        }
+<b class="nc"><i>67</i>&nbsp;        return Instance;</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-28 10:39</div>
+</div>
+</body>
+</html>

@@ -17,11 +17,11 @@
 *.zip
 *.tar.gz
 *.rar
-*.jar
+#*.jar
 *.iml
 
 hs_err_pid*
 target/
 .DS_Store
-#.idea
+.idea
 out

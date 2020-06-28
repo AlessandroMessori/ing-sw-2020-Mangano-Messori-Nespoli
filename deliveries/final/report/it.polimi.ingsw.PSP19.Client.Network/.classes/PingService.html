@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PingService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.Network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PingService (it.polimi.ingsw.PSP19.Client.Network)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PingService</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PingService$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.Network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageSerializer;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.time.Duration;
+<i>6</i>&nbsp;import java.time.Instant;
+<i>7</i>&nbsp;import java.util.Timer;
+<i>8</i>&nbsp;import java.util.TimerTask;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class PingService implements Runnable {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    private final String codGame;
+<i>13</i>&nbsp;    private final ServerAdapter serverAdapter;
+<i>14</i>&nbsp;    private final MessageSerializer messageSerializer;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;    public PingService(String cGame, ServerAdapter sAdapter) {</b>
+<b class="nc"><i>18</i>&nbsp;        codGame = cGame;</b>
+<b class="nc"><i>19</i>&nbsp;        serverAdapter = sAdapter;</b>
+<b class="nc"><i>20</i>&nbsp;        messageSerializer = new MessageSerializer();</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * periodically makes request to the server checking the model status
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    @Override
+<i>28</i>&nbsp;    public void run() {
+<b class="nc"><i>29</i>&nbsp;        int updateRate = 5;</b>
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;        Timer t = new Timer();</b>
+<b class="nc"><i>32</i>&nbsp;        t.schedule(new TimerTask() {</b>
+<i>33</i>&nbsp;            @Override
+<i>34</i>&nbsp;            public void run() {
+<b class="nc"><i>35</i>&nbsp;                String message = messageSerializer.serializePing(codGame).toString();</b>
+<b class="nc"><i>36</i>&nbsp;                serverAdapter.requestPing(message);</b>
+<i>37</i>&nbsp;            }
+<i>38</i>&nbsp;        }, 0, updateRate * 1000);
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;}
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-28 10:39</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,494 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ServerAdapter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PSP19.Client.Network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ServerAdapter (it.polimi.ingsw.PSP19.Client.Network)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 184)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ServerAdapter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 185)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PSP19.Client.Network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.PSP19.Client.Commands;
+<i>4</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Game;
+<i>5</i>&nbsp;import it.polimi.ingsw.PSP19.Server.Model.Player;
+<i>6</i>&nbsp;import it.polimi.ingsw.PSP19.Utils.MessageDeserializer;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.io.ObjectInputStream;
+<i>10</i>&nbsp;import java.io.ObjectOutputStream;
+<i>11</i>&nbsp;import java.net.Socket;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;import java.util.List;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;public class ServerAdapter implements Runnable {
+<i>17</i>&nbsp;    private Commands nextCommand;
+<i>18</i>&nbsp;    private String requestContent;
+<b class="nc"><i>19</i>&nbsp;    MessageDeserializer messageDeserializer = new MessageDeserializer();</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    private Socket server;
+<i>22</i>&nbsp;    private ObjectOutputStream outputStm;
+<i>23</i>&nbsp;    private ObjectInputStream inputStm;
+<i>24</i>&nbsp;
+<b class="nc"><i>25</i>&nbsp;    private List&lt;ServerObserver&gt; observers = new ArrayList&lt;&gt;();</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;    public ServerAdapter(Socket server) {</b>
+<b class="nc"><i>29</i>&nbsp;        this.server = server;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public void addObserver(ServerObserver observer) {
+<b class="nc"><i>34</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>35</i>&nbsp;            observers.add(observer);</b>
+<b class="nc"><i>36</i>&nbsp;        }</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    public void removeObserver(ServerObserver observer) {
+<b class="nc"><i>41</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>42</i>&nbsp;            observers.remove(observer);</b>
+<b class="nc"><i>43</i>&nbsp;        }</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public synchronized void stop() {
+<b class="nc"><i>48</i>&nbsp;        nextCommand = Commands.STOP;</b>
+<b class="nc"><i>49</i>&nbsp;        notifyAll();</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    public synchronized void requestJoinGame(String input) {
+<b class="nc"><i>54</i>&nbsp;        nextCommand = Commands.JOIN_GAME;</b>
+<b class="nc"><i>55</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>56</i>&nbsp;        notifyAll();</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public synchronized void requestPing(String input) {
+<b class="nc"><i>60</i>&nbsp;        nextCommand = Commands.PING;</b>
+<b class="nc"><i>61</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>62</i>&nbsp;        notifyAll();</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    public synchronized void requestCheckModel(String input) {
+<b class="nc"><i>66</i>&nbsp;        nextCommand = Commands.CHECK_MODEL;</b>
+<b class="nc"><i>67</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>68</i>&nbsp;        notifyAll();</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public synchronized void requestSendDivinities(String input) {
+<b class="nc"><i>72</i>&nbsp;        nextCommand = Commands.SEND_DIVINITIES;</b>
+<b class="nc"><i>73</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>74</i>&nbsp;        notifyAll();</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public synchronized void requestSendDivinity(String input) {
+<b class="nc"><i>78</i>&nbsp;        nextCommand = Commands.SEND_DIVINITY;</b>
+<b class="nc"><i>79</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>80</i>&nbsp;        notifyAll();</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public synchronized void requestSendStartingPosition(String input) {
+<b class="nc"><i>84</i>&nbsp;        nextCommand = Commands.SEND_STARTING_POSITION;</b>
+<b class="nc"><i>85</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>86</i>&nbsp;        notifyAll();</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public synchronized void requestSendDecidesToComeUp(String input) {
+<b class="nc"><i>90</i>&nbsp;        nextCommand = Commands.SEND_DECIDES_TO_COME_UP;</b>
+<b class="nc"><i>91</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>92</i>&nbsp;        notifyAll();</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public synchronized void requestSendChosenPawn(String input) {
+<b class="nc"><i>96</i>&nbsp;        nextCommand = Commands.SEND_CHOSEN_PAWN;</b>
+<b class="nc"><i>97</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>98</i>&nbsp;        notifyAll();</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    public synchronized void requestSendChosenMove(String input) {
+<b class="nc"><i>102</i>&nbsp;        nextCommand = Commands.SEND_CHOSEN_MOVE;</b>
+<b class="nc"><i>103</i>&nbsp;        requestContent = input;</b>
+<b class="nc"><i>104</i>&nbsp;        notifyAll();</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    @Override
+<i>108</i>&nbsp;    public void run() {
+<i>109</i>&nbsp;        try {
+<b class="nc"><i>110</i>&nbsp;            outputStm = new ObjectOutputStream(server.getOutputStream());</b>
+<b class="nc"><i>111</i>&nbsp;            inputStm = new ObjectInputStream(server.getInputStream());</b>
+<b class="nc"><i>112</i>&nbsp;            handleServerConnection();</b>
+<b class="nc"><i>113</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>114</i>&nbsp;            System.out.println(&quot;server has died&quot;);</b>
+<b class="nc"><i>115</i>&nbsp;        } catch (ClassCastException | ClassNotFoundException e) {</b>
+<b class="nc"><i>116</i>&nbsp;            System.out.println(&quot;protocol violation&quot;);</b>
+<b class="nc"><i>117</i>&nbsp;        }</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;        try {
+<b class="nc"><i>120</i>&nbsp;            server.close();</b>
+<b class="nc"><i>121</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>122</i>&nbsp;        }</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    private synchronized void handleServerConnection() throws IOException, ClassNotFoundException {
+<i>127</i>&nbsp;        /* wait for commands */
+<i>128</i>&nbsp;        while (true) {
+<b class="nc"><i>129</i>&nbsp;            nextCommand = null;</b>
+<i>130</i>&nbsp;            try {
+<b class="nc"><i>131</i>&nbsp;                wait();</b>
+<b class="nc"><i>132</i>&nbsp;            } catch (InterruptedException ignored) {</b>
+<b class="nc"><i>133</i>&nbsp;            }</b>
+<i>134</i>&nbsp;
+<b class="nc"><i>135</i>&nbsp;            if (nextCommand == null)</b>
+<b class="nc"><i>136</i>&nbsp;                continue;</b>
+<i>137</i>&nbsp;
+<b class="nc"><i>138</i>&nbsp;            switch (nextCommand) {</b>
+<i>139</i>&nbsp;                case JOIN_GAME:
+<b class="nc"><i>140</i>&nbsp;                    doJoinGame();</b>
+<b class="nc"><i>141</i>&nbsp;                    break;</b>
+<i>142</i>&nbsp;                case SEND_DIVINITIES:
+<b class="nc"><i>143</i>&nbsp;                    doSendDivinities();</b>
+<b class="nc"><i>144</i>&nbsp;                    break;</b>
+<i>145</i>&nbsp;                case SEND_DIVINITY:
+<b class="nc"><i>146</i>&nbsp;                    doSendDivinity();</b>
+<b class="nc"><i>147</i>&nbsp;                    break;</b>
+<i>148</i>&nbsp;                case SEND_STARTING_POSITION:
+<b class="nc"><i>149</i>&nbsp;                    doSendStartingPosition();</b>
+<b class="nc"><i>150</i>&nbsp;                    break;</b>
+<i>151</i>&nbsp;                case SEND_DECIDES_TO_COME_UP:
+<b class="nc"><i>152</i>&nbsp;                    doSendDecidesToComeUp();</b>
+<b class="nc"><i>153</i>&nbsp;                    break;</b>
+<i>154</i>&nbsp;                case SEND_CHOSEN_PAWN:
+<b class="nc"><i>155</i>&nbsp;                    doSendChosenPawn();</b>
+<b class="nc"><i>156</i>&nbsp;                    break;</b>
+<i>157</i>&nbsp;                case SEND_CHOSEN_MOVE:
+<b class="nc"><i>158</i>&nbsp;                    doSendChosenMove();</b>
+<b class="nc"><i>159</i>&nbsp;                    break;</b>
+<i>160</i>&nbsp;                case CHECK_MODEL:
+<b class="nc"><i>161</i>&nbsp;                    doCheckModel();</b>
+<b class="nc"><i>162</i>&nbsp;                    break;</b>
+<i>163</i>&nbsp;                case PING:
+<b class="nc"><i>164</i>&nbsp;                    doPing();</b>
+<b class="nc"><i>165</i>&nbsp;                    break;</b>
+<i>166</i>&nbsp;                case STOP:
+<i>167</i>&nbsp;                    return;
+<i>168</i>&nbsp;            }
+<i>169</i>&nbsp;        }
+<i>170</i>&nbsp;    }
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;    private synchronized void doJoinGame() throws IOException, ClassNotFoundException {
+<b class="nc"><i>174</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>175</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>176</i>&nbsp;
+<b class="nc"><i>177</i>&nbsp;        if (responseContent.equals(&quot;The username you selected was already taken,try again with a different username&quot;)) {</b>
+<i>178</i>&nbsp;            List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>179</i>&nbsp;            synchronized (observers) {</b>
+<b class="nc"><i>180</i>&nbsp;                observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>181</i>&nbsp;            }</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;            /* notify the observers that we got the string */
+<b class="nc"><i>184</i>&nbsp;            for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>185</i>&nbsp;                observer.receiveUsernameTaken(responseContent);</b>
+<b class="nc"><i>186</i>&nbsp;            }</b>
+<b class="nc"><i>187</i>&nbsp;        } else {</b>
+<b class="nc"><i>188</i>&nbsp;            String username = messageDeserializer.deserializeString(responseContent, &quot;username&quot;);</b>
+<b class="nc"><i>189</i>&nbsp;            boolean threePlayers = messageDeserializer.deserializeBoolean(responseContent, &quot;3players&quot;);</b>
+<b class="nc"><i>190</i>&nbsp;            String gameID = messageDeserializer.deserializeString(responseContent, &quot;gameID&quot;);</b>
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;            /* copy the list of observers in case some observers changes it from inside
+<i>193</i>&nbsp;             * the notification method */
+<i>194</i>&nbsp;            List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>195</i>&nbsp;            synchronized (observers) {</b>
+<b class="nc"><i>196</i>&nbsp;                observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>197</i>&nbsp;            }</b>
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;            /* notify the observers that we got the string */
+<b class="nc"><i>200</i>&nbsp;            for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>201</i>&nbsp;                observer.receiveNewPlayerConnected(new Player(username, null, null), gameID);</b>
+<b class="nc"><i>202</i>&nbsp;            }</b>
+<i>203</i>&nbsp;        }
+<i>204</i>&nbsp;    }
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    private synchronized void doSendDivinities() throws IOException, ClassNotFoundException {
+<b class="nc"><i>207</i>&nbsp;        System.out.println(&quot;Sending Divinities Choice to Server&quot;);</b>
+<b class="nc"><i>208</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>209</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>212</i>&nbsp;         * the notification method */
+<i>213</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>214</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>215</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>216</i>&nbsp;        }</b>
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>219</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>220</i>&nbsp;            observer.receivePossibleDivinities(responseContent);</b>
+<b class="nc"><i>221</i>&nbsp;        }</b>
+<i>222</i>&nbsp;    }
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;    private synchronized void doSendDivinity() throws IOException, ClassNotFoundException {
+<b class="nc"><i>225</i>&nbsp;        System.out.println(&quot;Sending Divinity Choice to Server&quot;);</b>
+<b class="nc"><i>226</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>227</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>228</i>&nbsp;
+<i>229</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>230</i>&nbsp;         * the notification method */
+<i>231</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>232</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>233</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>234</i>&nbsp;        }</b>
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;        /* notify the observers t
+<i>237</i>&nbsp;        System.out.println(moves. &quot;possible moves&quot;);hat we got the string */
+<b class="nc"><i>238</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>239</i>&nbsp;            observer.receiveDivinities(responseContent);</b>
+<b class="nc"><i>240</i>&nbsp;        }</b>
+<i>241</i>&nbsp;    }
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;    private synchronized void doSendStartingPosition() throws IOException, ClassNotFoundException {
+<b class="nc"><i>244</i>&nbsp;        System.out.println(&quot;Sending Starting Position Choice to Server&quot;);</b>
+<b class="nc"><i>245</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>246</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>249</i>&nbsp;         * the notification method */
+<i>250</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>251</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>252</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>253</i>&nbsp;        }</b>
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>256</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>257</i>&nbsp;            observer.receiveStartingPosition(responseContent);</b>
+<b class="nc"><i>258</i>&nbsp;        }</b>
+<i>259</i>&nbsp;    }
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;    private synchronized void doSendDecidesToComeUp() throws IOException, ClassNotFoundException {
+<b class="nc"><i>262</i>&nbsp;        System.out.println(&quot;Sending Starting Can Come Up hoice to Server&quot;);</b>
+<b class="nc"><i>263</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>264</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>267</i>&nbsp;         * the notification method */
+<i>268</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>269</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>270</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>271</i>&nbsp;        }</b>
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>274</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>275</i>&nbsp;            observer.receiveCanComeUp(responseContent);</b>
+<b class="nc"><i>276</i>&nbsp;        }</b>
+<i>277</i>&nbsp;    }
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    private synchronized void doSendChosenPawn() throws IOException, ClassNotFoundException {
+<b class="nc"><i>280</i>&nbsp;        System.out.println(&quot;Sending Chosen Pawn to Server&quot;);</b>
+<b class="nc"><i>281</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>282</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>283</i>&nbsp;
+<i>284</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>285</i>&nbsp;         * the notification method */
+<i>286</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>287</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>288</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>289</i>&nbsp;        }</b>
+<i>290</i>&nbsp;
+<i>291</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>292</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>293</i>&nbsp;            observer.receivePawn(responseContent);</b>
+<b class="nc"><i>294</i>&nbsp;        }</b>
+<i>295</i>&nbsp;    }
+<i>296</i>&nbsp;
+<i>297</i>&nbsp;    private synchronized void doSendChosenMove() throws IOException, ClassNotFoundException {
+<b class="nc"><i>298</i>&nbsp;        System.out.println(&quot;Sending Chosen Move to Server&quot;);</b>
+<b class="nc"><i>299</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>300</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>301</i>&nbsp;
+<i>302</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>303</i>&nbsp;         * the notification method */
+<i>304</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>305</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>306</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>307</i>&nbsp;        }</b>
+<i>308</i>&nbsp;
+<i>309</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>310</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>311</i>&nbsp;            observer.receiveMoves(responseContent);</b>
+<b class="nc"><i>312</i>&nbsp;        }</b>
+<i>313</i>&nbsp;    }
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    private synchronized void receiveEndGame() throws IOException, ClassNotFoundException {
+<b class="nc"><i>316</i>&nbsp;        System.out.println(&quot;Sending EndGame to Server&quot;);</b>
+<b class="nc"><i>317</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>318</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>319</i>&nbsp;
+<i>320</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>321</i>&nbsp;         * the notification method */
+<i>322</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>323</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>324</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>325</i>&nbsp;        }</b>
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>328</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>329</i>&nbsp;            observer.receiveEndGame(responseContent);</b>
+<b class="nc"><i>330</i>&nbsp;        }</b>
+<i>331</i>&nbsp;    }
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;    private synchronized void doCheckModel() throws IOException, ClassNotFoundException {
+<b class="nc"><i>334</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<i>335</i>&nbsp;        Game game;
+<b class="nc"><i>336</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>337</i>&nbsp;        try {
+<b class="nc"><i>338</i>&nbsp;            game = messageDeserializer.deserializeObject(responseContent, &quot;game&quot;, Game.class);</b>
+<b class="nc"><i>339</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>340</i>&nbsp;            if (responseContent == null) {</b>
+<b class="nc"><i>341</i>&nbsp;                System.out.println(&quot;null response content&quot;);</b>
+<b class="nc"><i>342</i>&nbsp;            } else if (responseContent.equals(&quot;&quot;)) {</b>
+<b class="nc"><i>343</i>&nbsp;                System.out.println(&quot;void response content&quot;);</b>
+<i>344</i>&nbsp;            } else {
+<b class="nc"><i>345</i>&nbsp;                System.out.println(&quot;responseContent:&quot;);</b>
+<b class="nc"><i>346</i>&nbsp;                System.out.println(responseContent);</b>
+<i>347</i>&nbsp;            }
+<i>348</i>&nbsp;
+<b class="nc"><i>349</i>&nbsp;            e.printStackTrace();</b>
+<i>350</i>&nbsp;
+<b class="nc"><i>351</i>&nbsp;            game = null;</b>
+<b class="nc"><i>352</i>&nbsp;        }</b>
+<i>353</i>&nbsp;
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>356</i>&nbsp;         * the notification method */
+<i>357</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>358</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>359</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>360</i>&nbsp;        }</b>
+<i>361</i>&nbsp;
+<i>362</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>363</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>364</i>&nbsp;            observer.receiveModelUpdate(game);</b>
+<b class="nc"><i>365</i>&nbsp;        }</b>
+<i>366</i>&nbsp;    }
+<i>367</i>&nbsp;
+<i>368</i>&nbsp;    private synchronized void doPing() throws IOException, ClassNotFoundException {
+<b class="nc"><i>369</i>&nbsp;        outputStm.writeObject(requestContent);</b>
+<b class="nc"><i>370</i>&nbsp;        String responseContent = (String) inputStm.readObject();</b>
+<i>371</i>&nbsp;
+<i>372</i>&nbsp;        /* copy the list of observers in case some observers changes it from inside
+<i>373</i>&nbsp;         * the notification method */
+<i>374</i>&nbsp;        List&lt;ServerObserver&gt; observersCpy;
+<b class="nc"><i>375</i>&nbsp;        synchronized (observers) {</b>
+<b class="nc"><i>376</i>&nbsp;            observersCpy = new ArrayList&lt;&gt;(observers);</b>
+<b class="nc"><i>377</i>&nbsp;        }</b>
+<i>378</i>&nbsp;
+<i>379</i>&nbsp;        /* notify the observers that we got the string */
+<b class="nc"><i>380</i>&nbsp;        for (ServerObserver observer : observersCpy) {</b>
+<b class="nc"><i>381</i>&nbsp;            observer.receivePing(responseContent);</b>
+<b class="nc"><i>382</i>&nbsp;        }</b>
+<i>383</i>&nbsp;    }
+<i>384</i>&nbsp;}
+<i>385</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-28 10:39</div>
+</div>
+</body>
+</html>
