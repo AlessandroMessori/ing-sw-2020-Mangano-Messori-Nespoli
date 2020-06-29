@@ -30,30 +30,54 @@ public class EndCLI {
             |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |
             |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |
             |___________________________________________|
+
+         ____________________________________________________
+        |    __   _______ _   _   _     _____ _____ _____    |
+        |    \ \ / /  _  | | | | | |   |  _  /  ___|_   _|   |
+        |     \ V /| | | | | | | | |   | | | \ `--.  | |     |
+        |      \ / | | | | | | | | |   | | | |`--. \ | |     |
+        |      | | \ \_/ / |_| | | |___\ \_/ /\__/ / | |     |
+        |      \_/  \___/ \___/  \_____/\___/\____/  \_/     |
+        |____________________________________________________|
+
+
+
+
          */
         StringColor color = colorString(currentPlayer, false);
         StringBuilder results = new StringBuilder();
         if(currentPlayer.getUsername().equals(winnerPlayer.getUsername())){
             results.append(" \n" +
-                    color + "  /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\" + StringColor.RESET + "\n" +
+                    color + "   ________________________________________________________________________________" + StringColor.RESET + "\n" +
+                    color + "  /                                                                                \\" + StringColor.RESET + "\n" +
                     color + " /                                                                                  \\" + StringColor.RESET + "\n" +
-                    color + "|      /██     /██ /██████  /██   /██       /██      /██  /██████  /██   /██         |" + StringColor.RESET + "\n" +
-                    color + "|      \\  ██ /██/| ██  \\ ██| ██  | ██      | ██ /███| ██| ██  \\ ██| ████| ██         |" + StringColor.RESET + "\n" +
-                    color + "|       \\  ████/ | ██  | ██| ██  | ██      | ██/██ ██ ██| ██  | ██| ██ ██ ██         |" + StringColor.RESET + "\n" +
-                    color + "|        \\  ██/  | ██  | ██| ██  | ██      | ████_  ████| ██  | ██| ██  ████         |" + StringColor.RESET + "\n" +
-                    color + "|         | ██   |  ██████/|  ██████/      | ██/   \\  ██|  ██████/| ██ \\  ██         |" + StringColor.RESET + "\n" +
+                    color + "|      /##     /## /######  /##   /##       /##      /##  /######  /##   /##         |" + StringColor.RESET + "\n" +
+                    color + "|      \\  ## /##/| ##  \\ ##| ##  | ##      | ## /###| ##| ##  \\ ##| ####| ##         |" + StringColor.RESET + "\n" +
+                    color + "|       \\  ####/ | ##  | ##| ##  | ##      | ##/## ## ##| ##  | ##| ## ## ##         |" + StringColor.RESET + "\n" +
+                    color + "|        \\  ##/  | ##  | ##| ##  | ##      | ####_  ####| ##  | ##| ##  ####         |" + StringColor.RESET + "\n" +
+                    color + "|         | ##   |  ######/|  ######/      | ##/   \\  ##|  ######/| ## \\  ##         |" + StringColor.RESET + "\n" +
                     color + "|         |__/    \\______/  \\______/       |__/     \\__/ \\______/ |__/  \\__/         |" + StringColor.RESET + "\n" +
                     color + " \\                                                                                  /" + StringColor.RESET + "\n" +
                     color + "  \\________________________________________________________________________________/" + StringColor.RESET);
 
-        } else {
+        } else {/*
             results.append("\n" +
                     color + "  ___________________________________________" + StringColor.RESET + "\n" +
                     color + " |                                           |" + StringColor.RESET + "\n" +
                     color + " |          ╦ ╦╔═╗╦ ╦  ╦  ╔═╗╔═╗╔╦╗          |" + StringColor.RESET + "\n" +
                     color + " |          ╚╦╝║ ║║ ║  ║  ║ ║╚═╗ ║           |" + StringColor.RESET + "\n" +
                     color + " |           ╩ ╚═╝╚═╝  ╩═╝╚═╝╚═╝ ╩           |" + StringColor.RESET + "\n" +
-                    color + " |___________________________________________|" + StringColor.RESET + "\n\n");
+                    color + " |___________________________________________|" + StringColor.RESET + "\n\n");*/
+
+            results.append("\n" +
+                    color + " ____________________________________________________" + StringColor.RESET + "\n" +
+                    color + "|    __   _______ _   _   _     _____ _____ _____    |" + StringColor.RESET + "\n" +
+                    color + "|    \\ \\ / /  _  | | | | | |   |  _  /  ___|_   _|   |" + StringColor.RESET + "\n" +
+                    color + "|     \\ V /| | | | | | | | |   | | | \\ `--.  | |     |" + StringColor.RESET + "\n" +
+                    color + "|      \\ / | | | | | | | | |   | | | |`--. \\ | |     |" + StringColor.RESET + "\n" +
+                    color + "|      | | \\ \\_/ / |_| | | |___\\ \\_/ /\\__/ / | |     |" + StringColor.RESET + "\n" +
+                    color + "|      \\_/  \\___/ \\___/  \\_____/\\___/\\____/  \\_/     |" + StringColor.RESET + "\n" +
+                    color + "|____________________________________________________|" + StringColor.RESET + "\n\n");
 
             color = colorString(winnerPlayer, true);
 
@@ -76,6 +100,7 @@ public class EndCLI {
             results.append((color + " " + StringColor.RESET).repeat(Math.max(0, winnerPlayer.getUsername().length() + 30)));
         }
         System.out.println(results);
+        return;
     }
 
     /**
